@@ -1,0 +1,166 @@
+<html ng-app='MyApp'>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>angularJS</title>
+
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script src="//connect.facebook.net/zh_TW/all.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/controller.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<style type="text/css">
+	#loginStatus{
+		position: absolute;
+		right: 10px;
+		top: 0;
+	}
+	#alltitle{
+		text-align: center;
+		font-size: 30px;
+		margin-top: 100px;
+	}
+	#enterURL{
+		width: 80%;
+		height: 50px;
+		margin: 40px auto;
+	}
+	#enterURL #url{
+		width: 60%;
+	}
+	#comment_table{
+		width: 80%;
+		height: auto;
+		margin: 20px auto;
+	}
+	#awardList{
+		display: none;
+	}
+</style>
+<script type="text/javascript">
+var data;
+var timer;
+var sec = 0;
+var award = new Array();
+var nameArray = new Array();
+
+
+function choose(){
+	$("#awardList tbody").html("");
+	award = new Array();
+	var num = $("#howmany").val();
+	var temp = genRandomArray(data.length).splice(0,num);
+	for (var i=0; i<num; i++){
+		award.push(data[temp[i]]);
+	}
+	for (var j=0; j<num; j++){
+		if(award[j].like == true){
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td><span class='glyphicon glyphicon-thumbs-up'></span></td><td>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		}else{
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td></td><td>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		}
+	}
+	$("#awardList").fadeIn(1000);
+}
+
+function timeConverter(UNIX_timestamp){
+	 var a = new Date(UNIX_timestamp);
+ 	 var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+     var year = a.getFullYear();
+     var month = months[a.getMonth()];
+     var date = a.getDate();
+     var hour = a.getHours();
+     var min = a.getMinutes();
+     if (min < 10){
+     	min = "0"+min;
+     }
+     var sec = a.getSeconds();
+     if (sec < 10){
+     	sec = "0"+sec;
+     }
+     var time = year+'-'+month+'-'+date+" "+hour+':'+min+':'+sec ;
+     return time;
+ }
+
+ function genRandomArray(n) {
+  var ary = new Array();
+  var i, r, t;
+  for (i = 0 ; i < n ; ++i) {
+   ary[i] = i;
+  }
+  for (i = 0 ; i < n ; ++i) {
+   r = Math.floor(Math.random() * n);
+   t = ary[r];
+   ary[r] = ary[i];
+   ary[i] = t;
+  }
+  return ary;
+}
+
+</script>
+
+</head>
+
+<body ng-controller="Tbody">
+
+<p id="alltitle">
+留言抽籤小助手<br />
+<span style="font-size:18px; color:#555">2014/08/09 - 推上Github!</span>
+</p>
+<div id="enterURL">
+	請輸入要抓取的網址：<input type="text" id="url" />
+	<button id="btn1" type="button" class="btn btn-success" ng-click="sendURL()">我要抓留言</button> 
+	<!-- <button id="btn2" type="button" class="btn btn-warning" ng-click="sendURL2()">我要抓按讚</button> -->
+	<br />
+	要抽幾個人：<input type="number" id="howmany" /> &nbsp;
+	<button type="button" class="btn btn-danger" onclick="choose()">抽獎</button>&nbsp;&nbsp;&nbsp;&nbsp;
+	搜尋：<input type="text" ng-model="search" />
+	<br />
+</div>
+<div id="comment_table">
+
+<div id="awardList">
+<p>中獎名單</p>	
+<table class="table">
+	<thead>
+		<tr align="center">
+			<td>序號</td>
+			<td>FB_ID</td>
+			<td>名字</td>
+			<td>留言內容</td>
+			<td>留言時間</td>
+		</tr>
+	</thead>
+	<tbody>
+		
+			
+		
+	</tbody>
+</table>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr align="center">
+			<td>序號</td>
+			<td>FB_ID</td>
+			<td width="250">名字</td>
+			<td>留言內容</td>
+			<td>留言時間</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr align="center" ng-repeat="comment in comments | filter:search">
+			<!-- <tr align="center" ng-repeat="comment in comments | filter:search | unique:'realname'"> -->
+			<td>{{ $index+1 }}</td>
+			<td>{{ comment.fromid }}</td>
+			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
+			<td>{{ comment.text }}</td>
+			<td>{{ comment.realtime }}</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</body>
+</html>

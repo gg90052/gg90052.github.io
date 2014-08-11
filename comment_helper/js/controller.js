@@ -119,7 +119,7 @@ myApp.controller('Tbody', function($scope){
 		var checkType12 = posturl.indexOf('posts');
 		if (checkType12 > 0){
 			// type2
-			start = checkType+6;
+			start = checkType12+6;
 			end = posturl.length;
 			fbid = posturl.substring(start,end);
 		}else{

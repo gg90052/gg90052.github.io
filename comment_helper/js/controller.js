@@ -113,6 +113,7 @@ myApp.controller('Tbody', function($scope){
 		// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
 		// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
 		// type3 直接輸入FBID 10152652767797069
+		// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
 		var start,end;
 		var fbid;
 
@@ -130,8 +131,15 @@ myApp.controller('Tbody', function($scope){
 				start = posturl.lastIndexOf('/',end-1)+1;
 				fbid = posturl.substring(start,end);
 			}else{
-				// type3
-				fbid = posturl;
+				var checkType34 = posturl.indexOf('story_fbid');
+				if (checkType34 > 0){
+					start = checkType34+11;
+					end = posturl.lastIndexOf('&id');
+					fbid = posturl.substring(start,end);
+				}else{
+					// type3
+					fbid = posturl;
+				}
 			}
 		}
 		return fbid;

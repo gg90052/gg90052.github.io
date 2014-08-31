@@ -63,6 +63,14 @@ var sec = 0;
 var award = new Array();
 var nameArray = new Array();
 
+$(document).ready(function(){
+	$("#btn1").click(function(){
+		ga('send', 'event', 'getComments');
+	});
+	$("#btn2").click(function(){
+		ga('send', 'event', 'getLikes');
+	});
+});
 
 function choose(){
 	$("#awardList tbody").html("");

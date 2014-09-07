@@ -189,7 +189,7 @@ myApp.controller('Tbody', function($scope){
 		},1000);
 
 		$scope.data = new Array();
-		$.get("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
 			  console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);

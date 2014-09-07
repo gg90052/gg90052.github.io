@@ -24,6 +24,9 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getComments = function(){
+		$(".share_post").addClass("hide");
+		$(".like_comment").removeClass("hide");
+
 		$scope.comments = new Array();
 
 		var post_id = $scope.fbid_check();
@@ -91,6 +94,9 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.getLikes = function(){
+		$(".share_post").addClass("hide");
+		$(".like_comment").removeClass("hide");
+
 		$scope.comments = new Array();
 
 		var post_id = $scope.fbid_check();
@@ -152,19 +158,26 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getAuth = function(){
-		FB.login(function(response) {
+		FB.getLoginStatus(function(response) {
 			$scope.callback(response);
-		}, {scope: 'read_stream'});
+		});
 	}
 
 	$scope.callback = function(response){
 		if (response.status === 'connected') {
       		$scope.at = response.authResponse.accessToken;
       		$scope.getShares();
+		}else{
+			FB.login(function(response) {
+				$scope.callback(response);
+			}, {scope: 'read_stream'});
 		}
 	}
 
 	$scope.getShares = function(){
+		$(".share_post").removeClass("hide");
+		$(".like_comment").addClass("hide");
+
 		$scope.comments = new Array();
 
 		var post_id = $scope.fbid_check();
@@ -182,14 +195,20 @@ myApp.controller('Tbody', function($scope){
 
 			data = $scope.data;
 			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].name;
+				data[i].realname = $scope.data[i].from.name;
 				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].id;
+				data[i].fromid = $scope.data[i].from.id;
+				data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
 				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+				if ($scope.data[i].message){
+					data[i].share_message = $scope.data[i].message;
+				}else{
+					data[i].share_message = $scope.data[i].story;
+				}
 			}
 
 			if (res.paging.next){
-				$scope.getLikesNext(res.paging.next);
+				$scope.getSharesNext(res.paging.next);
 			}else{
 				clearInterval(timer);
 				alert("完成，共花費"+sec+"秒");
@@ -198,6 +217,38 @@ myApp.controller('Tbody', function($scope){
 			}
 		});
 	}
+	$scope.getSharesNext = function(url){
+			$.get(url,function(res){
+			for (var i=0; i<res.data.length; i++){
+				$scope.data.push(res.data[i]);
+			}
+
+			data = $scope.data;
+			for (var i=0; i<$scope.data.length; i++){
+				data[i].realname = $scope.data[i].from.name;
+				data[i].serial = i+1;
+				data[i].fromid = $scope.data[i].from.id;
+				data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
+				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+				if ($scope.data[i].message){
+					data[i].share_message = $scope.data[i].message;
+				}else{
+					data[i].share_message = $scope.data[i].story;
+				}
+			}
+
+			$scope.comments = data;
+			$scope.$apply();
+	
+			if (res.paging.next){
+				$scope.getSharesNext(res.paging.next);
+			}else{
+				clearInterval(timer);
+				alert("完成，共花費"+sec+"秒");
+			}
+		});	
+	}
+
 
 	$scope.fbid_check = function(){
 		var posturl = $("#url").val();

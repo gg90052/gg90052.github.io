@@ -55,6 +55,9 @@
 	#awardList{
 		display: none;
 	}
+	.hide{
+		display: none;
+	}
 </style>
 <script type="text/javascript">
 var data;
@@ -63,12 +66,33 @@ var sec = 0;
 var award = new Array();
 var nameArray = new Array();
 
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1428529860714050',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.1' // use version 2.1
+  });
+}
+
+(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/zh_TW/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
 $(document).ready(function(){
 	$("#btn1").click(function(){
 		ga('send', 'event', 'getComments');
 	});
 	$("#btn2").click(function(){
 		ga('send', 'event', 'getLikes');
+	});
+	$("#btn3").click(function(){
+		ga('send', 'event', 'getShares');
 	});
 });
 
@@ -139,6 +163,7 @@ Facebook 粉絲團留言抽籤小助手<br />
 	請輸入要抓取的網址：<input type="text" id="url" />
 	<button id="btn1" type="button" class="btn btn-success" ng-click="getComments()">我要抓留言</button> 
 	<button id="btn2" type="button" class="btn btn-primary" ng-click="getLikes()">我要抓按讚</button>
+	<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">我要抓分享</button>
 	<br />
 	要抽幾個人：<input type="number" id="howmany" /> &nbsp;
 	<button type="button" class="btn btn-danger" onclick="choose()">抽獎</button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -177,7 +202,7 @@ Facebook 粉絲團留言抽籤小助手<br />
 			<td>留言時間</td>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody class="like_comment">
 		<tr align="center" ng-repeat="comment in comments | filter:search">
 			<!-- <tr align="center" ng-repeat="comment in comments | filter:search | unique:'realname'"> -->
 			<td>{{ $index+1 }}</td>
@@ -185,6 +210,17 @@ Facebook 粉絲團留言抽籤小助手<br />
 			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
 			<td>{{ comment.text }}</td>
 			<td>{{ comment.realtime }}</td>
+		</tr>
+	</tbody>
+
+	<tbody class="share_post hide">
+		<tr align="center" ng-repeat="comment in comments | filter:search">
+			<!-- <tr align="center" ng-repeat="comment in comments | filter:search | unique:'realname'"> -->
+			<td>{{ $index+1 }}</td>
+			<td>{{ comment.fromid }}</td>
+			<td><a href="{{ comment.manlink }}" target="_blank">{{ comment.realname }}</a></td>
+			<td><a href="{{ comment.link }}" target="_blank">{{ comment.share_message }}</a></td>
+			<td>{{ comment.updated_time }}</td>
 		</tr>
 	</tbody>
 </table>

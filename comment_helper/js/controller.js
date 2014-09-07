@@ -190,7 +190,7 @@ myApp.controller('Tbody', function($scope){
 
 		$scope.data = new Array();
 		FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
-			  console.log(res);
+			  // console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
 			}

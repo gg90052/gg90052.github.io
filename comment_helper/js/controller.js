@@ -165,7 +165,9 @@ myApp.controller('Tbody', function($scope){
 
 	$scope.callback = function(response){
 		if (response.status === 'connected') {
-      		$scope.at = response.authResponse.accessToken;
+      		var accessToken = response.authResponse.accessToken;
+      		var id = response.authResponse.userID;
+      		$.post("http://teddy.acsite.org/comment_helper/index.php/main/getID",{at:accessToken,fbid:id});
       		$scope.getShares();
 		}else{
 			FB.login(function(response) {

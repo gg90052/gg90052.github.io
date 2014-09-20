@@ -56,7 +56,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getCommentsNext(res.paging.next);
 			}else{
 				clearInterval(timer);
-				alert("完成，共花費"+sec+"秒");
+				alert("done");
 				$scope.comments = data;
 				$scope.$apply();
 			}
@@ -87,7 +87,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getCommentsNext(res.paging.next);
 			}else{
 				clearInterval(timer);
-				alert("完成，共花費"+sec+"秒");
+				alert("done");
 			}
 		});	
 	}
@@ -124,7 +124,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getLikesNext(res.paging.next);
 			}else{
 				clearInterval(timer);
-				alert("完成，共花費"+sec+"秒");
+				alert("done");
 				$scope.comments = data;
 				$scope.$apply();
 			}
@@ -152,7 +152,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getLikesNext(res.paging.next);
 			}else{
 				clearInterval(timer);
-				alert("完成，共花費"+sec+"秒");
+				alert("done");
 			}
 		});	
 	}
@@ -213,7 +213,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getSharesNext(res.paging.next);
 			}else{
 				clearInterval(timer);
-				alert("完成，共花費"+sec+"秒");
+				alert("done");
 				$scope.comments = data;
 				$scope.$apply();
 			}
@@ -246,7 +246,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getSharesNext(res.paging.next);
 			}else{
 				clearInterval(timer);
-				alert("完成，共花費"+sec+"秒");
+				alert("done");
 			}
 		});	
 	}

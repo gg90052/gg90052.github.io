@@ -44,7 +44,7 @@
 		margin: 40px auto;
 	}
 	#enterURL #url{
-		width: 60%;
+		width: 85%;
 	}
 	#comment_table{
 		width: 80%;
@@ -53,6 +53,9 @@
 	}
 	#awardList{
 		display: none;
+	}
+	#btn1{
+		margin-left: 35%;
 	}
 	.hide{
 		display: none;
@@ -213,11 +216,11 @@ Facebook draw lots helper
 </p>
 
 <div id="enterURL">
-	Enter the facebook post URL：<input type="text" id="url" /><br>
+	Enter the facebook post URL：<input type="text" id="url" /><br><br>
 	<button id="btn1" type="button" class="btn btn-success" ng-click="getComments()">抓留言 get Comments</button> 
 	<button id="btn2" type="button" class="btn btn-primary" ng-click="getLikes()">抓按讚 get Likes</button>
 	<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">抓分享 get Shares</button>
-	<br />
+	<br /><br>
 	How many people you want draw：<input type="number" id="howmany" /> &nbsp;
 	<button type="button" class="btn btn-danger" onclick="choose()">抽獎 Draw</button>&nbsp;&nbsp;&nbsp;&nbsp;
 	搜尋 Search：<input type="text" ng-model="search" />

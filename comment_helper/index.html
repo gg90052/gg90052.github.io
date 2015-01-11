@@ -39,6 +39,16 @@
 		font-size: 30px;
 		margin-top: 30px;
 	}
+	.uiPanel{
+		width: 1000px;
+		margin: 10 auto;
+	}
+	.uiPanel .left{
+		float: left;
+	}
+	.uiPanel .right{
+		float: right;
+	}
 	#enterURL{
 		text-align: center;
 		margin: 20px auto;
@@ -217,17 +227,25 @@ Facebook draw lots helper
 	<div class="fb-like" data-href="http://gg90052.github.io/comment_helper/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
 </div>
 
-<div id="enterURL">
-	Enter the facebook post URL：<input type="text" class="url" /><button class="btn_plus">+</button><br><br>
-	<button id="btn1" type="button" class="btn btn-success" ng-click="getFBID('comment')">抓留言 get Comments</button> 
-	<button id="btn2" type="button" class="btn btn-primary" ng-click="getFBID('like')">抓按讚 get Likes</button>
-	<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">抓分享 get Shares</button>
-	<br /><br>
-	How many people you want draw：<input type="number" id="howmany" /> &nbsp;
-	<button type="button" class="btn btn-danger" onclick="choose()">抽獎 Draw</button>&nbsp;&nbsp;&nbsp;&nbsp;
-	搜尋 Search：<input type="text" ng-model="search" />
-	<br />
+<div class="uiPanel">
+	<div class="left">
+		<div id="enterURL">
+			Enter the facebook post URL：<br><input type="text" class="url" /><button class="btn_plus">+</button><br><br>
+			<button id="btn1" type="button" class="btn btn-success" ng-click="getFBID('comment')">抓留言 get Comments</button> 
+			<button id="btn2" type="button" class="btn btn-primary" ng-click="getFBID('like')">抓按讚 get Likes</button>
+			<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">抓分享 get Shares</button>
+			<br /><br>
+		</div>
+	</div>
+	<div class="right">
+		How many people you want draw：<br><input type="number" id="howmany" /> &nbsp;
+		<button type="button" class="btn btn-danger" onclick="choose()">抽獎 Draw</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		搜尋 Search：<br><input type="text" ng-model="search" />
+		<br />
+		<div style="clear:both"></div>
+	</div>
 </div>
+
 <div id="comment_table">
 
 <div id="awardList">

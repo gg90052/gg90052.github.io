@@ -108,6 +108,7 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.getLikes = function(post_id){
+		console.log("like");
 		$.get("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			  //console.log(res);
 			for (var i=0; i<res.data.length; i++){
@@ -130,6 +131,7 @@ myApp.controller('Tbody', function($scope){
 					$scope.comments = data;
 					$scope.$apply();
 				}else{
+					console.log("a");
 					$scope.getLikes($scope.id_array.pop());
 				}
 			}

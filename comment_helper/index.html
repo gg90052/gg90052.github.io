@@ -45,6 +45,8 @@
 	}
 	.uiPanel .left{
 		float: left;
+		border-right: 1px solid #000;
+		padding-right: 60px;
 	}
 	.uiPanel .right{
 		float: right;
@@ -54,7 +56,7 @@
 		margin: 20px auto;
 	}
 	#enterURL .url{
-		width: 600px;
+		width: 570px;
 	}
 	#comment_table{
 		width: 80%;
@@ -230,16 +232,16 @@ Facebook draw lots helper
 <div class="uiPanel">
 	<div class="left">
 		<div id="enterURL">
-			Enter the facebook post URL：<br><input type="text" class="url" /><button class="btn_plus">+</button><br><br>
+			Enter the facebook post URL：<br><input type="text" class="url" /><br><br>
 			<button id="btn1" type="button" class="btn btn-success" ng-click="getFBID('comment')">抓留言 get Comments</button> 
 			<button id="btn2" type="button" class="btn btn-primary" ng-click="getFBID('like')">抓按讚 get Likes</button>
 			<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">抓分享 get Shares</button>
+			<button class="btn btn_plus">增加連結 add more link</button>
 			<br /><br>
 		</div>
 	</div>
 	<div class="right">
-		How many people you want draw：<br><input type="number" id="howmany" /> &nbsp;
-		<button type="button" class="btn btn-danger" onclick="choose()">抽獎 Draw</button>&nbsp;&nbsp;&nbsp;&nbsp;
+		How many people you want draw：<br><input type="number" id="howmany" /> &nbsp;<button type="button" class="btn btn-danger" onclick="choose()">抽獎 Draw</button><br>
 		搜尋 Search：<br><input type="text" ng-model="search" />
 		<br />
 		<div style="clear:both"></div>

@@ -43,7 +43,7 @@
 		text-align: center;
 		margin: 20px auto;
 	}
-	#enterURL #url{
+	#enterURL .url{
 		width: 600px;
 	}
 	#comment_table{
@@ -120,6 +120,9 @@ $(document).ready(function(){
 			ga('send', 'event', 'coffee_button');
 		}
 	});
+	$(".btn_plus").click(function(){
+		$('<br><input type="text" class="url" />').insertAfter($("#enterURL .url:last"));
+	});
 });
 
 function choose(){
@@ -184,7 +187,7 @@ function timeConverter(UNIX_timestamp){
 Facebook 粉絲團留言抽籤小助手<br />
 Facebook draw lots helper
 <br>
-<span style="font-size:18px; color:#555; text-align:center">預計更新：多個網址合併擷取功能</span><br>
+<span style="font-size:18px; color:#555; text-align:center">updating......</span><br>
 <span style="font-size:18px; color:#555">Next Updata：You can combine more than 1 url to get comments.</span><br>
 <span style="font-size:18px; color:#555">If there are any problems, welcome mail to <a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a></span>
 <div class="coffee"></div>
@@ -215,9 +218,9 @@ Facebook draw lots helper
 </div>
 
 <div id="enterURL">
-	Enter the facebook post URL：<input type="text" id="url" /><br><br>
-	<button id="btn1" type="button" class="btn btn-success" ng-click="getComments()">抓留言 get Comments</button> 
-	<button id="btn2" type="button" class="btn btn-primary" ng-click="getLikes()">抓按讚 get Likes</button>
+	Enter the facebook post URL：<input type="text" class="url" /><button class="btn_plus">+</button><br><br>
+	<button id="btn1" type="button" class="btn btn-success" ng-click="getFBID('comment')">抓留言 get Comments</button> 
+	<button id="btn2" type="button" class="btn btn-primary" ng-click="getFBID('like')">抓按讚 get Likes</button>
 	<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">抓分享 get Shares</button>
 	<br /><br>
 	How many people you want draw：<input type="number" id="howmany" /> &nbsp;

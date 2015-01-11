@@ -18,26 +18,37 @@ myApp.filter('unique', function() {
 
 myApp.controller('Tbody', function($scope){
 	$scope.comments = [];
+	$scope.data = [];
 	$scope.at = "";
+	$scope.id_array;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
 
-	$scope.getComments = function(){
-		$(".share_post").addClass("hide");
-		$(".like_comment").removeClass("hide");
-
+	$scope.getFBID = function(type){
 		$scope.comments = new Array();
-
-		var post_id = $scope.fbid_check();
-
-		timer = setInterval(function(){
-			sec++;
-		},1000);
-
 		$scope.data = new Array();
+		$scope.id_array = $scope.fbid_check();
+		if (type == "comment"){
+			$(".share_post").addClass("hide");
+			$(".like_comment").removeClass("hide");
+			$scope.getComments($scope.id_array.pop());
+		}
+		if (type == "like"){
+			$(".share_post").addClass("hide");
+			$(".like_comment").removeClass("hide");
+			$scope.getLikes($scope.id_array.pop());
+		}
+		if (type == "share"){
+			$(".share_post").removeClass("hide");
+			$(".like_comment").addClass("hide");
+			$scope.getShares($scope.id_array.pop());
+		}
+	}
+
+	$scope.getComments = function(post_id){
+
 		$.get("https://graph.facebook.com/"+post_id+"/comments",function(res){
-			 // console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
 			}
@@ -55,10 +66,13 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getCommentsNext(res.paging.next);
 			}else{
-				clearInterval(timer);
-				alert("done");
-				$scope.comments = data;
-				$scope.$apply();
+				if ($scope.id_array.length == 0){
+					alert("done");
+					$scope.comments = data;
+					$scope.$apply();
+				}else{
+					$scope.getComments($scope.id_array.pop());
+				}
 			}
 		});
 	}
@@ -93,19 +107,7 @@ myApp.controller('Tbody', function($scope){
 	}
 
 
-	$scope.getLikes = function(){
-		$(".share_post").addClass("hide");
-		$(".like_comment").removeClass("hide");
-
-		$scope.comments = new Array();
-
-		var post_id = $scope.fbid_check();
-
-		timer = setInterval(function(){
-			sec++;
-		},1000);
-
-		$scope.data = new Array();
+	$scope.getLikes = function(post_id){
 		$.get("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			  //console.log(res);
 			for (var i=0; i<res.data.length; i++){
@@ -123,10 +125,13 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getLikesNext(res.paging.next);
 			}else{
-				clearInterval(timer);
-				alert("done");
-				$scope.comments = data;
-				$scope.$apply();
+				if ($scope.id_array.length == 0){
+					alert("done");
+					$scope.comments = data;
+					$scope.$apply();
+				}else{
+					$scope.getLikes($scope.id_array.pop());
+				}
 			}
 		});
 	}
@@ -151,7 +156,6 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getLikesNext(res.paging.next);
 			}else{
-				clearInterval(timer);
 				alert("done");
 			}
 		});	
@@ -167,8 +171,7 @@ myApp.controller('Tbody', function($scope){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		var id = response.authResponse.userID;
-      		$.post("http://teddy.acsite.org/comment_helper/index.php/main/getID",{at:accessToken,fbid:id});
-      		$scope.getShares();
+      		$scope.getFBID("share")
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);
@@ -176,19 +179,7 @@ myApp.controller('Tbody', function($scope){
 		}
 	}
 
-	$scope.getShares = function(){
-		$(".share_post").removeClass("hide");
-		$(".like_comment").addClass("hide");
-
-		$scope.comments = new Array();
-
-		var post_id = $scope.fbid_check();
-
-		timer = setInterval(function(){
-			sec++;
-		},1000);
-
-		$scope.data = new Array();
+	$scope.getShares = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
 			  // console.log(res);
 			for (var i=0; i<res.data.length; i++){
@@ -212,10 +203,13 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getSharesNext(res.paging.next);
 			}else{
-				clearInterval(timer);
-				alert("done");
-				$scope.comments = data;
-				$scope.$apply();
+				if ($scope.id_array.length == 0){
+					alert("done");
+					$scope.comments = data;
+					$scope.$apply();
+				}else{
+					$scope.getShares($scope.id_array.pop());
+				}
 			}
 		});
 	}
@@ -245,7 +239,6 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getSharesNext(res.paging.next);
 			}else{
-				clearInterval(timer);
 				alert("done");
 			}
 		});	
@@ -253,40 +246,55 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.fbid_check = function(){
-		var posturl = $("#url").val();
+
+		var fbid_array = new Array();
+		for(var i=0; i<$("#enterURL .url").length; i++){
+			var posturl = $($("#enterURL .url")[i]).val();
+			var start,end;
+			var fbid;
+
+			var checkType12 = posturl.indexOf('posts');
+			if (checkType12 > 0){
+				// type2
+				start = checkType12+6;
+				end = posturl.length;
+				fbid = posturl.substring(start,end);
+			}else{
+				var checkType23 = posturl.indexOf('/?type');
+				if (checkType23 > 0){
+					// type1
+					end = posturl.indexOf('/?type');
+					start = posturl.lastIndexOf('/',end-1)+1;
+					fbid = posturl.substring(start,end);
+				}else{
+					var checkType34 = posturl.indexOf('story_fbid');
+					if (checkType34 > 0){
+						start = checkType34+11;
+						end = posturl.lastIndexOf('&id');
+						fbid = posturl.substring(start,end);
+					}else{
+						var checkType5 = posturl.indexOf('v=');
+						if (checkType5 > 0){
+							start = checkType5+2;
+							end = posturl.indexOf("&",start);
+							fbid = posturl.substring(start,end);
+						}else{
+							// type3
+							fbid = posturl;
+						}
+					}
+				}
+			}
+			if (fbid != ""){
+				fbid_array.push(fbid);
+			}
+		}
 		// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
 		// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
 		// type3 直接輸入FBID 10152652767797069
 		// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
-		var start,end;
-		var fbid;
-
-		var checkType12 = posturl.indexOf('posts');
-		if (checkType12 > 0){
-			// type2
-			start = checkType12+6;
-			end = posturl.length;
-			fbid = posturl.substring(start,end);
-		}else{
-			var checkType23 = posturl.indexOf('/?type');
-			if (checkType23 > 0){
-				// type1
-				end = posturl.indexOf('/?type');
-				start = posturl.lastIndexOf('/',end-1)+1;
-				fbid = posturl.substring(start,end);
-			}else{
-				var checkType34 = posturl.indexOf('story_fbid');
-				if (checkType34 > 0){
-					start = checkType34+11;
-					end = posturl.lastIndexOf('&id');
-					fbid = posturl.substring(start,end);
-				}else{
-					// type3
-					fbid = posturl;
-				}
-			}
-		}
-		return fbid;
+		// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
+		return fbid_array;
 	}
 });
 

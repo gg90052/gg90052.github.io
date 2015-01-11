@@ -29,6 +29,7 @@ myApp.controller('Tbody', function($scope){
 		$scope.comments = new Array();
 		$scope.data = new Array();
 		$scope.id_array = $scope.fbid_check();
+		console.log($scope.id_array);
 		if (type == "comment"){
 			$(".share_post").addClass("hide");
 			$(".like_comment").removeClass("hide");
@@ -100,15 +101,17 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getCommentsNext(res.paging.next);
 			}else{
-				clearInterval(timer);
-				alert("done");
+				if ($scope.id_array.length == 0){
+					alert("done");
+				}else{
+					$scope.getComments($scope.id_array.pop());
+				}
 			}
 		});	
 	}
 
 
 	$scope.getLikes = function(post_id){
-		console.log("like");
 		$.get("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			  //console.log(res);
 			for (var i=0; i<res.data.length; i++){
@@ -131,7 +134,6 @@ myApp.controller('Tbody', function($scope){
 					$scope.comments = data;
 					$scope.$apply();
 				}else{
-					console.log("a");
 					$scope.getLikes($scope.id_array.pop());
 				}
 			}
@@ -158,7 +160,11 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getLikesNext(res.paging.next);
 			}else{
-				alert("done");
+				if ($scope.id_array.length == 0){
+					alert("done");
+				}else{
+					$scope.getLikes($scope.id_array.pop());
+				}
 			}
 		});	
 	}
@@ -241,7 +247,11 @@ myApp.controller('Tbody', function($scope){
 			if (res.paging.next){
 				$scope.getSharesNext(res.paging.next);
 			}else{
-				alert("done");
+				if ($scope.id_array.length == 0){
+					alert("done");
+				}else{
+					$scope.getShares($scope.id_array.pop());
+				}
 			}
 		});	
 	}

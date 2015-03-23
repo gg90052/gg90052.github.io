@@ -21,6 +21,7 @@ myApp.controller('Tbody', function($scope){
 	$scope.data = [];
 	$scope.at = "";
 	$scope.id_array;
+	$scope.gettype;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
@@ -49,7 +50,7 @@ myApp.controller('Tbody', function($scope){
 
 	$scope.getComments = function(post_id){
 
-		$.get("https://graph.facebook.com/"+post_id+"/comments",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
 			}
@@ -112,7 +113,7 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.getLikes = function(post_id){
-		$.get("https://graph.facebook.com/"+post_id+"/likes",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			  //console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
@@ -169,9 +170,10 @@ myApp.controller('Tbody', function($scope){
 		});	
 	}
 
-	$scope.getAuth = function(){
+	$scope.getAuth = function(type){
+		$scope.gettype = type;
 		FB.getLoginStatus(function(response) {
-			$scope.callback(response);
+			$scope.callback(response,type);
 		});
 	}
 
@@ -179,7 +181,9 @@ myApp.controller('Tbody', function($scope){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		var id = response.authResponse.userID;
-      		$scope.getFBID("share")
+      		if ($scope.gettype == "like") $scope.getFBID("like");
+      		if ($scope.gettype == "comment") $scope.getFBID("comment");
+      		if ($scope.gettype == "share") $scope.getFBID("share");
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);

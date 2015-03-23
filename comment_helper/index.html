@@ -199,6 +199,7 @@ function timeConverter(UNIX_timestamp){
 Facebook 粉絲團留言抽籤小助手
 <br>
 <span style="font-size:18px; color:#F00; text-align:center">公告：Facebook取得分享的API似乎"還是"有點問題，所以抓分享的功能暫時也出了問題</span><br>
+<span style="font-size:18px; color:#F00; text-align:center">公告：Facebook權限開放有所變更，因此抓讚與留言也開始需要授權，但功能依舊正常</span><br>
 <span style="font-size:18px; color:#555; text-align:center">增加擷取多重連結，以及解析影片網址功能</span><br>
 <span style="font-size:18px; color:#555">若有任何問題，請Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a></span>
 <!-- <div class="coffee"></div> -->
@@ -233,9 +234,9 @@ Facebook 粉絲團留言抽籤小助手
 	<div class="left">
 		<div id="enterURL">
 			Enter the facebook post URL：<br><input type="text" class="url" /><br><br>
-			<button id="btn1" type="button" class="btn btn-success" ng-click="getFBID('comment')">抓留言</button> 
-			<button id="btn2" type="button" class="btn btn-primary" ng-click="getFBID('like')">抓按讚</button>
-			<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">抓分享</button>
+			<button id="btn1" type="button" class="btn btn-success" ng-click="getAuth('comment')">抓留言</button> 
+			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('like')">抓按讚</button>
+			<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth('share')">抓分享</button>
 			<button class="btn btn-info btn_plus">增加連結</button>
 			<br /><br>
 		</div>

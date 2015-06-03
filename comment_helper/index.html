@@ -77,15 +77,32 @@
 		margin: 0 auto;
 		cursor: pointer;
 	}
+	.update_history{
+		display: inline-block;
+		width: 500px;
+		padding: 20px;
+		font-size:18px;
+		color:#555;
+		text-align: left;
+	}
+	.update_donate{
+		text-align: center;
+		margin: 0 auto;
+		background-color: #9AEF00;
+		width: 905px;
+		border-radius: 10px;
+	}
 	.coffee_detail{
 		text-align: center;
-		border: 1px solid #000;
-		margin: 10px auto;
-		width: 620px;
+		display: inline-block;
+		vertical-align: top;
+		/*border: 1px solid #000;*/
+		margin: 0px auto;
+		width: 400px;
 		background: #415E9B;
 		color: #FFF;
 		border-radius: 10px;
-		padding: 5px 0;
+		padding: 20px;
 	}
 </style>
 <script type="text/javascript">
@@ -198,14 +215,20 @@ function timeConverter(UNIX_timestamp){
 <p id="alltitle">
 Facebook 粉絲團留言抽籤小助手
 <br>
-<span style="font-size:18px; color:#F00; text-align:center">公告：近期會進行UI調整，粉絲團抓讚跟留言不需要授權</span><br>
 <span style="font-size:18px; color:#F00; text-align:center">公告：由於擷取社團留言不符合當初設計小助手的初衷，未來擷取社團留言的功能將改成付費機制</span><br>
-<span style="font-size:18px; color:#555; text-align:center">增加擷取多重連結，以及解析影片網址功能</span><br>
-<span style="font-size:18px; color:#555">若有任何問題，請Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a></span>
+
+<div class="update_donate">
+<div class="update_history">
+	<p style="text-align:center">近期更新：</p>
+	<ul>
+		<li>粉絲團抓讚跟留言修正回不需要授權</li>
+		<li>增加擷取多重連結，以及解析影片網址功能</li>
+	</ul>
+</div>
 <!-- <div class="coffee"></div> -->
 <div class="coffee_detail">
-	<p class="intro">如果覺得小助手幫你省下你很多時間的話，那麼能否考慮一下買杯咖啡請我喝喝</p>
-	<p class="intro">這是公開的專案，所以可以放心的是小助手絕對不可能變成收費才能使用，一切是自由樂捐XD</p>
+	<p class="intro">如果小助手幫妳省下你很多時間，能否買杯咖啡請我喝喝</p>
+	<p class="intro">有您的捐款小助手將永遠保持免費給粉絲團經營使用</p>
 	<p class="intro">Pay by Paypal</p>
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 		<input type="hidden" name="cmd" value="_s-xclick">
@@ -222,8 +245,10 @@ Facebook 粉絲團留言抽籤小助手
 	<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
 	<img alt="" border="0" src="https://www.paypalobjects.com/zh_TW/i/scr/pixel.gif" width="1" height="1">
 </form>
-
 </div>
+</div>
+
+<p style="font-size:18px; color:#555; text-align:center; margin: 15px 0">若有任何問題或是功能建議，請Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a></p>
 </p>
 
 <div style="width: 130px; margin: 10px auto;">

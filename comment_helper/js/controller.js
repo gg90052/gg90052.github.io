@@ -27,6 +27,7 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getFBID = function(type){
+		$(".update_donate").slideUp();
 		$scope.comments = new Array();
 		$scope.data = new Array();
 		$scope.id_array = $scope.fbid_check();

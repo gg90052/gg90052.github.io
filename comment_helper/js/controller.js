@@ -279,7 +279,7 @@ myApp.controller('Tbody', function($scope){
 			var fbid;
 
 			if (posturl.indexOf('/groups/') > 0){
-				getAuth($scope.gettype);
+				$scope.getAuth($scope.gettype);
 				break;
 			}
 

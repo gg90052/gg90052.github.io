@@ -50,8 +50,8 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getComments = function(post_id){
-
 		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
+			console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
 			}
@@ -115,7 +115,7 @@ myApp.controller('Tbody', function($scope){
 
 	$scope.getLikes = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
-			  //console.log(res);
+			  console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
 			}

@@ -22,10 +22,17 @@ myApp.controller('Tbody', function($scope){
 	$scope.at = "";
 	$scope.id_array;
 	$scope.gettype;
+	$scope.isGroup = false;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
 	$scope.getFBID = function(type){
+		var posturl = $($("#enterURL .url")[i]).val();
+		if (posturl.indexOf('/groups/') > 0 && $scope.isGroup == false){
+			$scope.isGroup = true;
+			$scope.getAuth($scope.gettype);
+		}
+
 		$scope.gettype = type;
 		$scope.comments = new Array();
 		$scope.data = new Array();
@@ -278,13 +285,6 @@ myApp.controller('Tbody', function($scope){
 			var posturl = $($("#enterURL .url")[i]).val();
 			var start,end;
 			var fbid;
-
-			if (posturl.indexOf('/groups/') > 0){
-				$scope.getAuth($scope.gettype);
-				console.log(i);
-				// console.log($scope.gettype);
-				break;
-			}
 
 			var checkType12 = posturl.indexOf('posts');
 			if (checkType12 > 0){

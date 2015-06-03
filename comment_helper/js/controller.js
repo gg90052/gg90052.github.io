@@ -52,29 +52,33 @@ myApp.controller('Tbody', function($scope){
 	$scope.getComments = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			console.log(res);
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
-
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].from.name;
-				data[i].realtime = timeConverter($scope.data[i].created_time);
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].from.id;
-				data[i].text = $scope.data[i].message;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
-			}
-
-			if (res.paging.next){
-				$scope.getCommentsNext(res.paging.next);
+			if (res.data.length == 0){
+				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費");
 			}else{
-				if ($scope.id_array.length == 0){
-					alert("done");
-					$scope.comments = data;
-					$scope.$apply();
+				for (var i=0; i<res.data.length; i++){
+					$scope.data.push(res.data[i]);
+				}
+
+				data = $scope.data;
+				for (var i=0; i<$scope.data.length; i++){
+					data[i].realname = $scope.data[i].from.name;
+					data[i].realtime = timeConverter($scope.data[i].created_time);
+					data[i].serial = i+1;
+					data[i].fromid = $scope.data[i].from.id;
+					data[i].text = $scope.data[i].message;
+					data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+				}
+
+				if (res.paging.next){
+					$scope.getCommentsNext(res.paging.next);
 				}else{
-					$scope.getComments($scope.id_array.pop());
+					if ($scope.id_array.length == 0){
+						alert("done");
+						$scope.comments = data;
+						$scope.$apply();
+					}else{
+						$scope.getComments($scope.id_array.pop());
+					}
 				}
 			}
 		});
@@ -115,28 +119,32 @@ myApp.controller('Tbody', function($scope){
 
 	$scope.getLikes = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
-			  console.log(res);
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
-
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].name;
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].id;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
-			}
-
-			if (res.paging.next){
-				$scope.getLikesNext(res.paging.next);
+			console.log(res);
+			if (res.data.length == 0){
+				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費");
 			}else{
-				if ($scope.id_array.length == 0){
-					alert("done");
-					$scope.comments = data;
-					$scope.$apply();
+				for (var i=0; i<res.data.length; i++){
+					$scope.data.push(res.data[i]);
+				}
+
+				data = $scope.data;
+				for (var i=0; i<$scope.data.length; i++){
+					data[i].realname = $scope.data[i].name;
+					data[i].serial = i+1;
+					data[i].fromid = $scope.data[i].id;
+					data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+				}
+
+				if (res.paging.next){
+					$scope.getLikesNext(res.paging.next);
 				}else{
-					$scope.getLikes($scope.id_array.pop());
+					if ($scope.id_array.length == 0){
+						alert("done");
+						$scope.comments = data;
+						$scope.$apply();
+					}else{
+						$scope.getLikes($scope.id_array.pop());
+					}
 				}
 			}
 		});

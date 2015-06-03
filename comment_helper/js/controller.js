@@ -320,9 +320,9 @@ myApp.controller('Tbody', function($scope){
 									end = posturl.indexOf("/",start);
 									fbid = posturl.substring(start,end);
 								}else{
-									var checkType8 = posturl.indexOf("/video/");
+									var checkType8 = posturl.indexOf("/videos/");
 									if (checkType8 > 0){
-										start = checkType8+7;
+										start = checkType8+8;
 										end = posturl.indexOf("/",start);
 										fbid = posturl.substring(start,end);
 									}else{

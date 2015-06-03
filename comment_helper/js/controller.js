@@ -53,10 +53,8 @@ myApp.controller('Tbody', function($scope){
 	$scope.getComments = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			console.log(res);
-			if(res.error){
-				alert("沒有授權\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo Authorization. If you want get group comments, you need to pay for it.")
-			}else if(res.data.length == 0){
-				alert("沒有留言\nNo comments.");
+			if (res.data.length == 0){
+				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -123,10 +121,8 @@ myApp.controller('Tbody', function($scope){
 	$scope.getLikes = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			console.log(res);
-			if(res.error){
-				alert("沒有授權\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo Authorization. If you want get group likes, you need to pay for it.")
-			}else if(res.data.length == 0){
-				alert("沒有按讚\nNo likes");
+			if (res.data.length == 0){
+				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -311,9 +307,9 @@ myApp.controller('Tbody', function($scope){
 							end = posturl.indexOf("&",start);
 							fbid = posturl.substring(start,end);
 						}else{
-							var checkType6 = posturl.indexOf("gm.");
+							var checkType6 = posturl.indexOf("fbid=");
 							if (checkType6 > 0){
-								start = checkType6+3;
+								start = checkType6+5;
 								end = posturl.indexOf("&",start);
 								fbid = posturl.substring(start,end);
 							}else{
@@ -340,7 +336,7 @@ myApp.controller('Tbody', function($scope){
 		// type3 直接輸入FBID 10152652767797069
 		// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
 		// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
-		// type6 網址內有gm. https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
+		// type6 網址內有FBID https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
 		// type6 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
 		return fbid_array;
 	}

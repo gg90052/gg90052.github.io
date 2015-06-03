@@ -25,9 +25,8 @@ myApp.controller('Tbody', function($scope){
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
-
 	$scope.getFBID = function(type){
-		$(".update_donate").slideUp();
+		$scope.gettype = type;
 		$scope.comments = new Array();
 		$scope.data = new Array();
 		$scope.id_array = $scope.fbid_check();
@@ -47,6 +46,7 @@ myApp.controller('Tbody', function($scope){
 			$(".like_comment").addClass("hide");
 			$scope.getShares($scope.id_array.pop());
 		}
+		$(".update_donate").slideUp();
 	}
 
 	$scope.getComments = function(post_id){
@@ -277,6 +277,11 @@ myApp.controller('Tbody', function($scope){
 			var posturl = $($("#enterURL .url")[i]).val();
 			var start,end;
 			var fbid;
+
+			if (posturl.indexOf('/groups/') > 0){
+				getAuth($scope.gettype);
+				break;
+			}
 
 			var checkType12 = posturl.indexOf('posts');
 			if (checkType12 > 0){

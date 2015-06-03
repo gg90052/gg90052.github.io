@@ -23,6 +23,7 @@ myApp.controller('Tbody', function($scope){
 	$scope.id_array;
 	$scope.gettype;
 	$scope.isGroup = false;
+	$scope.at = "CAAVPNU8zTnABALdvcThj4pJyph2ByKThkjQ43OqkNNBPzMxMAZB6ClMBqcwORXVj3GRfohRgeLiZBjZBJy2jLJnqybo08PoTpWn7nPo65AMW8JK88QbnM4svk14G3Y0HCCAxzmHOZBZBkPLhps7q24VuRgH9rdrrmL6ZBRMpZCc1RXrgHWFekgTGuFAgVVRNlpOX1fafi6H35J4KLwTt8Fa";
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
@@ -51,7 +52,7 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getComments = function(post_id){
-		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/comments?access_token="+$scope.at,function(res){
 			console.log(res);
 			if (res.data.length == 0){
 				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");

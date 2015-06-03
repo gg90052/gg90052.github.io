@@ -27,7 +27,7 @@ myApp.controller('Tbody', function($scope){
 		$scope.comments.splice(0,0);
 	}
 	$scope.getFBID = function(type){
-		var posturl = $($("#enterURL .url")[i]).val();
+		var posturl = $($("#enterURL .url")[0]).val();
 		if (posturl.indexOf('/groups/') > 0 && $scope.isGroup == false){
 			$scope.isGroup = true;
 			$scope.getAuth($scope.gettype);

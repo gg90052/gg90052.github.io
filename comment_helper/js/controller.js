@@ -281,6 +281,7 @@ myApp.controller('Tbody', function($scope){
 
 			if (posturl.indexOf('/groups/') > 0){
 				$scope.getAuth($scope.gettype);
+				console.log(i);
 				// console.log($scope.gettype);
 				break;
 			}

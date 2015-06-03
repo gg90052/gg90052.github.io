@@ -307,9 +307,9 @@ myApp.controller('Tbody', function($scope){
 							end = posturl.indexOf("&",start);
 							fbid = posturl.substring(start,end);
 						}else{
-							var checkType6 = posturl.indexOf("fbid=");
+							var checkType6 = posturl.indexOf("gm.");
 							if (checkType6 > 0){
-								start = checkType6+5;
+								start = checkType6+3;
 								end = posturl.indexOf("&",start);
 								fbid = posturl.substring(start,end);
 							}else{
@@ -336,7 +336,7 @@ myApp.controller('Tbody', function($scope){
 		// type3 直接輸入FBID 10152652767797069
 		// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
 		// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
-		// type6 網址內有FBID https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
+		// type6 網址內有gm. https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
 		// type6 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
 		return fbid_array;
 	}

@@ -120,7 +120,7 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.getLikes = function(post_id){
-		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/likes?access_token="+$scope.at,function(res){
 			console.log(res);
 			if (res.data.length == 0){
 				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");

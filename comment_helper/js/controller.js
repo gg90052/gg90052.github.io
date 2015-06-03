@@ -53,8 +53,10 @@ myApp.controller('Tbody', function($scope){
 	$scope.getComments = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			console.log(res);
-			if (res.data.length == 0){
-				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
+			if(res.error){
+				alert("沒有授權\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo Authorization. If you want get group comments, you need to pay for it.")
+			}else if(res.data.length == 0){
+				alert("沒有留言\nNo comments.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -121,8 +123,10 @@ myApp.controller('Tbody', function($scope){
 	$scope.getLikes = function(post_id){
 		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			console.log(res);
-			if (res.data.length == 0){
-				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");
+			if(res.error){
+				alert("沒有授權\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo Authorization. If you want get group likes, you need to pay for it.")
+			}else if(res.data.length == 0){
+				alert("沒有按讚\nNo likes");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);

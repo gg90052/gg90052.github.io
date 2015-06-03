@@ -28,6 +28,8 @@ myApp.controller('Tbody', function($scope){
 	}
 	$scope.getFBID = function(type){
 		var posturl = $($("#enterURL .url")[0]).val();
+		console.log(posturl);
+		console.log(posturl.indexOf('/groups/'));
 		if (posturl.indexOf('/groups/') > 0 && $scope.isGroup == false){
 			$scope.isGroup = true;
 			$scope.getAuth($scope.gettype);

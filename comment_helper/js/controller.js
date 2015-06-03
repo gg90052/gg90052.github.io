@@ -182,6 +182,7 @@ myApp.controller('Tbody', function($scope){
 	$scope.getAuth = function(type){
 		$scope.gettype = type;
 		FB.getLoginStatus(function(response) {
+			console.log(response);
 			$scope.callback(response,type);
 		});
 	}
@@ -280,6 +281,7 @@ myApp.controller('Tbody', function($scope){
 
 			if (posturl.indexOf('/groups/') > 0){
 				$scope.getAuth($scope.gettype);
+				// console.log($scope.gettype);
 				break;
 			}
 

@@ -319,9 +319,16 @@ myApp.controller('Tbody', function($scope){
 									start = checkType7+10;
 									end = posturl.indexOf("/",start);
 									fbid = posturl.substring(start,end);
-								}else{	
-									// type3
-									fbid = posturl;
+								}else{
+									var checkType8 = posturl.indexOf("/video/");
+									if (checkType8 > 0){
+										start = checkType8+7;
+										end = posturl.indexOf("/",start);
+										fbid = posturl.substring(start,end);
+									}else{
+										// type3
+										fbid = posturl;
+									}	
 								}
 							}
 						}
@@ -338,7 +345,8 @@ myApp.controller('Tbody', function($scope){
 		// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
 		// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
 		// type6 網址內有gm. https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
-		// type6 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
+		// type7 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
+		// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
 		return fbid_array;
 	}
 });

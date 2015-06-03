@@ -27,14 +27,6 @@ myApp.controller('Tbody', function($scope){
 		$scope.comments.splice(0,0);
 	}
 	$scope.getFBID = function(type){
-		var posturl = $($("#enterURL .url")[0]).val();
-		console.log(posturl);
-		console.log(posturl.indexOf('/groups/'));
-		if (posturl.indexOf('/groups/') > 0 && $scope.isGroup == false){
-			$scope.isGroup = true;
-			$scope.getAuth($scope.gettype);
-		}
-
 		$scope.gettype = type;
 		$scope.comments = new Array();
 		$scope.data = new Array();
@@ -62,7 +54,7 @@ myApp.controller('Tbody', function($scope){
 		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			console.log(res);
 			if (res.data.length == 0){
-				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費");
+				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -130,7 +122,7 @@ myApp.controller('Tbody', function($scope){
 		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			console.log(res);
 			if (res.data.length == 0){
-				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費");
+				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -188,11 +180,11 @@ myApp.controller('Tbody', function($scope){
 		});	
 	}
 
-	$scope.getAuth = function(type){
-		$scope.gettype = type;
+	$scope.getAuth = function(){
+		// $scope.gettype = type;
 		FB.getLoginStatus(function(response) {
-			console.log(response);
-			$scope.callback(response,type);
+			// console.log(response);
+			$scope.callback(response);
 		});
 	}
 
@@ -200,9 +192,10 @@ myApp.controller('Tbody', function($scope){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		var id = response.authResponse.userID;
-      		if ($scope.gettype == "like") $scope.getFBID("like");
-      		if ($scope.gettype == "comment") $scope.getFBID("comment");
-      		if ($scope.gettype == "share") $scope.getFBID("share");
+      		// if ($scope.gettype == "like") $scope.getFBID("like");
+      		// if ($scope.gettype == "comment") $scope.getFBID("comment");
+      		// if ($scope.gettype == "share") $scope.getFBID("share");
+      		alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);

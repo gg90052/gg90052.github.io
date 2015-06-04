@@ -188,12 +188,12 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getAuth = function(type){
+		$scope.gettype = type;
 		if (type == "addScope"){
 			FB.login(function(response) {
 				$scope.callback(response);
 			}, {scope: 'read_stream'});
 		}else{
-			$scope.gettype = type;
 			FB.getLoginStatus(function(response) {
 				// console.log(response);
 				$scope.callback(response);
@@ -208,8 +208,9 @@ myApp.controller('Tbody', function($scope){
       		var id = response.authResponse.userID;
       		if ($scope.gettype == "like") $scope.getFBID("like");
       		if ($scope.gettype == "comment") $scope.getFBID("comment");
+   			if ($scope.gettype == "addScope") alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
       		// if ($scope.gettype == "share") $scope.getFBID("share");
-      		// alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
+      		
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);

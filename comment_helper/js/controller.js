@@ -188,11 +188,17 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getAuth = function(type){
-		$scope.gettype = type;
-		FB.getLoginStatus(function(response) {
-			// console.log(response);
-			$scope.callback(response);
-		});
+		if (type == "addScope"){
+			FB.login(function(response) {
+				$scope.callback(response);
+			}, {scope: 'read_stream'});
+		}else{
+			$scope.gettype = type;
+			FB.getLoginStatus(function(response) {
+				// console.log(response);
+				$scope.callback(response);
+			});
+		}
 	}
 
 	$scope.callback = function(response){

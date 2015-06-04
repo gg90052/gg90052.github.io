@@ -192,7 +192,7 @@ myApp.controller('Tbody', function($scope){
 		if (type == "addScope"){
 			FB.login(function(response) {
 				$scope.callback(response);
-			}, {scope: 'read_stream'});
+			}, {scope: 'read_stream',return_scopes: true});
 		}else{
 			FB.getLoginStatus(function(response) {
 				// console.log(response);
@@ -214,7 +214,7 @@ myApp.controller('Tbody', function($scope){
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);
-			}, {scope: 'read_stream'});
+			}, {scope: 'read_stream',return_scopes: true});
 		}
 	}
 

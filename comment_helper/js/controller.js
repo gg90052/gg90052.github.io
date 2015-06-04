@@ -201,7 +201,7 @@ myApp.controller('Tbody', function($scope){
       		console.log(response);
       		var id = response.authResponse.userID;
       		if ($scope.gettype == "like") $scope.getFBID("like");
-      		// if ($scope.gettype == "comment") $scope.getFBID("comment");
+      		if ($scope.gettype == "comment") $scope.getFBID("comment");
       		// if ($scope.gettype == "share") $scope.getFBID("share");
       		// alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
 		}else{

@@ -238,14 +238,13 @@ function timeConverter(UNIX_timestamp){
 Facebook 粉絲團留言抽籤小助手
 <br>
 <span style="font-size:18px; color:#F00; text-align:center">公告：由於擷取社團留言不符合當初設計小助手的初衷，擷取社團留言的功能改成付費機制</span><br>
-
+<span style="font-size:18px; color:#F00; text-align:center">公告：最近調整系統造成不便敬請見諒Orz</span><br>
 <div class="update_donate">
 <div class="update_history">
 	<p style="text-align:center">近期更新：</p>
 	<ul>
-		<li>擷取社團留言或讚，請詳見<a href="#" class="pay">付費內容</a></li>
-		<li>粉絲團抓讚跟留言修正回不需要授權</li>
-		<li>增加擷取多重連結，以及解析影片網址功能</li>
+		<li>擷取社團留言或讚，請詳見<a href="#" class="pay">付費內容</a>，如果你發現無法抓粉絲團留言請先寄信通知我，不要急著先付費Orz</li>
+		<li>粉絲團抓留言修正回不需要授權</li>
 	</ul>
 </div>
 <!-- <div class="coffee"></div> -->
@@ -283,8 +282,7 @@ Facebook 粉絲團留言抽籤小助手
 		<div id="enterURL">
 			Enter the facebook post URL：<br><input type="text" class="url" /><br><br>
 			<button id="btn1" type="button" class="btn btn-success" ng-click="getFBID('comment')">抓留言</button> 
-			<button id="btn2" type="button" class="btn btn-primary" ng-click="getFBID('like')">抓按讚</button>
-			<button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth()">付費帳號授權</button>
+			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('like')">抓按讚</button>
 			<!-- <button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth('share')">抓分享</button> -->
 			<button class="btn btn-info btn_plus">增加連結</button>
 			<br /><br>

@@ -54,6 +54,9 @@ myApp.controller('Tbody', function($scope){
 	$scope.getComments = function(post_id){
 		$.get("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			console.log(res);
+			if(res.error){
+				alert("發生錯誤，請聯絡管理員");
+			}
 			if (res.data.length == 0){
 				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 			}else{
@@ -120,8 +123,11 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.getLikes = function(post_id){
-		$.get("https://graph.facebook.com/"+post_id+"/likes",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/likes?access_token="+$scope.at,function(res){
 			console.log(res);
+			if(res.error){
+				alert("發生錯誤，請聯絡管理員");
+			}
 			if (res.data.length == 0){
 				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");
 			}else{
@@ -181,8 +187,8 @@ myApp.controller('Tbody', function($scope){
 		});	
 	}
 
-	$scope.getAuth = function(){
-		// $scope.gettype = type;
+	$scope.getAuth = function(type){
+		$scope.gettype = type;
 		FB.getLoginStatus(function(response) {
 			// console.log(response);
 			$scope.callback(response);
@@ -194,10 +200,10 @@ myApp.controller('Tbody', function($scope){
       		var accessToken = response.authResponse.accessToken;
       		console.log(response);
       		var id = response.authResponse.userID;
-      		// if ($scope.gettype == "like") $scope.getFBID("like");
+      		if ($scope.gettype == "like") $scope.getFBID("like");
       		// if ($scope.gettype == "comment") $scope.getFBID("comment");
       		// if ($scope.gettype == "share") $scope.getFBID("share");
-      		alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
+      		// alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);

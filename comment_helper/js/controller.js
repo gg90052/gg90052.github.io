@@ -211,7 +211,7 @@ myApp.controller('Tbody', function($scope){
    			if ($scope.gettype == "addScope"){
    				var scopelist = response.authResponse.grantedScopes;
    				console.log(response.authResponse.grantedScopes);
-   				if (scopelist.indexOf('read_stream') > 0){
+   				if (scopelist.indexOf('read_stream') >= 0){
    					alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
    				}else{
    					alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");

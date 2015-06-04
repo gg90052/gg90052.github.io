@@ -52,7 +52,7 @@ myApp.controller('Tbody', function($scope){
 	}
 
 	$scope.getComments = function(post_id){
-		$.get("https://graph.facebook.com/"+post_id+"/comments",function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/comments",function(res){
 			console.log(res);
 			if(res.error){
 				alert("發生錯誤，請聯絡管理員");

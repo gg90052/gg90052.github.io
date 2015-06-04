@@ -192,6 +192,7 @@ myApp.controller('Tbody', function($scope){
 	$scope.callback = function(response){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
+      		console.log(response);
       		var id = response.authResponse.userID;
       		// if ($scope.gettype == "like") $scope.getFBID("like");
       		// if ($scope.gettype == "comment") $scope.getFBID("comment");

@@ -123,7 +123,7 @@ myApp.controller('Tbody', function($scope){
 
 
 	$scope.getLikes = function(post_id){
-		FB.api("https://graph.facebook.com/"+post_id+"/likes?access_token="+$scope.at,function(res){
+		FB.api("https://graph.facebook.com/"+post_id+"/likes",function(res){
 			console.log(res);
 			if(res.error){
 				alert("發生錯誤，請聯絡管理員");

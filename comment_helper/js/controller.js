@@ -208,7 +208,13 @@ myApp.controller('Tbody', function($scope){
       		var id = response.authResponse.userID;
       		if ($scope.gettype == "like") $scope.getFBID("like");
       		if ($scope.gettype == "comment") $scope.getFBID("comment");
-   			if ($scope.gettype == "addScope") alert("授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
+   			if ($scope.gettype == "addScope"){
+   				if (response.authResponse.grantedScopes.indexOf('read_stream') > 0){
+   					alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
+   				}else{
+   					alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
+   				}
+   			}
       		// if ($scope.gettype == "share") $scope.getFBID("share");
       		
 		}else{

@@ -306,7 +306,7 @@ myApp.controller('Tbody', function($scope){
 			if (checkType12 > 0){
 				// type2
 				start = checkType12+6;
-				end = posturl.indexOf('?');
+				end = posturl.indexOf('?',start);
 				if (end < 0){
 					end = posturl.length;
 				}
@@ -322,7 +322,7 @@ myApp.controller('Tbody', function($scope){
 					var checkType34 = posturl.indexOf('story_fbid');
 					if (checkType34 > 0){
 						start = checkType34+11;
-						end = posturl.lastIndexOf('&');
+						end = posturl.indexOf('&',start);
 						fbid = posturl.substring(start,end);
 					}else{
 						var checkType5 = posturl.indexOf('v=');

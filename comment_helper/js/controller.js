@@ -55,10 +55,10 @@ myApp.controller('Tbody', function($scope){
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/comments",function(res){
 			console.log(res);
 			if(res.error){
-				alert("發生錯誤，請聯絡管理員");
+				bootbox.alert("發生錯誤，請聯絡管理員");
 			}
 			if (res.data.length == 0){
-				alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
+				bootbox.alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -78,7 +78,7 @@ myApp.controller('Tbody', function($scope){
 					$scope.getCommentsNext(res.paging.next);
 				}else{
 					if ($scope.id_array.length == 0){
-						alert("done");
+						bootbox.alert("done");
 						$scope.comments = data;
 						$scope.$apply();
 					}else{
@@ -113,7 +113,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getCommentsNext(res.paging.next);
 			}else{
 				if ($scope.id_array.length == 0){
-					alert("done");
+					bootbox.alert("done");
 				}else{
 					$scope.getComments($scope.id_array.pop());
 				}
@@ -126,10 +126,10 @@ myApp.controller('Tbody', function($scope){
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/likes",function(res){
 			console.log(res);
 			if(res.error){
-				alert("發生錯誤，請聯絡管理員");
+				bootbox.alert("發生錯誤，請聯絡管理員");
 			}
 			if (res.data.length == 0){
-				alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");
+				bootbox.alert("沒有按讚或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團讚請付費\nNo likes. If you want get group likes, you need to pay for it.");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -147,7 +147,7 @@ myApp.controller('Tbody', function($scope){
 					$scope.getLikesNext(res.paging.next);
 				}else{
 					if ($scope.id_array.length == 0){
-						alert("done");
+						bootbox.alert("done");
 						$scope.comments = data;
 						$scope.$apply();
 					}else{
@@ -179,7 +179,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getLikesNext(res.paging.next);
 			}else{
 				if ($scope.id_array.length == 0){
-					alert("done");
+					bootbox.alert("done");
 				}else{
 					$scope.getLikes($scope.id_array.pop());
 				}
@@ -210,9 +210,9 @@ myApp.controller('Tbody', function($scope){
       		if ($scope.gettype == "comment") $scope.getFBID("comment");
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
-   					alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
+   					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
    				}else{
-   					alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
+   					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
    				}
    			}
       		// if ($scope.gettype == "share") $scope.getFBID("share");
@@ -249,7 +249,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getSharesNext(res.paging.next);
 			}else{
 				if ($scope.id_array.length == 0){
-					alert("done");
+					bootbox.alert("done");
 					$scope.comments = data;
 					$scope.$apply();
 				}else{
@@ -285,7 +285,7 @@ myApp.controller('Tbody', function($scope){
 				$scope.getSharesNext(res.paging.next);
 			}else{
 				if ($scope.id_array.length == 0){
-					alert("done");
+					bootbox.alert("done");
 				}else{
 					$scope.getShares($scope.id_array.pop());
 				}

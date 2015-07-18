@@ -142,7 +142,7 @@
 	}
 </style>
 <script type="text/javascript">
-var data;
+var data,filteredData;
 var timer;
 var sec = 0;
 var award = new Array();
@@ -200,16 +200,20 @@ function choose(){
 	$("#awardList tbody").html("");
 	award = new Array();
 	var num = $("#howmany").val();
-	var temp = genRandomArray(data.length).splice(0,num);
-	for (var i=0; i<num; i++){
-		award.push(data[temp[i]]);
+	var filter = $("#searchComment").val();
+	if (filter != ""){
+		var temp1 = genRandomArray(filteredData.length).splice(0,num);
+		for (var i=0; i<num; i++){
+			award.push(filteredData[temp1[i]]);
+		}
+	}else{
+		var temp = genRandomArray(data.length).splice(0,num);
+		for (var i=0; i<num; i++){
+			award.push(data[temp[i]]);
+		}
 	}
 	for (var j=0; j<num; j++){
-		if(award[j].like == true){
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td><span class='glyphicon glyphicon-thumbs-up'></span></td><td>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
-		}else{
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td></td><td>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
-		}
+		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 	}
 	$("#awardList").fadeIn(1000);
 }
@@ -322,7 +326,7 @@ Facebook 粉絲團留言抽籤小助手
 	<div class="right">
 		要抽幾個人：<br><input type="number" id="howmany" /> &nbsp;<button type="button" class="btn btn-danger" onclick="choose()">抽獎</button><br>
 		搜尋：<br><input type="text" ng-model="search.realname" placeholder="搜尋姓名" />
-		<input type="text" ng-model="search.text" placeholder="搜尋留言" />
+		<input type="text" ng-model="search.text" placeholder="搜尋留言" id="searchComment" />
 		<br />
 		<div style="clear:both"></div>
 	</div>

@@ -16,7 +16,7 @@ myApp.filter('unique', function() {
 	};
 });
 
-myApp.controller('Tbody', function($scope){
+myApp.controller('Tbody', function($scope,$filter){
 	$scope.comments = [];
 	$scope.data = [];
 	$scope.at = "";
@@ -372,5 +372,14 @@ myApp.controller('Tbody', function($scope){
 		// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
 		return fbid_array;
 	}
+
+	//filter
+	$scope.$watch('search.text', function(newVal, oldVal) {
+      console.log("new value in filter box:", newVal);
+
+      // this is the JS equivalent of "phones | filter: newVal"
+      filteredData = $filter('filter')($scope.comments, newVal);
+      console.log(filteredData);
+    });
 });
 

@@ -373,13 +373,21 @@ myApp.controller('Tbody', function($scope,$filter){
 		return fbid_array;
 	}
 
-	//filter
-	$scope.$watch('search.text', function(newVal, oldVal) {
-      console.log("new value in filter box:", newVal);
+	$scope.choose = function(){
+		$("#awardList tbody").html("");
+		award = new Array();
+		var num = $("#howmany").val();
+		var filter = $("#searchComment").val();
+		
+		var temp = genRandomArray($scope.filteredData.length).splice(0,num);
+		for (var i=0; i<num; i++){
+			award.push($scope.filteredData[temp[i]]);
+		}
 
-      // this is the JS equivalent of "phones | filter: newVal"
-      filteredData = $filter('filter')($scope.comments, newVal);
-      console.log(filteredData);
-    });
+		for (var j=0; j<num; j++){
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		}
+		$("#awardList").fadeIn(1000);
+	}
 });
 

@@ -24,6 +24,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.gettype;
 	$scope.isGroup = false;
 	$scope.at = "CAAVPNU8zTnABALdvcThj4pJyph2ByKThkjQ43OqkNNBPzMxMAZB6ClMBqcwORXVj3GRfohRgeLiZBjZBJy2jLJnqybo08PoTpWn7nPo65AMW8JK88QbnM4svk14G3Y0HCCAxzmHOZBZBkPLhps7q24VuRgH9rdrrmL6ZBRMpZCc1RXrgHWFekgTGuFAgVVRNlpOX1fafi6H35J4KLwTt8Fa";
+	$scope.unique_name = "fromid";
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}

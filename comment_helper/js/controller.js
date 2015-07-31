@@ -432,7 +432,7 @@ myApp.controller('Tbody', function($scope,$filter){
 									}else{
 										var checkType9 = posturl.indexOf("/events/");
 										if (checkType9 > 0){
-											start = checkType8+8;
+											start = checkType9+8;
 											end = posturl.indexOf("/",start);
 											fbid = posturl.substring(start,end);
 										}else{

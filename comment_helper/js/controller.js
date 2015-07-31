@@ -214,6 +214,7 @@ myApp.controller('Tbody', function($scope,$filter){
       		var id = response.authResponse.userID;
       		if ($scope.gettype == "like") $scope.getFBID("like");
       		if ($scope.gettype == "comment") $scope.getFBID("comment");
+      		if ($scope.gettype == "event") $scope.getFBID("event");
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
    					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	

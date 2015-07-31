@@ -340,34 +340,37 @@ myApp.controller('Tbody', function($scope,$filter){
 
 
 	$scope.getEventsNext = function(url){
-			$.get(url,function(res){
-				console.log(res);
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
-
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].from.name;
-				data[i].realtime = timeConverter($scope.data[i].created_time);
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].from.id;
-				data[i].text = $scope.data[i].message;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
-			}
-
-			$scope.comments = data;
-			$scope.$apply();
-	
-			if (res.paging.next){
-				$scope.getEventsNext(res.paging.next);
+		$.get(url,function(res){
+			if (res.data.length == 0){
+				bootbox.alert("done");
 			}else{
-				if ($scope.id_array.length == 0){
-					bootbox.alert("done");
-				}else{
-					$scope.getEvents($scope.id_array.pop());
+				for (var i=0; i<res.data.length; i++){
+					$scope.data.push(res.data[i]);
 				}
-			}
+
+				data = $scope.data;
+				for (var i=0; i<$scope.data.length; i++){
+					data[i].realname = $scope.data[i].from.name;
+					data[i].realtime = timeConverter($scope.data[i].created_time);
+					data[i].serial = i+1;
+					data[i].fromid = $scope.data[i].from.id;
+					data[i].text = $scope.data[i].message;
+					data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+				}
+
+				$scope.comments = data;
+				$scope.$apply();
+
+				if (res.paging.next){
+					$scope.getEventsNext(res.paging.next);
+				}else{
+					if ($scope.id_array.length == 0){
+						bootbox.alert("done");
+					}else{
+						$scope.getEvents($scope.id_array.pop());
+					}
+				}
+			}			
 		});	
 	}
 

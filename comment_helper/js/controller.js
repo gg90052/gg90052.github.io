@@ -44,6 +44,11 @@ myApp.controller('Tbody', function($scope,$filter){
 			$(".like_comment").removeClass("hide");
 			$scope.getLikes($scope.id_array.pop());
 		}
+		if (type == "event"){
+			$(".share_post").addClass("hide");
+			$(".like_comment").removeClass("hide");
+			$scope.getEvents($scope.id_array.pop());
+		}
 		if (type == "share"){
 			$(".share_post").removeClass("hide");
 			$(".like_comment").addClass("hide");
@@ -294,6 +299,76 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 
+	$scope.getEvents = function(post_id){
+		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/feed",function(res){
+			console.log(res);
+			if(res.error){
+				bootbox.alert("發生錯誤，請聯絡管理員");
+			}
+			if (res.data.length == 0){
+				bootbox.alert("沒有留言或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
+			}else{
+				for (var i=0; i<res.data.length; i++){
+					$scope.data.push(res.data[i]);
+				}
+
+				data = $scope.data;
+				for (var i=0; i<$scope.data.length; i++){
+					data[i].realname = $scope.data[i].from.name;
+					data[i].realtime = timeConverter($scope.data[i].created_time);
+					data[i].serial = i+1;
+					data[i].fromid = $scope.data[i].from.id;
+					data[i].text = $scope.data[i].message;
+					data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+				}
+
+				if (res.paging.next){
+					$scope.getEventsNext(res.paging.next);
+				}else{
+					if ($scope.id_array.length == 0){
+						bootbox.alert("done");
+						$scope.comments = data;
+						$scope.$apply();
+					}else{
+						$scope.getEvents($scope.id_array.pop());
+					}
+				}
+			}
+		});
+	}
+
+
+	$scope.getEventsNext = function(url){
+			$.get(url,function(res){
+			for (var i=0; i<res.data.length; i++){
+				$scope.data.push(res.data[i]);
+			}
+
+			data = $scope.data;
+			for (var i=0; i<$scope.data.length; i++){
+				data[i].realname = $scope.data[i].from.name;
+				data[i].realtime = timeConverter($scope.data[i].created_time);
+				data[i].serial = i+1;
+				data[i].fromid = $scope.data[i].from.id;
+				data[i].text = $scope.data[i].message;
+				data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+			}
+
+			$scope.comments = data;
+			$scope.$apply();
+	
+			if (res.paging.next){
+				$scope.getEventsNext(res.paging.next);
+			}else{
+				if ($scope.id_array.length == 0){
+					bootbox.alert("done");
+				}else{
+					$scope.getEvents($scope.id_array.pop());
+				}
+			}
+		});	
+	}
+
 
 	$scope.fbid_check = function(){
 
@@ -350,8 +425,15 @@ myApp.controller('Tbody', function($scope,$filter){
 										end = posturl.indexOf("/",start);
 										fbid = posturl.substring(start,end);
 									}else{
-										// type3
-										fbid = posturl;
+										var checkType9 = posturl.indexOf("/events/");
+										if (checkType9 > 0){
+											start = checkType8+8;
+											end = posturl.indexOf("/",start);
+											fbid = posturl.substring(start,end);
+										}else{
+											// type3
+											fbid = posturl;
+										}
 									}	
 								}
 							}

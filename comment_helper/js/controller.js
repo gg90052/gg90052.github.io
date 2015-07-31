@@ -341,6 +341,7 @@ myApp.controller('Tbody', function($scope,$filter){
 
 	$scope.getEventsNext = function(url){
 			$.get(url,function(res){
+				console.log(res);
 			for (var i=0; i<res.data.length; i++){
 				$scope.data.push(res.data[i]);
 			}

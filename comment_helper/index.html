@@ -8,7 +8,7 @@
 <meta property="og:image" content="http://gg90052.github.io/comment_helper/share.jpg" />
 <meta property="og:description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" /> 
 
-<title>Facebook 粉絲團留言抽籤小助手</title>
+<title>Facebook 粉絲團留言抽籤小助手 - 粉絲團抽獎最佳夥伴</title>
 
 <!-- Hotjar Tracking Code for gg90052.github.io -->
 <script>
@@ -96,13 +96,6 @@
 	.hide{
 		display: none;
 	}
-	.coffee{
-		width: 180px;
-		height: 50px;
-		background: url(http://teddy.acsite.org/comment_helper/coffee.jpg);
-		margin: 0 auto;
-		cursor: pointer;
-	}
 	.update_history{
 		display: inline-block;
 		width: 500px;
@@ -130,9 +123,6 @@
 		border-radius: 10px;
 		padding: 20px;
 	}
-	.pay{
-		
-	}
 	.policy a{
 		color: #FFFFFE;
 		position: absolute;
@@ -157,6 +147,9 @@
 		margin-right: 3px;
 		width: 23px;
 		margin-top: -1px;
+	}
+	.force-break{
+		word-break:break-all;
 	}
 </style>
 <script type="text/javascript">
@@ -185,34 +178,15 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 $(document).ready(function(){
-	$("#btn1").click(function(){
-		ga('send', 'event', 'getComments');
-	});
-	$("#btn2").click(function(){
-		ga('send', 'event', 'getLikes');
-	});
-	$("#btn3").click(function(){
-		ga('send', 'event', 'getShares');
-	});
 	$(".pay").click(function(){
 		$(".black").fadeIn();
 	});
 	$(".btn_close").click(function(){
 		$(".black").fadeOut();
 	});
-
-	$(".coffee").click(function(){
-		if ($(".coffee_detail").css("display") == "block"){
-			$(".coffee_detail").slideUp();
-		}else{
-			$(".coffee_detail").slideDown();
-			ga('send', 'event', 'coffee_button');
-		}
-	});
 	$(".btn_plus").click(function(){
 		$('<br><input type="text" class="url" />').insertAfter($("#enterURL .url:last"));
 	});
-
 	$("#btn4").click(function(){
 		JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
 	});
@@ -348,24 +322,20 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
 <p id="alltitle">
 Facebook 粉絲團留言抽籤小助手
-<br>
-<!-- <div style="width: 150px; margin: 10px auto;">
-<div class="fb-like" data-href="http://gg90052.github.io/comment_helper/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true" style="display:inline-block; margin-left:10px;"></div>
-</div> -->
+</p>
+
 <div class="update_donate">
 <div class="update_history">
 	<p style="text-align:center">近期更新：</p>
 	<ul>
-		<!-- <li style="color: #F00">appid被鎖定住了  囧，修復完成前請至<a href="http://teddy.acsite.org/comment_helper/">http://teddy.acsite.org/comment_helper/</a>使用</li> -->
 		<li>使用說明，請看<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">這邊</a></li>
 		<li>擷取社團留言或讚，請詳見<a href="#" class="pay">付費內容</a></li>
-		<!-- <li>開了<a href="https://www.facebook.com/commenthelper" target="_blank">粉絲專頁</a>，以後訊息公布在粉絲專頁比較快.....有問題也可以直接在上面問~</li> -->
 	</ul>
 	<div style="width: 300px; margin: 10px auto;">
 		<div class="fb-page" data-href="https://www.facebook.com/commenthelper" data-width="300" data-height="70" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/commenthelper"><a href="https://www.facebook.com/commenthelper">粉絲團留言抽籤小助手</a></blockquote></div></div>
 	</div>
 </div>
-<!-- <div class="coffee"></div> -->
+
 <div class="coffee_detail">
 	<p class="intro">如果小助手幫妳省下你很多時間，能否買杯咖啡請我喝喝</p>
 	<p class="intro">有您的捐款小助手將永遠保持免費給粉絲團經營使用</p>
@@ -403,9 +373,8 @@ Facebook 粉絲團留言抽籤小助手
 	<div class="left">
 		<div id="enterURL">
 			Enter the facebook post URL：<br><input type="text" class="url" /><br><br>
-			<button id="btn1" type="button" class="btn btn-danger" ng-click="getAuth('comment')">抓留言</button> 
-			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('like')">抓按讚</button>
-			<button id="btn5" type="button" class="btn btn-warning" ng-click="getAuth('event')">抓活動</button>
+			<button id="btn1" type="button" class="btn btn-danger" ng-click="getAuth('comments')">抓留言</button> 
+			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('likes')">抓按讚</button>
 			<button id="btn4" type="button" class="btn"><img src="excel.png">輸出EXCEL</button>
 			<!-- <button id="btn3" type="button" class="btn btn-warning" ng-click="getAuth('share')">抓分享</button> -->
 			<button class="btn btn-info btn_plus">增加連結</button>
@@ -430,15 +399,13 @@ Facebook 粉絲團留言抽籤小助手
 		<tr align="center">
 			<td>序號</td>
 			<td>FB_ID</td>
-			<td width="250">名字</td>
-			<td>留言內容</td>
-			<td>留言時間</td>
+			<td width="230">名字</td>
+			<td class="force-break">留言內容</td>
+			<td width="165">留言時間</td>
 		</tr>
 	</thead>
 	<tbody>
-		
-			
-		
+
 	</tbody>
 </table>
 </div>
@@ -448,25 +415,23 @@ Facebook 粉絲團留言抽籤小助手
 		<tr align="center">
 			<td>序號</td>
 			<td>FB_ID</td>
-			<td width="250">名字</td>
-			<td>留言內容</td>
-			<td>留言時間</td>
+			<td width="230">名字</td>
+			<td class="force-break">留言內容</td>
+			<td width="165">留言時間</td>
 		</tr>
 	</thead>
 	<tbody class="like_comment">
 		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | filter:search)">
-			<!-- <tr align="center" ng-repeat="comment in comments | filter:search | unique:'realname'"> -->
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
 			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
-			<td>{{ comment.text }}</td>
+			<td class="force-break">{{ comment.text }}</td>
 			<td>{{ comment.realtime }}</td>
 		</tr>
 	</tbody>
 
 	<tbody class="share_post hide">
 		<tr align="center" ng-repeat="comment in comments | filter:search">
-			<!-- <tr align="center" ng-repeat="comment in comments | filter:search | unique:'realname'"> -->
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
 			<td><a href="{{ comment.manlink }}" target="_blank">{{ comment.realname }}</a></td>

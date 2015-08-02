@@ -74,12 +74,13 @@ myApp.controller('Tbody', function($scope,$filter){
 					}
 				}
 
+				$scope.comments = data;
+				$scope.$apply();
+
 				if (res.paging.next){
 					$scope.getDataNext(res.paging.next,api_command);
 				}else{
-					if ($scope.id_array.length == 0){
-						$scope.comments = data;
-						$scope.$apply();
+					if ($scope.id_array.length == 0){						
 						$scope.finished();
 					}else{
 						$scope.getData($scope.id_array.pop());

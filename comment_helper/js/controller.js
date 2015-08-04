@@ -45,14 +45,16 @@ myApp.controller('Tbody', function($scope,$filter){
 
 	$scope.getData = function(post_id){
 		var api_command = $scope.gettype;
-
+		$(".loading").removeClass("hide");
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
 			console.log(res);
 			if(res.error){
 				bootbox.alert("發生錯誤，請聯絡管理員");
+				$(".loading").addClass("hide");
 			}
 			if (res.data.length == 0){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
+				$(".loading").addClass("hide");
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -92,7 +94,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.getDataNext = function(url, api_command){
 		$.get(url,function(res){
 			if (res.data.length == 0){
-				bootbox.alert("done");
+				$scope.finished();
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
@@ -130,6 +132,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
+		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
 			$(".uiPanel .right").addClass("move");

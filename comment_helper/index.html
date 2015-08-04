@@ -72,11 +72,28 @@
 	}
 	.uiPanel .left{
 		float: left;
-		border-right: 1px solid #000;
 		padding-right: 60px;
+		margin-left: 22%;
+		transition: all 0.5s;
+		-webkit-transition: all 0.5s;
+		-moz-transition: all 0.5s;
+	}
+	.uiPanel .left.move{
+		border-right: 1px solid #000;
+		margin-left: 0;
 	}
 	.uiPanel .right{
 		float: right;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		transition: all 0.5s;
+		-webkit-transition: all 0.5s;
+		-moz-transition: all 0.5s;
+	}
+	.uiPanel .right.move{
+		width: auto;
+		height: auto;
 	}
 	#enterURL{
 		text-align: center;
@@ -375,7 +392,7 @@ Facebook 粉絲團留言抽籤小助手
 <div class="uiPanel">
 	<div class="left">
 		<div id="enterURL">
-			Enter the facebook post URL：<br><input type="text" class="url" /><br><br>
+			請輸入 Facebook 文章網址：<br><input type="text" class="url" /><br><br>
 			<button id="btn1" type="button" class="btn btn-danger" ng-click="getAuth('comments')">抓留言</button> 
 			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('likes')">抓按讚</button>
 			<button id="btn4" type="button" class="btn"><img src="excel.png">輸出EXCEL</button>
@@ -392,8 +409,9 @@ Facebook 粉絲團留言抽籤小助手
 		<br />
 		<div style="clear:both"></div>
 	</div>
+	<div style="clear:both"></div>
 </div>
-<div style="clear:both"></div>
+
 <div id="comment_table">
 <div id="awardList">
 <p>List</p>	

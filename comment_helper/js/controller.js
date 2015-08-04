@@ -130,6 +130,10 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
+		$(".uiPanel .left").addClass("move");
+		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
+			$(".uiPanel .right").addClass("move");
+		});
 		bootbox.alert("done");	
 	}
 

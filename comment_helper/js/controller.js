@@ -148,13 +148,13 @@ myApp.controller('Tbody', function($scope,$filter){
 			}, {scope: 'read_stream,user_photos,user_posts',return_scopes: true});
 		}else{
 			FB.getLoginStatus(function(response) {
-				// console.log(response);
 				$scope.callback(response);
 			});
 		}
 	}
 
 	$scope.callback = function(response){
+		console.log(response);
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		console.log(response);
@@ -170,7 +170,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);
-			}, {scope: 'read_stream',return_scopes: true});
+			}, {scope: 'read_stream,user_photos,user_posts',return_scopes: true});
 		}
 	}
 

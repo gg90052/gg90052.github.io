@@ -145,7 +145,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		if (type == "addScope"){
 			FB.login(function(response) {
 				$scope.callback(response);
-			}, {scope: 'read_stream',return_scopes: true});
+			}, {scope: 'read_stream,user_photos,user_posts',return_scopes: true});
 		}else{
 			FB.getLoginStatus(function(response) {
 				// console.log(response);

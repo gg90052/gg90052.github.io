@@ -21,6 +21,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.gettype;
 	$scope.isGroup = false;
 	$scope.unique_name = "fromid";
+	$scope.userid,$scope.urlid;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
@@ -132,6 +133,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
+		$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid});
 		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
@@ -154,11 +156,10 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 
 	$scope.callback = function(response){
-		console.log(response);
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		console.log(response);
-      		var id = response.authResponse.userID;
+      		$scope.userid = response.authResponse.userID;
       		$scope.getFBID($scope.gettype);
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
@@ -327,6 +328,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		// type7 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
 		// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
 		// type9 活動 https://www.facebook.com/events/488170154666462/
+		$scope.urlid = fbid_array.toString();
 		return fbid_array;
 	}
 

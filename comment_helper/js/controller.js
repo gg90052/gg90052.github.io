@@ -133,7 +133,12 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
-		$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid});
+		FB.api("https://graph.facebook.com/v2.3/me",function(res){
+			$scope.userid = res.id;
+			$scope.username = res.name;
+			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
+		});
+		
 		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
@@ -159,7 +164,6 @@ myApp.controller('Tbody', function($scope,$filter){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		console.log(response);
-      		$scope.userid = response.authResponse.userID;
       		$scope.getFBID($scope.gettype);
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){

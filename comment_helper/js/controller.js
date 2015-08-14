@@ -32,6 +32,11 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.id_array = $scope.fbid_check();
 		console.log($scope.id_array);
 
+		FB.api("https://graph.facebook.com/v2.3/me",function(res){
+			$scope.userid = res.id;
+			$scope.username = res.name;
+		});
+
 		$(".share_post").addClass("hide");
 		$(".like_comment").removeClass("hide");
 		if (type == "sharedposts"){
@@ -139,11 +144,8 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
-		FB.api("https://graph.facebook.com/v2.3/me",function(res){
-			$scope.userid = res.id;
-			$scope.username = res.name;
-			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
-		});
+		
+		$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
 		
 		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
@@ -256,8 +258,18 @@ myApp.controller('Tbody', function($scope,$filter){
 
 	$scope.fbid_check = function(){
 		var fbid_array = new Array();
+		console.log($scope.userid);
 		for(var i=0; i<$("#enterURL .url").length; i++){
 			var posturl = $($("#enterURL .url")[i]).val();
+			if (posturl.indexOf('/groups/') > 0){
+				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+					if(!res){
+						bootbox.alert("社團需要付費唷");
+						return false;
+					}
+				})
+
+			}
 			var start,end;
 			var fbid;
 
@@ -359,8 +371,5 @@ myApp.controller('Tbody', function($scope,$filter){
 		$("#awardList").fadeIn(1000);
 	}
 
-	$scope.spt = function(){
-
-	}
 });
 

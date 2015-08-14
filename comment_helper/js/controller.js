@@ -258,14 +258,15 @@ myApp.controller('Tbody', function($scope,$filter){
 
 	$scope.fbid_check = function(){
 		var fbid_array = new Array();
-		console.log($scope.userid);
 		for(var i=0; i<$("#enterURL .url").length; i++){
 			var posturl = $($("#enterURL .url")[i]).val();
 			if (posturl.indexOf('/groups/') > 0){
 				FB.api("https://graph.facebook.com/v2.3/me",function(res){
 					$scope.userid = res.id;
 					$scope.username = res.name;
+					console.log($scope.userid);
 					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+						console.log(res);
 						if(!res){
 							bootbox.alert("社團需要付費唷");
 							return false;

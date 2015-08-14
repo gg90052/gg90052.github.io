@@ -37,7 +37,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		if (type == "sharedposts"){
 			$(".share_post").removeClass("hide");
 			$(".like_comment").addClass("hide");
-			$scope.getShares($scope.id_array.pop());
+			$scope.getData($scope.id_array.pop());
 		}else{
 			$scope.getData($scope.id_array.pop());
 		}
@@ -179,7 +179,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 	}
 
-	$scope.getShares = function(post_id){
+	$scope.getShares = function(){
 		FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
 			  // console.log(res);
 			for (var i=0; i<res.data.length; i++){
@@ -351,6 +351,10 @@ myApp.controller('Tbody', function($scope,$filter){
 			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 		}
 		$("#awardList").fadeIn(1000);
+	}
+
+	$scope.spt = function(){
+
 	}
 });
 

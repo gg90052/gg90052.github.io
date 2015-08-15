@@ -255,91 +255,99 @@ myApp.controller('Tbody', function($scope,$filter){
 			}
 		});	
 	}
-
+	$scope.group_check = function(posturl){
+		if (posturl.indexOf('/groups/') > 0){
+			FB.api("https://graph.facebook.com/v2.3/me",function(res){
+				$scope.userid = res.id;
+				$scope.username = res.name;
+				console.log($scope.userid);
+				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+					console.log(res);
+					if(!res){
+						bootbox.alert("社團需要付費唷");
+						return false;
+					}else{
+						return true;
+					}
+				})
+			});
+		}
+	}
 	$scope.fbid_check = function(){
 		var fbid_array = new Array();
 		for(var i=0; i<$("#enterURL .url").length; i++){
 			var posturl = $($("#enterURL .url")[i]).val();
-			if (posturl.indexOf('/groups/') > 0){
-				FB.api("https://graph.facebook.com/v2.3/me",function(res){
-					$scope.userid = res.id;
-					$scope.username = res.name;
-					console.log($scope.userid);
-					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
-						console.log(res);
-						if(!res){
-							bootbox.alert("社團需要付費唷");
-							return false;
-						}
-					})
-				});
-			}
-			var start,end;
-			var fbid;
+			
+			if (group_check(posturl)){
+				var start,end;
+				var fbid;
 
-			var checkType2 = posturl.indexOf('posts');
-			if (checkType2 > 0){
-				// type2
-				start = checkType2+6;
-				end = posturl.indexOf('?',start);
-				if (end < 0){
-					end = posturl.length;
-				}
-				fbid = posturl.substring(start,end);
-			}else{
-				var checkType1 = posturl.indexOf('/?type');
-				if (checkType1 > 0){
-					// type1
-					end = posturl.indexOf('/?type');
-					start = posturl.lastIndexOf('/',end-1)+1;
+				var checkType2 = posturl.indexOf('posts');
+				if (checkType2 > 0){
+					// type2
+					start = checkType2+6;
+					end = posturl.indexOf('?',start);
+					if (end < 0){
+						end = posturl.length;
+					}
 					fbid = posturl.substring(start,end);
 				}else{
-					var checkType4 = posturl.indexOf('story_fbid');
-					if (checkType4 > 0){
-						start = checkType4+11;
-						end = posturl.indexOf('&',start);
+					var checkType1 = posturl.indexOf('/?type');
+					if (checkType1 > 0){
+						// type1
+						end = posturl.indexOf('/?type');
+						start = posturl.lastIndexOf('/',end-1)+1;
 						fbid = posturl.substring(start,end);
 					}else{
-						var checkType5 = posturl.indexOf('v=');
-						if (checkType5 > 0){
-							start = checkType5+2;
-							end = posturl.indexOf("&",start);
+						var checkType4 = posturl.indexOf('story_fbid');
+						if (checkType4 > 0){
+							start = checkType4+11;
+							end = posturl.indexOf('&',start);
 							fbid = posturl.substring(start,end);
 						}else{
-							var checkType6 = posturl.indexOf("fbid=");
-							if (checkType6 > 0){
-								start = checkType6+5;
+							var checkType5 = posturl.indexOf('v=');
+							if (checkType5 > 0){
+								start = checkType5+2;
 								end = posturl.indexOf("&",start);
 								fbid = posturl.substring(start,end);
 							}else{
-								var checkType7 = posturl.indexOf("permalink/");
-								if (checkType7 > 0){
-									start = checkType7+10;
-									end = posturl.indexOf("/",start);
+								var checkType6 = posturl.indexOf("fbid=");
+								if (checkType6 > 0){
+									start = checkType6+5;
+									end = posturl.indexOf("&",start);
 									fbid = posturl.substring(start,end);
 								}else{
-									var checkType8 = posturl.indexOf("/videos/");
-									if (checkType8 > 0){
-										start = checkType8+8;
+									var checkType7 = posturl.indexOf("permalink/");
+									if (checkType7 > 0){
+										start = checkType7+10;
 										end = posturl.indexOf("/",start);
 										fbid = posturl.substring(start,end);
 									}else{
-										var checkType9 = posturl.indexOf("/events/");
-										if (checkType9 > 0){
-											$scope.gettype = "feed";
-											start = checkType9+8;
+										var checkType8 = posturl.indexOf("/videos/");
+										if (checkType8 > 0){
+											start = checkType8+8;
 											end = posturl.indexOf("/",start);
 											fbid = posturl.substring(start,end);
 										}else{
-											// type3
-											fbid = posturl;
-										}
-									}	
+											var checkType9 = posturl.indexOf("/events/");
+											if (checkType9 > 0){
+												$scope.gettype = "feed";
+												start = checkType9+8;
+												end = posturl.indexOf("/",start);
+												fbid = posturl.substring(start,end);
+											}else{
+												// type3
+												fbid = posturl;
+											}
+										}	
+									}
 								}
 							}
 						}
 					}
 				}
+			}else{
+				return false;
 			}
 			if (fbid != ""){
 				fbid_array.push(fbid);

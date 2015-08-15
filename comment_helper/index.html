@@ -328,12 +328,12 @@ Facebook 粉絲團留言抽籤小助手
 	</tbody>
 
 	<tbody class="share_post hide">
-		<tr align="center" ng-repeat="comment in comments | filter:search">
+		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | filter:search)">
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
-			<td><a href="{{ comment.manlink }}" target="_blank">{{ comment.realname }}</a></td>
-			<td><a href="{{ comment.link }}" target="_blank">{{ comment.share_message }}</a></td>
-			<td>{{ comment.updated_time }}</td>
+			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
+			<td><a href="{{ comment.text }}" target="_blank">{{ comment.text }}</a></td>
+			<td>{{ comment.realtime }}</td>
 		</tr>
 	</tbody>
 </table>

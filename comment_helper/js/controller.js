@@ -29,7 +29,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.gettype = type;
 		$scope.comments = new Array();
 		$scope.data = new Array();
-		$scope.id_array = $scope.fbid_check();
+		$scope.group_check();
 		console.log($scope.id_array);
 
 		$(".share_post").addClass("hide");
@@ -187,96 +187,111 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 	}
 
-	$scope.getShares = function(){
-		FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
-			  // console.log(res);
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
+	// $scope.getShares = function(){
+	// 	FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
+	// 		  // console.log(res);
+	// 		for (var i=0; i<res.data.length; i++){
+	// 			$scope.data.push(res.data[i]);
+	// 		}
 
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].from.name;
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].from.id;
-				data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
-				if ($scope.data[i].message){
-					data[i].share_message = $scope.data[i].message;
-				}else{
-					data[i].share_message = $scope.data[i].story;
-				}
-			}
+	// 		data = $scope.data;
+	// 		for (var i=0; i<$scope.data.length; i++){
+	// 			data[i].realname = $scope.data[i].from.name;
+	// 			data[i].serial = i+1;
+	// 			data[i].fromid = $scope.data[i].from.id;
+	// 			data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
+	// 			data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+	// 			if ($scope.data[i].message){
+	// 				data[i].share_message = $scope.data[i].message;
+	// 			}else{
+	// 				data[i].share_message = $scope.data[i].story;
+	// 			}
+	// 		}
 
-			if (res.paging.next){
-				$scope.getSharesNext(res.paging.next);
-			}else{
-				if ($scope.id_array.length == 0){
-					bootbox.alert("done");
-					$scope.comments = data;
-					$scope.$apply();
-				}else{
-					$scope.getShares($scope.id_array.pop());
-				}
-			}
-		});
-	}
-	$scope.getSharesNext = function(url){
-			$.get(url,function(res){
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
+	// 		if (res.paging.next){
+	// 			$scope.getSharesNext(res.paging.next);
+	// 		}else{
+	// 			if ($scope.id_array.length == 0){
+	// 				bootbox.alert("done");
+	// 				$scope.comments = data;
+	// 				$scope.$apply();
+	// 			}else{
+	// 				$scope.getShares($scope.id_array.pop());
+	// 			}
+	// 		}
+	// 	});
+	// }
+	// $scope.getSharesNext = function(url){
+	// 		$.get(url,function(res){
+	// 		for (var i=0; i<res.data.length; i++){
+	// 			$scope.data.push(res.data[i]);
+	// 		}
 
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].from.name;
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].from.id;
-				data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
-				if ($scope.data[i].message){
-					data[i].share_message = $scope.data[i].message;
-				}else{
-					data[i].share_message = $scope.data[i].story;
-				}
-			}
+	// 		data = $scope.data;
+	// 		for (var i=0; i<$scope.data.length; i++){
+	// 			data[i].realname = $scope.data[i].from.name;
+	// 			data[i].serial = i+1;
+	// 			data[i].fromid = $scope.data[i].from.id;
+	// 			data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
+	// 			data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+	// 			if ($scope.data[i].message){
+	// 				data[i].share_message = $scope.data[i].message;
+	// 			}else{
+	// 				data[i].share_message = $scope.data[i].story;
+	// 			}
+	// 		}
 
-			$scope.comments = data;
-			$scope.$apply();
+	// 		$scope.comments = data;
+	// 		$scope.$apply();
 	
-			if (res.paging.next){
-				$scope.getSharesNext(res.paging.next);
-			}else{
-				if ($scope.id_array.length == 0){
-					bootbox.alert("done");
-				}else{
-					$scope.getShares($scope.id_array.pop());
-				}
-			}
-		});	
-	}
-	$scope.group_check = function(posturl){
-		if (posturl.indexOf('/groups/') > 0){
-			FB.api("https://graph.facebook.com/v2.3/me",function(res){
-				$scope.userid = res.id;
-				$scope.username = res.name;
-				console.log($scope.userid);
-				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
-					console.log(res);
-					if(!res){
-						bootbox.alert("社團需要付費唷");
-						return false;
-					}else{
-						return true;
-					}
-				})
-			});
-		}
-	}
-	$scope.fbid_check = function(){
+	// 		if (res.paging.next){
+	// 			$scope.getSharesNext(res.paging.next);
+	// 		}else{
+	// 			if ($scope.id_array.length == 0){
+	// 				bootbox.alert("done");
+	// 			}else{
+	// 				$scope.getShares($scope.id_array.pop());
+	// 			}
+	// 		}
+	// 	});	
+	// }
+	$scope.group_check = function(){
 		var fbid_array = new Array();
+		var t;
+		var g = false;
 		for(var i=0; i<$("#enterURL .url").length; i++){
 			var posturl = $($("#enterURL .url")[i]).val();
+			fbid_array.push(posturl);
+			if (posturl.indexOf('/groups/') > 0){
+				g = true;
+				FB.api("https://graph.facebook.com/v2.3/me",function(res){
+					$scope.userid = res.id;
+					$scope.username = res.name;
+					console.log($scope.userid);
+					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+						console.log(res);
+						if(!res){
+							bootbox.alert("社團需要付費唷");
+							return false;
+						}else{
+							g = false;
+						}
+					})
+				});
+			}
+		}
+		if (g){
+			t = setInterval(function(){
+				if (!g){
+					clearInterval(t);
+					$scope.fbid_check(fbid_array);
+				}
+			},1000);
+		}
+	}
+	$scope.fbid_check = function(fbid_array){
+		for(var i=0; i<fbid_array.length; i++){
+			var posturl = fbid_array[i];
 			
 			if ($scope.group_check(posturl)){
 				var start,end;
@@ -361,7 +376,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
 		// type9 活動 https://www.facebook.com/events/488170154666462/
 		$scope.urlid = fbid_array.toString();
-		return fbid_array;
+		$scope.id_array = fbid_array;
 	}
 
 	$scope.choose = function(){

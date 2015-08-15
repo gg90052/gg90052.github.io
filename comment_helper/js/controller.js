@@ -74,12 +74,6 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
-					}else if (api_command == "sharedposts"){
-						data[i].realname = $scope.data[i].from.name;
-						data[i].realtime = timeConverter($scope.data[i].created_time);
-						data[i].fromid = $scope.data[i].from.id;
-						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
-						data[i].text = "http://www.facebook.com/"+$scope.data[i].id;
 					}
 				}
 

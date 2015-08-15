@@ -177,7 +177,7 @@ myApp.controller('Tbody', function($scope,$filter){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
    					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
    				}else{
-   					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
+   					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator. ");
    				}
    			}      		
 		}else{

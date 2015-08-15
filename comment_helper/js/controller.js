@@ -346,8 +346,6 @@ myApp.controller('Tbody', function($scope,$filter){
 						}
 					}
 				}
-			}else{
-				return false;
 			}
 			if (fbid != ""){
 				fbid_array.push(fbid);

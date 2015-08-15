@@ -278,7 +278,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		for(var i=0; i<$("#enterURL .url").length; i++){
 			var posturl = $($("#enterURL .url")[i]).val();
 			
-			if (group_check(posturl)){
+			if ($scope.group_check(posturl)){
 				var start,end;
 				var fbid;
 

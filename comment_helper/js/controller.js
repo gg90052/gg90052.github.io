@@ -358,9 +358,5 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 		$("#awardList").fadeIn(1000);
 	}
-
-	$scope.spt = function(){
-
-	}
 });
 

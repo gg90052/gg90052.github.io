@@ -92,7 +92,7 @@ myApp.controller('Tbody', function($scope,$filter){
 					if ($scope.id_array.length == 0){						
 						$scope.finished();
 					}else{
-						$scope.getData($scope.id_array.pop());
+						$scope.getData($scope.id_array.pop(),api_command);
 					}
 				}
 			}
@@ -120,6 +120,12 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+					}else if (api_command == "sharedposts"){
+						data[i].realname = $scope.data[i].from.name;
+						data[i].realtime = timeConverter($scope.data[i].created_time);
+						data[i].fromid = $scope.data[i].from.id;
+						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+						data[i].text = "http://www.facebook.com/"+$scope.data[i].id;
 					}
 				}
 
@@ -132,7 +138,7 @@ myApp.controller('Tbody', function($scope,$filter){
 					if ($scope.id_array.length == 0){
 						$scope.finished();
 					}else{
-						$scope.getData($scope.id_array.pop());
+						$scope.getData($scope.id_array.pop(),api_command);
 					}
 				}
 			}

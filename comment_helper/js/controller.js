@@ -172,6 +172,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 	$scope.checkvip = function(fbid){
 		FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
+			console.log(res);
 			if (res.to){
 				$scope.vip = true;
 			}else{

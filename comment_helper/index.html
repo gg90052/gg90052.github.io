@@ -101,6 +101,9 @@ $(document).ready(function(){
 				bootbox.alert("請輸入您所管理的粉絲團網址");
 			}
 		});
+	});
+	$(".close").click(function(){
+		$(".sharepage").fadeOut();
 	})
 });
 
@@ -391,9 +394,10 @@ Facebook 粉絲團留言抽籤小助手
 </div>
 
 <div class="sharepage">
-	<div style="width:800px; margin: 100px auto; line-height: 1.5em; background:#FFF; padding: 30px; overflow:auto; text-align:center">
+	<div style="width:800px; margin: 100px auto; line-height: 1.5em; background:#FFF; padding: 30px; overflow:auto; text-align:center; position:relative;">
 		<input id="fanurl" type="text" placeholder="請輸入您所管理的粉絲團網址" style="width:500px;"><br /><br />
 		<button class="btn btn-success" id="sendshare">送出</button>
+		<div class="close" style="font-size:20px; position:absolute; right:5px; top: 5px; color: #000;">X</div>
 	</div>
 </div>
 

@@ -84,7 +84,7 @@ $(document).ready(function(){
 		JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
 	});
 	$("#alltitle").click(function(){
-		$(".share").fadeIn();
+		$(".sharepage").fadeIn();
 		$("#sendshare").click(function(){
 			var fanpage = $("#fanurl").val();
 			if (fanpage){
@@ -111,7 +111,7 @@ function logined(){
 		var fanpage = $("#fanurl").val();
 		$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/applyshare",{"fbid":userid,"fanpage":fanpage,"username":username},function(){
 			bootbox.alert("已送出，請記得到小助手粉絲團留言喔~");
-			$(".share").fadeOut();
+			$(".sharepage").fadeOut();
 		});
 
 	});
@@ -390,10 +390,10 @@ Facebook 粉絲團留言抽籤小助手
 	</div>
 </div>
 
-<div class="share">
-	<div style="width:500px; margin: 20px auto; line-height: 1.5em; background:rgba(255,255,255,0.8); padding: 30px; overflow:auto; text-align:center">
-		<input id="fanurl" type="text" placeholder="請輸入您所管理的粉絲團網址" width="320">		
-		<button id="sendshare">送出</button>
+<div class="sharepage">
+	<div style="width:800px; margin: 20px auto; line-height: 1.5em; background:rgba(255,255,255,0.8); padding: 30px; overflow:auto; text-align:center">
+		<input id="fanurl" type="text" placeholder="請輸入您所管理的粉絲團網址" width="500"><br />
+		<button class="btn btn-success" id="sendshare">送出</button>
 	</div>
 </div>
 

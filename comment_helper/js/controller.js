@@ -155,6 +155,8 @@ myApp.controller('Tbody', function($scope,$filter){
 			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
 			if ($scope.vip){
 				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+					console.log(res);
+					console.log($scope.userid);
 					if (res == "false"){
 						$scope.comments = new Array();
 						bootbox.alert("社團文章需要付費才能抓喔!!");

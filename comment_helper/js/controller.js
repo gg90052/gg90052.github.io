@@ -150,6 +150,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		var t = setInterval(function(){
 			if ($scope.vip == "1"){
 				clearInterval(t);
+				console.log($scope.userid);
 				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
 					if (res == "false"){
 						$("table").remove();

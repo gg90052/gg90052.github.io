@@ -19,6 +19,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.data = [];
 	$scope.id_array;
 	$scope.gettype;
+	$scope.vip = false;
 	$scope.isGroup = false;
 	$scope.unique_name = "fromid";
 	$scope.userid,$scope.urlid;
@@ -57,6 +58,9 @@ myApp.controller('Tbody', function($scope,$filter){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 				$(".loading").addClass("hide");
 			}else{
+				if (res.to){
+					$scope.vip = true;
+				}
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
@@ -149,6 +153,14 @@ myApp.controller('Tbody', function($scope,$filter){
 			$scope.userid = res.id;
 			$scope.username = res.name;
 			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
+			if ($scope.vip){
+				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+					if (!res){
+						$scope.comments = new Array();
+						bootbox.alert("社團文章需要付費才能抓喔!!");
+					}
+				});
+			}
 		});
 		
 		$(".loading").addClass("hide");

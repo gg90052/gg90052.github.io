@@ -148,14 +148,14 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 	$scope.finished = function(){
 		FB.api("https://graph.facebook.com/v2.3/me",function(res){
-			$scope.userid = res.id;
-			$scope.username = res.name;
-			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
+			var userid = res.id;
+			var username = res.name;
+			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":userid,"username":username});
 			var t = setInterval(function(){
 				if ($scope.vip == "1"){
 					clearInterval(t);
-					console.log($scope.userid);
-					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
+					console.log(userid);
+					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":userid},function(res){
 						if (res == "false"){
 							$("table").remove();
 							bootbox.alert("社團文章需要付費才能抓喔!!");

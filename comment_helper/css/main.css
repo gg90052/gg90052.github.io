@@ -21,6 +21,14 @@
     position:fixed; 
     display:none;
   }
+  .sharepage{
+    width:800px; 
+    left:0; 
+    top:0; 
+    background:rgba(0,0,0,0.8); 
+    position:fixed; 
+    display:none;
+  }
   .uiPanel{
     width: 1000px;
     margin: 10 auto;

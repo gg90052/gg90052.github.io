@@ -58,7 +58,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 				$(".loading").addClass("hide");
 			}else{
-				$scope.vip = $scope.checkvip(post_id);
+				$scope.checkvip(post_id);
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
@@ -169,15 +169,13 @@ myApp.controller('Tbody', function($scope,$filter){
 		bootbox.alert("done");	
 	}
 	$scope.checkvip = function(fbid){
-		var vip = FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
-					if (res.to){
-						return true;
-					}else{
-						return false;
-					}
-				});
-		console.log(vip);
-		return vip;
+		FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
+			if (res.to){
+				$scope.vip = true;
+			}else{
+				$scope.vip = false;
+			}
+		});
 	}
 
 	$scope.getAuth = function(type){

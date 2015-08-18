@@ -174,10 +174,13 @@ myApp.controller('Tbody', function($scope,$filter){
 		FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
 			console.log(res);
 			if (res.to){
+				console.log("a");
 				$scope.vip = true;
 			}else{
+				console.log("n");
 				$scope.vip = false;
 			}
+			console.log = $scope.vip;
 		});
 	}
 

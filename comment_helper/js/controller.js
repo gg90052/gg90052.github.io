@@ -151,8 +151,7 @@ myApp.controller('Tbody', function($scope,$filter){
 			if ($scope.vip == "1"){
 				clearInterval(t);
 				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
-					console.log(res);
-					if (!res){
+					if (res == "false"){
 						$scope.comments = new Array();
 						bootbox.alert("社團文章需要付費才能抓喔!!");
 					}

@@ -19,7 +19,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.data = [];
 	$scope.id_array;
 	$scope.gettype;
-	$scope.vip = false;
+	$scope.vip = "-1";
 	$scope.isGroup = false;
 	$scope.unique_name = "fromid";
 	$scope.userid,$scope.urlid;
@@ -147,12 +147,9 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
-		console.log("vip = "+$scope.vip);
-		FB.api("https://graph.facebook.com/v2.3/me",function(res){
-			$scope.userid = res.id;
-			$scope.username = res.name;
-			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
-			if ($scope.vip){
+		var t = setInterval(function(){
+			if ($scope.vip == "1"){
+				clearInterval(t);
 				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
 					console.log(res);
 					if (!res){
@@ -160,7 +157,14 @@ myApp.controller('Tbody', function($scope,$filter){
 						bootbox.alert("社團文章需要付費才能抓喔!!");
 					}
 				});
+			}else if ($scope.vip == "0"){
+				clearInterval(t);
 			}
+		},200)
+		FB.api("https://graph.facebook.com/v2.3/me",function(res){
+			$scope.userid = res.id;
+			$scope.username = res.name;
+			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
 		});
 		
 		$(".loading").addClass("hide");
@@ -172,15 +176,11 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 	$scope.checkvip = function(fbid){
 		FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
-			console.log(res);
 			if (res.to){
-				console.log("a");
-				$scope.vip = true;
+				$scope.vip = "1";
 			}else{
-				console.log("n");
-				$scope.vip = false;
+				$scope.vip = "0";
 			}
-			console.log($scope.vip);
 		});
 	}
 

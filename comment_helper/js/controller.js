@@ -180,7 +180,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				console.log("n");
 				$scope.vip = false;
 			}
-			console.log = $scope.vip;
+			console.log($scope.vip);
 		});
 	}
 

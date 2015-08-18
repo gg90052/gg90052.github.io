@@ -152,7 +152,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				clearInterval(t);
 				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
 					if (res == "false"){
-						$scope.comments = new Array();
+						$scope.update();
 						bootbox.alert("社團文章需要付費才能抓喔!!");
 					}
 				});

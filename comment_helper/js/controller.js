@@ -58,9 +58,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 				$(".loading").addClass("hide");
 			}else{
-				if (res.to){
-					$scope.vip = true;
-				}
+				$scope.vip = $scope.checkvip(post_id);
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
@@ -155,9 +153,7 @@ myApp.controller('Tbody', function($scope,$filter){
 			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":$scope.userid,"username":$scope.username});
 			if ($scope.vip){
 				$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":$scope.userid},function(res){
-					console.log(res);
-					console.log($scope.userid);
-					if (res == "false"){
+					if (!res){
 						$scope.comments = new Array();
 						bootbox.alert("社團文章需要付費才能抓喔!!");
 					}
@@ -171,6 +167,15 @@ myApp.controller('Tbody', function($scope,$filter){
 			$(".uiPanel .right").addClass("move");
 		});
 		bootbox.alert("done");	
+	}
+	$scope.checkvip = function(fbid){
+		FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
+			if (res.to){
+				return true;
+			}else{
+				return false;
+			}
+		});
 	}
 
 	$scope.getAuth = function(type){

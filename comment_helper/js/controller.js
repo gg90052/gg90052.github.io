@@ -169,13 +169,14 @@ myApp.controller('Tbody', function($scope,$filter){
 		bootbox.alert("done");	
 	}
 	$scope.checkvip = function(fbid){
-		FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
-			if (res.to){
-				return true;
-			}else{
-				return false;
-			}
-		});
+		var vip = FB.api("https://graph.facebook.com/v2.3/"+fbid,function(res){
+					if (res.to){
+						return true;
+					}else{
+						return false;
+					}
+				});
+		return vip;
 	}
 
 	$scope.getAuth = function(type){

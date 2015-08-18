@@ -176,6 +176,7 @@ myApp.controller('Tbody', function($scope,$filter){
 						return false;
 					}
 				});
+		console.log(vip);
 		return vip;
 	}
 

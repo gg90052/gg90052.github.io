@@ -83,7 +83,39 @@ $(document).ready(function(){
 	$("#btn4").click(function(){
 		JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
 	});
+	$("#alltitle").click(function(){
+		$(".share").fadeIn();
+		$("#sendshare").click(function(){
+			var fanpage = $("#fanurl").val();
+			if (fanpage){
+				FB.getLoginStatus(function(response) {
+					if (response.status === 'connected') {
+						logined();
+					}else{
+						FB.login(function(response) {
+							logined();
+						});
+					}
+				});
+			}else{
+				bootbox.alert("請輸入您所管理的粉絲團網址");
+			}
+		});
+	})
 });
+
+function logined(){
+	FB.api("https://graph.facebook.com/v2.3/me",function(res){
+		var userid = res.id;
+		var username = res.name;
+		var fanpage = $("#fanurl").val();
+		$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/applyshare",{"fbid":userid,"fanpage":fanpage,"username":username},function(){
+			bootbox.alert("已送出，請記得到小助手粉絲團留言喔~");
+			$(".share").fadeOut();
+		});
+
+	});
+}
 
 function timeConverter(UNIX_timestamp){
 	 var a = new Date(UNIX_timestamp);
@@ -213,7 +245,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
 <body ng-controller="Tbody">
 
-<p id="alltitle" ng-click="getAuth('sharedposts')">
+<p id="alltitle">
 Facebook 粉絲團留言抽籤小助手
 </p>
 
@@ -355,6 +387,13 @@ Facebook 粉絲團留言抽籤小助手
 			Facebook帳號首頁就是下面這一頁，收到訊息之後我盡量會在一天內處理完畢。
 			<img src="fbpage.jpg">
 		</div>
+	</div>
+</div>
+
+<div class="share">
+	<div style="width:500px; margin: 20px auto; line-height: 1.5em; background:rgba(255,255,255,0.8); padding: 30px; overflow:auto; text-align:center">
+		<input id="fanurl" type="text" placeholder="請輸入您所管理的粉絲團網址" width="320">		
+		<button id="sendshare">送出</button>
 	</div>
 </div>
 

@@ -432,6 +432,7 @@ myApp.controller('Tbody', function($scope,$filter){
 			}
 		}
 		$scope.$apply();
+		$(".loading").addClass("hide");
 		bootbox.alert("done");
 	}
 });

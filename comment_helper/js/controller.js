@@ -431,6 +431,16 @@ myApp.controller('Tbody', function($scope,$filter){
 				}
 			}
 		}
+
+		for(var i=0; i<=$scope.comments.length-1; i++){
+			for(var j=0; j<$scope.filteredData.length; j++){
+				if ($scope.comments[i].fromid == $scope.filteredData[j].id && $scope.comments[i].liked == "true"){
+					$scope.filteredData[j].liked = "true";
+				}
+			}
+		}
+		console.log($scope.filteredData);
+
 		$scope.$apply();
 		$(".loading").addClass("hide");
 		bootbox.alert("done");

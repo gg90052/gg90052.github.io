@@ -439,7 +439,6 @@ myApp.controller('Tbody', function($scope,$filter){
 				}
 			}
 		}
-		console.log($scope.filteredData);
 
 		$scope.$apply();
 		$(".loading").addClass("hide");

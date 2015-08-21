@@ -171,6 +171,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
 			$(".uiPanel .right").addClass("move");
 		});
+		$(".main_table").removeClass("hide");
 		bootbox.alert("done");	
 	}
 	$scope.checkvip = function(fbid){
@@ -384,9 +385,54 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 
 		for (var j=0; j<num; j++){
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			if (award[j].liked == true){
+				$("<td><i class='glyphicon glyphicon-thumbs-up'></i></td>").insertAfter(".fromid");	
+			}else{
+				$("<td></td>").insertAfter(".fromid");
+			}
 		}
 		$("#awardList").fadeIn(1000);
+	}
+
+	$scope.getLikeInComments = function(){
+		$scope.allLikeData = new Array();
+		var id_array = $scope.fbid_check();
+
+		$(".loading").removeClass("hide");
+		FB.api("https://graph.facebook.com/v2.3/"+id_array[0]+"/likes?limit=500",function(res){
+			for (var i=0; i<res.data.length; i++){
+				$scope.allLikeData.push(res.data[i]);
+			}
+			if (res.paging.next){
+				$scope.getLikeNext(res.paging.next);
+			}else{		
+				$scope.compare();
+			}
+		});
+	}
+	$scope.getLikeNext = function(url){
+		$.get(url,function(res){
+			for (var i=0; i<res.data.length; i++){
+				$scope.allLikeData.push(res.data[i]);
+			}
+			if (res.paging.next){
+				$scope.getLikeNext(res.paging.next);
+			}else{
+				$scope.compare();
+			}
+		});
+	}
+	$scope.compare = function(){
+		for(var i=0; i<=$scope.comments.length-1; i++){
+			for(var j=0; j<$scope.allLikeData.length; j++){
+				if ($scope.comments[i].fromid == $scope.allLikeData[j].id){
+					$scope.comments[i].liked = "true";
+				}
+			}
+		}
+		$scope.$apply();
+		bootbox.alert("done");
 	}
 });
 

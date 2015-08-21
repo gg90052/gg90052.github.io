@@ -331,6 +331,7 @@ Facebook 粉絲團留言抽籤小助手
 		<tr align="center">
 			<td>序號</td>
 			<td>FB_ID</td>
+			<td>按讚</td>
 			<td width="230">名字</td>
 			<td class="force-break">留言內容</td>
 			<td width="165">留言時間</td>
@@ -342,11 +343,12 @@ Facebook 粉絲團留言抽籤小助手
 </table>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped main_table hide">
 	<thead>
 		<tr align="center">
 			<td>序號</td>
 			<td>FB_ID</td>
+			<td><button class="btn btn-primary" ng-click="getLikeInComments()">按讚</button></td>
 			<td width="230">名字</td>
 			<td class="force-break">留言內容</td>
 			<td width="165">留言時間</td>
@@ -356,6 +358,7 @@ Facebook 粉絲團留言抽籤小助手
 		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | filter:search)">
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
+			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
 			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
 			<td class="force-break">{{ comment.text }}</td>
 			<td>{{ comment.realtime }}</td>
@@ -366,6 +369,7 @@ Facebook 粉絲團留言抽籤小助手
 		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | filter:search)">
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
+			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
 			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
 			<td><a href="{{ comment.text }}" target="_blank">{{ comment.text }}</a></td>
 			<td>{{ comment.realtime }}</td>

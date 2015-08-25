@@ -203,12 +203,13 @@ myApp.controller('Tbody', function($scope,$filter){
       		console.log(response);
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
-   					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
+   					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
+   					localStorage.setItem("read_stream", true);
    				}else{
    					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
    				}
    			}else{
-   				if ($scope.gettype == "sharedposts" && response.authResponse.grantedScopes.indexOf('read_stream') < 0){
+   				if ($scope.gettype == "sharedposts" && localStorage.getItem("read_stream") != true){
    					bootbox.alert("抓分享功能需要先申請，詳細說明請見粉絲團");
    				}else{
    					$scope.getFBID($scope.gettype);	

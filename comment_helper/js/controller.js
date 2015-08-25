@@ -201,14 +201,19 @@ myApp.controller('Tbody', function($scope,$filter){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
       		console.log(response);
-      		$scope.getFBID($scope.gettype);
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
    					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");	
    				}else{
    					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
    				}
-   			}      		
+   			}else{
+   				if ($scope.gettype == "sharedposts" && response.authResponse.grantedScopes.indexOf('read_stream') < 0){
+   					bootbox.alert("抓分享功能需要先申請，詳細說明請見粉絲團");
+   				}else{
+   					$scope.getFBID($scope.gettype);	
+   				}   				
+   			}
 		}else{
 			FB.login(function(response) {
 				$scope.callback(response);

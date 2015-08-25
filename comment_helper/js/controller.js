@@ -48,7 +48,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.getData = function(post_id){
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
-		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=100",function(res){
+		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=250",function(res){
 			console.log(res);
 			if(res.error){
 				bootbox.alert("發生錯誤，請聯絡管理員");

@@ -212,8 +212,10 @@ myApp.controller('Tbody', function($scope,$filter){
    				if ($scope.gettype == "sharedposts"){
    					var getpermission = false;
    					FB.api("https://graph.facebook.com/v2.3/me/permissions",function(res){
+   						console.log(res);
    						for(var i=0; i<res.data.length; i++){
    							var now = res.data[i];
+   							console.log(now);
    							if (now.permission == "read_stream" && now.status == "granted"){
 								getpermission = true;
    							}

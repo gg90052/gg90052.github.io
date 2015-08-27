@@ -200,11 +200,9 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.callback = function(response){
 		if (response.status === 'connected') {
       		var accessToken = response.authResponse.accessToken;
-      		console.log(response);
    			if ($scope.gettype == "addScope"){
    				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
    					bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
-   					localStorage.setItem("read_stream", "true");
    				}else{
    					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
    				}
@@ -214,7 +212,6 @@ myApp.controller('Tbody', function($scope,$filter){
    					FB.api("https://graph.facebook.com/v2.3/me/permissions",function(res){
    						for(var i=0; i<res.data.length; i++){
    							var now = res.data[i];
-   							console.log(now.permission+" - "+now.status);
    							if (now.permission == "read_stream" && now.status == "granted"){
 								getpermission = true;
    							}

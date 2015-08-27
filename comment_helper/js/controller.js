@@ -209,8 +209,21 @@ myApp.controller('Tbody', function($scope,$filter){
    					bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
    				}
    			}else{
-   				if ($scope.gettype == "sharedposts" && localStorage.getItem("read_stream") != "true"){
-   					bootbox.alert("抓分享功能需要先申請，詳細說明請見粉絲團");
+   				if ($scope.gettype == "sharedposts"){
+   					var getpermission = false;
+   					FB.api("https://graph.facebook.com/v2.3/me/permissions",function(res){
+   						for(var i=0; i<res.data.length; i++){
+   							var now = res.data[i];
+   							if (now.permission == "read_stream" && now.status == "granted"){
+								getpermission = true;
+   							}
+   						}
+   					});
+   					if (getpermission){
+   						$scope.getFBID($scope.gettype);	
+   					}else{
+						bootbox.alert("抓分享功能需要先申請，詳細說明請見粉絲團");
+   					}
    				}else{
    					$scope.getFBID($scope.gettype);	
    				}   				
@@ -222,74 +235,6 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 	}
 
-	$scope.getShares = function(){
-		FB.api("https://graph.facebook.com/"+post_id+"/sharedposts",function(res){
-			  // console.log(res);
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
-
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].from.name;
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].from.id;
-				data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
-				if ($scope.data[i].message){
-					data[i].share_message = $scope.data[i].message;
-				}else{
-					data[i].share_message = $scope.data[i].story;
-				}
-			}
-
-			if (res.paging.next){
-				$scope.getSharesNext(res.paging.next);
-			}else{
-				if ($scope.id_array.length == 0){
-					bootbox.alert("done");
-					$scope.comments = data;
-					$scope.$apply();
-				}else{
-					$scope.getShares($scope.id_array.pop());
-				}
-			}
-		});
-	}
-	$scope.getSharesNext = function(url){
-			$.get(url,function(res){
-			for (var i=0; i<res.data.length; i++){
-				$scope.data.push(res.data[i]);
-			}
-
-			data = $scope.data;
-			for (var i=0; i<$scope.data.length; i++){
-				data[i].realname = $scope.data[i].from.name;
-				data[i].serial = i+1;
-				data[i].fromid = $scope.data[i].from.id;
-				data[i].manlink = "http://www.facebook.com/"+$scope.data[i].from.id;
-				data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
-				if ($scope.data[i].message){
-					data[i].share_message = $scope.data[i].message;
-				}else{
-					data[i].share_message = $scope.data[i].story;
-				}
-			}
-
-			$scope.comments = data;
-			$scope.$apply();
-	
-			if (res.paging.next){
-				$scope.getSharesNext(res.paging.next);
-			}else{
-				if ($scope.id_array.length == 0){
-					bootbox.alert("done");
-				}else{
-					$scope.getShares($scope.id_array.pop());
-				}
-			}
-		});	
-	}
 
 	$scope.fbid_check = function(){
 		var fbid_array = new Array();

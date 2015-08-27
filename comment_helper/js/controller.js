@@ -212,20 +212,19 @@ myApp.controller('Tbody', function($scope,$filter){
    				if ($scope.gettype == "sharedposts"){
    					var getpermission = false;
    					FB.api("https://graph.facebook.com/v2.3/me/permissions",function(res){
-   						console.log(res);
    						for(var i=0; i<res.data.length; i++){
    							var now = res.data[i];
-   							console.log(now);
+   							console.log(now.permission+" - "+now.status);
    							if (now.permission == "read_stream" && now.status == "granted"){
 								getpermission = true;
    							}
    						}
+   						if (getpermission){
+   							$scope.getFBID($scope.gettype);	
+   						}else{
+   							bootbox.alert("抓分享功能需要先申請，詳細說明請見粉絲團");
+   						}
    					});
-   					if (getpermission){
-   						$scope.getFBID($scope.gettype);	
-   					}else{
-						bootbox.alert("抓分享功能需要先申請，詳細說明請見粉絲團");
-   					}
    				}else{
    					$scope.getFBID($scope.gettype);	
    				}   				

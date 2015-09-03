@@ -34,8 +34,11 @@ myApp.controller('Tbody', function($scope,$filter){
 		console.log($scope.id_array);
 
 		if ($scope.gettype == "url_comments"){
+			console.log($scope.gettype);
 			var t = setInterval(function(){
 				if ($scope.gettype  == "comments"){
+					console.log($scope.gettype);
+					console.log($scope.id_array);
 					clearInterval(t);
 					$scope.waitingFBID("comments");
 				}
@@ -252,6 +255,8 @@ myApp.controller('Tbody', function($scope,$filter){
 			var posturl = $($("#enterURL .url")[0]).val();
 			FB.api("https://graph.facebook.com/v2.3/"+posturl+"/",function(res){
 				fbid_array.push(res.og_object.id);
+				console.log(res);
+				console.log(res.og_object.id);
 				$scope.urlid = fbid_array.toString();
 				$scope.gettype = "comments";
 				return fbid_array;

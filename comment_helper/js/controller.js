@@ -243,7 +243,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				$scope.urlid = fbid_array.toString();
 				$scope.gettype = "comments";
 				return fbid_array;
-			}
+			});
 		}else{
 			for(var i=0; i<$("#enterURL .url").length; i++){
 				var posturl = $($("#enterURL .url")[i]).val();

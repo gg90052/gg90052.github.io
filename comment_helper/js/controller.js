@@ -33,6 +33,18 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.id_array = $scope.fbid_check();
 		console.log($scope.id_array);
 
+		if ($scope.gettype == "url_comments"){
+			var t = setInterval(function(){
+				if ($scope.gettype  == "comments"){
+					clearInterval(t);
+					$scope.waitingFBID("comments");
+				}
+			},100);
+		}else{
+			$scope.waitingFBID(type);
+		}
+	}
+	$scope.waitingFBID = function(type){
 		$(".share_post").addClass("hide");
 		$(".like_comment").removeClass("hide");
 		if (type == "sharedposts"){

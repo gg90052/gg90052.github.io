@@ -306,7 +306,7 @@ Facebook 粉絲團留言抽籤小助手
 			請輸入 Facebook 文章網址：<br><input type="text" class="url" /><br><br>
 			<button id="btn1" type="button" class="btn btn-danger" ng-click="getAuth('comments')">抓留言</button> 
 			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('likes')">抓按讚</button>
-			<button id="btn4" type="button" class="btn"><img src="excel.png">輸出EXCEL</button>
+			<button id="btn7" type="button" class="btn btn-info" ng-click="getAuth('url_comments')">URL留言</button>
 			<button id="btn6" type="button" class="btn btn-warning" ng-click="getAuth('sharedposts')">抓分享</button>
 			<button class="btn btn-info btn_plus">增加連結</button>
 			<input type="checkbox" id="unique" ng-model="unique_name" ng-true-value="fromid" ng-false-value="id"> 排除重複留言
@@ -314,7 +314,7 @@ Facebook 粉絲團留言抽籤小助手
 		</div>
 	</div>
 	<div class="right">
-		要抽幾個人：<br><input type="number" id="howmany" /> &nbsp;<button type="button" class="btn btn-danger" ng-click="choose()">抽獎</button><br>
+		要抽幾個人：<br><input type="number" id="howmany" /> &nbsp;<button type="button" class="btn btn-danger" ng-click="choose()">抽獎</button><button id="btn4" type="button" class="btn"><img src="excel.png">輸出EXCEL</button><br>
 		搜尋：<br><input type="text" ng-model="search.realname" placeholder="搜尋姓名" />
 		<input type="text" ng-model="search.text" placeholder="搜尋留言" id="searchComment" />
 		<br />

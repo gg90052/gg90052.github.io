@@ -236,90 +236,101 @@ myApp.controller('Tbody', function($scope,$filter){
 
 	$scope.fbid_check = function(){
 		var fbid_array = new Array();
-		for(var i=0; i<$("#enterURL .url").length; i++){
-			var posturl = $($("#enterURL .url")[i]).val();
-			var start,end;
-			var fbid;
+		if ($scope.gettype == "url_comments"){
+			var posturl = $($("#enterURL .url")[0]).val();
+			FB.api("https://graph.facebook.com/v2.3/"+posturl+"/",function(res){
+				fbid_array.push(res.og_object.id);
+				$scope.urlid = fbid_array.toString();
+				$scope.gettype = "comments";
+				return fbid_array;
+			}
+		}else{
+			for(var i=0; i<$("#enterURL .url").length; i++){
+				var posturl = $($("#enterURL .url")[i]).val();
+				var start,end;
+				var fbid;
 
-			var checkType2 = posturl.indexOf('posts');
-			if (checkType2 > 0){
-				// type2
-				start = checkType2+6;
-				end = posturl.indexOf('?',start);
-				if (end < 0){
-					end = posturl.length;
-				}
-				fbid = posturl.substring(start,end);
-			}else{
-				var checkType1 = posturl.indexOf('/?type');
-				if (checkType1 > 0){
-					// type1
-					end = posturl.indexOf('/?type');
-					start = posturl.lastIndexOf('/',end-1)+1;
+				var checkType2 = posturl.indexOf('posts');
+				if (checkType2 > 0){
+					// type2
+					start = checkType2+6;
+					end = posturl.indexOf('?',start);
+					if (end < 0){
+						end = posturl.length;
+					}
 					fbid = posturl.substring(start,end);
 				}else{
-					var checkType4 = posturl.indexOf('story_fbid');
-					if (checkType4 > 0){
-						start = checkType4+11;
-						end = posturl.indexOf('&',start);
+					var checkType1 = posturl.indexOf('/?type');
+					if (checkType1 > 0){
+						// type1
+						end = posturl.indexOf('/?type');
+						start = posturl.lastIndexOf('/',end-1)+1;
 						fbid = posturl.substring(start,end);
 					}else{
-						var checkType5 = posturl.indexOf('v=');
-						if (checkType5 > 0){
-							start = checkType5+2;
-							end = posturl.indexOf("&",start);
+						var checkType4 = posturl.indexOf('story_fbid');
+						if (checkType4 > 0){
+							start = checkType4+11;
+							end = posturl.indexOf('&',start);
 							fbid = posturl.substring(start,end);
 						}else{
-							var checkType6 = posturl.indexOf("fbid=");
-							if (checkType6 > 0){
-								start = checkType6+5;
+							var checkType5 = posturl.indexOf('v=');
+							if (checkType5 > 0){
+								start = checkType5+2;
 								end = posturl.indexOf("&",start);
 								fbid = posturl.substring(start,end);
 							}else{
-								var checkType7 = posturl.indexOf("permalink/");
-								if (checkType7 > 0){
-									start = checkType7+10;
-									end = posturl.indexOf("/",start);
+								var checkType6 = posturl.indexOf("fbid=");
+								if (checkType6 > 0){
+									start = checkType6+5;
+									end = posturl.indexOf("&",start);
 									fbid = posturl.substring(start,end);
 								}else{
-									var checkType8 = posturl.indexOf("/videos/");
-									if (checkType8 > 0){
-										start = checkType8+8;
+									var checkType7 = posturl.indexOf("permalink/");
+									if (checkType7 > 0){
+										start = checkType7+10;
 										end = posturl.indexOf("/",start);
 										fbid = posturl.substring(start,end);
 									}else{
-										var checkType9 = posturl.indexOf("/events/");
-										if (checkType9 > 0){
-											$scope.gettype = "feed";
-											start = checkType9+8;
+										var checkType8 = posturl.indexOf("/videos/");
+										if (checkType8 > 0){
+											start = checkType8+8;
 											end = posturl.indexOf("/",start);
 											fbid = posturl.substring(start,end);
 										}else{
-											// type3
-											fbid = posturl;
-										}
-									}	
+											var checkType9 = posturl.indexOf("/events/");
+											if (checkType9 > 0){
+												$scope.gettype = "feed";
+												start = checkType9+8;
+												end = posturl.indexOf("/",start);
+												fbid = posturl.substring(start,end);
+											}else{
+												// type3
+												fbid = posturl;
+											}
+										}	
+									}
 								}
 							}
 						}
 					}
 				}
+				if (fbid != ""){
+					fbid_array.push(fbid);
+				}
 			}
-			if (fbid != ""){
-				fbid_array.push(fbid);
-			}
+
+			// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
+			// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
+			// type3 直接輸入FBID 10152652767797069
+			// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
+			// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
+			// type6 網址內有fbid https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
+			// type7 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
+			// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
+			// type9 活動 https://www.facebook.com/events/488170154666462/
+			$scope.urlid = fbid_array.toString();
+			return fbid_array;
 		}
-		// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
-		// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
-		// type3 直接輸入FBID 10152652767797069
-		// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
-		// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
-		// type6 網址內有fbid https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater
-		// type7 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
-		// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
-		// type9 活動 https://www.facebook.com/events/488170154666462/
-		$scope.urlid = fbid_array.toString();
-		return fbid_array;
 	}
 
 	$scope.choose = function(){

@@ -252,10 +252,9 @@ myApp.controller('Tbody', function($scope,$filter){
 			var posturl = $($("#enterURL .url")[0]).val();
 			FB.api("https://graph.facebook.com/v2.3/"+posturl+"/",function(res){
 				fbid_array.push(res.og_object.id);
-				console.log("fbid = "+fbid_array);
 				$scope.urlid = fbid_array.toString();
 				$scope.gettype = "comments";
-				return fbid_array;
+				$scope.id_array = fbid_array;
 			});
 		}else{
 			for(var i=0; i<$("#enterURL .url").length; i++){

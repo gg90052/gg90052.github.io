@@ -167,10 +167,10 @@ myApp.controller('Tbody', function($scope,$filter){
 				if ($scope.vip == "1"){
 					clearInterval(t);
 					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":userid},function(res){
-						if (res == "false"){
-							$("table").remove();
-							bootbox.alert("社團文章需要付費才能抓喔!!");
-						}
+						// if (res == "false"){
+						// 	$("table").remove();
+						// 	bootbox.alert("社團文章需要付費才能抓喔!!");
+						// }
 					});
 				}else if ($scope.vip == "0"){
 					clearInterval(t);

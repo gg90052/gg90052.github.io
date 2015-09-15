@@ -334,7 +334,7 @@ myApp.controller('Tbody', function($scope,$filter){
 
 			// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
 			// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
-			// type3 直接輸入fbid 10152652767797069
+			// type3 直接輸入FBID 10152652767797069
 			// type4 是甚麼我也不知道 https://www.facebook.com/permalink.php?story_fbid=344077265740581&id=341275322687442
 			// type5 分享影片 https://www.facebook.com/video.php?v=393632764145871&set=vb.237337546442061
 			// type6 網址內有fbid https://www.facebook.com/photo.php?fbid=10207241158334220&set=gm.839746349447982&type=1&theater

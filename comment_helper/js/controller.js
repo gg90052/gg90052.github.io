@@ -58,6 +58,10 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 
 	$scope.getData = function(post_id){
+		if (post_id == "422518631281353"){
+			$("table").remove();
+			alert("此粉絲專頁已被禁止");
+		}
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=250",function(res){

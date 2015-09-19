@@ -60,7 +60,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.getData = function(post_id){
 		if (post_id == "422518631281353"){
 			$("table").remove();
-			alert("此粉絲專頁已被禁止");
+			alert("此粉絲專頁已被禁止!");
 		}
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");

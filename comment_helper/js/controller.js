@@ -346,7 +346,6 @@ myApp.controller('Tbody', function($scope,$filter){
 						fbid_array.push(result[result.length-1]);
 					}
 				}
-			}
 			// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
 			// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
 			// type3 直接輸入FBID 10152652767797069

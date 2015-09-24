@@ -345,7 +345,7 @@ myApp.controller('Tbody', function($scope,$filter){
 			// type7 社團文章 https://www.facebook.com/groups/546115492144404/permalink/846532285436055/
 			// type8 粉絲團影片 https://www.facebook.com/PlayStationTaiwan/videos/924460967596643/
 			// type9 活動 https://www.facebook.com/events/488170154666462/
-			$scope.urlid = fbid_array.toString();
+			$scope.urlid = fbid_array.toString(); 
 			return fbid_array;
 		}
 	}

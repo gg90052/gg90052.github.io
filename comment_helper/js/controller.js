@@ -340,7 +340,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				for(var i=0; i<$("#enterURL .url").length; i++){
 					var posturl = $($("#enterURL .url")[i]).val();
 					var result = posturl.match(regex);
-					if (result.length == 1){
+					if (result.length == 1 || result.length == 3){
 						fbid_array.push(result[0]);
 					}else{
 						fbid_array.push(result[result.length-1]);

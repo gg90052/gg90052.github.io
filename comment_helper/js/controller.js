@@ -262,7 +262,6 @@ myApp.controller('Tbody', function($scope,$filter){
 				$scope.id_array = fbid_array;
 			});
 		}else{
-			/*
 			for(var i=0; i<$("#enterURL .url").length; i++){
 				var posturl = $($("#enterURL .url")[i]).val();
 				var start,end;
@@ -335,18 +334,8 @@ myApp.controller('Tbody', function($scope,$filter){
 				if (fbid != ""){
 					fbid_array.push(fbid);
 				}
-				*/
-				var regex = /\d{5,}/g;
-				for(var i=0; i<$("#enterURL .url").length; i++){
-					var posturl = $($("#enterURL .url")[i]).val();
-					var result = posturl.match(regex);
-					if (result.length == 1){
-						fbid_array.push(result[0]);
-					}else{
-						fbid_array.push(result[result.length-1]);
-					}
-				}
 			}
+
 			// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1
 			// type2 分享文字、連結  https://www.facebook.com/stormmedia/posts/318807414967642 
 			// type3 直接輸入FBID 10152652767797069

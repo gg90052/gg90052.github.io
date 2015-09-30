@@ -339,11 +339,19 @@ myApp.controller('Tbody', function($scope,$filter){
 				var regex = /\d{5,}/g;
 				for(var i=0; i<$("#enterURL .url").length; i++){
 					var posturl = $($("#enterURL .url")[i]).val();
-					var result = posturl.match(regex);
-					if (result.length == 1 || result.length == 3){
-						fbid_array.push(result[0]);
+					var checkType = posturl.indexOf("fbid=");
+					if (checkType > 0){
+						var start = checkType+5;
+						var end = posturl.indexOf("&",start);
+						var fbid = posturl.substring(start,end);
+						fbid_array.push(fbid);
 					}else{
-						fbid_array.push(result[result.length-1]);
+						var result = posturl.match(regex);
+						if (result.length == 1 || result.length == 3){
+							fbid_array.push(result[0]);
+						}else{
+							fbid_array.push(result[result.length-1]);
+						}
 					}
 				}
 			// type1 分享照片  https://www.facebook.com/appledaily.tw/photos/a.364361237068.207658.232633627068/10152652767797069/?type=1

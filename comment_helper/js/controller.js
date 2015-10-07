@@ -88,6 +88,7 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].fromid = $scope.data[i].from.id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
+						data[i].postid = $scope.data[i].id;
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
@@ -134,6 +135,7 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].fromid = $scope.data[i].from.id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
+						data[i].postid = $scope.data[i].id;
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;

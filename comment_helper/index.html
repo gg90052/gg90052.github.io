@@ -360,7 +360,7 @@ Facebook 粉絲團留言抽籤小助手
 			<td>{{ comment.fromid }}</td>
 			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
 			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
-			<td class="force-break">{{ comment.text }}</td>
+			<td class="force-break"><a href="{{ comment.postid }}" target="_blank">{{ comment.text }}</a></td>
 			<td>{{ comment.realtime }}</td>
 		</tr>
 	</tbody>

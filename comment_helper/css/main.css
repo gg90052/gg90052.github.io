@@ -133,6 +133,9 @@
   .force-break{
     word-break:break-all;
   }
+  .force-break a{
+    color: #D68927 !important;
+  }
 
 /* loading */
 .loading{

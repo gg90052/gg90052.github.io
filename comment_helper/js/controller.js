@@ -264,7 +264,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				$scope.id_array = fbid_array;
 			});
 		}else{
-			var regex = /\d{5,}/g;
+			var regex = /\d{4,}/g;
 			for(var i=0; i<$("#enterURL .url").length; i++){
 				var posturl = $($("#enterURL .url")[i]).val();
 				var checkType = posturl.indexOf("fbid=");

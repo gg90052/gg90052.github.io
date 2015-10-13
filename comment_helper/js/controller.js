@@ -168,6 +168,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		FB.api("https://graph.facebook.com/v2.3/me",function(res){
 			var userid = res.id;
 			var username = res.name;
+			/*
 			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":userid,"username":username});
 			var t = setInterval(function(){
 				if ($scope.vip == "1"){
@@ -182,6 +183,7 @@ myApp.controller('Tbody', function($scope,$filter){
 					clearInterval(t);
 				}
 			},200)
+			*/
 		});
 		
 		$(".loading").addClass("hide");
@@ -268,19 +270,26 @@ myApp.controller('Tbody', function($scope,$filter){
 			for(var i=0; i<$("#enterURL .url").length; i++){
 				var posturl = $($("#enterURL .url")[i]).val();
 				var checkType = posturl.indexOf("fbid=");
+				var checkType2 = posturl.indexOf("events");
+				var result = posturl.match(regex);
+
 				if (checkType > 0){
 					var start = checkType+5;
 					var end = posturl.indexOf("&",start);
 					var fbid = posturl.substring(start,end);
 					fbid_array.push(fbid);
+				}else if (checkType2 > 0 && result.length == 1){
+					fbid_array.push(result[0]);
+					$scope.gettype = "feed";
 				}else{
-					var result = posturl.match(regex);
 					if (result.length == 1 || result.length == 3){
 						fbid_array.push(result[0]);
 					}else{
 						fbid_array.push(result[result.length-1]);
 					}
 				}
+
+
 			}
 			$scope.urlid = fbid_array.toString(); 
 			return fbid_array;

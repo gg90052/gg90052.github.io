@@ -326,7 +326,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 
 		for (var j=0; j<num; j++){
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='http://www.facebook.com/{{ comment.postid }}' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 			if (award[j].liked == "true"){
 				$("<td><i class='glyphicon glyphicon-thumbs-up'></i></td>").insertAfter(".fromid"+j);	
 			}else{

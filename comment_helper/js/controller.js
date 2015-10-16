@@ -45,6 +45,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.comments = new Array();
 		$scope.data = new Array();
 		$scope.id_array = $scope.fbid_check();
+		console.log($scope.id_array);
 
 		if ($scope.gettype == "url_comments"){
 			var t = setInterval(function(){
@@ -78,7 +79,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=250",function(res){
-			// console.log(res);
+			console.log(res);
 			if(res.error){
 				bootbox.alert("發生錯誤，請聯絡管理員");
 				$(".loading").addClass("hide");
@@ -308,8 +309,7 @@ myApp.controller('Tbody', function($scope,$filter){
 
 
 			}
-			$scope.urlid = fbid_array.toString();
-			console.log(fbid_array);
+			$scope.urlid = fbid_array.toString(); 
 			return fbid_array;
 		}
 	}

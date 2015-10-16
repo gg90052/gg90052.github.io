@@ -14,6 +14,20 @@ myApp.filter('unique', function() {
 	};
 });
 
+myApp.filter('has', function() {
+	return function(collection, keyname) {
+		var output = [], 
+		keys = [];
+		angular.forEach(collection, function(item) {
+			var key = item[keyname];
+			if (key){
+				output.push(item);
+			}
+		});
+		return output;
+	};
+});
+
 myApp.controller('Tbody', function($scope,$filter){
 	$scope.comments = [];
 	$scope.data = [];
@@ -73,7 +87,6 @@ myApp.controller('Tbody', function($scope,$filter){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 				$(".loading").addClass("hide");
 			}else{
-				$scope.checkvip(post_id);
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
@@ -88,6 +101,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
 						data[i].postid = $scope.data[i].id;
+						if ($scope.data[i].message_tags == true){
+							data[i].hastag = true;
+						}
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
@@ -135,6 +151,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
 						data[i].postid = $scope.data[i].id;
+						if ($scope.data[i].message_tags == true){
+							data[i].hastag = true;
+						}
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;

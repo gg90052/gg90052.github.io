@@ -16,11 +16,10 @@ myApp.filter('unique', function() {
 
 myApp.filter('has', function() {
 	return function(collection, keyname) {
-		var output = [], 
-		keys = [];
+		var output = []; 
 		angular.forEach(collection, function(item) {
-			var key = item[keyname];
-			if (key){
+			var target_length = item["message_tags"].length;
+			if (target_length >= keyname){
 				output.push(item);
 			}
 		});
@@ -36,6 +35,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.vip = "-1";
 	$scope.isGroup = false;
 	$scope.unique_name = "fromid";
+	$scope.tag_name = "0";
 	$scope.userid,$scope.urlid;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
@@ -101,8 +101,8 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
 						data[i].postid = $scope.data[i].id;
-						if ($scope.data[i].message_tags == true){
-							data[i].hastag = true;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
 						}
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
@@ -203,7 +203,6 @@ myApp.controller('Tbody', function($scope,$filter){
 			},200)
 			*/
 		});
-		
 		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
@@ -320,7 +319,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		award = new Array();
 		var num = $("#howmany").val();
 		var filter = $("#searchComment").val();
-		
+		// console.log($scope.filteredData);
 		var temp = genRandomArray($scope.filteredData.length).splice(0,num);
 		for (var i=0; i<num; i++){
 			award.push($scope.filteredData[temp[i]]);

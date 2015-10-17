@@ -14,6 +14,19 @@ myApp.filter('unique', function() {
 	};
 });
 
+myApp.filter('has', function() {
+	return function(collection, keyname) {
+		var output = []; 
+		angular.forEach(collection, function(item) {
+			var target_length = item["message_tags"].length;
+			if (target_length >= keyname){
+				output.push(item);
+			}
+		});
+		return output;
+	};
+});
+
 myApp.controller('Tbody', function($scope,$filter){
 	$scope.comments = [];
 	$scope.data = [];
@@ -22,6 +35,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.vip = "-1";
 	$scope.isGroup = false;
 	$scope.unique_name = "fromid";
+	$scope.tag_name = "0";
 	$scope.userid,$scope.urlid;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
@@ -63,7 +77,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
-		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=250",function(res){
+		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
 			// console.log(res);
 			if(res.error){
 				bootbox.alert("發生錯誤，請聯絡管理員");
@@ -73,7 +87,6 @@ myApp.controller('Tbody', function($scope,$filter){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
 				$(".loading").addClass("hide");
 			}else{
-				$scope.checkvip(post_id);
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
@@ -88,6 +101,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
 						data[i].postid = $scope.data[i].id;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
+						}
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
@@ -135,6 +151,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = $scope.data[i].message;
 						data[i].postid = $scope.data[i].id;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
+						}
 					}else if (api_command == "likes"){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
@@ -184,7 +203,6 @@ myApp.controller('Tbody', function($scope,$filter){
 			},200)
 			*/
 		});
-		
 		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){
@@ -301,14 +319,14 @@ myApp.controller('Tbody', function($scope,$filter){
 		award = new Array();
 		var num = $("#howmany").val();
 		var filter = $("#searchComment").val();
-		
+		// console.log($scope.filteredData);
 		var temp = genRandomArray($scope.filteredData.length).splice(0,num);
 		for (var i=0; i<num; i++){
 			award.push($scope.filteredData[temp[i]]);
 		}
 
 		for (var j=0; j<num; j++){
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='http://www.facebook.com/"+award[j].postid+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 			if (award[j].liked == "true"){
 				$("<td><i class='glyphicon glyphicon-thumbs-up'></i></td>").insertAfter(".fromid"+j);	
 			}else{

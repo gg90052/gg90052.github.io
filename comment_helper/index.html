@@ -61,6 +61,9 @@ window.fbAsyncInit = function() {
     version    : 'v2.1' // use version 2.1
   });
 }
+// 1494465264176752 pro
+// 1390069707889707 dev
+
 
 (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -83,42 +86,7 @@ $(document).ready(function(){
 	$("#btn4").click(function(){
 		JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
 	});
-	$("#alltitle").click(function(){
-		$(".sharepage").fadeIn();
-		$("#sendshare").click(function(){
-			var fanpage = $("#fanurl").val();
-			if (fanpage){
-				FB.getLoginStatus(function(response) {
-					if (response.status === 'connected') {
-						logined();
-					}else{
-						FB.login(function(response) {
-							logined();
-						});
-					}
-				});
-			}else{
-				bootbox.alert("請輸入您所管理的粉絲團網址");
-			}
-		});
-	});
-	$(".close").click(function(){
-		$(".sharepage").fadeOut();
-	})
 });
-
-function logined(){
-	FB.api("https://graph.facebook.com/v2.3/me",function(res){
-		var userid = res.id;
-		var username = res.name;
-		var fanpage = $("#fanurl").val();
-		$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/applyshare",{"fbid":userid,"fanpage":fanpage,"username":username},function(){
-			bootbox.alert("已送出，請記得到小助手粉絲團留言喔~");
-			$(".sharepage").fadeOut();
-		});
-
-	});
-}
 
 function timeConverter(UNIX_timestamp){
 	 var a = new Date(UNIX_timestamp);
@@ -309,7 +277,10 @@ Facebook 粉絲團留言抽籤小助手
 			<button id="btn7" type="button" class="btn btn-success" ng-click="getAuth('url_comments')">URL留言</button>
 			<button id="btn6" type="button" class="btn btn-warning" ng-click="getAuth('sharedposts')">抓分享</button>
 			<button class="btn btn-info btn_plus">增加連結</button>
-			<input type="checkbox" id="unique" ng-model="unique_name" ng-true-value="fromid" ng-false-value="id"> 排除重複留言
+			<div style="display:inline-block; vertical-align: middle; text-align: left; padding-left:15px;">
+				<input type="checkbox" id="unique" ng-model="unique_name" ng-true-value="fromid" ng-false-value="id"> 排除重複留言 <br />
+				<input type="checkbox" id="tag" ng-model="tag_name" ng-true-value="1" ng-false-value="0"> 只顯示有TAG人的留言
+			</div>
 			<br /><br>
 		</div>
 	</div>
@@ -355,7 +326,7 @@ Facebook 粉絲團留言抽籤小助手
 		</tr>
 	</thead>
 	<tbody class="like_comment">
-		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | filter:search)">
+		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | has:tag_name | filter:search)">
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
 			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
@@ -366,7 +337,7 @@ Facebook 粉絲團留言抽籤小助手
 	</tbody>
 
 	<tbody class="share_post hide">
-		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | filter:search)">
+		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | has:tag_name | filter:search)">
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
 			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>

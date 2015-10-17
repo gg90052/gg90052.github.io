@@ -77,7 +77,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
-		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=250",function(res){
+		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
 			// console.log(res);
 			if(res.error){
 				bootbox.alert("發生錯誤，請聯絡管理員");
@@ -114,6 +114,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].fromid = $scope.data[i].from.id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = "http://www.facebook.com/"+$scope.data[i].id;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
+						}
 					}
 				}
 
@@ -164,6 +167,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].fromid = $scope.data[i].from.id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
 						data[i].text = "http://www.facebook.com/"+$scope.data[i].id;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
+						}
 					}
 				}
 

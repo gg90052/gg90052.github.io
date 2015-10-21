@@ -108,6 +108,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
+						}
 					}else if (api_command == "sharedposts"){
 						data[i].realname = $scope.data[i].from.name;
 						data[i].realtime = timeConverter($scope.data[i].created_time);
@@ -161,6 +164,9 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].realname = $scope.data[i].name;
 						data[i].fromid = $scope.data[i].id;
 						data[i].link = "http://www.facebook.com/"+$scope.data[i].id;
+						if (!$scope.data[i].message_tags){
+							data[i].message_tags = [];
+						}
 					}else if (api_command == "sharedposts"){
 						data[i].realname = $scope.data[i].from.name;
 						data[i].realtime = timeConverter($scope.data[i].created_time);

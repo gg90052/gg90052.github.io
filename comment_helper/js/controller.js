@@ -71,10 +71,6 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 
 	$scope.getData = function(post_id){
-		if (post_id == "422518631281353"){
-			$("table").remove();
-			alert("此粉絲專頁已被禁止!");
-		}
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
@@ -300,25 +296,28 @@ myApp.controller('Tbody', function($scope,$filter){
 				var posturl = $($("#enterURL .url")[i]).val();
 				var checkType = posturl.indexOf("fbid=");
 				var checkType2 = posturl.indexOf("events");
+				var check_personal = posturl.indexOf("+");
 				var result = posturl.match(regex);
 
-				if (checkType > 0){
-					var start = checkType+5;
-					var end = posturl.indexOf("&",start);
-					var fbid = posturl.substring(start,end);
-					fbid_array.push(fbid);
-				}else if (checkType2 > 0 && result.length == 1){
-					fbid_array.push(result[0]);
-					$scope.gettype = "feed";
+				if (check_personal > 0){
+					fbid_array.push(posturl.replace("+","_"));
 				}else{
-					if (result.length == 1 || result.length == 3){
+					if (checkType > 0){
+						var start = checkType+5;
+						var end = posturl.indexOf("&",start);
+						var fbid = posturl.substring(start,end);
+						fbid_array.push(fbid);
+					}else if (checkType2 > 0 && result.length == 1){
 						fbid_array.push(result[0]);
+						$scope.gettype = "feed";
 					}else{
-						fbid_array.push(result[result.length-1]);
+						if (result.length == 1 || result.length == 3){
+							fbid_array.push(result[0]);
+						}else{
+							fbid_array.push(result[result.length-1]);
+						}
 					}
 				}
-
-
 			}
 			$scope.urlid = fbid_array.toString();
 			console.log(fbid_array);

@@ -31,12 +31,12 @@
     display:none;
   }
   .uiPanel{
-    width: 1000px;
+    width: 1100px;
     margin: 10 auto;
   }
   .uiPanel .left{
     float: left;
-    padding-right: 60px;
+    padding-right: 25px;
     margin-left: 22%;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -47,7 +47,8 @@
     margin-left: 0;
   }
   .uiPanel .right{
-    float: right;
+    float: left;
+    padding-left: 25px;
     width: 0;
     height: 0;
     overflow: hidden;

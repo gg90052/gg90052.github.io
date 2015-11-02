@@ -192,7 +192,6 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
-		console.log($scope.comments);
 		FB.api("https://graph.facebook.com/v2.3/me",function(res){
 			var userid = res.id;
 			var username = res.name;

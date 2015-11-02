@@ -127,7 +127,6 @@ myApp.controller('Tbody', function($scope,$filter){
 				}else{
 					if ($scope.id_array.length == 0){						
 						$scope.finished();
-						console.log($scope.comments);
 					}else{
 						$scope.getData($scope.id_array.pop(),api_command);
 					}
@@ -193,6 +192,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
+		console.log($scope.comments);
 		FB.api("https://graph.facebook.com/v2.3/me",function(res){
 			var userid = res.id;
 			var username = res.name;

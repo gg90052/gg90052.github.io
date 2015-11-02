@@ -136,6 +136,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 	$scope.getDataNext = function(url, api_command){
 		$.get(url,function(res){
+			console.log(res);
 			if (res.data.length == 0){
 				$scope.finished();
 			}else{

@@ -326,7 +326,7 @@ Facebook 粉絲團留言抽籤小助手
 		</tr>
 	</thead>
 	<tbody class="like_comment">
-		<tr align="center" ng-repeat="comment in comments">
+		<tr align="center" ng-repeat="comment in comments = (comments | unique:unique_name | has:tag_name | filter:search)">
 			<td>{{ $index+1 }}</td>
 			<td>{{ comment.fromid }}</td>
 			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>

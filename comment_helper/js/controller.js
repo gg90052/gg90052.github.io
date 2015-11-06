@@ -142,6 +142,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.getDataNext = function(url, api_command){
 		$.get(url,function(res){
 			if (res.data.length == 0){
+				$(".console").prepend('<p>截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候</p>');
 				$scope.comments = data;
 				$scope.$apply();
 				$scope.finished();
@@ -189,7 +190,7 @@ myApp.controller('Tbody', function($scope,$filter){
 					$scope.getDataNext(res.paging.next,api_command);
 				}else{
 					if ($scope.id_array.length == 0){
-						console.log(data);
+						$(".console").prepend('<p>截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候</p>');
 						$scope.comments = data;
 						$scope.$apply();
 						$scope.finished();
@@ -207,26 +208,6 @@ myApp.controller('Tbody', function($scope,$filter){
 		});	
 	}
 	$scope.finished = function(){
-		FB.api("https://graph.facebook.com/v2.3/me",function(res){
-			var userid = res.id;
-			var username = res.name;
-			/*
-			$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/getID",{"fbid":$scope.urlid,"userid":userid,"username":username});
-			var t = setInterval(function(){
-				if ($scope.vip == "1"){
-					clearInterval(t);
-					$.post("http://teddy.acsite.org/comment_helper_test/index2.php/main/checkvip",{"fbid":userid},function(res){
-						// if (res == "false"){
-						// 	$("table").remove();
-						// 	bootbox.alert("社團文章需要付費才能抓喔!!");
-						// }
-					});
-				}else if ($scope.vip == "0"){
-					clearInterval(t);
-				}
-			},200)
-			*/
-		});
 		$(".loading").addClass("hide");
 		$(".uiPanel .left").addClass("move");
 		$(".uiPanel .left").one('webkitTransitionEnd oTransitionEnd transitionend', function(){

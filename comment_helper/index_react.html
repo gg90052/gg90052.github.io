@@ -32,6 +32,10 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootbox.min.js"></script>
 <script src="js/controller.js"></script>
+
+<script type="text/javascript" src="js/react.min.js"></script>
+<script type="text/javascript" src="js/JSXTransformer.js"></script>
+
 <script src="//j.wovn.io/0" data-wovnio="key=rsMFb"></script>
 
 <script>
@@ -54,7 +58,7 @@ var nameArray = new Array();
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '1494465264176752',
+    appId      : '1390069707889707',
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -277,10 +281,10 @@ Facebook 粉絲團留言抽籤小助手
 			<button id="btn7" type="button" class="btn btn-success" ng-click="getAuth('url_comments')">URL留言</button>
 			<button id="btn6" type="button" class="btn btn-warning" ng-click="getAuth('sharedposts')">抓分享</button>
 			<button class="btn btn-info btn_plus">增加連結</button>
-			<div style="display:inline-block; vertical-align: middle; text-align: left; padding-left:15px;">
+			<!-- <div style="display:inline-block; vertical-align: middle; text-align: left; padding-left:15px;">
 				<input type="checkbox" id="unique" ng-model="unique_name" ng-true-value="fromid" ng-false-value="id"> 排除重複留言 <br />
 				<input type="checkbox" id="tag" ng-model="tag_name" ng-true-value="1" ng-false-value="0"> 只顯示有TAG人的留言
-			</div>
+			</div> -->
 			<br /><br>
 		</div>
 	</div>
@@ -383,8 +387,13 @@ Facebook 粉絲團留言抽籤小助手
 		<div class="sk-cube4 sk-cube"></div>
 		<div class="sk-cube3 sk-cube"></div>
 	</div>
-	<div class="console"></div>
 </div>
 
+<script type="text/jsx">
+var dataArray = [];
+
+var DataTable = React.createClass({
+});
+</script>
 </body>
 </html>

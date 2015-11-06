@@ -36,6 +36,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.isGroup = false;
 	$scope.unique_name = "fromid";
 	$scope.tag_name = "0";
+	$scope.length_now = 0;
 	$scope.userid,$scope.urlid;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
@@ -44,6 +45,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.gettype = type;
 		$scope.comments = new Array();
 		$scope.data = new Array();
+		$scope.length_now = 0;
 		$scope.id_array = $scope.fbid_check();
 
 		if ($scope.gettype == "url_comments"){
@@ -73,11 +75,14 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.getData = function(post_id){
 		var api_command = $scope.gettype;
 		$(".loading").removeClass("hide");
-		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=100",function(res){
+		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
 			// console.log(res);
 			if(res.error){
-				bootbox.alert("發生錯誤，請聯絡管理員");
-				$(".loading").addClass("hide");
+				$(".console").prepend('<p>發生錯誤，5秒後自動重試，請稍待</p>');
+				setTimeout(function(){
+					$(".console").prepend('<p>重新截取資料</p>');
+					$scope.getData(post_id);
+				},5000);
 			}
 			if (res.data.length == 0){
 				bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
@@ -86,9 +91,9 @@ myApp.controller('Tbody', function($scope,$filter){
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
-
+				$(".console").prepend('<p>已截取  '+ res.data.length +' 筆資料...</p>');
 				data = $scope.data;
-				for (var i=0; i<$scope.data.length; i++){	
+				for (var i=$scope.length_now; i<$scope.data.length; i++){	
 					data[i].serial = i+1;	
 					if (api_command == "comments" || api_command == "feed"){
 						data[i].realname = $scope.data[i].from.name;
@@ -118,14 +123,14 @@ myApp.controller('Tbody', function($scope,$filter){
 						}
 					}
 				}
-
-				$scope.comments = data;
-				$scope.$apply();
-
+				$scope.length_now += $scope.data.length;
+				
 				if (res.paging.next){
 					$scope.getDataNext(res.paging.next,api_command);
 				}else{
-					if ($scope.id_array.length == 0){						
+					if ($scope.id_array.length == 0){	
+						$scope.comments = data;
+						$scope.$apply();
 						$scope.finished();
 					}else{
 						$scope.getData($scope.id_array.pop(),api_command);
@@ -136,8 +141,9 @@ myApp.controller('Tbody', function($scope,$filter){
 	}
 	$scope.getDataNext = function(url, api_command){
 		$.get(url,function(res){
-			console.log(res);
 			if (res.data.length == 0){
+				$scope.comments = data;
+				$scope.$apply();
 				$scope.finished();
 			}else{
 				for (var i=0; i<res.data.length; i++){
@@ -145,7 +151,8 @@ myApp.controller('Tbody', function($scope,$filter){
 				}
 
 				data = $scope.data;
-				for (var i=0; i<$scope.data.length; i++){
+				$(".console").prepend('<p>已截取  '+ $scope.data.length +' 筆資料...</p>');
+				for (var i = $scope.length_now; i<$scope.data.length; i++){	
 					data[i].serial = i+1;	
 					if (api_command == "comments" || api_command == "feed"){
 						data[i].realname = $scope.data[i].from.name;
@@ -176,19 +183,27 @@ myApp.controller('Tbody', function($scope,$filter){
 					}
 				}
 
-				$scope.comments = data;
-				$scope.$apply();
+				$scope.length_now += res.data.length;
 
 				if (res.paging.next){
 					$scope.getDataNext(res.paging.next,api_command);
 				}else{
 					if ($scope.id_array.length == 0){
+						console.log(data);
+						$scope.comments = data;
+						$scope.$apply();
 						$scope.finished();
 					}else{
 						$scope.getData($scope.id_array.pop(),api_command);
 					}
 				}
 			}
+		}).fail(function(){
+			$(".console").prepend('<p>發生錯誤，10秒後自動重試，請稍待</p>');
+			setTimeout(function(){
+				$(".console").prepend('<p>繼續截取資料</p>');
+				$scope.getDataNext(url,api_command);
+			},10000);
 		});	
 	}
 	$scope.finished = function(){

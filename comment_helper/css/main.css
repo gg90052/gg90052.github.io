@@ -148,8 +148,16 @@
   left: 0;
   background: rgba(0,0,0,0.8);
 }
+.console{
+  width: 600px;
+  height: 400px;
+  background: #FFF;
+  overflow: auto;
+  margin: 50px auto;
+  padding: 20px;
+}
 .sk-folding-cube {
-  margin: 300px auto;
+  margin: 100px auto;
   width: 40px;
   height: 40px;
   position: relative;

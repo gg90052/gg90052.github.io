@@ -78,9 +78,9 @@ myApp.controller('Tbody', function($scope,$filter){
 		FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
 			// console.log(res);
 			if(res.error){
-				$(".console").prepend('<p>發生錯誤，5秒後自動重試，請稍待</p>');
+				$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
 				setTimeout(function(){
-					$(".console").prepend('<p>重新截取資料</p>');
+					$(".console .message").text('重新截取資料');
 					$scope.getData(post_id);
 				},5000);
 			}
@@ -91,7 +91,7 @@ myApp.controller('Tbody', function($scope,$filter){
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
-				$(".console").prepend('<p>已截取  '+ res.data.length +' 筆資料...</p>');
+				$(".console .message").text('已截取  '+ $scope.data.length +' 筆資料...');
 				data = $scope.data;
 				for (var i=$scope.length_now; i<$scope.data.length; i++){	
 					data[i].serial = i+1;	
@@ -142,17 +142,19 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.getDataNext = function(url, api_command){
 		$.get(url,function(res){
 			if (res.data.length == 0){
-				$(".console").prepend('<p>截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候</p>');
-				$scope.comments = data;
-				$scope.$apply();
-				$scope.finished();
+				$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
+				setTimeout(function(){
+					$scope.comments = data;
+					$scope.$apply();
+					$scope.finished();
+				},1000);
 			}else{
 				for (var i=0; i<res.data.length; i++){
 					$scope.data.push(res.data[i]);
 				}
 
 				data = $scope.data;
-				$(".console").prepend('<p>已截取  '+ $scope.data.length +' 筆資料...</p>');
+				$(".console .message").text('已截取  '+ $scope.data.length +' 筆資料...');
 				for (var i = $scope.length_now; i<$scope.data.length; i++){	
 					data[i].serial = i+1;	
 					if (api_command == "comments" || api_command == "feed"){
@@ -190,19 +192,26 @@ myApp.controller('Tbody', function($scope,$filter){
 					$scope.getDataNext(res.paging.next,api_command);
 				}else{
 					if ($scope.id_array.length == 0){
-						$(".console").prepend('<p>截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候</p>');
-						$scope.comments = data;
-						$scope.$apply();
-						$scope.finished();
+						$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
+						setTimeout(function(){
+							$scope.comments = data;
+							$scope.$apply();
+							$scope.finished();
+							$(".main_table").DataTable({
+								"pageLength": 1000,
+								"searching": false,
+								"lengthChange": false
+							});
+						},1000);
 					}else{
 						$scope.getData($scope.id_array.pop(),api_command);
 					}
 				}
 			}
 		}).fail(function(){
-			$(".console").prepend('<p>發生錯誤，10秒後自動重試，請稍待</p>');
+			$(".console .message").text('發生錯誤，10秒後自動重試，請稍待');
 			setTimeout(function(){
-				$(".console").prepend('<p>繼續截取資料</p>');
+				$(".console .message").text('繼續截取資料');
 				$scope.getDataNext(url,api_command);
 			},10000);
 		});	
@@ -214,6 +223,10 @@ myApp.controller('Tbody', function($scope,$filter){
 			$(".uiPanel .right").addClass("move");
 		});
 		$(".main_table").removeClass("hide");
+
+
+		$(".update_area,.donate_area").slideUp();
+		$(".result_area").slideDown();
 		bootbox.alert("done");	
 	}
 	$scope.checkvip = function(fbid){

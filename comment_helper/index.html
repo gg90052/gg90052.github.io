@@ -24,7 +24,7 @@
 
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/bootstrap-theme.css">
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/new.css">
 
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
@@ -33,6 +33,9 @@
 <script src="js/bootbox.min.js"></script>
 <script src="js/controller.js"></script>
 <script src="//j.wovn.io/0" data-wovnio="key=rsMFb"></script>
+
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -216,174 +219,142 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
 <body ng-controller="Tbody">
 
-<p id="alltitle">
-Facebook 粉絲團留言抽籤小助手
-</p>
-
-<div class="update_donate">
-<div class="update_history">
-	<p style="text-align:center">近期更新：</p>
-	<ul>
-		<li>使用說明，請看<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">這邊</a></li>
-		<li>擷取社團留言或讚，請詳見<a href="#" class="pay">付費內容</a></li>
-	</ul>
-	<div style="width: 300px; margin: 10px auto;">
-		<div class="fb-page" data-href="https://www.facebook.com/commenthelper" data-width="300" data-height="70" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/commenthelper"><a href="https://www.facebook.com/commenthelper">粉絲團留言抽籤小助手</a></blockquote></div></div>
-	</div>
-</div>
-
-<div class="coffee_detail">
-	<p class="intro">如果小助手幫妳省下你很多時間，能否買杯咖啡請我喝喝</p>
-	<p class="intro">有您的捐款小助手將永遠保持免費給粉絲團經營使用</p>
-	<a href="https://p.allpay.com.tw/itbj0" target="_blank"><img src="https://payment.allpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
-
-	<p class="intro" style="color:#FFFF29;">由於配合法令，Paypal未來不提供台灣對台灣的帳戶付款，因此建議使用歐付寶(ATM、超商付款、信用卡)(金額自由輸入)</p>
-	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-		<input type="hidden" name="cmd" value="_s-xclick">
-		<table align="center">
-			<tr><td style="color:#FFF;"><input type="hidden" name="on0" value="Buy Me A Coffee">Buy Me A Coffee</td></tr><tr><td><select name="os0">
-			<option value="Starbucks">Starbucks NT$100 TWD</option>
-			<option value="Starbucks+Sweets">Starbucks+Sweets NT$200 TWD</option>
-			<option value="Dinner">Dinner NT$300 TWD</option>
-		</select> </td></tr>
-	</table>
-	<input type="hidden" name="currency_code" value="TWD">
-	<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-	">
-	<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
-	<img alt="" border="0" src="https://www.paypalobjects.com/zh_TW/i/scr/pixel.gif" width="1" height="1">
-</form>
-
-</div>
-</div>
-
-<p style="font-size:18px; color:#555; text-align:center; margin: 15px 0">若有任何問題或是功能建議，請到粉絲團留言或Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a><br>如果你發現無法抓粉絲團留言請先寄信通知我，不要急著先付費Orz<br>
-<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">使用說明</a></p>
-</p>
-
-
-<button id="btn3" type="button" class="btn btn-default" ng-click="getAuth('addScope')">$</button>
-
-<span class="policy">
-<a href="http://teddy.acsite.org/privacy_policy.html">Privacy Policy</a>
-</span>
-
-<div class="uiPanel">
-	<div class="left">
-		<div id="enterURL">
-			請輸入 Facebook 文章網址：<br><input type="text" class="url" /><br><br>
-			<button id="btn1" type="button" class="btn btn-danger" ng-click="getAuth('comments')">抓留言</button> 
-			<button id="btn2" type="button" class="btn btn-primary" ng-click="getAuth('likes')">抓按讚</button>
-			<button id="btn7" type="button" class="btn btn-success" ng-click="getAuth('url_comments')">URL留言</button>
-			<button id="btn6" type="button" class="btn btn-warning" ng-click="getAuth('sharedposts')">抓分享</button>
-			<button class="btn btn-info btn_plus">增加連結</button>
-			<div style="display:inline-block; vertical-align: middle; text-align: left; padding-left:15px;">
-				<input type="checkbox" id="unique" ng-model="unique_name" ng-true-value="fromid" ng-false-value="id"> 排除重複留言 <br />
-				<input type="checkbox" id="tag" ng-model="tag_name" ng-true-value="1" ng-false-value="0"> 只顯示有TAG人的留言
+<div class="wrapper">
+	<header>
+		Facebook粉絲團留言抽簽小助手
+		<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="blank"><div class="readme">使用<br />說明</div></a>
+	</header>
+	<div class="main_area">
+		<div class="ci"></div>
+		<div class="inputarea">
+			<div id="enterURL">
+				<input type="text" class="url" placeholder="請輸入 Facebook 文章網址" /><br><br>
+				<button id="btn1" type="button" class="btn" ng-click="getAuth('comments')">抓留言</button> 
+				<button id="btn2" type="button" class="btn" ng-click="getAuth('likes')">抓按讚</button>
+				<button id="btn7" type="button" class="btn" ng-click="getAuth('url_comments')">URL留言</button>
+				<br /><br />
+				<label for="unique" class="unique">
+					<input type="checkbox" id="unique" ng-model="unique_name" ng-true-value="fromid" ng-false-value="id"> 排除重複留言
+				</label>
+				<label for="tag" class="tag">
+					<input type="checkbox" id="tag" ng-model="tag_name" ng-true-value="1" ng-false-value="0"> 只顯示有TAG人的留言
+				</label>
+				<p class="message">若有任何問題或是功能建議，請到粉絲團留言或Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a><br>如果你發現無法抓粉絲團留言請先通知我，不要急著先付費Orz</p>
 			</div>
-			<br /><br>
 		</div>
 	</div>
-	<div class="right">
-		要抽幾個人：<br><input type="number" id="howmany" /> &nbsp;<button type="button" class="btn btn-danger" ng-click="choose()">抽獎</button><button id="btn4" type="button" class="btn"><img src="excel.png">輸出EXCEL</button><br>
-		搜尋：<br><input type="text" ng-model="search.realname" placeholder="搜尋姓名" />
-		<input type="text" ng-model="search.text" placeholder="搜尋留言" id="searchComment" />
-		<br />
-		<div style="clear:both"></div>
-	</div>
-	<div style="clear:both"></div>
-</div>
-
-<div id="comment_table">
-<div id="awardList">
-<p>List</p>	
-<table class="table">
-	<thead>
-		<tr align="center">
-			<td>序號</td>
-			<td>FB_ID</td>
-			<td>按讚</td>
-			<td width="230">名字</td>
-			<td class="force-break">留言內容</td>
-			<td width="165">留言時間</td>
-		</tr>
-	</thead>
-	<tbody>
-
-	</tbody>
-</table>
-</div>
-
-<table class="table table-striped main_table hide">
-	<thead>
-		<tr align="center">
-			<td>序號</td>
-			<td>FB_ID</td>
-			<td><button class="btn btn-primary" ng-click="getLikeInComments()">按讚</button></td>
-			<td width="230">名字</td>
-			<td class="force-break">留言內容</td>
-			<td width="165">留言時間</td>
-		</tr>
-	</thead>
-	<tbody class="like_comment">
-		<tr align="center" ng-repeat="comment in comments = (comments | unique:unique_name | has:tag_name | filter:search)">
-			<td>{{ $index+1 }}</td>
-			<td>{{ comment.fromid }}</td>
-			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
-			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
-			<td class="force-break"><a href="http://www.facebook.com/{{ comment.postid }}" target="_blank">{{ comment.text }}</a></td>
-			<td>{{ comment.realtime }}</td>
-		</tr>
-	</tbody>
-
-	<tbody class="share_post hide">
-		<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | has:tag_name | filter:search)">
-			<td>{{ $index+1 }}</td>
-			<td>{{ comment.fromid }}</td>
-			<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
-			<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
-			<td><a href="{{ comment.text }}" target="_blank">{{ comment.text }}</a></td>
-			<td>{{ comment.realtime }}</td>
-		</tr>
-	</tbody>
-</table>
-</div>
-
-<div class="black">
-	<div style="width:1000px; margin: 20px auto; line-height: 1.5em; background:rgba(255,255,255,0.8); padding: 30px; height:100%; overflow:auto">
-		<p>由於當初在開發小助手時只為了解決粉絲團的抽獎問題，但後來發現好像蠻多是拿去使用在社團上面，基於我個人對社團的商業模式有些意見，以及 Facebook 的權限申請越來越麻煩，所以決定把這部份弄成收費的。</p>
-		<p><span style="color: red;">一年的費用是300元台幣</span>，在首頁上透過paypal或歐付寶付款300元或300元以上金額後，將相關資訊寄到 icimcse100@gmail.com 即可，相關資訊如下：
-		</p>
-		<ul>
-			<li>姓名</li>
-			<li>email</li>
-			<li>付款時間</li>
-			<li>您所使用的Facebook帳號首頁網址</li>
-		</ul>
-		<div style="text-align:center">
-			<button class="btn_close" style="display: block; width: 50px; margin: 20px auto;">關閉</button>
-			Facebook帳號首頁就是下面這一頁，收到訊息之後我盡量會在一天內處理完畢。
-			<img src="fbpage.jpg">
+	<div class="section">
+		<div class="update_area">
+			<div class="title">近期更新</div>
+			<p class="list">2015/11/26 小助手換新衣~ 使用舊版請往<a href="http://gg90052.github.io/comment_helper/index_old.html" target="_blank">這裡</a></p>
+			<p class="list">使用說明，請看<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">這邊</a></p>		
+			<div class="fanpage">
+				<div class="fb-page" data-href="https://www.facebook.com/commenthelper" data-width="300" data-height="70" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/commenthelper"><a href="https://www.facebook.com/commenthelper">粉絲團留言抽籤小助手</a></blockquote></div></div>
+			</div>
+			<span class="policy">
+				<a href="http://teddy.acsite.org/privacy_policy.html">Privacy Policy</a>
+			</span>
 		</div>
-	</div>
-</div>
+		<div class="donate_area">
+			<div class="title">贊助或請小助手喝杯咖啡？</div>
+			<p class="message">如果小助手幫妳省下你很多時間，能否贊助點經費或買杯咖啡請我喝喝？有您的捐款小助手將永遠保持免費給粉絲團經營使用。</p>
+			<p class="message">由於配合法令，Paypal不提供台灣對台灣的帳戶付款，因此建議使用歐付寶(ATM、超商付款、信用卡) <span>(金額自由輸入)</span></p>
+			<a href="https://p.allpay.com.tw/itbj0" target="_blank"><img src="https://payment.allpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+				<input type="hidden" name="cmd" value="_s-xclick">
+				<table align="center">
+					<tr><td style="color:#FFF;"><input type="hidden" name="on0" value="Buy Me A Coffee">Buy Me A Coffee</td></tr><tr><td>
+					<select name="os0">
+						<option value="Starbucks">Starbucks NT$100 TWD</option>
+						<option value="Starbucks+Sweets">Starbucks+Sweets NT$200 TWD</option>
+						<option value="Dinner">Dinner NT$300 TWD</option>
+					</select> </td></tr>
+				</table>
+				<input type="hidden" name="currency_code" value="TWD">
+				<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+				">
+				<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_paynow_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+				<img alt="" border="0" src="https://www.paypalobjects.com/zh_TW/i/scr/pixel.gif" width="1" height="1">
+			</form>
+		</div>
+		<div class="result_area">
+			<div class="title">以下是您的結果</div>
+			<div class="uipanel">
+				<input type="text" ng-model="search.realname" placeholder="搜尋姓名" />
+				<input type="text" ng-model="search.text" placeholder="搜尋留言" id="searchComment" />
+				<br />
+				幫我抽出<input type="number" id="howmany" />個人 
+				<button type="button" class="btn" ng-click="choose()">馬上抽</button>
+				<button id="btn4" type="button" class="btn">輸出EXCEL</button>
+			</div>
+			<div id="comment_table">
+				<div id="awardList">
+					<p>中獎名單</p>	
+					<table class="table">
+						<thead>
+							<tr align="center">
+								<td>序號</td>
+								<td>FB_ID</td>
+								<td>按讚</td>
+								<td width="230">名字</td>
+								<td class="force-break">留言內容</td>
+								<td width="165">留言時間</td>
+							</tr>
+						</thead>
+						<tbody>
 
-<div class="sharepage">
-	<div style="width:800px; margin: 100px auto; line-height: 1.5em; background:#FFF; padding: 30px; overflow:auto; text-align:center; position:relative;">
-		<input id="fanurl" type="text" placeholder="請輸入您所管理的粉絲團網址" style="width:500px;"><br /><br />
-		<button class="btn btn-success" id="sendshare">送出</button>
-		<div class="close" style="font-size:20px; position:absolute; right:5px; top: 5px; color: #000;">X</div>
+						</tbody>
+					</table>
+				</div>
+
+				<table class="table table-striped main_table hide">
+					<thead>
+						<tr align="center">
+							<td>序號</td>
+							<td>FB_ID</td>
+							<td><button class="btn btn-primary" ng-click="getLikeInComments()">按讚</button></td>
+							<td width="230">名字</td>
+							<td class="force-break">留言內容</td>
+							<td width="165">留言時間</td>
+						</tr>
+					</thead>
+					<tbody class="like_comment">
+						<tr align="center" ng-repeat="comment in comments = (comments | unique:unique_name | has:tag_name | filter:search)">
+							<td>{{ $index+1 }}</td>
+							<td>{{ comment.fromid }}</td>
+							<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
+							<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
+							<td class="force-break"><a href="http://www.facebook.com/{{ comment.postid }}" target="_blank">{{ comment.text }}</a></td>
+							<td>{{ comment.realtime }}</td>
+						</tr>
+					</tbody>
+
+					<tbody class="share_post hide">
+						<tr align="center" ng-repeat="comment in filteredData = (comments | unique:unique_name | has:tag_name | filter:search)">
+							<td>{{ $index+1 }}</td>
+							<td>{{ comment.fromid }}</td>
+							<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
+							<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
+							<td><a href="{{ comment.text }}" target="_blank">{{ comment.text }}</a></td>
+							<td>{{ comment.realtime }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</div>
 </div>
 
 <div class="loading hide">
-	<div class="sk-folding-cube">
-		<div class="sk-cube1 sk-cube"></div>
-		<div class="sk-cube2 sk-cube"></div>
-		<div class="sk-cube4 sk-cube"></div>
-		<div class="sk-cube3 sk-cube"></div>
+	<div class="console">
+		<div class="message"></div>
+		<div class="sk-folding-cube">
+			<div class="sk-cube1 sk-cube"></div>
+			<div class="sk-cube2 sk-cube"></div>
+			<div class="sk-cube4 sk-cube"></div>
+			<div class="sk-cube3 sk-cube"></div>
+		</div>
 	</div>
-	<div class="console"></div>
 </div>
 
 </body>

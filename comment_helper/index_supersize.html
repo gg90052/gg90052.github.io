@@ -87,7 +87,8 @@ $(document).ready(function(){
 		$('<br><input type="text" class="url" />').insertAfter($("#enterURL .url:last"));
 	});
 	$("#btn4").click(function(){
-		JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
+		// JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
+		$("#excel").val(forExcel(data));
 	});
 });
 
@@ -239,7 +240,9 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 				<label for="tag" class="tag">
 					<input type="checkbox" id="tag" ng-model="tag_name" ng-true-value="1" ng-false-value="0"> 只顯示有TAG人的留言
 				</label>
-				<p class="message">若有任何問題或是功能建議，請到粉絲團留言或Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a><br>如果你發現無法抓粉絲團留言請先通知我，不要急著先付費Orz</p>
+				<!-- <p class="message">若有任何問題或是功能建議，請到粉絲團留言或Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a><br>如果你發現無法抓粉絲團留言請先通知我，不要急著先付費Orz</p> -->
+				<textarea name="excel" id="excel" cols="30" rows="10"></textarea>
+				<a href="http://www.convertcsv.com/json-to-csv.htm">http://www.convertcsv.com/json-to-csv.htm</a>
 			</div>
 		</div>
 	</div>

@@ -221,7 +221,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
 <div class="wrapper">
 	<header>
-		Facebook粉絲團留言抽簽小助手
+		Facebook粉絲團留言抽籤小助手
 		<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="blank"><div class="readme">使用<br />說明</div></a>
 	</header>
 	<div class="main_area">
@@ -240,6 +240,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 					<input type="checkbox" id="tag" ng-model="tag_name" ng-true-value="1" ng-false-value="0"> 只顯示有TAG人的留言
 				</label>
 				<p class="message">若有任何問題或是功能建議，請到粉絲團留言或Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a><br>如果你發現無法抓粉絲團留言請先通知我，不要急著先付費Orz</p>
+				<button id="btn3" style="margin-top: 10px; width: 90px; font-size: 12px;" type="button" class="btn" ng-click="getAuth('addScope')">已付費授權</button>
 			</div>
 		</div>
 	</div>

@@ -38,6 +38,7 @@ myApp.controller('Tbody', function($scope,$filter){
 	$scope.tag_name = "0";
 	$scope.length_now = 0;
 	$scope.userid,$scope.urlid;
+	$scope.cleanURL = false;
 	$scope.update = function(){
 		$scope.comments.splice(0,0);
 	}
@@ -99,9 +100,13 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].realname = $scope.data[i].from.name;
 						data[i].realtime = timeConverter($scope.data[i].created_time);
 						data[i].fromid = $scope.data[i].from.id;
-						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;	
 						data[i].text = $scope.data[i].message;
-						data[i].postid = $scope.data[i].id;
+						if (!$scope.cleanURL){
+							data[i].postlink = "http://www.facebook.com/"+$scope.data[i].id;	
+						}else{
+							data[i].postlink = $scope.cleanURL+"?fb_comment_id="+$scope.data[i].id;
+						}
 						if (!$scope.data[i].message_tags){
 							data[i].message_tags = [];
 						}
@@ -161,9 +166,13 @@ myApp.controller('Tbody', function($scope,$filter){
 						data[i].realname = $scope.data[i].from.name;
 						data[i].realtime = timeConverter($scope.data[i].created_time);
 						data[i].fromid = $scope.data[i].from.id;
-						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;
+						data[i].link = "http://www.facebook.com/"+$scope.data[i].from.id;	
 						data[i].text = $scope.data[i].message;
-						data[i].postid = $scope.data[i].id;
+						if (!$scope.cleanURL){
+							data[i].postlink = "http://www.facebook.com/"+$scope.data[i].id;	
+						}else{
+							data[i].postlink = $scope.cleanURL+"?fb_comment_id="+$scope.data[i].id;
+						}
 						if (!$scope.data[i].message_tags){
 							data[i].message_tags = [];
 						}
@@ -294,6 +303,10 @@ myApp.controller('Tbody', function($scope,$filter){
 		var fbid_array = new Array();
 		if ($scope.gettype == "url_comments"){
 			var posturl = $($("#enterURL .url")[0]).val();
+			if (posturl.indexOf("?") > 0){
+				posturl = posturl.substring(0,posturl.indexOf("?"));
+			}
+			$scope.cleanURL = posturl;
 			FB.api("https://graph.facebook.com/v2.3/"+posturl+"/",function(res){
 				fbid_array.push(res.og_object.id);
 				$scope.urlid = fbid_array.toString();
@@ -347,7 +360,7 @@ myApp.controller('Tbody', function($scope,$filter){
 		}
 
 		for (var j=0; j<num; j++){
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='http://www.facebook.com/"+award[j].postid+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 			if (award[j].liked == "true"){
 				$("<td><i class='glyphicon glyphicon-thumbs-up'></i></td>").insertAfter(".fromid"+j);	
 			}else{

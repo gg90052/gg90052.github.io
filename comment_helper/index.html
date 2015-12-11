@@ -326,7 +326,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 							<td>{{ comment.fromid }}</td>
 							<td><i class="glyphicon glyphicon-thumbs-up" ng-show="comment.liked"></i></td>
 							<td><a href="{{ comment.link }}" target="_blank">{{ comment.realname }}</a></td>
-							<td class="force-break"><a href="http://www.facebook.com/{{ comment.postid }}" target="_blank">{{ comment.text }}</a></td>
+							<td class="force-break"><a href="{{ comment.postlink }}" target="_blank">{{ comment.text }}</a></td>
 							<td>{{ comment.realtime }}</td>
 						</tr>
 					</tbody>

@@ -368,8 +368,8 @@ myApp.controller('Tbody', function($scope,$filter){
 		award = new Array();
 		var num = $("#howmany").val();
 		var filter = $("#searchComment").val();
-		var filteredData = $scope.filter(data,filter);
-		console.log(filteredData);
+		// var filteredData = $scope.filter(data,filter);
+		// console.log(filteredData);
 		// console.log($scope.filteredData);
 		var temp = genRandomArray($scope.filteredData.length).splice(0,num);
 		for (var i=0; i<num; i++){

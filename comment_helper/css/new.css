@@ -301,6 +301,10 @@ body {
   color: #D68927 !important;
 }
 
+.dataTables_filter {
+  display: none;
+}
+
 .loading {
   width: 100%;
   height: 100%;

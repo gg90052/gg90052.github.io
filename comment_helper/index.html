@@ -57,7 +57,7 @@ var nameArray = new Array();
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '1494465264176752',
+    appId      : '1390069707889707',
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -89,6 +89,7 @@ $(document).ready(function(){
 	$("#btn4").click(function(){
 		JSONToCSVConvertor(forExcel(data), "Comment_helper", true);
 	});
+	
 });
 
 function timeConverter(UNIX_timestamp){
@@ -282,8 +283,8 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 		<div class="result_area">
 			<div class="title">以下是您的結果</div>
 			<div class="uipanel">
-				<input type="text" ng-model="search.realname" placeholder="搜尋姓名" />
-				<input type="text" ng-model="search.text" placeholder="搜尋留言" id="searchComment" />
+				<input type="text" placeholder="搜尋姓名" id="searchName" />
+				<input type="text" placeholder="搜尋留言" id="searchComment" />
 				<br />
 				幫我抽出<input type="number" id="howmany" />個人 
 				<button type="button" class="btn" ng-click="choose()">馬上抽</button>
@@ -296,11 +297,11 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 						<thead>
 							<tr align="center">
 								<td>序號</td>
-								<td>FB_ID</td>
+								<td width="100">FB_ID</td>
 								<td>按讚</td>
-								<td width="230">名字</td>
+								<td width="200">名字</td>
 								<td class="force-break">留言內容</td>
-								<td width="165">留言時間</td>
+								<td width="110">留言時間</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -313,11 +314,11 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 					<thead>
 						<tr align="center">
 							<td>序號</td>
-							<td>FB_ID</td>
+							<td width="100">FB_ID</td>
 							<td><button class="btn btn-primary" ng-click="getLikeInComments()">按讚</button></td>
-							<td width="230">名字</td>
+							<td width="200">名字</td>
 							<td class="force-break">留言內容</td>
-							<td width="165">留言時間</td>
+							<td width="110">留言時間</td>
 						</tr>
 					</thead>
 					<tbody class="like_comment">

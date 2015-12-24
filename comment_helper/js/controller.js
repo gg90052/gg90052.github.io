@@ -48,6 +48,8 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.data = new Array();
 		$scope.length_now = 0;
 		$scope.id_array = $scope.fbid_check();
+		$(".console .message").text('');
+		$(".main_table").DataTable().destroy();
 
 		if ($scope.gettype == "url_comments"){
 			var t = setInterval(function(){
@@ -206,10 +208,23 @@ myApp.controller('Tbody', function($scope,$filter){
 							$scope.comments = data;
 							$scope.$apply();
 							$scope.finished();
-							$(".main_table").DataTable({
+							var table = $(".main_table").DataTable({
 								"pageLength": 1000,
-								"searching": false,
+								"searching": true,
 								"lengthChange": false
+							});
+
+							$("#searchName").on( 'keyup', function () {
+								table
+								.columns(3)
+								.search(this.value)
+								.draw();
+							});
+							$("#searchComment").on( 'keyup', function () {
+								table
+								.columns(4)
+								.search(this.value)
+								.draw();
 							});
 						},1000);
 					}else{
@@ -353,6 +368,8 @@ myApp.controller('Tbody', function($scope,$filter){
 		award = new Array();
 		var num = $("#howmany").val();
 		var filter = $("#searchComment").val();
+		var filteredData = $scope.filter(data,filter);
+		console.log(filteredData);
 		// console.log($scope.filteredData);
 		var temp = genRandomArray($scope.filteredData.length).splice(0,num);
 		for (var i=0; i<num; i++){
@@ -418,6 +435,14 @@ myApp.controller('Tbody', function($scope,$filter){
 		$scope.$apply();
 		$(".loading").addClass("hide");
 		bootbox.alert("done");
+	}
+	$scope.filter = function(ary,tar){
+		var newAry = $.grep(ary,function(n, i){
+			if (n.text.indexOf(tar) > -1){
+				return true;
+			}
+		});
+		return newAry;
 	}
 });
 

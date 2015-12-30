@@ -367,13 +367,16 @@ myApp.controller('Tbody', function($scope,$filter){
 		$("#awardList tbody").html("");
 		award = new Array();
 		var num = $("#howmany").val();
-		var filter = $("#searchComment").val();
-		// var filteredData = $scope.filter(data,filter);
-		// console.log(filteredData);
-		// console.log($scope.filteredData);
-		var temp = genRandomArray($scope.filteredData.length).splice(0,num);
+		
+		var unique = $("#unique").prop("checked");
+		var filter_word = $("#searchComment").val();
+		var istag = $("#tag").prop("checked");
+
+		var afterFilterData = $scope.totalFilter(data, unique, filter_word, istag);
+
+		var temp = genRandomArray(afterFilterData.length).splice(0,num);
 		for (var i=0; i<num; i++){
-			award.push($scope.filteredData[temp[i]]);
+			award.push(afterFilterData[temp[i]]);
 		}
 
 		for (var j=0; j<num; j++){
@@ -436,9 +439,40 @@ myApp.controller('Tbody', function($scope,$filter){
 		$(".loading").addClass("hide");
 		bootbox.alert("done");
 	}
-	$scope.filter = function(ary,tar){
+	$scope.totalFilter = function(ary,isDuplicate,filter,isTag){
+		var filteredData = ary;
+		if (isDuplicate){
+			filteredData = $scope.filter_unique(filteredData);
+		}
+		filteredData = $scope.filter_word(data,filter);
+		if (isTag){
+			filteredData = $scope.filter_tag(filteredData);
+		}
+		return filteredData;
+	}
+	$scope.filter_unique = function(filteredData){
+		var output = [];
+		var keys = [];
+		filteredData.forEach(function(item) {
+			var key = item["fromid"];
+			if(keys.indexOf(key) === -1) {
+				keys.push(key);
+				output.push(item);
+			}
+		});
+		return output;
+	}
+	$scope.filter_word = function(ary,tar){
 		var newAry = $.grep(ary,function(n, i){
 			if (n.text.indexOf(tar) > -1){
+				return true;
+			}
+		});
+		return newAry;
+	}
+	$scope.filter_tag = function(ary){
+		var newAry = $.grep(ary,function(n, i){
+			if (n.message_tags.length > 0){
 				return true;
 			}
 		});

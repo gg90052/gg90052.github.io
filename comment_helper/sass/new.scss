@@ -232,6 +232,9 @@ body{
 			}
 			#comment_table{
 				margin-top: 70px;
+				table{
+					width: 100% !important;
+				}
 				#awardList{
 					display: none;
 				}

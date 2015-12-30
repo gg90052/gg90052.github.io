@@ -303,13 +303,13 @@ function activeDataTable(){
 
 	$("#searchName").on( 'blur change keyup', function () {
 		table
-		.columns(3)
+		.columns(2)
 		.search(this.value)
 		.draw();
 	});
 	$("#searchComment").on( 'blur change keyup', function () {
 		table
-		.columns(4)
+		.columns(3)
 		.search(this.value)
 		.draw();
 	});

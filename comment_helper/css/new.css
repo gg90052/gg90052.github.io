@@ -273,7 +273,7 @@ body {
   margin: 10px 5px;
 }
 .wrapper .section .result_area .uipanel .btn {
-  width: 110px;
+  min-width: 110px;
   height: 30px;
   text-align: center;
   line-height: 0;

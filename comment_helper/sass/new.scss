@@ -253,6 +253,56 @@ body{
 	display: none;
 }
 
+.bigExcel{
+	position: relative;
+	.title{
+		position: absolute;
+		left: 300px;
+		top: 30px;
+		background: #FFF;
+		width: 150px;
+		height: 40px;
+		font-size: 1.8em;
+		padding-left: 40px;
+	}
+	.steps{
+		position: absolute;
+		left: 300px;
+		top: 80px;
+		.step2{
+			p{
+				line-height: 1.5em;
+				margin-top: 10px;
+				padding-right: 20px;
+			}
+		}
+		.step3{
+			margin-top: 10px;
+			p{
+				line-height: 2em;
+			}
+		}
+		.copyed{
+			display: inline-block;
+			padding: 6px 8px;
+			vertical-align: middle;
+			background: #000;
+			color: #CCC;
+			margin-left: 5px;
+			font-size: 12px;
+			opacity: 0;
+			@include transition(all .3s);
+			&.show{
+				display: inline-block !important;
+				opacity: 1;
+			}
+		}
+		textarea{
+			margin: 10px 0;
+			resize: none;
+		}
+	}
+}
 
 .loading{
   width: 100%;

@@ -26,13 +26,28 @@ $(document).ready(function(){
 	$("#btn_choose").click(function(){
 		choose();
 	});
-	$("#btn_excel").click(function(){
-		if (data.length > 7000){
-			bootbox.alert("您的資料量過多，需要使用別的方法，請聯繫管理員");
+	$("#btn_excel").click(function(e){
+		if (data.length > 7000 || e.ctrlKey == true){
+			// bootbox.alert("您的資料量過多，需要使用別的方法，請聯繫管理員");
+			$(".bigExcel").removeClass("hide");
 		}else{
 			var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));	
 			JSONToCSVConvertor(forExcel(filterData), "Comment_helper", true);
 		}
+	});
+
+	$("#genExcel").click(function(){
+		var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
+		var excelString = forExcel(filterData);
+		$("#exceldata").val(JSON.stringify(excelString));
+	});
+
+	var clipboard = new Clipboard('.copybtn');
+	clipboard.on('success', function(e) {
+		console.log(e);
+	});
+	clipboard.on('error', function(e) {
+		console.error(e);
 	});
 });
 
@@ -156,7 +171,7 @@ function waitingFBID(type){
 
 function getData(post_id){
 	var api_command = gettype;
-	$(".loading").removeClass("hide");
+	$(".waiting").removeClass("hide");
 	FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
 		if(res.error){
 			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
@@ -167,7 +182,7 @@ function getData(post_id){
 		}
 		if (res.data.length == 0){
 			bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
-			$(".loading").addClass("hide");
+			$(".waiting").addClass("hide");
 		}else{
 			for (var i=0; i<res.data.length; i++){
 				data.push(res.data[i]);
@@ -279,7 +294,7 @@ function finished(){
 	insertTable(data);
 	activeDataTable();
 	filterEvent();
-	$(".loading").addClass("hide");
+	$(".waiting").addClass("hide");
 	$(".main_table").removeClass("hide");
 	$(".update_area,.donate_area").slideUp();
 	$(".result_area").slideDown();

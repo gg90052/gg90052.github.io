@@ -31,6 +31,7 @@
 <script src="//connect.facebook.net/zh_TW/all.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootbox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
 <script src="js/main.js"></script>
 <script src="//j.wovn.io/0" data-wovnio="key=rsMFb"></script>
 
@@ -105,7 +106,8 @@ window.fbAsyncInit = function() {
 	<div class="section">
 		<div class="update_area">
 			<div class="title">近期更新</div>
-			<p class="list">使用說明，請看<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">這邊</a></p>		
+			<p class="list">使用說明，請看<a href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">這邊</a></p>
+			<p class="list">輸出大筆EXCEL：<a href="http://www.convertcsv.com/json-to-csv.htm" target="blank">JSON To CSV Converter</a></p>
 			<div class="fanpage">
 				<div class="fb-page" data-href="https://www.facebook.com/commenthelper" data-width="300" data-height="70" data-small-header="true" data-adapt-container-width="false" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/commenthelper"><a href="https://www.facebook.com/commenthelper">粉絲團留言抽籤小助手</a></blockquote></div></div>
 			</div>
@@ -183,7 +185,7 @@ window.fbAsyncInit = function() {
 	</div>
 </div>
 
-<div class="loading hide">
+<div class="loading waiting hide">
 	<div class="console">
 		<div class="message"></div>
 		<div class="sk-folding-cube">
@@ -191,6 +193,27 @@ window.fbAsyncInit = function() {
 			<div class="sk-cube2 sk-cube"></div>
 			<div class="sk-cube4 sk-cube"></div>
 			<div class="sk-cube3 sk-cube"></div>
+		</div>
+	</div>
+</div>
+
+<div class="loading bigExcel hide">
+	<div class="console">
+		<div class="title"><a href="https://www.facebook.com/commenthelper/photos/a.1100170563349110.1073741830.1009468269086007/1100170613349105/?type=3&theater" target="_blank">使用說明</a></div>
+		<div class="steps">
+			<div class="step step1">
+				<span>Step 1：</span>
+				<button class="btn btn-success" id="genExcel">產生EXCEL資料</button>
+			</div>
+			<textarea name="exceldata" id="exceldata" cols="25" rows="5"></textarea>
+			<div class="step step2">
+				<span>Step 2：</span>
+				<p>將上方輸入框內的全選(Ctrl+A)，然後複製(Ctrl+C)</p>
+			</div>
+			<div class="step step3">
+				<p>Step 3：</p>
+				到 <a href="http://www.convertcsv.com/json-to-csv.htm" target="blank">JSON To CSV Converter</a> 進行轉換
+			</div>
 		</div>
 	</div>
 </div>

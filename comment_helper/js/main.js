@@ -371,12 +371,16 @@ function filter_unique(filteredData){
 	return output;
 }
 function filter_word(ary,tar){
-	var newAry = $.grep(ary,function(n, i){
-		if (n.text.indexOf(tar) > -1){
-			return true;
-		}
-	});
-	return newAry;
+	if (gettype == "likes"){
+		return ary;
+	}else{
+		var newAry = $.grep(ary,function(n, i){
+			if (n.text.indexOf(tar) > -1){
+				return true;
+			}
+		});
+		return newAry;
+	}
 }
 function filter_tag(ary){
 	var newAry = $.grep(ary,function(n, i){

@@ -35,19 +35,25 @@ $(document).ready(function(){
 			JSONToCSVConvertor(forExcel(filterData), "Comment_helper", true);
 		}
 	});
+	$("#moreprize").click(function(){
+		if($(this).hasClass("active")){
+			$(this).removeClass("active");
+			$(".gettotal").removeClass("fadeout");
+			$('.prizeDetail').removeClass("fadein");
+		}else{
+			$(this).addClass("active");
+			$(".gettotal").addClass("fadeout");
+			$('.prizeDetail').addClass("fadein");
+		}
+	});
+	$("#btn_addPrize").click(function(){
+		$(".prizeDetail").append('<div class="prize"><div class="input_group">品名：<input type="text"></div><div class="input_group">抽獎人數：<input type="number"></div></div>');
+	});
 
 	$("#genExcel").click(function(){
 		var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
 		var excelString = forExcel(filterData);
 		$("#exceldata").val(JSON.stringify(excelString));
-	});
-
-	var clipboard = new Clipboard('.copybtn');
-	clipboard.on('success', function(e) {
-		console.log(e);
-	});
-	clipboard.on('error', function(e) {
-		console.error(e);
 	});
 });
 
@@ -57,6 +63,8 @@ function init(){
 	length_now = 0;
 	$(".main_table").DataTable().destroy();
 	$(".main_table tbody").html("");
+	$("#awardList tbody").html("");
+	$("#awardList").hide();
 }
 
 function getAuth(type){
@@ -349,7 +357,23 @@ function filterEvent(){
 function choose(){
 	$("#awardList tbody").html("");
 	award = new Array();
-	var num = $("#howmany").val();
+	var list = [];
+	var num = 0;
+	var detail = false;
+	if ($("#moreprize").hasClass("active")){
+		detail = true;
+		$(".prizeDetail .prize").each(function(){
+			var n = parseInt($(this).find("input[type='number']").val());
+			var p = $(this).find("input[type='text']").val();
+			if (n > 0){
+				num += n;
+				list.push({"name":p, "num": n});
+			}
+		});
+	}else{
+		num = $("#howmany").val();
+	}
+	
 
 	var unique = $("#unique").prop("checked");
 	var istag = $("#tag").prop("checked");
@@ -364,6 +388,19 @@ function choose(){
 	for (var j=0; j<num; j++){
 		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 	}
+	if(detail){
+		var now = 0;
+		for(var k=0; k<list.length; k++){
+			var tar = $("#awardList tbody tr").eq(now);
+			$('<tr><td class="prizeName" colspan="5">獎品：'+list[k].name+'<span>共 '+list[k].num+' 名</span></td></tr>').insertBefore(tar);
+			console.log(now);
+			now += (list[k].num + 1);
+		}
+		$("#moreprize").removeClass("active");
+		$(".gettotal").removeClass("fadeout");
+		$('.prizeDetail').removeClass("fadein");
+	}
+
 	$("#awardList").fadeIn(1000);
 }
 

@@ -253,21 +253,6 @@ body {
   font-weight: bold;
   color: #3b5fb2;
 }
-.wrapper .section .result_area #moreprize {
-  margin-top: 15px;
-  color: #666;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-.wrapper .section .result_area #moreprize.active {
-  background: #3b5fb2;
-  color: #FFF;
-}
-.wrapper .section .result_area #moreprize:hover {
-  border: 1px solid #3b5fb2;
-}
 .wrapper .section .result_area .uipanel {
   position: absolute;
   right: 45px;
@@ -286,25 +271,6 @@ body {
   width: 78px;
   margin: 10px 5px;
 }
-.wrapper .section .result_area .uipanel .gettotal {
-  display: inline-block;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-.wrapper .section .result_area .uipanel .gettotal.fadeout {
-  -moz-transform: scaleX(0.01);
-  -ms-transform: scaleX(0.01);
-  -webkit-transform: scaleX(0.01);
-  transform: scaleX(0.01);
-  -moz-transform-origin: right 50%;
-  -ms-transform-origin: right 50%;
-  -webkit-transform-origin: right 50%;
-  transform-origin: right 50%;
-  opacity: 0;
-  visibility: hidden;
-}
 .wrapper .section .result_area .uipanel .btn {
   min-width: 110px;
   height: 30px;
@@ -319,86 +285,14 @@ body {
   margin-top: -8px;
   margin-left: 10px;
 }
-.wrapper .section .result_area .prizeDetail {
-  width: 100%;
-  min-height: 50px;
-  border: 1px solid #3b5fb2;
-  margin-top: 20px;
-  padding: 20px;
-  position: relative;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -moz-transform: scaleY(0.01);
-  -ms-transform: scaleY(0.01);
-  -webkit-transform: scaleY(0.01);
-  transform: scaleY(0.01);
-  -moz-transform-origin: center 0;
-  -ms-transform-origin: center 0;
-  -webkit-transform-origin: center 0;
-  transform-origin: center 0;
-  opacity: 0;
-  visibility: hidden;
-  display: none;
-}
-.wrapper .section .result_area .prizeDetail.fadein {
-  opacity: 1;
-  visibility: visible;
-  display: block;
-  -moz-transform: scaleY(1);
-  -ms-transform: scaleY(1);
-  -webkit-transform: scaleY(1);
-  transform: scaleY(1);
-}
-.wrapper .section .result_area .prizeDetail #btn_addPrize {
-  display: block;
-  background: #44b1da;
-  color: #FFF;
-  margin-bottom: 20px;
-}
-.wrapper .section .result_area .prizeDetail .prize {
-  margin: 20px 19px;
-  float: left;
-  border: 1px solid #3b5fb2;
-  padding: 0 20px;
-}
-.wrapper .section .result_area .prizeDetail .prize .input_group {
-  margin: 15px 0;
-}
-.wrapper .section .result_area .prizeDetail .prize .input_group input[type="text"] {
-  width: 150px;
-}
-.wrapper .section .result_area .prizeDetail .prize .input_group input[type="number"] {
-  width: 122px;
-}
-.wrapper .section .result_area .prizeDetail:after {
-  content: "";
-  display: block;
-  clear: both;
-}
 .wrapper .section .result_area #comment_table {
-  margin-top: 40px;
+  margin-top: 70px;
 }
 .wrapper .section .result_area #comment_table table {
   width: 100% !important;
 }
 .wrapper .section .result_area #comment_table #awardList {
   display: none;
-}
-.wrapper .section .result_area #comment_table #awardList > p {
-  font-size: 2em;
-  font-weight: bold;
-  color: #3b5fb2;
-}
-.wrapper .section .result_area #comment_table #awardList table td.prizeName {
-  background: #3b5fb2;
-  color: #FFF;
-  padding-left: 20px;
-}
-.wrapper .section .result_area #comment_table #awardList table td.prizeName span {
-  color: #13FDFF;
-  margin-left: 30px;
 }
 
 .force-break {

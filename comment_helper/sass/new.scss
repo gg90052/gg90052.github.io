@@ -90,7 +90,7 @@ body{
 				margin-left: 15px;
 			}
 			.message{
-				margin-top: 60px;
+				margin-top: 30px;
 				font-size: 1.1em;
 				line-height: 1.5em;
 			}
@@ -169,7 +169,6 @@ body{
 			.message{
 				font-size: 1.1em;
 				line-height: 1.5em;
-				margin-bottom: 20px;
 				span{
 					color: #FFAB0D;
 				}
@@ -198,6 +197,18 @@ body{
 				font-weight: bold;
 				color: $blue;
 			}
+			#moreprize{
+				margin-top: 15px;
+				color: #666;
+				@include transition(all .3s);
+				&.active{
+					background: $blue;
+					color: #FFF;
+				}
+				&:hover{
+					border: 1px solid $blue;
+				}
+			}
 			.uipanel{
 				position: absolute;
 				right: 45px;
@@ -215,6 +226,16 @@ body{
 					width: 78px;
 					margin: 10px 5px;
 				}
+				.gettotal{
+					display: inline-block;
+					@include transition(all .3s);
+					&.fadeout{
+						@include transform(scaleX(0.01));
+						@include transform-origin(right);
+						opacity: 0;
+						visibility:hidden;
+					}
+				}
 				.btn{
 					min-width: 110px;
 					height: 30px;
@@ -230,13 +251,75 @@ body{
 					margin-left: 10px;
 				}
 			}
+			.prizeDetail{
+				width: 100%;
+				min-height: 50px;
+				border: 1px solid $blue;
+				margin-top: 20px;
+				padding: 20px;
+				position: relative;
+				@include transition(all .3s);
+				@include transform(scaleY(0.01));
+				@include transform-origin(center,0);
+				opacity: 0;
+				visibility:hidden;
+				display: none;
+				&.fadein{
+					opacity: 1;
+					visibility: visible;
+					display: block;
+					@include transform(scaleY(1));
+				}
+				#btn_addPrize{
+					display: block;
+					background: $lightblue;
+					color: #FFF;
+					margin-bottom: 20px;
+				}
+				.prize{
+					margin: 20px 19px;
+					float: left;
+					border: 1px solid $blue;
+					padding: 0 20px;
+					.input_group{
+						margin: 15px 0;
+						input[type="text"]{
+							width: 150px;
+						}
+						input[type="number"]{
+							width: 122px;
+						}
+					}
+				}
+				&:after{
+					content: "";
+					display: block;
+					clear: both;
+				}
+			}
 			#comment_table{
-				margin-top: 70px;
+				margin-top: 40px;
 				table{
 					width: 100% !important;
 				}
 				#awardList{
 					display: none;
+					&>p{
+						font-size: 2em;
+						font-weight: bold;
+						color: $blue;
+					}
+					table{
+						td.prizeName{
+							background: $blue;
+							color: #FFF;
+							padding-left: 20px;
+							span{
+								color: #13FDFF;
+								margin-left: 30px;
+							}
+						}
+					}
 				}
 			}
 		}

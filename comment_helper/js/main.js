@@ -6,11 +6,16 @@ var isGroup = false;
 var length_now = 0;
 var userid,urlid;
 var cleanURL = false;
+var pageid = "";
 
 $(document).ready(function(){
-	$("#btn_comments").click(function(){
+	$("#btn_comments").click(function(e){
 		init();
-		getAuth('comments');
+		if (e.ctrlKey == true){
+			getAuth('sharedposts');
+		}else{
+			getAuth('comments');
+		}
 	});
 	$("#btn_like").click(function(){
 		init();
@@ -35,19 +40,25 @@ $(document).ready(function(){
 			JSONToCSVConvertor(forExcel(filterData), "Comment_helper", true);
 		}
 	});
+	$("#moreprize").click(function(){
+		if($(this).hasClass("active")){
+			$(this).removeClass("active");
+			$(".gettotal").removeClass("fadeout");
+			$('.prizeDetail').removeClass("fadein");
+		}else{
+			$(this).addClass("active");
+			$(".gettotal").addClass("fadeout");
+			$('.prizeDetail').addClass("fadein");
+		}
+	});
+	$("#btn_addPrize").click(function(){
+		$(".prizeDetail").append('<div class="prize"><div class="input_group">品名：<input type="text"></div><div class="input_group">抽獎人數：<input type="number"></div></div>');
+	});
 
 	$("#genExcel").click(function(){
 		var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
 		var excelString = forExcel(filterData);
 		$("#exceldata").val(JSON.stringify(excelString));
-	});
-
-	var clipboard = new Clipboard('.copybtn');
-	clipboard.on('success', function(e) {
-		console.log(e);
-	});
-	clipboard.on('error', function(e) {
-		console.error(e);
 	});
 });
 
@@ -57,6 +68,8 @@ function init(){
 	length_now = 0;
 	$(".main_table").DataTable().destroy();
 	$(".main_table tbody").html("");
+	$("#awardList tbody").html("");
+	$("#awardList").hide();
 }
 
 function getAuth(type){
@@ -108,7 +121,12 @@ function getFBID(type){
 			}
 		},100);
 	}else{
-		waitingFBID(type);
+		var t = setInterval(function(){
+			if (pageid != ""){
+				clearInterval(t);
+				waitingFBID(type);
+			}
+		},100);
 	}
 }
 
@@ -134,6 +152,17 @@ function fbid_check(){
 			var checkType2 = posturl.indexOf("events");
 			var checkGroup = posturl.indexOf("/groups/");
 			var check_personal = posturl.indexOf("+");
+
+			var page_s = posturl.indexOf("facebook.com")+13;
+			if (checkGroup > 0){
+				page_s = checkGroup+8;
+			}
+			var page_e = posturl.indexOf("/",page_s);
+			var pagename = posturl.substring(page_s,page_e);
+			FB.api("https://graph.facebook.com/v2.3/"+pagename+"/",function(res){
+				pageid = res.id;
+			});
+
 			var result = posturl.match(regex);
 
 			if (check_personal > 0){
@@ -172,7 +201,7 @@ function waitingFBID(type){
 function getData(post_id){
 	var api_command = gettype;
 	$(".waiting").removeClass("hide");
-	FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
+	FB.api("https://graph.facebook.com/v2.3/"+pageid+"_"+post_id+"/"+api_command+"?limit=500",function(res){
 		if(res.error){
 			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
 			setTimeout(function(){
@@ -190,7 +219,7 @@ function getData(post_id){
 			$(".console .message").text('已截取  '+ data.length +' 筆資料...');
 			for (var i=length_now; i<data.length; i++){	
 				data[i].serial = i+1;	
-				if (api_command == "comments" || api_command == "feed"){
+				if (api_command == "comments" || api_command == "feed" || api_command == "sharedposts"){
 					data[i].realname = data[i].from.name;
 					data[i].realtime = timeConverter(data[i].created_time);
 					data[i].fromid = data[i].from.id;
@@ -205,6 +234,11 @@ function getData(post_id){
 						data[i].postlink = cleanURL+"?fb_comment_id="+data[i].id;
 					}
 					if (!data[i].message_tags){
+						data[i].message_tags = [];
+					}
+					if (api_command == "sharedposts"){
+						data[i].link = data[i].postlink;
+						data[i].text = "";
 						data[i].message_tags = [];
 					}
 				}else if (api_command == "likes"){
@@ -245,7 +279,7 @@ function getDataNext(url,api_command){
 			$(".console .message").text('已截取  '+ data.length +' 筆資料...');
 			for (var i = length_now; i<data.length; i++){	
 				data[i].serial = i+1;	
-				if (api_command == "comments" || api_command == "feed"){
+				if (api_command == "comments" || api_command == "feed" || api_command == "sharedposts"){
 					data[i].realname = data[i].from.name;
 					data[i].realtime = timeConverter(data[i].created_time);
 					data[i].fromid = data[i].from.id;
@@ -260,6 +294,11 @@ function getDataNext(url,api_command){
 						data[i].postlink = cleanURL+"?fb_comment_id="+data[i].id;
 					}
 					if (!data[i].message_tags){
+						data[i].message_tags = [];
+					}
+					if (api_command == "sharedposts"){
+						data[i].link = data[i].postlink;
+						data[i].text = "";
 						data[i].message_tags = [];
 					}
 				}else if (api_command == "likes"){
@@ -349,7 +388,23 @@ function filterEvent(){
 function choose(){
 	$("#awardList tbody").html("");
 	award = new Array();
-	var num = $("#howmany").val();
+	var list = [];
+	var num = 0;
+	var detail = false;
+	if ($("#moreprize").hasClass("active")){
+		detail = true;
+		$(".prizeDetail .prize").each(function(){
+			var n = parseInt($(this).find("input[type='number']").val());
+			var p = $(this).find("input[type='text']").val();
+			if (n > 0){
+				num += n;
+				list.push({"name":p, "num": n});
+			}
+		});
+	}else{
+		num = $("#howmany").val();
+	}
+	
 
 	var unique = $("#unique").prop("checked");
 	var istag = $("#tag").prop("checked");
@@ -364,6 +419,19 @@ function choose(){
 	for (var j=0; j<num; j++){
 		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 	}
+	if(detail){
+		var now = 0;
+		for(var k=0; k<list.length; k++){
+			var tar = $("#awardList tbody tr").eq(now);
+			$('<tr><td class="prizeName" colspan="5">獎品：'+list[k].name+'<span>共 '+list[k].num+' 名</span></td></tr>').insertBefore(tar);
+			console.log(now);
+			now += (list[k].num + 1);
+		}
+		$("#moreprize").removeClass("active");
+		$(".gettotal").removeClass("fadeout");
+		$('.prizeDetail').removeClass("fadein");
+	}
+
 	$("#awardList").fadeIn(1000);
 }
 
@@ -395,6 +463,7 @@ function filter_word(ary,tar){
 	if (gettype == "likes"){
 		return ary;
 	}else{
+		console.log(ary);
 		var newAry = $.grep(ary,function(n, i){
 			if (n.text.indexOf(tar) > -1){
 				return true;

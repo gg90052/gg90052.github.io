@@ -7,6 +7,7 @@ var length_now = 0;
 var userid,urlid;
 var cleanURL = false;
 var pageid = "";
+var cursor = "";
 
 $(document).ready(function(){
 	$("#btn_comments").click(function(e){
@@ -66,6 +67,7 @@ function init(){
 	data = [];
 	id_array = [];
 	length_now = 0;
+	pageid = "";
 	$(".main_table").DataTable().destroy();
 	$(".main_table tbody").html("");
 	$("#awardList tbody").html("");
@@ -204,7 +206,12 @@ function waitingFBID(type){
 function getData(post_id){
 	var api_command = gettype;
 	$(".waiting").removeClass("hide");
-	FB.api("https://graph.facebook.com/v2.3/"+pageid+"_"+post_id+"/"+api_command+"?limit=500",function(res){
+	if (pageid == undefined){
+		pageid = "";
+	}else{
+		pageid += "_";
+	}
+	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit=500",function(res){
 		if(res.error){
 			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
 			setTimeout(function(){
@@ -254,22 +261,34 @@ function getData(post_id){
 				}
 			}
 			length_now += data.length;
-
-			if (res.paging.next){
-				getDataNext(res.paging.next,api_command);
+			if (api_command == "feed"){
+				var url = res.paging.next;
+				getDataNext_event(url,api_command);
 			}else{
-				if (id_array.length == 0){	
-					finished();
+				if (res.paging.cursors.after){
+					cursor = res.paging.cursors.after;
+					getDataNext(post_id,cursor,api_command,500);
 				}else{
-					getData(id_array.pop(),api_command);
+					if (id_array.length == 0){	
+						finished();
+					}else{
+						getData(id_array.pop(),api_command);
+					}
 				}
 			}
 		}
 	});
 }
 
-function getDataNext(url,api_command){
-	$.get(url,function(res){
+function getDataNext(post_id,next,api_command,limit){
+	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+limit,function(res){
+		if (res.error){
+			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
+			setTimeout(function(){
+				$(".console .message").text('繼續截取資料');
+				getDataNext(post_id,cursor,api_command,5);
+			},5000);
+		}
 		if (res.data.length == 0){
 			$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
 			setTimeout(function(){
@@ -315,9 +334,9 @@ function getDataNext(url,api_command){
 			}
 
 			length_now += res.data.length;
-
-			if (res.paging.next){
-				getDataNext(res.paging.next,api_command);
+			if (res.paging.cursors.after){
+				cursor = res.paging.cursors.after;
+				getDataNext(post_id,cursor,api_command,500);
 			}else{
 				if (id_array.length == 0){
 					$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
@@ -329,13 +348,67 @@ function getDataNext(url,api_command){
 				}
 			}
 		}
-	}).fail(function(){
-		$(".console .message").text('發生錯誤，10秒後自動重試，請稍待');
-		setTimeout(function(){
-			$(".console .message").text('繼續截取資料');
-			getDataNext(url,api_command);
-		},10000);
-	});	
+	});
+}
+
+function getDataNext_event(url,api_command){
+	$.get(url,function(res){
+		if (res.error){
+			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
+			setTimeout(function(){
+				$(".console .message").text('繼續截取資料');
+				getDataNext_event(url,api_command);
+			},5000);
+		}
+		if (res.data.length == 0){
+			$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
+			setTimeout(function(){
+				finished();
+			},1000);
+		}else{
+			for (var i=0; i<res.data.length; i++){
+				data.push(res.data[i]);
+			}
+			$(".console .message").text('已截取  '+ data.length +' 筆資料...');
+			for (var i = length_now; i<data.length; i++){	
+				data[i].serial = i+1;	
+				if (api_command == "comments" || api_command == "feed" || api_command == "sharedposts"){
+					data[i].realname = data[i].from.name;
+					data[i].realtime = timeConverter(data[i].created_time);
+					data[i].fromid = data[i].from.id;
+					data[i].link = "http://www.facebook.com/"+data[i].from.id;	
+					data[i].text = data[i].message;
+					if (!data[i].message){
+						data[i].text = "";
+					}
+					if (!cleanURL){
+						data[i].postlink = "http://www.facebook.com/"+data[i].id;	
+					}else{
+						data[i].postlink = cleanURL+"?fb_comment_id="+data[i].id;
+					}
+					if (!data[i].message_tags){
+						data[i].message_tags = [];
+					}
+					if (api_command == "sharedposts"){
+						data[i].link = data[i].postlink;
+						data[i].text = "";
+						data[i].message_tags = [];
+					}
+				}else if (api_command == "likes"){
+					data[i].realname = data[i].name;
+					data[i].fromid = data[i].id;
+					data[i].link = "http://www.facebook.com/"+data[i].id;
+					if (!data[i].message_tags){
+						data[i].message_tags = [];
+					}
+				}
+			}
+
+			length_now += res.data.length;
+			var Nexturl = res.paging.next;
+			getDataNext_event(Nexturl,api_command);
+		}
+	});
 }
 
 function finished(){
@@ -427,7 +500,6 @@ function choose(){
 		for(var k=0; k<list.length; k++){
 			var tar = $("#awardList tbody tr").eq(now);
 			$('<tr><td class="prizeName" colspan="5">獎品：'+list[k].name+'<span>共 '+list[k].num+' 名</span></td></tr>').insertBefore(tar);
-			console.log(now);
 			now += (list[k].num + 1);
 		}
 		$("#moreprize").removeClass("active");
@@ -466,7 +538,6 @@ function filter_word(ary,tar){
 	if (gettype == "likes"){
 		return ary;
 	}else{
-		console.log(ary);
 		var newAry = $.grep(ary,function(n, i){
 			if (n.text.indexOf(tar) > -1){
 				return true;

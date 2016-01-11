@@ -8,6 +8,7 @@ var userid,urlid;
 var cleanURL = false;
 var pageid = "";
 var cursor = "";
+var pureFBID = false;
 
 $(document).ready(function(){
 	$("#btn_comments").click(function(e){
@@ -97,7 +98,6 @@ function callback(response){
 				bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
 			}
 		}else if (gettype == "sharedposts"){
-			console.log(response);
 			if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
 				bootbox.alert("抓分享需要付費，詳情請見粉絲專頁");
 			}else{
@@ -184,6 +184,7 @@ function fbid_check(){
 					var start = checkType+5;
 					var end = posturl.indexOf("&",start);
 					var fbid = posturl.substring(start,end);
+					pureFBID = true;
 					fbid_array.push(fbid);
 				}else if (checkType2 > 0 && result.length == 1){
 					fbid_array.push(result[0]);
@@ -213,7 +214,7 @@ function waitingFBID(type){
 function getData(post_id){
 	var api_command = gettype;
 	$(".waiting").removeClass("hide");
-	if (pageid == undefined){
+	if (pageid == undefined || pureFBID == true){
 		pageid = "";
 	}else{
 		pageid += "_";

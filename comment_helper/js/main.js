@@ -15,6 +15,7 @@ $(document).ready(function(){
 		getAuth('comments');
 	});
 	$("#btn_share").click(function(e){
+		init();
 		getAuth('sharedposts');
 	});
 	$("#btn_like").click(function(){
@@ -75,7 +76,7 @@ function init(){
 
 function getAuth(type){
 	gettype = type;
-	if (type == "addScope"){
+	if (type == "addScope" || type == "sharedposts"){
 		FB.login(function(response) {
 			callback(response);
 		}, {scope: 'read_stream,user_photos,user_posts,user_groups',return_scopes: true});
@@ -94,6 +95,13 @@ function callback(response){
 				bootbox.alert("付費授權完成，請再次執行抓留言/讚\nAuthorization Finished! Please getComments or getLikes again.");
 			}else{
 				bootbox.alert("付費授權失敗，請聯絡管理員進行確認\nAuthorization Failed! Please contact the administrator.");
+			}
+		}else if (gettype == "sharedposts"){
+			console.log(response);
+			if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
+				bootbox.alert("抓分享需要付費，詳情請見粉絲專頁");
+			}else{
+				getFBID(gettype);
 			}
 		}else{
 			getFBID(gettype);			

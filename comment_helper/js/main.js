@@ -6,11 +6,16 @@ var isGroup = false;
 var length_now = 0;
 var userid,urlid;
 var cleanURL = false;
+var pageid = "";
 
 $(document).ready(function(){
-	$("#btn_comments").click(function(){
+	$("#btn_comments").click(function(e){
 		init();
-		getAuth('comments');
+		if (e.ctrlKey == true){
+			getAuth('sharedposts');
+		}else{
+			getAuth('comments');
+		}
 	});
 	$("#btn_like").click(function(){
 		init();
@@ -116,7 +121,12 @@ function getFBID(type){
 			}
 		},100);
 	}else{
-		waitingFBID(type);
+		var t = setInterval(function(){
+			if (pageid != ""){
+				clearInterval(t);
+				waitingFBID(type);
+			}
+		},100);
 	}
 }
 
@@ -142,6 +152,17 @@ function fbid_check(){
 			var checkType2 = posturl.indexOf("events");
 			var checkGroup = posturl.indexOf("/groups/");
 			var check_personal = posturl.indexOf("+");
+
+			var page_s = posturl.indexOf("facebook.com")+13;
+			if (checkGroup > 0){
+				page_s = checkGroup+8;
+			}
+			var page_e = posturl.indexOf("/",page_s);
+			var pagename = posturl.substring(page_s,page_e);
+			FB.api("https://graph.facebook.com/v2.3/"+pagename+"/",function(res){
+				pageid = res.id;
+			});
+
 			var result = posturl.match(regex);
 
 			if (check_personal > 0){
@@ -180,7 +201,7 @@ function waitingFBID(type){
 function getData(post_id){
 	var api_command = gettype;
 	$(".waiting").removeClass("hide");
-	FB.api("https://graph.facebook.com/v2.3/"+post_id+"/"+api_command+"?limit=500",function(res){
+	FB.api("https://graph.facebook.com/v2.3/"+pageid+"_"+post_id+"/"+api_command+"?limit=500",function(res){
 		if(res.error){
 			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
 			setTimeout(function(){
@@ -198,7 +219,7 @@ function getData(post_id){
 			$(".console .message").text('已截取  '+ data.length +' 筆資料...');
 			for (var i=length_now; i<data.length; i++){	
 				data[i].serial = i+1;	
-				if (api_command == "comments" || api_command == "feed"){
+				if (api_command == "comments" || api_command == "feed" || api_command == "sharedposts"){
 					data[i].realname = data[i].from.name;
 					data[i].realtime = timeConverter(data[i].created_time);
 					data[i].fromid = data[i].from.id;
@@ -213,6 +234,11 @@ function getData(post_id){
 						data[i].postlink = cleanURL+"?fb_comment_id="+data[i].id;
 					}
 					if (!data[i].message_tags){
+						data[i].message_tags = [];
+					}
+					if (api_command == "sharedposts"){
+						data[i].link = data[i].postlink;
+						data[i].text = "";
 						data[i].message_tags = [];
 					}
 				}else if (api_command == "likes"){
@@ -253,7 +279,7 @@ function getDataNext(url,api_command){
 			$(".console .message").text('已截取  '+ data.length +' 筆資料...');
 			for (var i = length_now; i<data.length; i++){	
 				data[i].serial = i+1;	
-				if (api_command == "comments" || api_command == "feed"){
+				if (api_command == "comments" || api_command == "feed" || api_command == "sharedposts"){
 					data[i].realname = data[i].from.name;
 					data[i].realtime = timeConverter(data[i].created_time);
 					data[i].fromid = data[i].from.id;
@@ -268,6 +294,11 @@ function getDataNext(url,api_command){
 						data[i].postlink = cleanURL+"?fb_comment_id="+data[i].id;
 					}
 					if (!data[i].message_tags){
+						data[i].message_tags = [];
+					}
+					if (api_command == "sharedposts"){
+						data[i].link = data[i].postlink;
+						data[i].text = "";
 						data[i].message_tags = [];
 					}
 				}else if (api_command == "likes"){
@@ -432,6 +463,7 @@ function filter_word(ary,tar){
 	if (gettype == "likes"){
 		return ary;
 	}else{
+		console.log(ary);
 		var newAry = $.grep(ary,function(n, i){
 			if (n.text.indexOf(tar) > -1){
 				return true;

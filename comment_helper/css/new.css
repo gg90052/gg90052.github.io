@@ -146,7 +146,7 @@ body {
   margin-left: 15px;
 }
 .wrapper .main_area .inputarea .message {
-  margin-top: 60px;
+  margin-top: 30px;
   font-size: 1.1em;
   line-height: 1.5em;
 }
@@ -225,7 +225,6 @@ body {
 .wrapper .section .donate_area .message {
   font-size: 1.1em;
   line-height: 1.5em;
-  margin-bottom: 20px;
 }
 .wrapper .section .donate_area .message span {
   color: #FFAB0D;

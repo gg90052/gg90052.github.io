@@ -12,11 +12,10 @@ var cursor = "";
 $(document).ready(function(){
 	$("#btn_comments").click(function(e){
 		init();
-		if (e.ctrlKey == true){
-			getAuth('sharedposts');
-		}else{
-			getAuth('comments');
-		}
+		getAuth('comments');
+	});
+	$("#btn_share").click(function(e){
+		getAuth('sharedposts');
 	});
 	$("#btn_like").click(function(){
 		init();

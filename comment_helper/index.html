@@ -98,7 +98,7 @@ window.fbAsyncInit = function() {
 					<input type="checkbox" id="tag"> 只顯示有TAG人的留言
 				</label>
 				<p class="message">若有任何問題或是功能建議，請到粉絲團留言或Email至<a href="mailto:icimcse100@gmail.com">icimcse100@gmail.com</a><br>如果你發現無法抓粉絲團留言請先通知我，不要急著先付費Orz</p>
-				<p class="message">粉絲團使用是完全免費的，社團才需要付費300元，沒有使用期限<br />付款後請到粉絲團私訊給管理員，待管理員開通後方可授權</p>
+				<p class="message" style="margin-top: 25px">粉絲團使用是完全免費的，社團才需要付費300元，沒有使用期限</p>
 				<button id="btn_pay" style="margin-top: 10px; width: 90px; font-size: 12px;" type="button" class="btn" ng-click="getAuth('addScope')">已付費授權</button>
 			</div>
 		</div>
@@ -118,10 +118,8 @@ window.fbAsyncInit = function() {
 		<div class="donate_area">
 			<div class="title">贊助或請小助手喝杯咖啡？</div>
 			<p class="message">如果小助手幫妳省下你很多時間，能否贊助點經費或買杯咖啡請我喝喝？有您的捐款小助手將永遠保持免費給粉絲團經營使用。</p>
-			<br />
-			<a href="https://p.allpay.com.tw/itbj0" target="_blank"><img src="https://payment.allpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
-			<br /><br />
 			<p class="message">由於配合法令，Paypal不提供台灣對台灣的帳戶付款，因此建議使用歐付寶(ATM、超商付款、信用卡) <span>(金額自由輸入)</span></p>
+			<a href="https://p.allpay.com.tw/itbj0" target="_blank"><img src="https://payment.allpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<table align="center">
@@ -141,29 +139,13 @@ window.fbAsyncInit = function() {
 		</div>
 		<div class="result_area">
 			<div class="title">以下是您的結果</div>
-			<button type="button" id="moreprize" class="btn">獎項明細</button>
 			<div class="uipanel">
 				<input type="text" placeholder="搜尋姓名" id="searchName" />
 				<input type="text" placeholder="搜尋留言" id="searchComment" />
 				<br />
-				<div class="gettotal">
-					幫我抽出<input type="number" id="howmany" />個人 
-				</div>
+				幫我抽出<input type="number" id="howmany" />個人 
 				<button type="button" id="btn_choose" class="btn">馬上抽</button>
 				<button id="btn_excel" type="button" class="btn">輸出EXCEL</button>
-			</div>
-			<div class="prizeDetail">
-				<button type="button" id="btn_addPrize" class="btn"> + 增加獎項</button>
-				<div class="prize">
-					<div class="input_group">
-						品名：
-						<input type="text">
-					</div>
-					<div class="input_group">
-						抽獎人數：
-						<input type="number">
-					</div>
-				</div>
 			</div>
 			<div id="comment_table">
 				<div id="awardList">

@@ -159,14 +159,17 @@ function fbid_check(){
 			}
 			var page_e = posturl.indexOf("/",page_s);
 			var pagename = posturl.substring(page_s,page_e);
-			FB.api("https://graph.facebook.com/v2.3/"+pagename+"/",function(res){
-				pageid = res.id;
-			});
+			if (check_personal < 0){
+				FB.api("https://graph.facebook.com/v2.3/"+pagename+"/",function(res){
+					pageid = res.id;
+				});
+			}
 
 			var result = posturl.match(regex);
 
 			if (check_personal > 0){
-				fbid_array.push(posturl.replace("+","_"));
+				pageid = posturl.split("+")[0];
+				fbid_array.push(posturl.split("+")[1]);
 			}else{
 				if (checkType > 0){
 					var start = checkType+5;

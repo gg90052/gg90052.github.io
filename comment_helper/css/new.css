@@ -142,7 +142,7 @@ body {
   font-size: 16px;
   background: #44b1da;
 }
-.wrapper .main_area .inputarea label.tag {
+.wrapper .main_area .inputarea label.tag, .wrapper .main_area .inputarea label.picture {
   margin-left: 15px;
 }
 .wrapper .main_area .inputarea .message {
@@ -382,6 +382,12 @@ body {
 }
 .wrapper .section .result_area #comment_table table {
   width: 100% !important;
+}
+.wrapper .section .result_area #comment_table table td {
+  text-align: center;
+}
+.wrapper .section .result_area #comment_table table td.force-break {
+  text-align: left;
 }
 .wrapper .section .result_area #comment_table #awardList {
   display: none;

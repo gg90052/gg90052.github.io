@@ -433,7 +433,12 @@ function finished(){
 function insertTable(data){
 	var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
 	for(var i=0; i<filterData.length; i++){
-		var insertQuery = '<tr><td>'+(i+1)+'</td><td>'+filterData[i].fromid+'</td><td><a href="'+filterData[i].link+'" target="_blank">'+filterData[i].realname+'</a></td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].realtime+'</td></tr>';
+		var insertQuery;
+		if ($("#picture").prop("checked") == true){
+			insertQuery = '<tr><td>'+(i+1)+'</td><td><img src="http://graph.facebook.com/'+filterData[i].fromid+'/picture?type=small"><br>'+filterData[i].fromid+'</td><td><a href="'+filterData[i].link+'" target="_blank">'+filterData[i].realname+'</a></td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].realtime+'</td></tr>';			
+		}else{
+			insertQuery = '<tr><td>'+(i+1)+'</td><td>'+filterData[i].fromid+'</td><td><a href="'+filterData[i].link+'" target="_blank">'+filterData[i].realname+'</a></td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].realtime+'</td></tr>';			
+		}
 		$(".like_comment").append(insertQuery);
 	}
 }
@@ -501,7 +506,11 @@ function choose(){
 	}
 
 	for (var j=0; j<num; j++){
-		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		if ($("#picture").prop("checked") == true){
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'><img src='http://graph.facebook.com/"+filterData[i].fromid+"/picture?type=small'><br>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		}else{
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		}
 	}
 	if(detail){
 		var now = 0;

@@ -86,7 +86,7 @@ body{
 				font-size: 16px;
 				background: $lightblue;
 			}
-			label.tag{
+			label.tag,label.picture{
 				margin-left: 15px;
 			}
 			.message{
@@ -301,6 +301,12 @@ body{
 				margin-top: 40px;
 				table{
 					width: 100% !important;
+					td{
+						text-align: center;
+						&.force-break{
+							text-align: left;
+						}
+					}
 				}
 				#awardList{
 					display: none;

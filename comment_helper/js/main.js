@@ -12,19 +12,15 @@ var pureFBID = false;
 
 $(document).ready(function(){
 	$("#btn_comments").click(function(e){
-		init();
 		getAuth('comments');
 	});
 	$("#btn_share").click(function(e){
-		init();
 		getAuth('sharedposts');
 	});
 	$("#btn_like").click(function(){
-		init();
 		getAuth('likes');
 	});
 	$("#btn_url").click(function(){
-		init();
 		getAuth('url_comments');
 	});
 	$("#btn_pay").click(function(){
@@ -68,7 +64,6 @@ function init(){
 	data = [];
 	id_array = [];
 	length_now = 0;
-	pageid = "";
 	$(".main_table").DataTable().destroy();
 	$(".main_table tbody").html("");
 	$("#awardList tbody").html("");
@@ -115,13 +110,20 @@ function callback(response){
 
 
 function getFBID(type){
-	var comments = new Array();
-	var data = new Array();
-	var length_now = 0;
+	//init
+	comments = new Array();
+	data = new Array();
+	id_array = new Array();
+	length_now = 0;
+	pageid = "";
+	$(".main_table").DataTable().destroy();
+	$(".main_table tbody").html("");
+	$("#awardList tbody").html("");
+	$("#awardList").hide();
+
 	id_array = fbid_check();
 	$(".console .message").text('');
 	$(".main_table").DataTable().destroy();
-
 	if (type == "url_comments"){
 		var t = setInterval(function(){
 			if (gettype  == "comments"){

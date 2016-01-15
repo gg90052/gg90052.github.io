@@ -507,7 +507,7 @@ function choose(){
 
 	for (var j=0; j<num; j++){
 		if ($("#picture").prop("checked") == true){
-			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'><img src='http://graph.facebook.com/"+filterData[i].fromid+"/picture?type=small'><br>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'><img src='http://graph.facebook.com/"+award[j].fromid+"/picture?type=small'><br>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 		}else{
 			$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 		}

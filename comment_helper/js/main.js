@@ -144,6 +144,7 @@ function getFBID(type){
 function fbid_check(){
 	var fbid_array = new Array();
 	if (gettype == "url_comments"){
+		pureFBID = true;
 		var posturl = $($("#enterURL .url")[0]).val();
 		if (posturl.indexOf("?") > 0){
 			posturl = posturl.substring(0,posturl.indexOf("?"));

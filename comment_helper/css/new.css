@@ -495,6 +495,14 @@ body {
   left: 305px;
   top: 100px;
 }
+.console .error {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 16px;
+  color: #B74D00;
+  display: none;
+}
 
 .sk-folding-cube {
   width: 40px;

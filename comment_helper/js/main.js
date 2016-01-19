@@ -10,6 +10,19 @@ var pageid = "";
 var cursor = "";
 var pureFBID = false;
 
+var errorMessage = false;
+window.onerror=handleErr
+
+function handleErr(msg,url,l)
+{
+	if (!errorMessage){
+		console.log("%c發生錯誤，請點擊錯誤開頭的小三角形箭頭\n並將完整錯誤訊息截圖傳送給管理員","font-size:30px; color:#F00");
+		$(".console .error").fadeIn();
+		errorMessage = true;	
+	}
+	return false;
+}
+
 $(document).ready(function(){
 	$("#btn_comments").click(function(e){
 		getAuth('comments');
@@ -423,6 +436,7 @@ function getDataNext_event(url,api_command){
 }
 
 function finished(){
+	// console.table(data);
 	insertTable(data);
 	activeDataTable();
 	filterEvent();

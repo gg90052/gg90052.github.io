@@ -9,6 +9,7 @@ var cleanURL = false;
 var pageid = "";
 var cursor = "";
 var pureFBID = false;
+var errorTime = 0;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -237,11 +238,7 @@ function getData(post_id){
 	}
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit=500",function(res){
 		if(res.error){
-			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
-			setTimeout(function(){
-				$(".console .message").text('重新截取資料');
-				getData(post_id);
-			},5000);
+			$(".console .message").text('發生錯誤，請確認您的網址無誤，並重新整理再次嘗試');
 		}
 		if (res.data.length == 0){
 			bootbox.alert("沒有資料或無法取得\n小助手僅免費支援粉絲團抽獎，若是要擷取社團留言請付費\nNo comments. If you want get group comments, you need to pay for it.");
@@ -307,11 +304,16 @@ function getData(post_id){
 function getDataNext(post_id,next,api_command,limit){
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+limit,function(res){
 		if (res.error){
-			$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
-			setTimeout(function(){
-				$(".console .message").text('繼續截取資料');
-				getDataNext(post_id,cursor,api_command,5);
-			},5000);
+			errorTime++;
+			if (errorTime >= 20){
+				$(".console .message").text('錯誤次數過多，請按下重新整理重試');
+			}else{
+				$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');
+				setTimeout(function(){
+					$(".console .message").text('繼續截取資料');
+					getDataNext(post_id,cursor,api_command,5);
+				},5000);
+			}
 		}
 		if (res.data.length == 0){
 			$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');

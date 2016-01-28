@@ -7,9 +7,12 @@ var length_now = 0;
 var userid,urlid;
 var cleanURL = false;
 var pageid = "";
+var postid = "";
 var cursor = "";
 var pureFBID = false;
 var errorTime = 0;
+var backend_data = {"data":""};
+var noPageName = false;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -184,12 +187,17 @@ function fbid_check(){
 				page_s = checkGroup+8;
 			}
 			var page_e = posturl.indexOf("/",page_s);
-			var pagename = posturl.substring(page_s,page_e);
-			if (check_personal < 0){
-				FB.api("https://graph.facebook.com/v2.3/"+pagename+"/",function(res){
-					pageid = res.id;
-				});
-			}
+			if (page_e < 0){
+				pageid = posturl.match(regex)[1];
+				noPageName = true;
+			}else{
+				var pagename = posturl.substring(page_s,page_e);
+				if (check_personal < 0){
+					FB.api("https://graph.facebook.com/v2.3/"+pagename+"/",function(res){
+						pageid = res.id;
+					});
+				}
+			}	
 
 			var result = posturl.match(regex);
 
@@ -229,13 +237,15 @@ function waitingFBID(type){
 }
 
 function getData(post_id){
+	postid = post_id;
 	var api_command = gettype;
 	$(".waiting").removeClass("hide");
-	if (pageid == undefined || pureFBID == true){
+	if ((pageid == undefined || pureFBID == true) && noPageName == false){
 		pageid = "";
 	}else{
 		pageid += "_";
 	}
+
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit=500",function(res){
 		if(res.error){
 			$(".console .message").text('發生錯誤，請確認您的網址無誤，並重新整理再次嘗試');

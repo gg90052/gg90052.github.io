@@ -89,7 +89,7 @@ $(document).ready(function(){
 		"timePicker": true,
 		"timePicker24Hour": true,
 		"locale": {
-			"format": "YYYY-MM-DD   HH:mm:ss",
+			"format": "YYYY-MM-DD   HH:mm",
 			"separator": "-",
 			"applyLabel": "確定",
 			"cancelLabel": "取消",

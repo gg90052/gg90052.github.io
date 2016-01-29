@@ -198,7 +198,7 @@ body{
 				color: $blue;
 			}
 			#moreprize{
-				margin-top: 15px;
+				margin-top: 17px;
 				color: #666;
 				@include transition(all .3s);
 				&.active{
@@ -207,6 +207,37 @@ body{
 				}
 				&:hover{
 					border: 1px solid $blue;
+				}
+			}
+			#endTime{
+				color: #666;
+				@include transition(all .3s);
+				&.active{
+					background: transparent;
+					box-shadow: none;
+					color: #000;
+					&+input{
+						@include transform(scaleX(1));
+					}
+				}
+				&:hover{
+					border: 1px solid $blue;
+				}
+				&+input{
+					@include transition(all .3s);
+					@include transform-origin(left);
+					@include transform(scaleX(0));
+				}
+			}
+			.limitTime{
+				display: inline-block;
+				margin-left: 30px;
+				vertical-align: bottom;
+				input{
+					height: 32px;
+					padding-left: 10px;
+					font-size: 0.9em;
+					width: 155px;
 				}
 			}
 			.uipanel{

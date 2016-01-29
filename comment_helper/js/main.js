@@ -13,6 +13,7 @@ var pureFBID = false;
 var errorTime = 0;
 var backend_data = {"data":""};
 var noPageName = false;
+var endTime = nowDate();
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -66,6 +67,13 @@ $(document).ready(function(){
 			$('.prizeDetail').addClass("fadein");
 		}
 	});
+	$("#endTime").click(function(){
+		if($(this).hasClass("active")){
+			$(this).removeClass("active");
+		}else{
+			$(this).addClass("active");
+		}
+	});
 	$("#btn_addPrize").click(function(){
 		$(".prizeDetail").append('<div class="prize"><div class="input_group">品名：<input type="text"></div><div class="input_group">抽獎人數：<input type="number"></div></div>');
 	});
@@ -75,6 +83,49 @@ $(document).ready(function(){
 		var excelString = forExcel(filterData);
 		$("#exceldata").val(JSON.stringify(excelString));
 	});
+
+	$('.rangeDate').daterangepicker({
+		"singleDatePicker": true,
+		"timePicker": true,
+		"timePicker24Hour": true,
+		"locale": {
+			"format": "YYYY-MM-DD   HH:mm:ss",
+			"separator": "-",
+			"applyLabel": "確定",
+			"cancelLabel": "取消",
+			"fromLabel": "From",
+			"toLabel": "To",
+			"customRangeLabel": "Custom",
+			"daysOfWeek": [
+			"日",
+			"一",
+			"二",
+			"三",
+			"四",
+			"五",
+			"六"
+			],
+			"monthNames": [
+			"一月",
+			"二月",
+			"三月",
+			"四月",
+			"五月",
+			"六月",
+			"七月",
+			"八月",
+			"九月",
+			"十月",
+			"十一月",
+			"十二月"
+			],
+			"firstDay": 1
+		},
+	},function(start, end, label) {
+		endTime = start.format('YYYY-MM-DD-HH-mm-ss');
+		redoTable();
+	});
+	$('.rangeDate').data('daterangepicker').setStartDate(endTime);
 });
 
 function init(){
@@ -160,6 +211,7 @@ function getFBID(type){
 
 function fbid_check(){
 	var fbid_array = new Array();
+	backend_data.type = gettype;
 	if (gettype == "url_comments"){
 		pureFBID = true;
 		var posturl = $($("#enterURL .url")[0]).val();
@@ -449,6 +501,15 @@ function getDataNext_event(url,api_command){
 
 function finished(){
 	// console.table(data);
+	backend_data.data = data;
+	backend_data.pageid = pageid.replace("_","");
+	backend_data.postid = postid;
+
+	// $.ajax({
+	// 	url: "http://teddy.acsite.org/cm_back/setdata",
+	// 	method: "POST",
+	// 	data: data,
+	// });
 	insertTable(data);
 	activeDataTable();
 	filterEvent();
@@ -495,12 +556,15 @@ function activeDataTable(){
 
 function filterEvent(){
 	$("#unique, #tag").on('change',function(){
-		var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
-		$(".main_table").DataTable().destroy();
-		$(".main_table tbody").html("");
-		insertTable(filterData);
-		activeDataTable();
+		redoTable();
 	});
+}
+
+function redoTable(){
+	$(".main_table").DataTable().destroy();
+	$(".main_table tbody").html("");
+	insertTable(data);
+	activeDataTable();
 }
 
 function choose(){
@@ -566,6 +630,7 @@ function totalFilter(ary,isDuplicate,isTag){
 	if (isTag){
 		filteredData = filter_tag(filteredData);
 	}
+	filteredData = filter_time(filteredData,endTime);
 	return filteredData;
 }
 function filter_unique(filteredData){
@@ -586,6 +651,21 @@ function filter_word(ary,tar){
 	}else{
 		var newAry = $.grep(ary,function(n, i){
 			if (n.text.indexOf(tar) > -1){
+				return true;
+			}
+		});
+		return newAry;
+	}
+}
+function filter_time(ary,t){
+	if (gettype == "likes"){
+		return ary;
+	}else{
+		var time_ary = t.split("-");
+		var time = new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]);
+		var newAry = $.grep(ary,function(n, i){
+			var created_time = new Date(n.created_time);
+			if (created_time  < time){
 				return true;
 			}
 		});
@@ -732,4 +812,15 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+function nowDate(){
+	var a = new Date();
+	var year = a.getFullYear();
+	var month = a.getMonth()+1;
+	var date = a.getDate();
+	var hour = a.getHours();
+	var min = a.getMinutes();
+	var sec = a.getSeconds();
+	return year+"-"+month+"-"+date+"-"+hour+"-"+min+"-"+sec;
 }

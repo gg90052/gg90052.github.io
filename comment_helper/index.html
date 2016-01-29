@@ -32,6 +32,9 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootbox.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.js"></script>
 <script src="js/main.js"></script>
 <script src="//j.wovn.io/0" data-wovnio="key=rsMFb"></script>
 
@@ -145,6 +148,10 @@ window.fbAsyncInit = function() {
 		<div class="result_area">
 			<div class="title">以下是您的結果</div>
 			<button type="button" id="moreprize" class="btn">獎項明細</button>
+			<div class="limitTime">
+				<button type="button" id="endTime" class="btn">活動截止時間：</button>
+				<input type="text" class="rangeDate">
+			</div>
 			<div class="uipanel">
 				<input type="text" placeholder="搜尋姓名" id="searchName" />
 				<input type="text" placeholder="搜尋留言" id="searchComment" />

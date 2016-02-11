@@ -662,9 +662,9 @@ function filter_time(ary,t){
 		return ary;
 	}else{
 		var time_ary = t.split("-");
-		var time = new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]);
+		var time = moment(new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]))._d;
 		var newAry = $.grep(ary,function(n, i){
-			var created_time = new Date(n.created_time);
+			var created_time = moment(n.created_time)._d;
 			if (created_time  < time){
 				return true;
 			}
@@ -693,7 +693,7 @@ function filter_tag(ary){
 
 
 function timeConverter(UNIX_timestamp){
-	 var a = new Date(UNIX_timestamp);
+	 var a = moment(UNIX_timestamp)._d;
  	 var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
      var year = a.getFullYear();
      var month = months[a.getMonth()];

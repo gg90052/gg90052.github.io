@@ -68,12 +68,14 @@ body{
 			width: 560px;
 			margin-left: 40px;
 			float: left;
-			.url{
-				width: 100%;
-				padding-left: 15px;
-				height: 32px;
-				line-height: 32px;
-				font-size: 16px;
+			.source{
+				.url{
+					width: 100%;
+					padding-left: 15px;
+					height: 32px;
+					line-height: 32px;
+					font-size: 16px;
+				}
 			}
 			.btn{
 				min-width: 110px;

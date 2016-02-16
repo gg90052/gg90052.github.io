@@ -30,10 +30,53 @@ function handleErr(msg,url,l)
 	return false;
 }
 
+function render(file) {
+  var reader = new FileReader();
+
+  reader.onload = function(event) {
+  	var str = event.target.result;
+  	// var s = str.indexOf("<body>");
+  	// var e = str.lastIndexOf("</body>");
+  	// var json = str.substring((s+6),e);
+  	data = JSON.parse(str);
+  	getJSON();
+  }
+
+  reader.readAsText(file);
+}
+
 $(document).ready(function(){
-	$("#btn_comments").click(function(e){
-		getAuth('comments');
+	$("#inputJSON").change(function() {
+		render(this.files[0]);
 	});
+
+	$("#btn_comments").click(function(e){
+		if (e.ctrlKey){
+
+		}else{
+			getAuth('comments');
+		}
+	});
+
+	$(".ci").click(function(){
+		ci_counter++;
+		if (ci_counter >= 5){
+			$(".source .url, .source .btn").addClass("hide");
+			$("#inputJSON").removeClass("hide");
+		}
+	});
+
+	$(window).keydown(function(e){
+		if (e.ctrlKey){
+			$("#btn_excel").text("輸出JSON");
+		}
+	});
+	$(window).keyup(function(e){
+		if (!e.ctrlKey){
+			$("#btn_excel").text("輸出EXCEL");
+		}
+	});
+
 	$("#btn_share").click(function(e){
 		getAuth('sharedposts');
 	});
@@ -50,14 +93,20 @@ $(document).ready(function(){
 		choose();
 	});
 	$("#btn_excel").click(function(e){
-		if (data.length > 7000 || e.ctrlKey == true){
-			// bootbox.alert("您的資料量過多，需要使用別的方法，請聯繫管理員");
-			$(".bigExcel").removeClass("hide");
+		var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
+		if (e.ctrlKey){
+			var url = 'data:text/json;charset=utf8,' + JSON.stringify(data);
+			window.open(url, '_blank');
+			window.focus();
 		}else{
-			var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));	
-			JSONToCSVConvertor(forExcel(filterData), "Comment_helper", true);
+			if (data.length > 7000){
+				$(".bigExcel").removeClass("hide");
+			}else{	
+				JSONToCSVConvertor(forExcel(filterData), "Comment_helper", true);
+			}
 		}
 	});
+	
 	$("#moreprize").click(function(){
 		if($(this).hasClass("active")){
 			$(this).removeClass("active");
@@ -181,9 +230,9 @@ function callback(response){
 
 function getFBID(type){
 	//init
-	comments = new Array();
-	data = new Array();
-	id_array = new Array();
+	comments = [];
+	data = [];
+	id_array = [];
 	length_now = 0;
 	pageid = "";
 	$(".main_table").DataTable().destroy();
@@ -193,7 +242,7 @@ function getFBID(type){
 
 	id_array = fbid_check();
 	$(".console .message").text('');
-	$(".main_table").DataTable().destroy();
+
 	if (type == "url_comments"){
 		var t = setInterval(function(){
 			if (gettype  == "comments"){
@@ -212,7 +261,7 @@ function getFBID(type){
 }
 
 function fbid_check(){
-	var fbid_array = new Array();
+	var fbid_array = [];
 	backend_data.type = gettype;
 	if (gettype == "url_comments"){
 		pureFBID = true;
@@ -499,6 +548,29 @@ function getDataNext_event(url,api_command){
 			getDataNext_event(Nexturl,api_command);
 		}
 	});
+}
+
+function getJSON(){
+	comments = [];
+	id_array = [];
+
+	$(".main_table").DataTable().destroy();
+	$(".main_table tbody").html("");
+	$("#awardList tbody").html("");
+	$("#awardList").hide();
+
+	$(".console .message").text('');
+
+	$(".share_post").addClass("hide");
+	$(".like_comment").removeClass("hide");
+	$(".update_donate").slideUp();
+
+	$(".waiting").removeClass("hide");
+
+	$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
+	setTimeout(function(){
+		finished();
+	},1000);
 }
 
 function finished(){

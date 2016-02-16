@@ -14,6 +14,8 @@ var errorTime = 0;
 var backend_data = {"data":""};
 var noPageName = false;
 var endTime = nowDate();
+var ci_counter = 0;
+var limit = 500;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -265,6 +267,7 @@ function fbid_check(){
 					fbid_array.push(fbid);
 				}else if (checkType2 > 0 && result.length == 1){
 					fbid_array.push(result[0]);
+					limit = 50;
 					gettype = "feed";
 				}else{
 					if (result.length == 1 || result.length == 3){
@@ -297,8 +300,7 @@ function getData(post_id){
 	}else{
 		pageid += "_";
 	}
-
-	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit=500",function(res){
+	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit="+limit,function(res){
 		if(res.error){
 			$(".console .message").text('發生錯誤，請確認您的網址無誤，並重新整理再次嘗試');
 		}

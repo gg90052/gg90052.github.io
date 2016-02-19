@@ -22,6 +22,7 @@ window.onerror=handleErr
 
 function handleErr(msg,url,l)
 {
+	limit = 100;
 	if (!errorMessage){
 		console.log("%c發生錯誤，請點擊錯誤開頭的小三角形箭頭\n並將完整錯誤訊息截圖傳送給管理員","font-size:30px; color:#F00");
 		$(".console .error").fadeIn();
@@ -414,8 +415,8 @@ function getData(post_id){
 	});
 }
 
-function getDataNext(post_id,next,api_command,limit){
-	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+limit,function(res){
+function getDataNext(post_id,next,api_command,max){
+	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+max,function(res){
 		if (res.error){
 			errorTime++;
 			if (errorTime >= 20){
@@ -475,7 +476,7 @@ function getDataNext(post_id,next,api_command,limit){
 			length_now += res.data.length;
 			if (res.paging.cursors.after){
 				cursor = res.paging.cursors.after;
-				getDataNext(post_id,cursor,api_command,500);
+				getDataNext(post_id,cursor,api_command,limit);
 			}else{
 				if (id_array.length == 0){
 					$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');

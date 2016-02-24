@@ -96,7 +96,7 @@ $(document).ready(function(){
 	$("#btn_excel").click(function(e){
 		var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
 		if (e.ctrlKey){
-			var url = 'data:text/json;charset=utf8,' + JSON.stringify(data);
+			var url = 'data:text/json;charset=utf8,' + JSON.stringify(filterData);
 			window.open(url, '_blank');
 			window.focus();
 		}else{
@@ -351,6 +351,7 @@ function getData(post_id){
 		pageid += "_";
 	}
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit="+limit,function(res){
+		// console.log(res);
 		if(res.error){
 			$(".console .message").text('發生錯誤，請確認您的網址無誤，並重新整理再次嘗試');
 		}

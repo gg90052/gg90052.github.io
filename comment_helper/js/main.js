@@ -80,6 +80,7 @@ $(document).ready(function(){
 
 	$("#btn_share").click(function(e){
 		getAuth('sharedposts');
+		limit = 100;
 	});
 	$("#btn_like").click(function(){
 		getAuth('likes');
@@ -403,7 +404,7 @@ function getData(post_id){
 			}else{
 				if (res.paging.cursors.after){
 					cursor = res.paging.cursors.after;
-					getDataNext(post_id,cursor,api_command,500);
+					getDataNext(post_id,cursor,api_command,limit);
 				}else{
 					if (id_array.length == 0){	
 						finished();

@@ -119,6 +119,10 @@ body {
   background: url(../images/ci.png);
   float: left;
 }
+.wrapper .main_area .fanpage {
+  margin-top: -50px;
+  float: left;
+}
 .wrapper .main_area .inputarea {
   width: 560px;
   margin-left: 40px;
@@ -175,9 +179,6 @@ body {
 }
 .wrapper .section .update_area .policy a {
   color: #FFF;
-}
-.wrapper .section .update_area .fanpage {
-  margin-top: 20px;
 }
 .wrapper .section .update_area .title {
   font-size: 1.85em;
@@ -463,6 +464,75 @@ body {
 
 .dataTables_filter {
   display: none;
+}
+
+.payArea .title {
+  font-size: 2em;
+  text-align: center;
+  color: #00F;
+  margin: 30px 0;
+}
+.payArea .paragrah {
+  text-align: center;
+  font-size: 1.5em;
+  margin: 20px 0;
+  color: #F00;
+}
+.payArea .lists {
+  width: 600px;
+  background: #FFF;
+  padding: 30px 15px;
+  margin: 20px auto;
+  counter-reset: list;
+}
+.payArea .lists .list {
+  font-size: 1.2em;
+  line-height: 1.5em;
+  margin: 15px 0 15px 25px;
+}
+.payArea .lists .list:before {
+  counter-increment: list;
+  content: counter(list) ". ";
+  position: absolute;
+  margin-left: -20px;
+}
+.payArea .check {
+  width: 600px;
+  margin: 20px auto;
+  background: #FFF;
+  display: block;
+  padding: 15px;
+  text-align: center;
+  font-size: 1.5em;
+}
+.payArea .check input {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.goPay {
+  width: 270px;
+  height: 80px;
+  display: block;
+  border: 1px solid #3b5fb2;
+  border-top: 15px solid #3b5fb2;
+  background: #fff url(../images/ci.png) 10px top no-repeat;
+  background-size: contain;
+  font-size: 28px;
+  line-height: 65px;
+  padding-left: 100px;
+  margin: 30px auto;
+  color: #3b5fb2;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+.goPay:hover {
+  color: #44B1DA;
+  border-color: #44B1DA;
+  text-decoration: none;
 }
 
 .bigExcel {

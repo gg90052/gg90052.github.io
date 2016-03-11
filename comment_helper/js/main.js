@@ -286,6 +286,7 @@ function fbid_check(){
 			var checkType2 = posturl.indexOf("events");
 			var checkGroup = posturl.indexOf("/groups/");
 			var check_personal = posturl.indexOf("+");
+			var checkPure = posturl.indexOf('"');
 
 			var page_s = posturl.indexOf("facebook.com")+13;
 			if (checkGroup > 0){
@@ -309,6 +310,10 @@ function fbid_check(){
 			if (check_personal > 0){
 				pageid = posturl.split("+")[0];
 				fbid_array.push(posturl.split("+")[1]);
+			}else if(checkPure >= 0){
+				fbid_array.push(posturl.replace(/\"/g,''));
+				pureFBID = true;
+				noPageName = false;
 			}else{
 				if (checkType > 0){
 					var start = checkType+5;
@@ -421,7 +426,7 @@ function getDataNext(post_id,next,api_command,max){
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+max,function(res){
 		if (res.error){
 			errorTime++;
-			if (errorTime >= 20){
+			if (errorTime >= 200){
 				$(".console .message").text('錯誤次數過多，請按下重新整理重試');
 			}else{
 				$(".console .message").text('發生錯誤，5秒後自動重試，請稍待');

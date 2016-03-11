@@ -2,6 +2,7 @@ var data = [];
 var allData = [];
 var rawData = [];
 var totalFile = 0;
+var usename = false;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -30,6 +31,9 @@ function render(file) {
 
 $(document).ready(function(){
 	$("#btn_comments").click(function(e){
+		if (e.ctrlKey){
+			usename = true;
+		}
 		for(var i=0; i<$('.inputJSON').length; i++){
 			if ($('.inputJSON')[i].files[0]){
 				totalFile++;
@@ -176,7 +180,11 @@ function preprocess(source){
 	// console.table(source);
 	rawData.push(source);
 	$.each(source,function(i, val){
-		fromid.push(val.fromid);
+		if (usename){
+			fromid.push(val.realname);
+		}else{
+			fromid.push(val.fromid);
+		}
 	});
 	allData.push(fromid);
 	if (allData.length == totalFile){
@@ -210,8 +218,14 @@ function getRaw(array) {
 	});
 	$.each(array,function(i, val){
 		$.each(rawData[rawTarget],function(j, val2){
-			if (val2.fromid == val){
-				data.push(val2);
+			if (usename){
+				if (val2.realname == val){
+					data.push(val2);
+				}
+			}else{
+				if (val2.fromid == val){
+					data.push(val2);
+				}
 			}
 		});
 	});

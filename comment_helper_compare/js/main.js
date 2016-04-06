@@ -216,9 +216,7 @@ function getDuplicate(array){
 				phase1.push(val2);
 			});
 		});
-		console.log(phase1);
 		phase2 = filter_unique(phase1);
-		console.log(phase2);
 		getRaw(phase2);
 	}
 }
@@ -229,19 +227,42 @@ function getRaw(array) {
 			rawTarget = i;
 		}
 	});
-	$.each(array,function(i, val){
-		$.each(rawData[rawTarget],function(j, val2){
-			if (usename){
-				if (val2.realname == val){
-					data.push(val2);
+	if (condition == 1){
+		$.each(array,function(i, val){
+			$.each(rawData[rawTarget],function(j, val2){
+				if (usename){
+					if (val2.realname == val){
+						data.push(val2);
+					}
+				}else{
+					if (val2.fromid == val){
+						data.push(val2);
+					}
 				}
-			}else{
-				if (val2.fromid == val){
-					data.push(val2);
-				}
-			}
+			});
 		});
-	});
+	}else{
+		var compareData = [];
+		$.each(rawData,function(i, val){
+			$.each(val,function(j, val2){
+				compareData.push(val2);
+			});
+		});
+		compareData = filter_unique2(compareData);
+		$.each(array,function(i, val){
+			$.each(compareData,function(j, val2){
+				if (usename){
+					if (val2.realname == val){
+						data.push(val2);
+					}
+				}else{
+					if (val2.fromid == val){
+						data.push(val2);
+					}
+				}
+			});
+		});
+	}
 	finished();
 }
 
@@ -441,6 +462,19 @@ function filter_unique(filteredData){
 	var keys = [];
 	filteredData.forEach(function(item) {
 		var key = item;
+		if(keys.indexOf(key) === -1) {
+			keys.push(key);
+			output.push(item);
+		}
+	});
+	return output;
+}
+
+function filter_unique2(filteredData){
+	var output = [];
+	var keys = [];
+	filteredData.forEach(function(item) {
+		var key = item["fromid"];
 		if(keys.indexOf(key) === -1) {
 			keys.push(key);
 			output.push(item);

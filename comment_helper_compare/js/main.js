@@ -216,7 +216,9 @@ function getDuplicate(array){
 				phase1.push(val2);
 			});
 		});
+		console.log(phase1);
 		phase2 = filter_unique(phase1);
+		console.log(phase2);
 		getRaw(phase2);
 	}
 }
@@ -438,7 +440,7 @@ function filter_unique(filteredData){
 	var output = [];
 	var keys = [];
 	filteredData.forEach(function(item) {
-		var key = item["fromid"];
+		var key = item;
 		if(keys.indexOf(key) === -1) {
 			keys.push(key);
 			output.push(item);

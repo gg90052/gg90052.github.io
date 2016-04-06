@@ -3,6 +3,7 @@ var allData = [];
 var rawData = [];
 var totalFile = 0;
 var usename = false;
+var condition = 1;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -34,6 +35,7 @@ $(document).ready(function(){
 		if (e.ctrlKey){
 			usename = true;
 		}
+		condition = $("#condition").val();
 		for(var i=0; i<$('.inputJSON').length; i++){
 			if ($('.inputJSON')[i].files[0]){
 				totalFile++;
@@ -196,17 +198,26 @@ function getDuplicate(array){
 	var phase1 = [];
 	var phase2 = [];
 
-
-	$.each(array[0],function(i, val){
-		if($.inArray(val, array[1]) > -1) phase1.push(val);
-	});
-	if (totalFile == 3){
-		$.each(phase1,function(i, val){
-			if($.inArray(val, array[2]) > -1) phase2.push(val);
+	if (condition == "1"){
+		$.each(array[0],function(i, val){
+			if($.inArray(val, array[1]) > -1) phase1.push(val);
 		});
-		getRaw(phase2);
+		if (totalFile == 3){
+			$.each(phase1,function(i, val){
+				if($.inArray(val, array[2]) > -1) phase2.push(val);
+			});
+			getRaw(phase2);
+		}else{
+			getRaw(phase1);
+		}
 	}else{
-		getRaw(phase1);
+		$.each(array,function(i, val){
+			$.each(val,function(j, val2){
+				phase1.push(val2);
+			});
+		});
+		phase2 = filter_unique(phase1);
+		getRaw(phase2);
 	}
 }
 function getRaw(array) {
@@ -421,4 +432,17 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+}
+
+function filter_unique(filteredData){
+	var output = [];
+	var keys = [];
+	filteredData.forEach(function(item) {
+		var key = item["fromid"];
+		if(keys.indexOf(key) === -1) {
+			keys.push(key);
+			output.push(item);
+		}
+	});
+	return output;
 }

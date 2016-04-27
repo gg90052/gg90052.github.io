@@ -16,6 +16,7 @@ var noPageName = false;
 var endTime = nowDate();
 var ci_counter = 0;
 var limit = 500;
+var hideName = false;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -53,10 +54,9 @@ $(document).ready(function(){
 
 	$("#btn_comments").click(function(e){
 		if (e.ctrlKey){
-
-		}else{
-			getAuth('comments');
+			hideName = true;
 		}
+		getAuth('comments');
 	});
 
 	$(".ci").click(function(){
@@ -357,7 +357,7 @@ function getData(post_id){
 		pageid += "_";
 	}
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit="+limit,function(res){
-		// console.log(res);
+		// console.table(res);
 		if(res.error){
 			$(".console .message").text('發生錯誤，請確認您的網址無誤，並重新整理再次嘗試');
 		}
@@ -592,6 +592,11 @@ function finished(){
 	// 	method: "POST",
 	// 	data: data,
 	// });
+
+	if (hideName){
+		hideNameFun();
+	}
+
 	insertTable(data);
 	activeDataTable();
 	filterEvent();
@@ -764,16 +769,6 @@ function filter_tag(ary){
 }
 
 
-
-
-
-
-
-
-
-
-
-
 function timeConverter(UNIX_timestamp){
 	 var a = moment(UNIX_timestamp)._d;
  	 var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
@@ -905,4 +900,11 @@ function nowDate(){
 	var min = a.getMinutes();
 	var sec = a.getSeconds();
 	return year+"-"+month+"-"+date+"-"+hour+"-"+min+"-"+sec;
+}
+
+function hideNameFun(){
+	console.log("A");
+	for(var i=0; i<data.length; i++){
+		data[i].realname = "-";
+	}
 }

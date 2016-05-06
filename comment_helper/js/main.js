@@ -17,6 +17,7 @@ var endTime = nowDate();
 var ci_counter = 0;
 var limit = 500;
 var hideName = false;
+var isEvent = false;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -509,6 +510,7 @@ function getDataNext_event(url,api_command){
 		}
 		if (res.data.length == 0){
 			$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
+			isEvent = true;
 			setTimeout(function(){
 				finished();
 			},1000);
@@ -595,6 +597,16 @@ function finished(){
 
 	if (hideName){
 		hideNameFun();
+	}
+
+	if (isEvent){
+		data.map(function(d){
+			if (d.likes){
+				d.like_count = d.likes.data.length;
+			}else{
+				d.like_count = 0;
+			}
+		});
 	}
 
 	insertTable(data);

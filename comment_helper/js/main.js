@@ -759,6 +759,7 @@ function filter_word(ary,tar){
 		return ary;
 	}else{
 		var newAry = $.grep(ary,function(n, i){
+			console.log(n);
 			if (n.text.indexOf(tar) > -1){
 				return true;
 			}

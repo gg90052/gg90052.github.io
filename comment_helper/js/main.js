@@ -944,6 +944,7 @@ function callbackAuth(response){
 		}else{
 			$(".loading.checkAuth").addClass("hide");
 			data = JSON.parse($(".chrome").val());
+			console.log(JSON.parse($(".chrome").val()));
 			getJSON();
 		}
 	}else{

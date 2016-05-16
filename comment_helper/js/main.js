@@ -754,8 +754,7 @@ function filter_unique(filteredData){
 	return output;
 }
 function filter_word(ary,tar){
-	console.log(ary);
-	console.log(tar);
+	var tar = tar || "";
 	if (gettype == "likes"){
 		return ary;
 	}else{
@@ -946,7 +945,6 @@ function callbackAuth(response){
 		}else{
 			$(".loading.checkAuth").addClass("hide");
 			data = JSON.parse($(".chrome").val());
-			console.log(JSON.parse($(".chrome").val()));
 			getJSON();
 		}
 	}else{

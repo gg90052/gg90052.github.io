@@ -65,7 +65,7 @@ $(document).ready(function(){
 		getAuth('comments');
 	});
 
-	$(".loading .checkAuth button").click(function(e){
+	$(".loading.checkAuth button").click(function(e){
 		checkAuth();
 	});
 

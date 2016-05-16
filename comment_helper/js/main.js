@@ -630,6 +630,9 @@ function finished(){
 
 function insertTable(data){
 	var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
+	console.log("---f---");
+	console.log(filterData);
+	console.log("---fend---");
 	for(var i=0; i<filterData.length; i++){
 		var insertQuery;
 		if ($("#picture").prop("checked") == true){
@@ -734,11 +737,23 @@ function totalFilter(ary,isDuplicate,isTag){
 	if (isDuplicate){
 		filteredData = filter_unique(filteredData);
 	}
+	console.log("---1---");
+	console.log(filteredData);
+	console.log("---1end---");
 	filteredData = filter_word(filteredData,word);
+	console.log("---2---");
+	console.log(filteredData);
+	console.log("---2end---");
 	if (isTag){
 		filteredData = filter_tag(filteredData);
 	}
+	console.log("---3---");
+	console.log(filteredData);
+	console.log("---3end---");
 	filteredData = filter_time(filteredData,endTime);
+	console.log("---4---");
+	console.log(filteredData);
+	console.log("---4end---");
 	return filteredData;
 }
 function filter_unique(filteredData){

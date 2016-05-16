@@ -943,6 +943,7 @@ function callbackAuth(response){
 			bootbox.alert("抓分享需要付費，詳情請見粉絲專頁");
 		}else{
 			$(".loading.checkAuth").addClass("hide");
+			data = JSON.parse($(".chrome").val());
 			getJSON();
 		}
 	}else{
@@ -950,8 +951,4 @@ function callbackAuth(response){
 			callback(response);
 		}, {scope: 'read_stream,user_photos,user_posts,user_groups',return_scopes: true});
 	}
-}
-
-function saveToData(d){
-	data = d;
 }

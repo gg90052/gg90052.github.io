@@ -754,12 +754,10 @@ function filter_unique(filteredData){
 	return output;
 }
 function filter_word(ary,tar){
-	var tar = tar || "";
 	if (gettype == "likes"){
 		return ary;
 	}else{
 		var newAry = $.grep(ary,function(n, i){
-			console.log(n);
 			if (n.text.indexOf(tar) > -1){
 				return true;
 			}

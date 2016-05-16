@@ -49,6 +49,11 @@ function render(file) {
 }
 
 $(document).ready(function(){
+	var hash = location.search;
+	if (hash.indexOf("extension") >= 0){
+		$(".loading.checkAuth").removeClass("hide");
+	}
+
 	$("#inputJSON").change(function() {
 		render(this.files[0]);
 	});
@@ -58,6 +63,10 @@ $(document).ready(function(){
 			hideName = true;
 		}
 		getAuth('comments');
+	});
+
+	$(".loading .checkAuth button").click(function(e){
+		checkAuth();
 	});
 
 	$(".ci").click(function(){
@@ -918,5 +927,26 @@ function hideNameFun(){
 	console.log("A");
 	for(var i=0; i<data.length; i++){
 		data[i].realname = "-";
+	}
+}
+
+function checkAuth(){
+	FB.login(function(response) {
+		callbackAuth(response);
+	}, {scope: 'read_stream,user_photos,user_posts,user_groups',return_scopes: true});
+}
+
+function callbackAuth(response){
+	if (response.status === 'connected') {
+		var accessToken = response.authResponse.accessToken;
+		if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
+			bootbox.alert("抓分享需要付費，詳情請見粉絲專頁");
+		}else{
+			getJSON();
+		}
+	}else{
+		FB.login(function(response) {
+			callback(response);
+		}, {scope: 'read_stream,user_photos,user_posts,user_groups',return_scopes: true});
 	}
 }

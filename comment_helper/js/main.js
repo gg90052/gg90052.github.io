@@ -951,3 +951,7 @@ function callbackAuth(response){
 		}, {scope: 'read_stream,user_photos,user_posts,user_groups',return_scopes: true});
 	}
 }
+
+function saveToData(d){
+	data = d;
+}

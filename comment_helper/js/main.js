@@ -942,7 +942,7 @@ function callbackAuth(response){
 		if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
 			bootbox.alert("抓分享需要付費，詳情請見粉絲專頁");
 		}else{
-			$(".loading.checkAuth").removeClass("hide");
+			$(".loading.checkAuth").addClass("hide");
 			getJSON();
 		}
 	}else{

@@ -630,9 +630,6 @@ function finished(){
 
 function insertTable(data){
 	var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
-	console.log("---f---");
-	console.log(filterData);
-	console.log("---fend---");
 	for(var i=0; i<filterData.length; i++){
 		var insertQuery;
 		if ($("#picture").prop("checked") == true){
@@ -737,23 +734,11 @@ function totalFilter(ary,isDuplicate,isTag){
 	if (isDuplicate){
 		filteredData = filter_unique(filteredData);
 	}
-	console.log("---1---");
-	console.log(filteredData);
-	console.log("---1end---");
 	filteredData = filter_word(filteredData,word);
-	console.log("---2---");
-	console.log(filteredData);
-	console.log("---2end---");
 	if (isTag){
 		filteredData = filter_tag(filteredData);
 	}
-	console.log("---3---");
-	console.log(filteredData);
-	console.log("---3end---");
 	filteredData = filter_time(filteredData,endTime);
-	console.log("---4---");
-	console.log(filteredData);
-	console.log("---4end---");
 	return filteredData;
 }
 function filter_unique(filteredData){
@@ -788,7 +773,7 @@ function filter_time(ary,t){
 		var time = moment(new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]))._d;
 		var newAry = $.grep(ary,function(n, i){
 			var created_time = moment(n.created_time)._d;
-			if (created_time  < time){
+			if (created_time < time || n.realtime == ""){
 				return true;
 			}
 		});

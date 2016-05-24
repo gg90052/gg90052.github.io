@@ -194,7 +194,6 @@ function preprocess(source){
 	}
 }
 function getDuplicate(array){
-	// console.log(array);
 	var phase1 = [];
 	var phase2 = [];
 
@@ -279,7 +278,7 @@ function finished(){
 function insertTable(data){
 	for(var i=0; i<data.length; i++){
 		var insertQuery;
-		insertQuery = '<tr><td>'+(i+1)+'</td><td>'+data[i].fromid+'</td><td><a href="'+data[i].link+'" target="_blank">'+data[i].realname+'</a></td><td class="force-break">'+data[i].text+'</a></td><td>'+data[i].realtime+'</td></tr>';
+		insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="'+data[i].link+'" target="_blank">'+data[i].realname+'</a></td><td class="force-break">'+data[i].text+'</a></td><td>'+data[i].realtime+'</td></tr>';
 		$(".like_comment").append(insertQuery);
 	}
 }
@@ -335,7 +334,7 @@ function choose(){
 	}
 
 	for (var j=0; j<num; j++){
-		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td class='fromid"+j+"'>"+award[j].fromid+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 	}
 	if(detail){
 		var now = 0;

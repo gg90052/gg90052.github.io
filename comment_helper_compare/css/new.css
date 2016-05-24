@@ -159,7 +159,7 @@ body {
   position: relative;
 }
 .wrapper .section .update_area {
-  width: 430px;
+  width: 550px;
   height: 325px;
   background: #FFF;
   padding: 28px 45px;
@@ -191,20 +191,8 @@ body {
   font-size: 1.1em;
   line-height: 1.5em;
 }
-.wrapper .section .update_area .list a:after {
-  content: '';
-  display: inline-block;
-  vertical-align: middle;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 6px 0 6px 6px;
-  border-color: transparent transparent transparent #428bca;
-  margin-left: 5px;
-  margin-top: -3px;
-}
 .wrapper .section .donate_area {
-  width: 506px;
+  width: 386px;
   height: 325px;
   background: #FFF;
   padding: 28px 35px;

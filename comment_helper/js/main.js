@@ -650,13 +650,13 @@ function activeDataTable(){
 
 	$("#searchName").on( 'blur change keyup', function () {
 		table
-		.columns(2)
+		.columns(1)
 		.search(this.value)
 		.draw();
 	});
 	$("#searchComment").on( 'blur change keyup', function () {
 		table
-		.columns(3)
+		.columns(2)
 		.search(this.value)
 		.draw();
 	});

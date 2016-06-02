@@ -18,6 +18,7 @@ var ci_counter = 0;
 var limit = 500;
 var hideName = false;
 var isEvent = false;
+var extension = false;
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -52,6 +53,7 @@ $(document).ready(function(){
 	var hash = location.search;
 	if (hash.indexOf("extension") >= 0){
 		$(".loading.checkAuth").removeClass("hide");
+		extension = true;
 	}
 
 	$("#inputJSON").change(function() {
@@ -826,16 +828,30 @@ function timeConverter(UNIX_timestamp){
 
 function forExcel(data){
 	var newObj = [];
-	$.each(data,function(i){
-		var tmp = {
-			"序號": this.serial,
-			"臉書連結" : this.link,
-			"姓名" : this.realname,
-			"留言內容" : this.message,
-			"留言時間" : this.realtime
-		}
-		newObj.push(tmp);
-	});
+	if (extension){
+		$.each(data,function(i){
+			var tmp = {
+				"序號": i+1,
+				"臉書連結" : this.link,
+				"姓名" : this.realname,
+				"分享連結" : this.postlink,
+				"留言內容" : this.text,
+				"該分享讚數" : this.like_count
+			}
+			newObj.push(tmp);
+		});
+	}else{
+		$.each(data,function(i){
+			var tmp = {
+				"序號": this.serial,
+				"臉書連結" : this.link,
+				"姓名" : this.realname,
+				"留言內容" : this.message,
+				"留言時間" : this.realtime
+			}
+			newObj.push(tmp);
+		});
+	}
 	return newObj;
 }
 

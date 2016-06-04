@@ -139,7 +139,8 @@ body {
   min-width: 110px;
   height: 30px;
   text-align: center;
-  line-height: 0;
+  line-height: 30px;
+  padding: 0;
   margin-right: 5px;
   border-radius: 3px;
   color: #FFF;
@@ -356,7 +357,8 @@ body {
   min-width: 110px;
   height: 30px;
   text-align: center;
-  line-height: 0;
+  line-height: 30px;
+  padding: 0;
   margin-right: 5px;
   border-radius: 3px;
   color: #FFF;

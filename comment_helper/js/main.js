@@ -71,11 +71,15 @@ $(document).ready(function(){
 		checkAuth();
 	});
 
-	$(".ci").click(function(){
+	$(".ci").click(function(e){
 		ci_counter++;
 		if (ci_counter >= 5){
 			$(".source .url, .source .btn").addClass("hide");
 			$("#inputJSON").removeClass("hide");
+		}
+		if(e.ctrlKey){
+			getAuth('sharedposts');
+			limit = 100;
 		}
 	});
 
@@ -91,8 +95,8 @@ $(document).ready(function(){
 	});
 
 	$("#btn_share").click(function(e){
-		getAuth('sharedposts');
-		limit = 100;
+
+	
 	});
 	$("#btn_like").click(function(){
 		getAuth('likes');

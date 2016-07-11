@@ -19,6 +19,7 @@ var limit = 500;
 var hideName = false;
 var isEvent = false;
 var extension = false;
+var url = "";
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -372,6 +373,7 @@ function getData(post_id){
 	}else{
 		pageid += "_";
 	}
+	url = pageid + post_id;
 	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit="+limit,function(res){
 		// console.table(res);
 		if(res.error){
@@ -599,16 +601,13 @@ function getJSON(){
 }
 
 function finished(){
-	// console.table(data);
-	backend_data.data = data;
-	backend_data.pageid = pageid.replace("_","");
-	backend_data.postid = postid;
-
-	// $.ajax({
-	// 	url: "http://teddy.acsite.org/cm_back/setdata",
-	// 	method: "POST",
-	// 	data: data,
-	// });
+	var temp = {"url": url};
+	$.ajax({
+		url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
+		method: "POST",
+		contentType: "application/json",
+		data: temp
+	});
 
 	if (hideName){
 		hideNameFun();

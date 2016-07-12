@@ -611,7 +611,6 @@ function finished(){
 	$.ajax({
 		url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
 		method: "POST",
-		contentType: "application/json",
 		data: temp
 	});
 

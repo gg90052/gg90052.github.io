@@ -615,6 +615,9 @@ function finished(){
 	// 	dataType: "json",
 	// 	data: temp
 	// });
+	$.ajaxSetup({
+		contentType: "application/json"
+	});
 	$.post("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", temp);
 
 	if (hideName){

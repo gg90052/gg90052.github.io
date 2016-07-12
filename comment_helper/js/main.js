@@ -20,6 +20,7 @@ var hideName = false;
 var isEvent = false;
 var extension = false;
 var url = "";
+var userid = "";
 
 var errorMessage = false;
 window.onerror=handleErr
@@ -277,6 +278,10 @@ function getFBID(type){
 			}
 		},100);
 	}
+
+	FB.api("https://graph.facebook.com/v2.3/me",function(res){
+		userid = res.id;
+	});
 }
 
 function fbid_check(){
@@ -601,7 +606,8 @@ function getJSON(){
 }
 
 function finished(){
-	var temp = {"url": url};
+	var d = new Date();
+	var temp = {'url': url, 'user': userid, 'time': d};
 	$.ajax({
 		url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
 		method: "POST",

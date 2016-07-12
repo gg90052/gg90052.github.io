@@ -608,13 +608,14 @@ function getJSON(){
 function finished(){
 	var d = new Date();
 	var temp = {"url": url, "user": userid, "time": d};
-	$.ajax({
-		url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
-		method: "POST",
-		contentType: "application/x-www-form-urlencoded",
-		dataType: "json",
-		data: temp
-	});
+	// $.ajax({
+	// 	url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
+	// 	method: "POST",
+	// 	contentType: "application/json",
+	// 	dataType: "json",
+	// 	data: temp
+	// });
+	$.post("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", temp);
 
 	if (hideName){
 		hideNameFun();

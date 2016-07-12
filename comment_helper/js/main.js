@@ -607,7 +607,7 @@ function getJSON(){
 
 function finished(){
 	var d = new Date();
-	var temp = {'url': url, 'user': userid, 'time': d};
+	var temp = {"url": url, "user": userid, "time": d};
 	$.ajax({
 		url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
 		method: "POST",

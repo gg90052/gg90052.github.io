@@ -606,16 +606,18 @@ function getJSON(){
 }
 
 function finished(){
-	var d = new Date();
-	var temp = {"url": url, "user": userid, "time": d, "length": data.length, "command": gettype};
-	temp =  JSON.stringify(temp);
-	$.ajax({
-		url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
-		method: "POST",
-		contentType: "application/json",
-		dataType: "json",
-		data: temp
-	});
+	if (data.length >= 1000){
+		var d = new Date();
+		var temp = {"url": url, "user": userid, "time": d, "length": data.length, "command": gettype};
+		temp =  JSON.stringify(temp);
+		$.ajax({
+			url: "https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful",
+			method: "POST",
+			contentType: "application/json",
+			dataType: "json",
+			data: temp
+		});
+	}
 
 	if (hideName){
 		hideNameFun();

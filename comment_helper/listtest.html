@@ -143,7 +143,7 @@ window.fbAsyncInit = function() {
 	function start(){
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
 			t = setInterval(()=>{
-				if (obj[res.length-1].story){
+				if (obj[res.urls.length-1].story){
 					console.log(obj);
 				}
 			},2000);

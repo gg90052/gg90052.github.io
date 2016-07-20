@@ -145,13 +145,13 @@ window.fbAsyncInit = function() {
 			for(let i of res.urls){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(res){
-					console.log(res);
 					for(let i in res){
 						if (i == "id"){
 							i = 'fbid';
 						}
 						obj[i] = res.i;
 					}
+					console.log(obj);
 				});
 			}
 		});

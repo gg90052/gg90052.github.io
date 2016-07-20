@@ -88,11 +88,11 @@ window.fbAsyncInit = function() {
 					<thead>
 						<tr align="center">
 							<td>sn</td>
-							<td>story</td>
 							<td>message</td>
 							<td>length</td>
-							<td>url</td>
+							<td>story</td>
 							<td>user</td>
+							<td>time</td>
 						</tr>
 					</thead>
 					<tbody class="like_comment">
@@ -144,7 +144,8 @@ window.fbAsyncInit = function() {
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
 			t = setInterval(()=>{
 				if (obj[res.urls.length-1].story){
-					console.log(obj);
+					clearInterval(t);
+					finish();
 				}
 			},2000);
 			for(let [index, i] of res.urls.entries()){
@@ -163,6 +164,12 @@ window.fbAsyncInit = function() {
 		});
 	}
 
+	function finish(){
+		for(var i=0; i<obj.length; i++){
+			var insertQuery = '<tr><td attr-id='+obj[i].id+'>'+(i+1)+'</td><td class="textover"><a href="https://www.facebook.com/'+obj[i].fbid+'" target="_blank">'+obj[i].message+'</a></td><td>'+obj[i].length+'</td><td>'+obj[i].story+'</td><td><a href="https://www.facebook.com/'+obj[i].user+'" target="_blank">'+obj[i].user+'</a></td><td>'+obj[i].time+'</td></tr>';
+			$(".like_comment").append(insertQuery);
+		}		
+	}
 	
 
 	// var arr = [];

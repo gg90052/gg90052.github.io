@@ -126,12 +126,10 @@ window.fbAsyncInit = function() {
 	var obj = [];
 	var t;
 	$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
-		t = setInterval(()=>{
-			console.table(obj);
-		},1000);
 		for(let i of res.urls){
 			obj.push(i);
 			FB.api("https://graph.facebook.com/v2.5/"+i.url,function(res){
+				console.log(res);
 				for(let i in res){
 					if (i == "id"){
 						i = 'fbid';

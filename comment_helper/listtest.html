@@ -82,7 +82,7 @@ window.fbAsyncInit = function() {
 		<div class="result_area show">
 			
 			<div id="comment_table">
-
+				<button type="button">start</button>
 
 				<table class="table table-striped main_table">
 					<thead>
@@ -125,20 +125,36 @@ window.fbAsyncInit = function() {
 <script type="text/javascript">
 	var obj = [];
 	var t;
-	$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
-		for(let i of res.urls){
-			obj.push(i);
-			FB.api("https://graph.facebook.com/v2.5/"+i.url,function(res){
-				console.log(res);
-				for(let i in res){
-					if (i == "id"){
-						i = 'fbid';
-					}
-					obj[i] = res.i;
-				}
-			});
-		}
+	
+	FB.getLoginStatus(function(response) {
+		callback(response);
 	});
+
+	function callback(response){
+		if (response.status === 'connected') {
+			start();			
+		}else{
+			FB.login(function(response) {
+				callback(response);
+			}, {scope: '',return_scopes: true});
+		}
+	}
+
+	function start(){
+		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
+			for(let i of res.urls){
+				obj.push(i);
+				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(res){
+					for(let i in res){
+						if (i == "id"){
+							i = 'fbid';
+						}
+						obj[i] = res.i;
+					}
+				});
+			}
+		});
+	}
 
 	
 

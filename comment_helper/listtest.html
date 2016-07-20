@@ -142,6 +142,11 @@ window.fbAsyncInit = function() {
 
 	function start(){
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
+			t = setInterval(()=>{
+				if (obj[res.length].story){
+					console.log(obj);
+				}
+			},2000);
 			for(let [index, i] of res.urls.entries()){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(ress){

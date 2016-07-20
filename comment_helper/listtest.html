@@ -142,14 +142,14 @@ window.fbAsyncInit = function() {
 
 	function start(){
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
-			for(let i of res.urls){
+			for(let [index, i] of res.urls.entries()){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(res){
-					for(let i in res){
-						if (i == "id"){
-							i = 'fbid';
+					for(let j in res){
+						if (j == "id"){
+							j = 'fbid';
 						}
-						obj[i] = res.i;
+						obj[index] = res.j;
 					}
 					console.log(obj);
 				});

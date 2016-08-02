@@ -162,7 +162,7 @@ window.fbAsyncInit = function() {
 			for(let [index, i] of res.urls.entries()){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(ress){
-					console.log(j);
+					console.log(index);
 					console.log(ress);
 					for(let j in ress){
 						if (j == "id"){

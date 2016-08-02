@@ -154,7 +154,6 @@ window.fbAsyncInit = function() {
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
 			console.log(res);
 			t = setInterval(()=>{
-				console.log(obj[res.urls.length-1].story);
 				if (obj[res.urls.length-1].story){
 					clearInterval(t);
 					finish();
@@ -163,6 +162,8 @@ window.fbAsyncInit = function() {
 			for(let [index, i] of res.urls.entries()){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(ress){
+					console.log(i);
+					console.log(ress);
 					for(let j in ress){
 						if (j == "id"){
 							j = 'fbid';

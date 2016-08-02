@@ -92,7 +92,6 @@ window.fbAsyncInit = function() {
 		<div class="result_area show">
 			
 			<div id="comment_table">
-				<button type="button">start</button>
 
 				<table class="table table-striped main_table">
 					<thead>
@@ -171,29 +170,10 @@ window.fbAsyncInit = function() {
 	}
 
 	function append(obj, index){
-		var insertQuery = '<tr><td attr-id='+obj.id+'>'+Number(index)+1+'</td><td class="textover"><a href="https://www.facebook.com/'+obj.fbid+'" target="_blank">'+obj.message+'</a></td><td>'+obj.length+'</td><td>'+obj.story+'</td><td><a href="https://www.facebook.com/'+obj.user+'" target="_blank">'+obj.user+'</a></td><td>'+obj.time+'</td></tr>';
+		var insertQuery = '<tr><td attr-id='+obj.id+'>'+(Number(index)+1)+'</td><td class="textover"><a href="https://www.facebook.com/'+obj.fbid+'" target="_blank">'+obj.message+'</a></td><td>'+obj.length+'</td><td>'+obj.story+'</td><td><a href="https://www.facebook.com/'+obj.user+'" target="_blank">'+obj.user+'</a></td><td>'+obj.time+'</td></tr>';
 		$(".like_comment").append(insertQuery);	
 	}
-	
 
-	// var arr = [];
-	// FB.getLoginStatus(function(response) {
-	// 	FB.api("https://graph.facebook.com/v2.5/186758878172497/feed?limit=50",function(res){
-	// 		console.log(res);
-	// 		for(var i=0; i<res.data.length; i++){
-	// 			var obj = {};
-	// 			obj.link = res.data[i].link;
-	// 			obj.title = res.data[i].name;
-	// 			obj.time = res.data[i].created_time;
-	// 			arr.push(obj);
-	// 		}
-	// 		console.log(arr);
-	// 		for(var i=0; i<arr.length; i++){
-	// 		var insertQuery = '<tr><td>'+(i+1)+'</td><td class="force-break"><a href="'+arr[i].link+'" target="_blank">'+arr[i].title+'</a></td><td>'+arr[i].time+'</td></tr>';
-	// 		$(".like_comment").append(insertQuery);
-	// 		}		
-	// 	});
-	// });
 </script>
 </body>
 </html>

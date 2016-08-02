@@ -153,18 +153,9 @@ window.fbAsyncInit = function() {
 	function start(){
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
 			console.log(res);
-			t = setInterval(()=>{
-				console.log(obj[res.urls.length-1]);
-				if (obj[res.urls.length-1].story){
-					clearInterval(t);
-					finish();
-				}
-			},2000);
 			for(let [index, i] of res.urls.entries()){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(ress){
-					console.log(index);
-					console.log(ress);
 					for(let j in ress){
 						if (j == "id"){
 							j = 'fbid';
@@ -173,16 +164,15 @@ window.fbAsyncInit = function() {
 							obj[index][j] = ress[j];
 						}
 					}
+					append(obj, index);
 				});
 			}
 		});
 	}
 
-	function finish(){
-		for(var i=0; i<obj.length; i++){
-			var insertQuery = '<tr><td attr-id='+obj[i].id+'>'+(i+1)+'</td><td class="textover"><a href="https://www.facebook.com/'+obj[i].fbid+'" target="_blank">'+obj[i].message+'</a></td><td>'+obj[i].length+'</td><td>'+obj[i].story+'</td><td><a href="https://www.facebook.com/'+obj[i].user+'" target="_blank">'+obj[i].user+'</a></td><td>'+obj[i].time+'</td></tr>';
-			$(".like_comment").append(insertQuery);
-		}		
+	function append(obj, index){
+		var insertQuery = '<tr><td attr-id='+obj.id+'>'+index+1+'</td><td class="textover"><a href="https://www.facebook.com/'+obj.fbid+'" target="_blank">'+obj.message+'</a></td><td>'+obj.length+'</td><td>'+obj.story+'</td><td><a href="https://www.facebook.com/'+obj.user+'" target="_blank">'+obj.user+'</a></td><td>'+obj.time+'</td></tr>';
+		$(".like_comment").append(insertQuery);	
 	}
 	
 

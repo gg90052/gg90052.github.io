@@ -164,14 +164,14 @@ window.fbAsyncInit = function() {
 							obj[index][j] = ress[j];
 						}
 					}
-					append(obj, index);
+					append(obj[index], index);
 				});
 			}
 		});
 	}
 
 	function append(obj, index){
-		var insertQuery = '<tr><td attr-id='+obj.id+'>'+index+1+'</td><td class="textover"><a href="https://www.facebook.com/'+obj.fbid+'" target="_blank">'+obj.message+'</a></td><td>'+obj.length+'</td><td>'+obj.story+'</td><td><a href="https://www.facebook.com/'+obj.user+'" target="_blank">'+obj.user+'</a></td><td>'+obj.time+'</td></tr>';
+		var insertQuery = '<tr><td attr-id='+obj.id+'>'+Number(index)+1+'</td><td class="textover"><a href="https://www.facebook.com/'+obj.fbid+'" target="_blank">'+obj.message+'</a></td><td>'+obj.length+'</td><td>'+obj.story+'</td><td><a href="https://www.facebook.com/'+obj.user+'" target="_blank">'+obj.user+'</a></td><td>'+obj.time+'</td></tr>';
 		$(".like_comment").append(insertQuery);	
 	}
 	

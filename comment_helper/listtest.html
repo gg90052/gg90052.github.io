@@ -29,12 +29,7 @@
 <!-- <script type="text/javascript" src="js/angular.min.js"></script> -->
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script src="//connect.facebook.net/zh_TW/all.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootbox.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
-<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
-<script type="text/javascript" src="js/moment.min.js"></script>
-<script type="text/javascript" src="js/daterangepicker.js"></script>
+
 
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
@@ -134,6 +129,7 @@ window.fbAsyncInit = function() {
 <script type="text/javascript">
 	var obj = [];
 	var t;
+	var final = [];
 	
 	FB.getLoginStatus(function(response) {
 		callback(response);
@@ -152,6 +148,12 @@ window.fbAsyncInit = function() {
 	function start(){
 		$.getJSON("https://x2qm5355o9.execute-api.us-west-2.amazonaws.com/dev/restful", (res) => {
 			console.log(res);
+			t = setInterval(()=>{
+				if (final.length == obj.length){
+					clearInterval(t);
+					finish();
+				}
+			},2000);
 			for(let [index, i] of res.urls.entries()){
 				obj.push(i);
 				FB.api("https://graph.facebook.com/v2.5/"+i.url,function(ress){
@@ -164,6 +166,7 @@ window.fbAsyncInit = function() {
 						}
 					}
 					append(obj[index], index);
+					final.push(obj[index]);
 				});
 			}
 		});
@@ -172,6 +175,15 @@ window.fbAsyncInit = function() {
 	function append(obj, index){
 		var insertQuery = '<tr><td attr-id='+obj.id+'>'+(Number(index)+1)+'</td><td class="textover"><a href="https://www.facebook.com/'+obj.fbid+'" target="_blank">'+obj.message+'</a></td><td>'+obj.length+'</td><td>'+obj.story+'</td><td><a href="https://www.facebook.com/'+obj.user+'" target="_blank">'+obj.user+'</a></td><td>'+obj.time+'</td></tr>';
 		$(".like_comment").append(insertQuery);	
+	}
+
+	function finish(){
+		alert("done");
+		var table = $(".main_table").DataTable({
+			"pageLength": 1000,
+			"searching": true,
+			"lengthChange": false
+		});
 	}
 
 </script>

@@ -370,6 +370,21 @@ button {
     margin: 10px auto;
   }
 
+  .loading .console {
+    width: 100%;
+    background: url(../images/progress.jpg) center center no-repeat;
+    background-size: contain;
+  }
+  .loading .console .message {
+    font-size: 0.9em;
+    left: 160px;
+    top: 130px;
+  }
+  .loading .console .sk-folding-cube {
+    right: 80px;
+    bottom: 120px;
+  }
+
   .loading .shareCard {
     width: 100vw;
     height: 100vh;

@@ -44,22 +44,37 @@ button {
 .wrapper .section .result_area .ui {
   margin-left: 17px;
 }
+.wrapper .section .result_area .ui button {
+  vertical-align: middle;
+}
 .wrapper .section .result_area .ui .timeGroup {
   display: inline-block;
   vertical-align: middle;
 }
 .wrapper .section .result_area .ui .timeGroup input.time {
-  font-size: 0.8px;
+  font-size: 0.8em;
   padding-left: 10px;
   height: 32px;
   width: 130px;
 }
+.wrapper .section .result_area .ui .with, .wrapper .section .result_area .ui .place {
+  vertical-align: middle;
+}
+.wrapper .section .result_area .ui .with select {
+  max-width: 174px;
+  vertical-align: middle;
+}
+.wrapper .section .result_area .ui .place select {
+  max-width: 400px;
+  vertical-align: middle;
+}
 .wrapper .section .result_area .ui input.search {
-  font-size: 0.8px;
+  font-size: 0.8em;
   padding-left: 10px;
   height: 32px;
   width: 300px;
   margin-left: 20px;
+  vertical-align: middle;
 }
 .wrapper .section .result_area .ui .goSearch.noresult:after {
   content: '找不到文章';
@@ -102,6 +117,59 @@ button {
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
+  transition: all .3s ease-in-out;
+}
+.loading.hide {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+.loading .shareCard {
+  width: 560px;
+  height: 292px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -220px;
+  margin-left: -280px;
+  background: #FFF;
+}
+.loading .shareCard .header {
+  height: 60px;
+  line-height: 60px;
+  background: #3B5998;
+  padding-left: 20px;
+  color: #FFF;
+  font-size: 1.8em;
+  margin-bottom: 26px;
+  position: relative;
+}
+.loading .shareCard .header .close {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 20px;
+  top: 0;
+  color: #FFF;
+  cursor: pointer;
+  font-family: 'Arial';
+}
+.loading .shareCard .picture {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 23px;
+  width: 150px;
+  height: 180px;
+}
+.loading .shareCard .picture img {
+  width: 100%;
+}
+.loading .shareCard .other {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  max-width: 335px;
 }
 
 .console {
@@ -225,4 +293,120 @@ button {
     transform: perspective(140px) rotateY(180deg);
     opacity: 0;
   }
+}
+@media (max-width: 1900px) {
+  #feeds {
+    justify-content: center;
+  }
+  #feeds .card {
+    margin: 20px 0;
+  }
+
+  .wrapper .section .result_area .ui {
+    text-align: center;
+  }
+  .wrapper .section .result_area .ui .timeGroup input.time {
+    width: 85px;
+  }
+  .wrapper .section .result_area .ui .with select {
+    max-width: 80px;
+  }
+  .wrapper .section .result_area .ui .place select {
+    max-width: 120px;
+  }
+  .wrapper .section .result_area .ui .place, .wrapper .section .result_area .ui .with {
+    margin-left: 10px;
+  }
+  .wrapper .section .result_area .ui input.search {
+    width: 120px;
+    margin-left: 10px;
+  }
+}
+@media (max-width: 1200px) {
+  .wrapper .section .result_area .ui {
+    line-height: 3em;
+  }
+  .wrapper .section .result_area .ui .with {
+    margin-bottom: 20px;
+  }
+  .wrapper .section .result_area .ui .with:after {
+    content: '';
+    display: block;
+  }
+}
+@media (max-width: 768px) {
+  .wrapper .section .result_area .ui {
+    margin-left: auto;
+  }
+  .wrapper .section .result_area .ui .update {
+    width: 80%;
+    display: block;
+    margin: 10px auto;
+  }
+  .wrapper .section .result_area .ui .timeGroup {
+    width: 80%;
+    display: block;
+    margin: 10px auto;
+  }
+  .wrapper .section .result_area .ui .timeGroup input.time {
+    width: 44%;
+  }
+  .wrapper .section .result_area .ui .with, .wrapper .section .result_area .ui .place {
+    width: 80%;
+    display: block;
+    margin: 10px auto;
+  }
+  .wrapper .section .result_area .ui .with select, .wrapper .section .result_area .ui .place select {
+    width: 50%;
+    max-width: auto;
+  }
+  .wrapper .section .result_area .ui input.search {
+    margin-left: 20px;
+    width: 50%;
+  }
+  .wrapper .section .result_area .ui .stat {
+    width: 80%;
+    display: block;
+    margin: 10px auto;
+  }
+
+  .loading .shareCard {
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    margin-left: 0;
+    top: 0;
+    margin-top: 0;
+  }
+  .loading .shareCard .header {
+    font-size: 1.2em;
+  }
+  .loading .shareCard .picture {
+    display: block;
+    margin: 20px auto;
+  }
+  .loading .shareCard .other {
+    display: block;
+    margin: 20px auto;
+    width: 80%;
+  }
+  .loading .shareCard .other p {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1em;
+    line-height: 2em;
+  }
+}
+.dtp > .dtp-content {
+  max-height: 470px;
+}
+
+.dtp div.dtp-picker-month {
+  padding-bottom: 0 !important;
+}
+
+.dtp .dtp-buttons {
+  padding: 0 0 1em;
+  text-align: right;
+  margin-top: -14px;
 }

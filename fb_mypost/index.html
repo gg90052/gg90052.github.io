@@ -15,7 +15,6 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="css/new.css">
 
-
 <script src="//connect.facebook.net/zh_TW/all.js"></script>
 
 <script type="text/javascript">
@@ -28,9 +27,9 @@ window.fbAsyncInit = function() {
     version    : 'v2.7' // use version 2.1
   });
 }
-// 522307161287123 pro
+// 522307161287123 acsite
 // 1390069707889707 dev
-// 1808267469406478
+// 1808267469406478 github
 
 (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -69,12 +68,23 @@ window.fbAsyncInit = function() {
 				</label>
 				<input type="text" class="search" placeholder="搜尋內文">
 				<button type="button" class="goSearch button is-info">搜尋</button>
+				<button type="button" class="stat button is-danger">統計資料
+				</button>
 			</div>
-			<div id="draw"></div>
 			<div id="feeds">
 				
 			</div>
 		</div>
+	</div>
+</div>
+
+<div class="loading statistics hide">
+	<div class="shareCard">
+		<div class="header">我的 Facebook 發文統計資料
+			<div class="close">X</div>
+		</div>
+		<div class="picture"></div>
+		<div class="other"></div>
 	</div>
 </div>
 
@@ -93,6 +103,7 @@ window.fbAsyncInit = function() {
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/locale/zh-tw.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </body>

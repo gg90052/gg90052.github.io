@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="Description" content="忘了之前自己發過甚麼廢文嗎？ 讓我來告訴你" />
+<meta property="og:title" content="Facebook 我的貼文" /> 
+<meta property="og:type" content="article" /> 
+<meta property="og:url" content="http://gg90052.github.io/fb_mypost" />
+<meta property="og:image" content="http://gg90052.github.io/comment_helper/share.jpg" />
+<meta property="og:description" content="忘了之前自己發過甚麼廢文嗎？ 讓我來告訴你" /> 
+<title>Facebook 我的貼文</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.1.2/css/bulma.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/css/bootstrap-material-datetimepicker.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/new.css">
+
+
+<script src="//connect.facebook.net/zh_TW/all.js"></script>
+
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '522307161287123',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.7' // use version 2.1
+  });
+}
+// 522307161287123 pro
+// 1390069707889707 dev
+
+
+(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/zh_TW/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+</script>
+
+</head>
+
+<body>
+
+<div class="wrapper">
+	<div class="section">
+		<div class="result_area show">
+			<div class="ui">
+				<button type="button" class="update button is-success">全部更新</button>
+				<div class="timeGroup">
+					<input type="text" class="time start" placeholder="開始時間"> - 
+					<input type="text" class="time end" placeholder="結束時間"> 
+				</div>
+				<label class="with">
+					和誰在一起：
+					<select name="with" class="select">
+						<option value="">請選擇</option>
+					</select>
+				</label>
+				<label class="place">
+					打卡地點：
+					<select name="place" class="select">
+						<option value="">請選擇</option>
+					</select>
+				</label>
+				<input type="text" class="search" placeholder="搜尋內文">
+				<button type="button" class="goSearch button is-info">搜尋</button>
+			</div>
+			<div id="draw"></div>
+			<div id="feeds">
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="loading waiting hide">
+	<div class="console">
+		<div class="message"></div>
+		<div class="error">發生錯誤，請按下Ctrl+Shift+J，按照指示截圖，並通知管理員</div>
+		<div class="sk-folding-cube">
+			<div class="sk-cube1 sk-cube"></div>
+			<div class="sk-cube2 sk-cube"></div>
+			<div class="sk-cube4 sk-cube"></div>
+			<div class="sk-cube3 sk-cube"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-datetimepicker/2.7.1/js/bootstrap-material-datetimepicker.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>

@@ -174,27 +174,7 @@ button {
 .loading .shareCard .goShare {
   position: absolute;
   bottom: 23px;
-}
-.loading .shareCard .shareMessage {
-  width: 100%;
-  position: absolute;
-  height: 60px;
-  line-height: 60px;
-  background: #FFF;
-  border: 1px solid #CCC;
-  left: 0;
-  bottom: -60px;
-  padding-left: 22px;
-}
-.loading .shareCard .shareMessage input {
-  width: 80%;
-  padding-left: 10px;
-  height: 30px;
-}
-.loading .shareCard .shareMessage button {
-  vertical-align: middle;
-  width: 10%;
-  margin-left: 10px;
+  right: 0;
 }
 
 .console {

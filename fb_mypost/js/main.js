@@ -493,7 +493,7 @@ $(".goShare").click(function () {
 function checkPublish(response) {
 	if (response.status === 'connected') {
 		if (response.authResponse.grantedScopes.indexOf('publish_actions') >= 0) {
-			$(".goShare").addClass('is-loading');
+			$(".goShare").addClass('is-disabled').text('產生圖片中...請稍候');
 			postLink();
 		} else {
 			alert("需要完整授權，請再試一次");
@@ -509,15 +509,13 @@ function postLink() {
 	var t = setInterval(function () {
 		if (uploadURL) {
 			clearInterval(t);
-			FB.api("https://graph.facebook.com/v2.7/me/feed", 'post', {
-				'message': '',
-				'link': 'http://gg90052.github.io/fb_mypost/',
-				'picture': uploadURL
-			}, function (res) {
-				if (res.id) {
-					$(".goShare").addClass('hide');
-					alert("分享完成!");
-				}
+			FB.ui({
+				app_id: '1808267469406478',
+				method: 'feed',
+				link: 'http://gg90052.github.io/fb_mypost/',
+				picture: uploadURL
+			}, function (response) {
+				$(".goShare").addClass('hide');
 			});
 		}
 	}, 1000);

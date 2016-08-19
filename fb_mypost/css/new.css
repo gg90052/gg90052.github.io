@@ -417,7 +417,10 @@ button {
     line-height: 1.5em;
   }
   .loading .shareCard .goShare {
-    bottom: 50px;
+    position: static;
+    margin: 10px auto;
+    width: 80%;
+    display: block;
   }
 }
 .dtp > .dtp-content {

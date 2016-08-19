@@ -485,25 +485,9 @@ function drawCard() {
 
 $(".goShare").click(function () {
 	drawCard();
-	FB.login(function (response) {
-		checkPublish(response);
-	}, { scope: 'publish_actions', return_scopes: true });
+	$(".goShare").addClass('is-disabled').text('產生圖片中...請稍候');
+	postLink();
 });
-
-function checkPublish(response) {
-	if (response.status === 'connected') {
-		if (response.authResponse.grantedScopes.indexOf('publish_actions') >= 0) {
-			$(".goShare").addClass('is-disabled').text('產生圖片中...請稍候');
-			postLink();
-		} else {
-			alert("需要完整授權，請再試一次");
-		}
-	} else {
-		FB.login(function (response) {
-			callback(response);
-		}, { scope: 'publish_actions', return_scopes: true });
-	}
-}
 
 function postLink() {
 	var t = setInterval(function () {

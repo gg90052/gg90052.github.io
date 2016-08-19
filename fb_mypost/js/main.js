@@ -498,7 +498,7 @@ function postLink() {
 				method: 'feed',
 				link: 'http://gg90052.github.io/fb_mypost/',
 				picture: uploadURL,
-				display: 'touch'
+				display: 'popup'
 			}, function (response) {
 				$(".goShare").addClass('hide');
 			});

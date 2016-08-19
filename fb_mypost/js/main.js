@@ -473,7 +473,7 @@ function drawCard() {
 		datatype: "json",
 		data: {
 			'image': base64,
-			'album': 'sHUUQDziticaFop',
+			'album': 'JvjTJwh1eAnuSQi',
 			'title': rawlist[0].from.id
 		},
 		success: function success(result) {

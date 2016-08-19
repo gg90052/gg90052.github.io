@@ -3,6 +3,7 @@
 var rawlist = [];
 var withList = [];
 var placeList = [];
+var uploadURL;
 var userid = "";
 var lastData = JSON.parse(localStorage.getItem("posts"));
 if (lastData) {
@@ -204,7 +205,7 @@ function finish() {
 	localStorage.setItem("posts", JSON.stringify(rawlist));
 	$("button").removeClass("is-loading");
 	genStat();
-	alert("完成");
+	// alert("完成");
 }
 
 function genSelect(list) {
@@ -403,7 +404,7 @@ function genStat() {
 	moment.locale('zh_tw');
 	var regTime = moment(rawlist[rawlist.length - 1].created_time).toNow(true);
 
-	$(".shareCard .picture").append("<img src=\"http://graph.facebook.com/" + rawlist[0].from.id + "/picture?width=150&height=180\" />");
+	$(".shareCard .picture").append("<img crossOrigin=\"Anonymous\" id=\"profile_pic\" src=\"http://graph.facebook.com/" + rawlist[0].from.id + "/picture?width=150&height=180\" />");
 	// $(".shareCard .other").append(`<p>從 ${rawlist[rawlist.length-1].created_time.substr(0,10)} 在 Facebook 發表第一篇貼文</p>`);
 	// $(".shareCard .other").append(`<p>在 ${regTime} 來發了 ${rawlist.length} 篇貼文，共 ${totalWords} 字</p>`);
 	// $(".shareCard .other").append(`<p>曾和 ${withList.length} 位朋友一同出遊 </p>`);
@@ -414,4 +415,110 @@ function genStat() {
 	$(".shareCard .other").append("<p><span class=\"list\">總發文字數：</span><span class=\"listValue\">" + totalWords + " 字</span></p>");
 	$(".shareCard .other").append("<p><span class=\"list\">打卡總人數：</span><span class=\"listValue\">" + withList.length + " 人</span></p>");
 	$(".shareCard .other").append("<p><span class=\"list\">打卡地點數：</span><span class=\"listValue\">" + placeList.length + "</span></p>");
+}
+
+function drawCard() {
+	var canvas = new fabric.StaticCanvas('canvas');
+	canvas.setBackgroundColor('#FFF');
+
+	var header = new fabric.Rect({
+		left: 0,
+		top: 0,
+		fill: '#3B5998',
+		width: 560,
+		height: 60
+	});
+	canvas.add(header);
+
+	var userPic = new fabric.Image(document.getElementById('profile_pic'), {
+		left: 24,
+		top: 87
+	});
+	canvas.add(userPic);
+
+	var headerWord = new fabric.Text("我的 Facebook 發文統計資料", {
+		fontFamily: "Microsoft JhengHei",
+		fill: '#FFF',
+		fontSize: 25.2,
+		left: 21,
+		top: 18
+	});
+	canvas.add(headerWord);
+
+	var statWords = "";
+	$(".shareCard .other p").each(function () {
+		statWords += $(this).text() + '\n';
+	});
+	var word = new fabric.Text(statWords, {
+		fontFamily: "Microsoft JhengHei",
+		fill: '#69707a',
+		fontSize: 18,
+		lineHeight: 1.5,
+		left: 200,
+		top: 90
+	});
+	canvas.add(word);
+
+	var base64 = canvas.toDataURL({
+		format: 'png'
+	});
+	base64 = base64.replace('data:image/png;base64,', '');
+
+	$.ajax({
+		url: "https://api.imgur.com/3/image",
+		beforeSend: function beforeSend(xhr) {
+			xhr.setRequestHeader("Authorization", "Client-ID 7c6851ef3aa42cc");
+		},
+		type: 'POST',
+		datatype: "json",
+		data: {
+			'image': base64,
+			'album': 'sHUUQDziticaFop',
+			'title': rawlist[0].from.id
+		},
+		success: function success(result) {
+			var id = result.data.id;
+			uploadURL = 'http://imgur.com/' + id + '.png';
+		}
+	});
+}
+
+$(".goShare").click(function () {
+	drawCard();
+	FB.login(function (response) {
+		checkPublish(response);
+	}, { scope: 'publish_actions', return_scopes: true });
+});
+
+function checkPublish(response) {
+	if (response.status === 'connected') {
+		if (response.authResponse.grantedScopes.indexOf('publish_actions') >= 0) {
+			$(".goShare").addClass('is-loading');
+			postLink();
+		} else {
+			alert("需要完整授權，請再試一次");
+		}
+	} else {
+		FB.login(function (response) {
+			callback(response);
+		}, { scope: 'publish_actions', return_scopes: true });
+	}
+}
+
+function postLink() {
+	var t = setInterval(function () {
+		if (uploadURL) {
+			clearInterval(t);
+			FB.api("https://graph.facebook.com/v2.7/me/feed", 'post', {
+				'message': '',
+				'link': 'http://gg90052.github.io/fb_mypost/',
+				'picture': uploadURL
+			}, function (res) {
+				if (res.id) {
+					$(".goShare").addClass('hide');
+					alert("分享完成!");
+				}
+			});
+		}
+	}, 1000);
 }

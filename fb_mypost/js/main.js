@@ -501,7 +501,7 @@ function postLink() {
 	var t = setInterval(function () {
 		if (uploadURL) {
 			clearInterval(t);
-			if (checkMobile) {
+			if (checkMobile()) {
 				location.href = "http://www.facebook.com/dialog/feed?client_id=1808267469406478&picture=" + uploadURL + "&link=http://gg90052.github.io/fb_mypost/&redirect_uri=http://gg90052.github.io/fb_mypost/&display=touch";
 			} else {
 				FB.ui({

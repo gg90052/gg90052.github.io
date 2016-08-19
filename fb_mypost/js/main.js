@@ -497,7 +497,8 @@ function postLink() {
 				app_id: '1808267469406478',
 				method: 'feed',
 				link: 'http://gg90052.github.io/fb_mypost/',
-				picture: uploadURL
+				picture: uploadURL,
+				display: 'iframe'
 			}, function (response) {
 				$(".goShare").addClass('hide');
 			});

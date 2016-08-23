@@ -200,6 +200,9 @@ function finish() {
 		}
 	});
 
+	$(".with select").html("").append("<option value=\"\">請選擇</option><option value=\"allWith\">顯示全部</option>");
+	$(".place select").html("").append("<option value=\"\">請選擇</option><option value=\"allPlace\">顯示全部</option>");
+
 	genSelect(rawlist);
 	renderList(rawlist.slice(0, 25));
 	localStorage.setItem("posts", JSON.stringify(rawlist));
@@ -349,10 +352,21 @@ function timeConverter(UNIX_timestamp) {
 }
 
 function filter(key, value) {
-	var arr = $.grep(rawlist, function (obj) {
-		var target = obj[key] || "";
-		return JSON.stringify(target).indexOf(value) >= 0;
-	});
+	var arr = [];
+	if (value == 'allWith') {
+		arr = $.grep(rawlist, function (obj) {
+			return obj.with_tags;
+		});
+	} else if (value == 'allPlace') {
+		arr = $.grep(rawlist, function (obj) {
+			return obj.place;
+		});
+	} else {
+		arr = $.grep(rawlist, function (obj) {
+			var target = obj[key] || "";
+			return JSON.stringify(target).indexOf(value) >= 0;
+		});
+	}
 	return arr;
 }
 

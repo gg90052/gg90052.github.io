@@ -14,6 +14,7 @@ var errorTime = 0;
 var backend_data = {"data":""};
 var noPageName = false;
 var endTime = nowDate();
+var filterReaction = 'all';
 var ci_counter = 0;
 var limit = 500;
 var hideName = false;
@@ -96,12 +97,12 @@ $(document).ready(function(){
 		}
 	});
 
-	$("#btn_share").click(function(e){
-
-	
+	$(".uipanel .react").change(function(){
+		filterReaction = $(this).val();
+		redoTable();
 	});
 	$("#btn_like").click(function(){
-		getAuth('likes');
+		getAuth('reactions');
 	});
 	$("#btn_url").click(function(){
 		getAuth('url_comments');
@@ -379,7 +380,11 @@ function getData(post_id){
 		pageid += "_";
 	}
 	url = pageid + post_id;
-	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit="+limit,function(res){
+	var apiURL = "https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?limit="+limit;
+	if (api_command == 'reactions'){
+		apiURL = "https://graph.facebook.com/v2.7/"+pageid+post_id+"/reactions?limit=500";
+	}
+	FB.api(apiURL,function(res){
 		// console.table(res);
 		if(res.error){
 			$(".console .message").text('發生錯誤，請確認您的網址無誤，並重新整理再次嘗試');
@@ -416,7 +421,7 @@ function getData(post_id){
 						data[i].text = "";
 						data[i].message_tags = [];
 					}
-				}else if (api_command == "likes"){
+				}else if (api_command == "reactions"){
 					data[i].realname = data[i].name;
 					data[i].fromid = data[i].id;
 					data[i].link = "http://www.facebook.com/"+data[i].id;
@@ -446,7 +451,12 @@ function getData(post_id){
 }
 
 function getDataNext(post_id,next,api_command,max){
-	FB.api("https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+max,function(res){
+	var apiURL = "https://graph.facebook.com/v2.3/"+pageid+post_id+"/"+api_command+"?after="+next+"&limit="+max;
+	if (api_command == 'reactions'){
+		apiURL = "https://graph.facebook.com/v2.7/"+pageid+post_id+"/reactions?after="+next+"&limit=500";
+	}
+	FB.api(apiURL,function(res){
+		console.log(res);
 		if (res.error){
 			errorTime++;
 			if (errorTime >= 200){
@@ -493,7 +503,7 @@ function getDataNext(post_id,next,api_command,max){
 						data[i].text = "";
 						data[i].message_tags = [];
 					}
-				}else if (api_command == "likes"){
+				}else if (api_command == "reactions"){
 					data[i].realname = data[i].name;
 					data[i].fromid = data[i].id;
 					data[i].link = "http://www.facebook.com/"+data[i].id;
@@ -623,6 +633,12 @@ function finished(){
 		hideNameFun();
 	}
 
+	if (gettype == 'reactions'){
+		$('.uipanel .react').removeClass('hide');
+	}else{
+		$('.uipanel .react').addClass('hide');
+	}
+
 	if (isEvent){
 		data.map(function(d){
 			if (d.likes){
@@ -647,10 +663,11 @@ function insertTable(data){
 	var filterData = totalFilter(data,$("#unique").prop("checked"),$("#tag").prop("checked"));
 	for(var i=0; i<filterData.length; i++){
 		var insertQuery;
+		filterData[i].type = filterData[i].type || '';
 		if ($("#picture").prop("checked") == true){
-			insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="'+filterData[i].link+'" target="_blank"><img src="http://graph.facebook.com/'+filterData[i].fromid+'/picture?type=small"><br>'+filterData[i].realname+'</a></td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].like_count+'</td><td>'+filterData[i].realtime+'</td></tr>';
+			insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="'+filterData[i].link+'" target="_blank"><img src="http://graph.facebook.com/'+filterData[i].fromid+'/picture?type=small"><br>'+filterData[i].realname+'</a><td class="center"><span class="react '+filterData[i].type+'"></span>'+filterData[i].type+'</td></td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].like_count+'</td><td>'+filterData[i].realtime+'</td></tr>';
 		}else{
-			insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="'+filterData[i].link+'" target="_blank">'+filterData[i].realname+'</a></td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].like_count+'</td><td>'+filterData[i].realtime+'</td></tr>';			
+			insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="'+filterData[i].link+'" target="_blank">'+filterData[i].realname+'</a></td><td class="center"><span class="react '+filterData[i].type+'"></span>'+filterData[i].type+'</td><td class="force-break"><a href="'+filterData[i].postlink+'" target="_blank">'+filterData[i].text+'</a></td><td>'+filterData[i].like_count+'</td><td>'+filterData[i].realtime+'</td></tr>';			
 		}
 		$(".like_comment").append(insertQuery);
 	}
@@ -722,10 +739,11 @@ function choose(){
 	}
 
 	for (var j=0; j<num; j++){
+		award[j].type = award[j].type || "";
 		if ($("#picture").prop("checked") == true){
-			$("<tr align='center' class='success'><td></td><td><a href='"+award[j].link+"' target='_blank'><img src='http://graph.facebook.com/"+award[j].fromid+"/picture?type=small'><br>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].like_count+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td></td><td><a href='"+award[j].link+"' target='_blank'><img src='http://graph.facebook.com/"+award[j].fromid+"/picture?type=small'><br>"+award[j].realname+"</a></td><td class='center'><span class='react "+award[j].type+"'></span>"+award[j].type+"</td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].like_count+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 		}else{
-			$("<tr align='center' class='success'><td></td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].like_count+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+			$("<tr align='center' class='success'><td></td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='center'><span class='react "+award[j].type+"'></span>"+award[j].type+"</td><td class='force-break'><a href='"+award[j].postlink+"' target='_blank'>"+award[j].text+"</a></td><td>"+award[j].like_count+"</td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
 		}
 	}
 	if(detail){
@@ -754,6 +772,10 @@ function totalFilter(ary,isDuplicate,isTag){
 		filteredData = filter_tag(filteredData);
 	}
 	filteredData = filter_time(filteredData,endTime);
+
+	if (gettype == "reactions"){
+		filteredData = filter_react(filteredData, filterReaction);
+	}
 	return filteredData;
 }
 function filter_unique(filteredData){
@@ -769,7 +791,7 @@ function filter_unique(filteredData){
 	return output;
 }
 function filter_word(ary,tar){
-	if (gettype == "likes"){
+	if (gettype == "reactions"){
 		return ary;
 	}else{
 		var newAry = $.grep(ary,function(n, i){
@@ -781,7 +803,7 @@ function filter_word(ary,tar){
 	}
 }
 function filter_time(ary,t){
-	if (gettype == "likes"){
+	if (gettype == "reactions"){
 		return ary;
 	}else{
 		var time_ary = t.split("-");
@@ -793,6 +815,20 @@ function filter_time(ary,t){
 			}
 		});
 		return newAry;
+	}
+}
+function filter_react(ary,tar){
+	if (gettype == "reactions"){
+		if (tar == 'all'){
+			return ary;
+		}else{
+			var newAry = $.grep(ary,function(n, i){
+				if (n.type == tar){
+					return true;
+				}
+			});
+			return newAry;
+		}
 	}
 }
 function filter_tag(ary){
@@ -859,6 +895,7 @@ function forExcel(data){
 				"序號": this.serial,
 				"臉書連結" : this.link,
 				"姓名" : this.realname,
+				"表情" : this.type,
 				"留言內容" : this.message,
 				"留言時間" : this.realtime
 			}

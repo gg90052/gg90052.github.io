@@ -68,6 +68,59 @@ body {
   background: #dbdbdb;
 }
 
+table td.center {
+  text-align: center;
+}
+table td span.react {
+  display: inline-block;
+  vertical-align: middle;
+  transform: scale(0.5);
+  width: 48px;
+  height: 48px;
+}
+table td span.react.LIKE {
+  background-position: 0 -147px;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+table td span.react.LOVE {
+  background-position: 0 -196px;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+table td span.react.HAHA {
+  background-position: 0 -98px;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+table td span.react.WOW {
+  background-position: 0 -294px;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+table td span.react.SAD {
+  background-position: 0 -245px;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+table td span.react.ANGRY {
+  background-position: 0 0;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+table td span.react.THANKFUL {
+  background-position: 0 -49px;
+  background-image: url(../images/reaction.png);
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
 .wrapper {
   width: 960px;
   margin: 0 auto;
@@ -321,10 +374,18 @@ body {
   right: 45px;
   top: 28px;
   font-weight: bold;
+  text-align: right;
 }
 .wrapper .section .result_area .uipanel input {
-  width: 200px;
+  width: 130px;
   margin-left: 10px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 32px;
+  padding-left: 10px;
+}
+.wrapper .section .result_area .uipanel select {
+  width: 136px;
   height: 32px;
   font-size: 14px;
   line-height: 32px;
@@ -434,6 +495,7 @@ body {
 }
 .wrapper .section .result_area #comment_table table td {
   text-align: center;
+  vertical-align: middle;
 }
 .wrapper .section .result_area #comment_table table td.force-break {
   text-align: left;

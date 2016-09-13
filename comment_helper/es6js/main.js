@@ -583,8 +583,14 @@ let fbid = {
 							obj.fullID = result[0];
 							resolve(obj);
 						}else if (urltype === 'group'){
-							obj.pureID = result[1];
-							obj.fullID = obj.pageID + '_' + obj.pureID;
+							if (result.length > 1){
+								obj.pureID = result[1];
+								obj.fullID = obj.pageID + '_' + obj.pureID;
+							}else{
+								obj.pureID = result[0];
+								obj.fullID = result[0];
+							}
+							
 							resolve(obj);
 						}else{
 							if (result.length == 1 || result.length == 3){
@@ -634,7 +640,13 @@ let fbid = {
 				if (group >= 0){
 					start = group+8;
 					end = posturl.indexOf("/",start);
-					resolve(posturl.substring(start,end));
+					let regex2 = /\d{6,}/g;
+					let temp = posturl.substring(start,end);
+					if (regex2.test(temp)){
+						resolve(temp);
+					}else{
+						resolve('group');
+					}
 				}else if(event >= 0){
 					resolve('event');
 				}else{

@@ -484,16 +484,18 @@ let choose = {
 	init: ()=>{
 		let thead = $('.main_table thead').html();
 		$('#awardList table thead').html(thead);
-
+		$('#awardList table tbody').html('');
 		choose.data = data.filter(data.raw);
 		choose.award = [];
+		choose.list = [];
+		choose.num = 0;
 		if ($("#moreprize").hasClass("active")){
 			choose.detail = true;
 			$(".prizeDetail .prize").each(function(){
 				var n = parseInt($(this).find("input[type='number']").val());
 				var p = $(this).find("input[type='text']").val();
 				if (n > 0){
-					choose.num += n;
+					choose.num += parseInt(n);
 					choose.list.push({"name":p, "num": n});
 				}
 			});

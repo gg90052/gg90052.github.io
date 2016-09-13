@@ -506,7 +506,7 @@ let choose = {
 		choose.award = genRandomArray(choose.data.filtered.length).splice(0,choose.num);
 		let insert = '';
 		for(let i of choose.award){
-			insert += '<tr>' + $('.main_table tbody tr').eq(i).html() + '</tr>';
+			insert += '<tr>' + $('.main_table').DataTable().row(i).node().innerHTML + '</tr>';
 		}
 		$('#awardList table tbody').html(insert);
 		$('#awardList table tbody tr').addClass('success');

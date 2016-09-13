@@ -179,13 +179,12 @@ function getJSON(){
 
 function preprocess(source){
 	var fromid = [];
-	// console.table(source);
 	rawData.push(source);
-	$.each(source,function(i, val){
+	$.each(source.data,function(i, val){
 		if (usename){
-			fromid.push(val.realname);
+			fromid.push(val.from.name);
 		}else{
-			fromid.push(val.fromid);
+			fromid.push(val.from.id);
 		}
 	});
 	allData.push(fromid);
@@ -222,19 +221,19 @@ function getDuplicate(array){
 function getRaw(array) {
 	var rawTarget = 0;
 	$.each(rawData,function(i, val){
-		if (val[0].message){
+		if (val.data[0].text){
 			rawTarget = i;
 		}
 	});
 	if (condition == 1){
 		$.each(array,function(i, val){
-			$.each(rawData[rawTarget],function(j, val2){
+			$.each(rawData[rawTarget].data,function(j, val2){
 				if (usename){
-					if (val2.realname == val){
+					if (val2.from.name == val){
 						data.push(val2);
 					}
 				}else{
-					if (val2.fromid == val){
+					if (val2.from.id == val){
 						data.push(val2);
 					}
 				}
@@ -243,7 +242,7 @@ function getRaw(array) {
 	}else{
 		var compareData = [];
 		$.each(rawData,function(i, val){
-			$.each(val,function(j, val2){
+			$.each(val.data,function(j, val2){
 				compareData.push(val2);
 			});
 		});
@@ -251,11 +250,11 @@ function getRaw(array) {
 		$.each(array,function(i, val){
 			$.each(compareData,function(j, val2){
 				if (usename){
-					if (val2.realname == val){
+					if (val2.from.name == val){
 						data.push(val2);
 					}
 				}else{
-					if (val2.fromid == val){
+					if (val2.from.id == val){
 						data.push(val2);
 					}
 				}
@@ -278,7 +277,7 @@ function finished(){
 function insertTable(data){
 	for(var i=0; i<data.length; i++){
 		var insertQuery;
-		insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="'+data[i].link+'" target="_blank">'+data[i].realname+'</a></td><td class="force-break">'+data[i].text+'</a></td><td>'+data[i].realtime+'</td></tr>';
+		insertQuery = '<tr><td>'+(i+1)+'</td><td><a href="http://www.facebook.com/'+data[i].from.id+'" target="_blank">'+data[i].from.name+'</a></td><td class="force-break">'+data[i].message+'</a></td><td>'+data[i].created_time+'</td></tr>';
 		$(".like_comment").append(insertQuery);
 	}
 }
@@ -334,7 +333,7 @@ function choose(){
 	}
 
 	for (var j=0; j<num; j++){
-		$("<tr align='center' class='success'><td>"+award[j].serial+"</td><td><a href='"+award[j].link+"' target='_blank'>"+award[j].realname+"</a></td><td class='force-break'>"+award[j].text+"</a></td><td>"+award[j].realtime+"</td></tr>").appendTo("#awardList tbody");
+		$("<tr align='center' class='success'><td></td><td><a href='http://www.facebook.com/"+award[j].from.id+"' target='_blank'>"+award[j].from.name+"</a></td><td class='force-break'>"+award[j].message+"</a></td><td>"+award[j].created_time+"</td></tr>").appendTo("#awardList tbody");
 	}
 	if(detail){
 		var now = 0;
@@ -372,11 +371,11 @@ function forExcel(data){
 	var newObj = [];
 	$.each(data,function(i){
 		var tmp = {
-			"序號": this.serial,
-			"臉書連結" : this.link,
-			"姓名" : this.realname,
-			"留言內容" : this.message,
-			"留言時間" : this.realtime
+			"序號": i,
+			"臉書連結" : 'http://www.facebook.com/' + this.from.id,
+			"姓名" : this.from.name,
+			"留言內容" : this.text || this.story,
+			"留言時間" : this.created_time
 		}
 		newObj.push(tmp);
 	});
@@ -472,8 +471,9 @@ function filter_unique(filteredData){
 function filter_unique2(filteredData){
 	var output = [];
 	var keys = [];
+	console.log(filteredData);
 	filteredData.forEach(function(item) {
-		var key = item["fromid"];
+		var key = item["from"]['id'];
 		if(keys.indexOf(key) === -1) {
 			keys.push(key);
 			output.push(item);

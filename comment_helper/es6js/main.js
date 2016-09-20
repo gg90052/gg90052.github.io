@@ -185,7 +185,8 @@ let config = {
 		reactions: 'v2.7',
 		sharedposts: 'v2.3',
 		url_comments: 'v2.7',
-		feed: 'v2.3'
+		feed: 'v2.3',
+		group: 'v2.3'
 	},
 	filter: {
 		word: '',
@@ -296,7 +297,8 @@ let data = {
 			let datas = [];
 			let promise_array = [];
 			let command = fbid.command;
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[command]}&fields=${config.field[command].toString()}`,(res)=>{
+			if (fbid.type === 'group') command = 'group';
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
@@ -536,7 +538,8 @@ let fbid = {
 		FB.api("/me",function(res){
 			data.userid = res.id;
 
-			let url = $('#enterURL .url').val();
+			let url = fbid.format($('#enterURL .url').val());
+
 			fbid.get(url, type).then((fbid)=>{
 				data.start(fbid);
 			})
@@ -583,14 +586,8 @@ let fbid = {
 							obj.fullID = result[0];
 							resolve(obj);
 						}else if (urltype === 'group'){
-							if (result.length > 1){
-								obj.pureID = result[1];
-								obj.fullID = obj.pageID + '_' + obj.pureID;
-							}else{
-								obj.pureID = result[0];
-								obj.fullID = result[0];
-							}
-							
+							obj.pureID = result[result.length-1];
+							obj.fullID = obj.pureID;							
 							resolve(obj);
 						}else{
 							if (result.length == 1 || result.length == 3){
@@ -598,7 +595,12 @@ let fbid = {
 								obj.fullID = obj.pageID + '_' + obj.pureID;
 								resolve(obj);
 							}else{
-								obj.pureID = result[result.length-1];
+								if (urltype === 'unname'){
+									obj.pureID = result[0];
+									obj.pageID = result[result.length-1];
+								}else{
+									obj.pureID = result[result.length-1];
+								}
 								obj.fullID = obj.pageID + '_' + obj.pureID;
 								resolve(obj);
 							}
@@ -610,7 +612,11 @@ let fbid = {
 	},
 	checkType: (posturl)=>{
 		if (posturl.indexOf("fbid=") >= 0){
-			return 'personal';
+			if (posturl.indexOf('permalink') >= 0){
+				return 'unname';
+			}else{
+				return 'personal';
+			}
 		};
 		if (posturl.indexOf("/groups/") >= 0){
 			return 'group';
@@ -630,7 +636,11 @@ let fbid = {
 			let regex = /\d{4,}/g;
 			if (end < 0){
 				if (posturl.indexOf('fbid=') >= 0){
-					resolve('personal');
+					if (type === 'unname'){
+						resolve('unname');
+					}else{
+						resolve('personal');
+					}
 				}else{
 					resolve(posturl.match(regex)[1]);
 				}
@@ -661,6 +671,14 @@ let fbid = {
 				}
 			}
 		});
+	},
+	format: (url)=>{
+		if (url.indexOf('business.facebook.com/') >= 0){
+			url = url.substring(0, url.indexOf("?"));
+			return url;
+		}else{
+			return url;
+		}
 	}
 }
 

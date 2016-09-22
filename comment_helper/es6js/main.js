@@ -768,6 +768,12 @@ let ui = {
 			$('.limitTime, #searchComment').removeClass('hide');
 			$('.react').addClass('hide');
 		}
+		if (command === 'comments'){
+			$('label.tag').removeClass('hide');
+		}else{
+			$("#tag").click();
+			$('label.tag').addClass('hide');
+		}
 	}
 }
 

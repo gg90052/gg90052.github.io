@@ -113,19 +113,18 @@ table{
 		padding: 58px 35px;
 		margin-bottom: 26px;
 		background: #FFF;
-		.ci{
-			width: 281px;
-			height: 253px;
-			background: url(../images/ci.png);
+		.left{
+			width: 30%;
 			float: left;
-		}
-		.fanpage{
-			margin-top: -50px;
-			float: left;
+			.ci{
+				width: 281px;
+				height: 253px;
+				background: url(../images/ci.png);
+			}
 		}
 		.inputarea{
-			width: 560px;
-			margin-left: 40px;
+			width: 65%;
+			margin-left: 5%;
 			float: left;
 			.source{
 				.url{
@@ -148,13 +147,22 @@ table{
 				font-size: 16px;
 				background: $lightblue;
 			}
-			label.tag,label.picture{
-				margin-left: 15px;
-			}
 			.message{
-				margin-top: 30px;
+				margin: 20px 0;
 				font-size: 1.1em;
 				line-height: 1.5em;
+			}
+			.payRead{
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 12px;
+				margin-right: 10px;
+				cursor: pointer;
+				text-decoration: none;
+			}
+			#btn_pay{
+				width: 90px; 
+				font-size: 12px;
 			}
 		}
 		&:after{
@@ -165,54 +173,11 @@ table{
 	}
 	.section{
 		position: relative;
-		.update_area{
-			width: 430px;
-			height: 325px;
-			background: #FFF;
-			padding: 28px 45px;
-			position: relative;
-			display: inline-block;
-			vertical-align: top;
-			.policy{
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				a{
-					color: #FFF;
-				}
-				pointer-events: none;
-			}
-			.title{
-				font-size: 1.85em;
-				font-weight: bold;
-				color: $blue;
-				border-bottom: 1px solid $blue;
-				padding-bottom: 15px;
-				margin-bottom: 15px;
-			}
-			.list{
-				font-size: 1.1em;
-				line-height: 1.5em;
-				a:after{
-					content: '';
-					display: inline-block;
-					vertical-align: middle;
-					width: 0;
-					height: 0;
-					border-style: solid;
-					border-width: 6px 0 6px 6px;
-					border-color: transparent transparent transparent #428bca;
-					margin-left: 5px;
-					margin-top: -3px;
-				}
-			}
-		}
 		.donate_area{
-			width: 506px;
+			width: 100%;
 			height: 325px;
 			background: #FFF;
 			padding: 28px 35px;
-			margin-left: 20px;
 			position: relative;
 			display: inline-block;
 			vertical-align: top;
@@ -225,20 +190,41 @@ table{
 				padding-bottom: 15px;
 				margin-bottom: 15px;
 			}
-			.message{
-				font-size: 1.1em;
-				line-height: 1.5em;
-				span{
-					color: #FFAB0D;
+			.left{
+				width: 63%;
+				float: left;
+				.message{
+					font-size: 1.1em;
+					line-height: 1.5em;
+					span{
+						color: #FFAB0D;
+					}
+				}
+				table{
+					float: left;
+				}
+				input[type="image"]{
+					float: left;
+					margin-top: 15px;
+					margin-left: 15px;
+				}
+				.policy{
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					a{
+						color: #FFF;
+					}
+					pointer-events: none;
 				}
 			}
-			table{
-				float: left;
-			}
-			input[type="image"]{
-				float: left;
-				margin-top: 15px;
-				margin-left: 15px;
+			.right{
+				width: 35%;
+				float: right;
+				margin-right: -6px;
+				.fanpage{
+					margin-top: -28px;
+				}
 			}
 		}
 		.result_area{
@@ -305,7 +291,7 @@ table{
 				top: 28px;
 				font-weight: bold;
 				text-align: right;
-				input{
+				input[type="text"]{
 					width: 130px;
 					margin-left: 10px;
 					height: 32px;
@@ -323,6 +309,7 @@ table{
 				#howmany{
 					width: 78px;
 					margin: 10px 5px;
+					padding-left: 5px;
 				}
 				.gettotal{
 					display: inline-block;
@@ -411,6 +398,15 @@ table{
 						}
 					}
 				}
+				.filters{
+					margin: 10px 0;
+					label{
+						cursor: pointer;
+					}
+					label.tag,label.picture{
+						margin-left: 15px;
+					}
+				}
 				#awardList{
 					display: none;
 					&>p{
@@ -432,6 +428,29 @@ table{
 				}
 			}
 		}
+	}
+}
+
+.goPay{
+	width: 270px;
+	height: 80px;
+	display: block;
+	border: 1px solid #3b5fb2;
+	border-top: 15px solid #3b5fb2;
+	background: #fff url(../images/ci.png) 10px top no-repeat;
+	background-size: contain;
+	font-size: 28px;
+	line-height: 65px;
+	padding-left: 100px;
+	margin: 30px auto;
+	color: #3b5fb2;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+	&:hover{
+		color: #44B1DA;
+		border-color: #44B1DA;
+		text-decoration: none;
 	}
 }
 
@@ -493,28 +512,7 @@ table{
 	}
 }
 
-.goPay{
-	width: 270px;
-	height: 80px;
-	display: block;
-	border: 1px solid #3b5fb2;
-	border-top: 15px solid #3b5fb2;
-	background: #fff url(../images/ci.png) 10px top no-repeat;
-	background-size: contain;
-	font-size: 28px;
-	line-height: 65px;
-	padding-left: 100px;
-	margin: 30px auto;
-	color: #3b5fb2;
-	font-weight: bold;
-	cursor: pointer;
-	text-decoration: none;
-	&:hover{
-		color: #44B1DA;
-		border-color: #44B1DA;
-		text-decoration: none;
-	}
-}
+
 
 .bigExcel{
 	position: relative;

@@ -541,7 +541,7 @@ let fbid = {
 			fbid.get(url, type).then((fbid)=>{
 				data.start(fbid);
 			})
-			$('.identity').removeClass('hide').append(`<img src="http://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`)
+			$('.identity').removeClass('hide').html(`登入身份：<img src="http://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`)
 		});
 	},
 	get: (url, type)=>{

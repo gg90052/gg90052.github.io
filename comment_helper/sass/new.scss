@@ -164,6 +164,19 @@ table{
 				width: 90px; 
 				font-size: 12px;
 			}
+			.identity{
+				display: inline-block;
+				vertical-align: middle;
+				img{
+					vertical-align: middle;
+					margin-right: 5px;
+					width: 30px;
+					height: 30px;
+				}
+				span{
+					color: $blue;
+				}
+			}
 		}
 		&:after{
 			content: '';

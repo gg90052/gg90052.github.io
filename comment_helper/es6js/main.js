@@ -770,7 +770,9 @@ let ui = {
 		if (command === 'comments'){
 			$('label.tag').removeClass('hide');
 		}else{
-			$("#tag").click();
+			if ($("#tag").prop("checked")){
+				$("#tag").click();
+			}
 			$('label.tag').addClass('hide');
 		}
 	}

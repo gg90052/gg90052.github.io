@@ -581,9 +581,16 @@ let fbid = {
 						resolve(obj);
 					}else{
 						if (urltype === 'event'){
-							obj.command = 'feed';
-							obj.fullID = result[0];
-							resolve(obj);
+							if (result.length == 1){
+								//抓EVENT中所有留言
+								obj.command = 'feed';
+								obj.fullID = result[0];
+								resolve(obj);	
+							}else{
+								//抓EVENT中某篇留言的留言
+								obj.fullID = result[1];
+								resolve(obj);
+							}
 						}else if (urltype === 'group'){
 							obj.pureID = result[result.length-1];
 							obj.fullID = obj.pureID;							

@@ -186,7 +186,7 @@ let config = {
 		sharedposts: 'v2.3',
 		url_comments: 'v2.7',
 		feed: 'v2.3',
-		group: 'v2.3'
+		group: 'v2.7'
 	},
 	filter: {
 		word: '',
@@ -197,16 +197,12 @@ let config = {
 }
 
 let fb = {
+	user_posts: false,
 	getAuth: (type)=>{
-		if (type == "addScope" || type == "sharedposts"){
-			FB.login(function(response) {
-				fb.callback(response, type);
-			}, {scope: config.auth ,return_scopes: true});
-		}else{
-			FB.getLoginStatus(function(response) {
-				fb.callback(response, type);
-			});
-		}
+		FB.login(function(response) {
+			fb.callback(response, type);
+			console.log(response);
+		}, {scope: config.auth ,return_scopes: true});
 	},
 	callback: (response, type)=>{
 		if (response.status === 'connected') {
@@ -235,6 +231,9 @@ let fb = {
 					fbid.init(type);
 				}
 			}else{
+				if (response.authResponse.grantedScopes.indexOf("read_stream") >= 0){
+					fb.user_posts = true;
+				}
 				fbid.init(type);			
 			}
 		}else{
@@ -298,7 +297,7 @@ let data = {
 			let promise_array = [];
 			let command = fbid.command;
 			if (fbid.type === 'group') command = 'group';
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}`,(res)=>{
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
@@ -592,9 +591,17 @@ let fbid = {
 								resolve(obj);
 							}
 						}else if (urltype === 'group'){
-							obj.pureID = result[result.length-1];
-							obj.fullID = obj.pureID;							
-							resolve(obj);
+							if (fb.user_posts){
+								obj.pureID = result[result.length-1];
+								obj.fullID = obj.pureID;							
+								resolve(obj);
+							}else{
+								swal({
+									title: '社團使用需付費，詳情請見粉絲團',
+									html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+									type: 'warning'
+								}).done();
+							}
 						}else{
 							if (result.length == 1 || result.length == 3){
 								obj.pureID = result[0];
@@ -769,10 +776,10 @@ let ui = {
 		let command = data.raw.command;
 		if (command === 'reactions'){
 			$('.limitTime, #searchComment').addClass('hide');
-			$('.react').removeClass('hide');
+			$('.uipanel .react').removeClass('hide');
 		}else{
 			$('.limitTime, #searchComment').removeClass('hide');
-			$('.react').addClass('hide');
+			$('.uipanel .react').addClass('hide');
 		}
 		if (command === 'comments'){
 			$('label.tag').removeClass('hide');

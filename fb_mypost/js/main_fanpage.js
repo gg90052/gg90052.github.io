@@ -5,11 +5,6 @@ var withList = [];
 var placeList = [];
 var uploadURL;
 var userid = "";
-var lastData = JSON.parse(localStorage.getItem("posts"));
-if (lastData) {
-	rawlist = lastData;
-	finish();
-}
 
 $(".update").click(function () {
 	FB.login(function (response) {

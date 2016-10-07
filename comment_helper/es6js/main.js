@@ -403,7 +403,7 @@ let data = {
 let table = {
 	generate: (rawdata)=>{
 		$(".main_table").DataTable().destroy();
-		let data = rawdata.filtered;
+		let filterdata = rawdata.filtered;
 		let thead = '';
 		let tbody = '';
 		let pic = $("#picture").prop("checked");
@@ -423,8 +423,13 @@ let table = {
 			<td>讚</td>
 			<td class="nowrap">留言時間</td>`;
 		}
-		for(let [j, val] of data.entries()){
+
+		let host = 'http://www.facebook.com/';
+		if (data.raw.type === 'url_comments') host = $('#enterURL .url').val() + '?fb_comment_id=';
+
+		for(let [j, val] of filterdata.entries()){
 			let picture = '';
+			
 			if (pic){
 				picture = `<img src="http://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 			}
@@ -436,7 +441,7 @@ let table = {
 				td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			}else{
-				td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>
+				td += `<td class="force-break"><a href="${host}${val.id}" target="_blank">${val.message}</a></td>
 				<td>${val.like_count}</td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			}

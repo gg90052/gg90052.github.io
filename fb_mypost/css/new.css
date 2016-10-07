@@ -44,6 +44,11 @@ button {
 .wrapper .section .result_area .ui {
   margin-left: 17px;
 }
+.wrapper .section .result_area .ui input {
+  font-size: 0.8em;
+  padding-left: 10px;
+  height: 32px;
+}
 .wrapper .section .result_area .ui button {
   vertical-align: middle;
 }

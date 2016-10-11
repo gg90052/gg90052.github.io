@@ -154,7 +154,7 @@ $(document).ready(function(){
 			$(".source .url, .source .btn").addClass("hide");
 			$("#inputJSON").removeClass("hide");
 		}
-		if(e.ctrlKey){
+		if(e.ctrlKey, e.altKey){
 			fb.getAuth('sharedposts');
 		}
 	});

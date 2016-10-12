@@ -259,7 +259,7 @@ let fb = {
 				$(".loading.checkAuth").addClass("hide");
 				let datas = {
 					command: 'sharedposts',
-					data: JSON.parse($(".chrome").val())
+					data: JSON.parse($(".chrome").value)
 				}
 				data.raw = datas;
 				data.finish(data.raw);

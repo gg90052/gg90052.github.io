@@ -63,12 +63,12 @@ $(document).ready(function(){
 	});
 
 	$(window).keydown(function(e){
-		if (e.ctrlKey){
+		if (e.ctrlKey || e.altKey){
 			$("#btn_excel").text("輸出JSON");
 		}
 	});
 	$(window).keyup(function(e){
-		if (!e.ctrlKey){
+		if (!e.ctrlKey || e.altKey){
 			$("#btn_excel").text("輸出EXCEL");
 		}
 	});
@@ -128,7 +128,7 @@ $(document).ready(function(){
 
 	$("#btn_excel").click(function(e){
 		let filterData = data.filter(data.raw);
-		if (e.ctrlKey){
+		if (e.ctrlKey || e.altKey){
 			var url = 'data:text/json;charset=utf8,' + JSON.stringify(filterData);
 			window.open(url, '_blank');
 			window.focus();

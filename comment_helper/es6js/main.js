@@ -5,6 +5,7 @@ function handleErr(msg,url,l)
 {
 	if (!errorMessage){
 		console.log("%c發生錯誤，請將完整錯誤訊息截圖傳送給管理員，並附上你輸入的網址","font-size:30px; color:#F00");
+		console.log("Error occur URL： " + $('#enterURL .url').val());
 		$(".console .error").fadeIn();
 		errorMessage = true;	
 	}

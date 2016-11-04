@@ -298,11 +298,12 @@ let data = {
 			let promise_array = [];
 			let command = fbid.command;
 			if (fbid.type === 'group') command = 'group';
+			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
-					if (command == 'reactions'){
+					if (fbid.command == 'reactions'){
 						d.from = {id: d.id, name: d.name};
 					}
 					datas.push(d);
@@ -599,7 +600,8 @@ let fbid = {
 						}else if (urltype === 'group'){
 							if (fb.user_posts){
 								obj.pureID = result[result.length-1];
-								obj.fullID = obj.pureID;							
+								obj.pageID = result[0];
+								obj.fullID = obj.pageID + "_" +obj.pureID;
 								resolve(obj);
 							}else{
 								swal({

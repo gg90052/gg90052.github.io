@@ -29,8 +29,12 @@ $(document).ready(function(){
 	$("#btn_like").click(function(){
 		fb.getAuth('reactions');
 	});
-	$("#btn_url").click(function(){
-		fb.getAuth('url_comments');
+	$("#btn_url").click(function(e){
+		if (e.ctrlKey){
+			listPay();
+		}else{
+			fb.getAuth('url_comments');
+		}
 	});
 	$("#btn_pay").click(function(){
 		fb.getAuth('addScope');
@@ -801,6 +805,26 @@ let ui = {
 	}
 }
 
+function listPay(){
+	let token = $('#enterURL .url').val();
+	FB.api("1494465264176752/roles?access_token="+token,function(res){
+		let thead = `<td>sn</td><td>userid</td><td>role</td>`;
+		let tbody = '';
+		for(let [j, val] of res.data.entries()){
+			let td = `<td>${j+1}</td><td><a href='http://www.facebook.com/${val.user}' target="_blank">${val.user}</a></td><td>${val.role}</td>`;	
+			let tr = `<tr>${td}</tr>`;
+			tbody += tr;
+		}
+		let insert = `<thead><tr align="center">${thead}</tr></thead><tbody>${tbody}</tbody>`;
+		$(".main_table").html('').append(insert);
+
+		let table = $(".main_table").DataTable({
+			"pageLength": 1000,
+			"searching": true,
+			"lengthChange": false
+		});
+	});
+}
 
 
 

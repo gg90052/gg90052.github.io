@@ -306,10 +306,9 @@ let data = {
 				for(let d of res.data){
 					if (fbid.command == 'reactions'){
 						d.from = {id: d.id, name: d.name};
-					}else{
-						if (d.from){
-							datas.push(d);
-						}
+					}
+					if (d.from){
+						datas.push(d);
 					}
 				}
 				if (res.data.length > 0 && res.paging.next){
@@ -330,10 +329,9 @@ let data = {
 						if (d.id){
 							if (fbid.command == 'reactions'){
 								d.from = {id: d.id, name: d.name};
-							}else{
-								if (d.from){
-									datas.push(d);
-								}
+							}
+							if (d.from){
+								datas.push(d);
 							}
 						}
 					}

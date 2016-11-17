@@ -304,10 +304,12 @@ let data = {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
-					if (fbid.command == 'reactions'){
-						d.from = {id: d.id, name: d.name};
+					if (d.id){
+						if (fbid.command == 'reactions'){
+							d.from = {id: d.id, name: d.name};
+						}
+						datas.push(d);
 					}
-					datas.push(d);
 				}
 				if (res.data.length > 0 && res.paging.next){
 					getNext(res.paging.next);
@@ -324,10 +326,12 @@ let data = {
 					data.nowLength += res.data.length;
 					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 					for(let d of res.data){
-						if (fbid.command == 'reactions'){
-							d.from = {id: d.id, name: d.name};
+						if (d.id){
+							if (fbid.command == 'reactions'){
+								d.from = {id: d.id, name: d.name};
+							}
+							datas.push(d);
 						}
-						datas.push(d);
 					}
 					if (res.data.length > 0 && res.paging.next){
 						getNext(res.paging.next);

@@ -25,7 +25,7 @@ table{
 			width: 48px;
 			height: 48px;
 			&.LIKE{
-				background-position: 0 -147px;	
+				background-position: 0 -147px;
 				background-image: url(../images/reaction.png);
 				background-repeat: no-repeat;
 				background-size: auto;
@@ -161,7 +161,7 @@ table{
 				text-decoration: none;
 			}
 			#btn_pay{
-				width: 90px; 
+				width: 90px;
 				font-size: 12px;
 			}
 			.identity{
@@ -631,7 +631,7 @@ table{
   width: 50%;
   height: 50%;
   position: relative;
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 .sk-folding-cube .sk-cube:before {
   content: '';
@@ -657,7 +657,7 @@ table{
    animation-delay: 0.3s;
 }
 .sk-folding-cube .sk-cube3:before {
-   animation-delay: 0.6s; 
+   animation-delay: 0.6s;
 }
 .sk-folding-cube .sk-cube4:before {
    animation-delay: 0.9s;
@@ -665,25 +665,25 @@ table{
 @-webkit-keyframes sk-foldCubeAngle {
   0%, 10% {
     transform: perspective(140px) rotateX(-180deg);
-    opacity: 0; 
+    opacity: 0;
   } 25%, 75% {
     transform: perspective(140px) rotateX(0deg);
-    opacity: 1; 
+    opacity: 1;
   } 90%, 100% {
     transform: perspective(140px) rotateY(180deg);
-    opacity: 0; 
-  } 
+    opacity: 0;
+  }
 }
 
 @keyframes sk-foldCubeAngle {
   0%, 10% {
     transform: perspective(140px) rotateX(-180deg);
-    opacity: 0; 
+    opacity: 0;
   } 25%, 75% {
     transform: perspective(140px) rotateX(0deg);
-    opacity: 1; 
+    opacity: 1;
   } 90%, 100% {
     transform: perspective(140px) rotateY(180deg);
-    opacity: 0; 
+    opacity: 0;
   }
 }

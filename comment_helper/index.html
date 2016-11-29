@@ -2,11 +2,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="Description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" />
-<meta property="og:title" content="Facebook 粉絲團留言抽籤小助手" /> 
-<meta property="og:type" content="article" /> 
+<meta property="og:title" content="Facebook 粉絲團留言抽籤小助手" />
+<meta property="og:type" content="article" />
 <meta property="og:url" content="http://gg90052.github.io/comment_helper" />
 <meta property="og:image" content="http://gg90052.github.io/comment_helper/share.jpg" />
-<meta property="og:description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" /> 
+<meta property="og:description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" />
 
 <title>Facebook Lottery 粉絲團留言抽籤小助手 - 粉絲團抽獎最佳夥伴</title>
 
@@ -77,14 +77,14 @@ window.fbAsyncInit = function() {
 	<div class="main_area">
 		<div class="left">
 			<div class="ci"></div>
-			
+
 		</div>
 		<div class="inputarea">
 			<div id="enterURL">
 				<div class="source">
 					<input type="text" class="url" placeholder="請輸入 Facebook 文章網址" /><br><br>
 					<input type="file" id="inputJSON" class="hide">
-					<button id="btn_comments" type="button" class="btn">抓留言</button> 
+					<button id="btn_comments" type="button" class="btn">抓留言</button>
 					<a id="btn_share" href="https://www.facebook.com/commenthelper/posts/1197680546931444?__mref=message_bubble" target="_blank" class="btn">抓分享</a>
 					<button id="btn_like" type="button" class="btn">抓按讚</button>
 					<button id="btn_url" type="button" class="btn">URL留言</button>
@@ -98,15 +98,22 @@ window.fbAsyncInit = function() {
 		</div>
 	</div>
 	<div class="section">
-	
+
 		<div class="donate_area">
 			<div class="left">
 			<div class="title">贊助或請小助手喝杯咖啡？</div>
 			<p class="message">如果小助手幫妳省下你很多時間，能否贊助點經費或買杯咖啡請我喝喝？有您的捐款小助手將永遠保持免費給粉絲團經營使用。</p>
 			<br />
-			<a href="https://p.allpay.com.tw/itbj0" target="_blank"><img src="https://payment.allpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
+      <div class="allpay">
+        <a href="https://p.allpay.com.tw/itbj0" target="_blank"><img src="https://payment.allpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
+        <p>需有歐付寶帳號</p>
+      </div>
+      <div class="ecpay">
+        <a href="https://p.ecpay.com.tw/ULx0q" target="_blank"><img src="https://payment.ecpay.com.tw/Content/themes/WebStyle201404/images/allpay.png" /></a>
+        <p>不需要註冊，可直接線上支付</p>
+      </div>
 			<br /><br />
-			<p class="message">由於配合法令，Paypal不提供台灣對台灣的帳戶付款，因此建議使用歐付寶(ATM、超商付款、信用卡) <span>(金額自由輸入)</span></p>
+			<p class="message">海外地區請使用下方 Paypal 付款</p>
 			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 				<input type="hidden" name="cmd" value="_s-xclick">
 				<table align="center">
@@ -154,7 +161,7 @@ window.fbAsyncInit = function() {
 				<input type="text" placeholder="搜尋留言" id="searchComment" />
 				<br />
 				<div class="gettotal">
-					幫我抽出<input type="number" id="howmany" />個人 
+					幫我抽出<input type="number" id="howmany" />個人
 				</div>
 				<button type="button" id="btn_choose" class="btn">馬上抽</button>
 				<button id="btn_excel" type="button" class="btn">輸出EXCEL</button>
@@ -174,7 +181,7 @@ window.fbAsyncInit = function() {
 			</div>
 			<div id="comment_table">
 				<div id="awardList">
-					<p>中獎名單 - <span style="font-size:0.7em">本名單由「Facebook粉絲團留言抽籤小助手」產生</span></p>	
+					<p>中獎名單 - <span style="font-size:0.7em">本名單由「Facebook粉絲團留言抽籤小助手」產生</span></p>
 					<table class="table">
 						<thead>
 							<tr>
@@ -204,7 +211,7 @@ window.fbAsyncInit = function() {
 						</tr>
 					</thead>
 					<tbody>
-						
+
 					</tbody>
 				</table>
 			</div>

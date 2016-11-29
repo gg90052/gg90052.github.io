@@ -216,6 +216,22 @@ table{
 				table{
 					float: left;
 				}
+				.allpay, .ecpay{
+					display: inline-block;
+					vertical-align: middle;
+					margin: 0 20px;
+					width: 200px;
+					p{
+						text-align: center;
+						margin-top: 10px;
+					}
+				}
+				.allpay{
+					color: #0064B3;
+				}
+				.ecpay{
+					color: #289B00;
+				}
 				input[type="image"]{
 					float: left;
 					margin-top: 15px;

@@ -103,7 +103,7 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
-	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups,pages_show_list'
+	auth: 'manage_pages,read_stream,user_photos,user_posts,user_groups,user_managed_groups'
 }
 
 let fb = {

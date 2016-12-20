@@ -62,8 +62,8 @@ $(document).ready(function(){
 
 	$('.optionFilter input').dateDropper();
 	$('.pick-submit').on('click',function(){
-		config.filter.endTime = $('.optionFilter input').val()+"-23-59-59";
-		table.redo();
+		// config.filter.endTime = $('.optionFilter input').val()+"-23-59-59";
+		// table.redo();
 	})
 
 	$(".uipanel .react").change(function(){

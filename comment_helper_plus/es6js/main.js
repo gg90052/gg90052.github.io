@@ -89,12 +89,12 @@ let config = {
 		feed: '500'
 	},
 	apiVersion: {
-		comments: 'v2.7',
-		reactions: 'v2.7',
+		comments: 'v2.8',
+		reactions: 'v2.8',
 		sharedposts: 'v2.3',
-		url_comments: 'v2.7',
+		url_comments: 'v2.8',
 		feed: 'v2.3',
-		group: 'v2.7'
+		group: 'v2.8'
 	},
 	filter: {
 		isDuplicate: true,
@@ -254,7 +254,8 @@ let step = {
 			$('.optionFilter .react').removeClass('hide');
 			$('.optionFilter .timelimit').addClass('hide');
 		}
-		FB.api(`v2.8/${fbid}/${command}`, (res)=>{
+		FB.api(`${config.apiVersion[command]}/${fbid}/${command}`, (res)=>{
+			console.log(res);
 			data.length = res.data.length;
 			for(let d of res.data){
 				if (d.id){

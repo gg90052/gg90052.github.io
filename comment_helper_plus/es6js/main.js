@@ -238,8 +238,11 @@ let step = {
 	},
 	step2to1: ()=>{
 		$('#select').val(0);
+		$('.step2').removeClass('visible');
+	},
+	step3hide: ()=>{
 		$("#awardList").hide();
-		$('.step2, .step3').removeClass('visible');
+		$('.step3').removeClass('visible');
 	},
 	step3: (fbid, command)=>{
 		last_command = {fbid,command};

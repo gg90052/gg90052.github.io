@@ -300,7 +300,7 @@ let data = {
 			if (fbid.type === 'group') command = 'group';
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=chronological&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){

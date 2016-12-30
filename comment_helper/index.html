@@ -203,6 +203,7 @@ window.fbAsyncInit = function() {
 					<label for="picture" class="picture">
 						<input type="checkbox" id="picture"> 顯示大頭貼
 					</label>
+					<button data-clipboard-target=".main_table">複製表格內容</button>
 				</div>
 				<table class="table table-striped main_table hide">
 					<thead>
@@ -275,6 +276,8 @@ function msieversion() {
 
     return false;
 }
+
+new Clipboard('.filters button');
 </script>
 </body>
 </html>

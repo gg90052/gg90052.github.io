@@ -11,7 +11,11 @@ html, body {
 	font-family:"微軟正黑體","Microsoft JhengHei","新細明體","PMingLiU", Verdana, Helvetica, sans-serif;
 }
 body{
-	background: #FFF;
+	background: #dbdbdb;
+	overflow-x: hidden;
+}
+.hide{
+	display: none;
 }
 table{
 	td{
@@ -69,301 +73,556 @@ table{
 		}
 	}
 }
-.login{
-	width: 100vw;
-	height: 100vh;
-	position: fixed;
-	left: 0;
-	top: 0;
-	background: #ECEFF2;
-	z-index: 100000;
-	transition: all .3s;
-	&.success{
-		transform: translateY(-100vh);
-	}
-	.logo{
-		width: 150px;
-		margin: 20px auto;
-		img{
-			width: 100%;
-		}
-	}
-	.area{
-		width: 100vw;
-		max-width: 320px;
-		margin: 30px auto;
-		.title{
-			text-align: center;
-			font-size: 1.5rem;
-			font-weight: bold;
-			line-height: 1.5em;
-			color: #616182;
-		}
-		#btn_login{
-			width: 100%;
-			height: 60px;
-			line-height: 60px;
-			color: #FFF;
-			font-size: 1.5rem;
-			border: 1px solid #dbdbdb;
-			border-radius: 5px;
-			background: #4B68A3;
-			text-align: center;
-           	margin: 20px auto;
-           	cursor: pointer;
-           	transition: all .2s ease-out;
-           	&:active{
-           		transform: scale(0.95);
-           	}
-		}
-		.readme{
-			overflow: hidden;
-			p{
-				text-align: center;
-				color: red;
-				margin-bottom: 20px;
-			}
-		}
-	}
-}
+
 .wrapper{
-	width: 100%;
+	width: 1450px;
 	margin: 0 auto;
-	position: relative;
 	header{
 		width: 100%;
-		height: 50px;
+		height: 95px;
 		background: $blue;
 		color: #FFF;
-		font-size: 1.2em;
-		text-align: center;
-		line-height: 50px;
-	}
-	.step{
-		background: #FFF;
-		text-align: center;
-		.word{
-			font-size: 1.4em;
-			color: $blue;
-		}
-		.back{
-			position: absolute;
-			margin-left: 10px;
-			font-size: 2em;
-			cursor: pointer;
-		}
-		.cards{
-			.card{
-				margin: 10px 0;
-				border: 1px solid #dbdbdb;
-				.title{
-					width: 100%;
-					height: 30px;
-					line-height: 30px;
-					text-align: center;
-					background: #3f76e2;
-					color: #FFF;
-				}
-				.message{
-					text-align: left;
-					padding: 10px;
-					color: #007c3e;
-					line-height: 1.5em;
-					max-height: 150px;
-					overflow: hidden;
-					position: relative;
-					transition: all .2s;
-					&:after{
-						content: '';
-						position: absolute;
-						width: 100%;
-						height: 30px;
-						left: 0;
-						bottom: 0;
-						background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%); 
-					}
-					&.visible{
-						max-height: 3000px;
-						&:after{
-							display: none;
-						}
-					}
-				}
-				.action{
-					border-top: 1px solid #dbdbdb;
-					display: flex;
-					flex-wrap: nowrap;
-					justify-content: space-between;
-					align-content: stretch;
-					align-items: center;
-					height: 40px;
-					line-height: 40px;
-					text-align: center;
-					color: #929393;
-					div{
-						flex-grow: 1;
-						height: 100%;
-						&:hover{
-							text-decoration: underline;
-							color: #56b3ff;
-
-						}
-						&:before{
-							content: '';
-							display: inline-block;
-							height: 14px;
-							margin: 0 6px -3px 0;
-							width: 14px;
-							background-image: url(../images/sprite.png);
-							background-repeat: no-repeat;
-							background-size: auto;
-						}
-					}
-					.reactions{
-						&:before{
-							background-position: -15px -93px;
-						}
-					}
-					.comments{
-						&:before{
-							background-position: 0 -93px;
-						}
-					}
-					.sharedposts{
-						&:before{
-							background-position: -15px -108px;
-						}
-					}
-				}
-			}
-		}
-	}
-	.step1{
-		padding: 10px;
-		select{
-			width: 80%;
-			margin: 20px 0;
-		}
-	}
-	.step2{
-		width: 100vw;
-		height: 100vh;
-		position: fixed;
-		transform: translateY(100vh);
-		transition: all .3s;
-		left: 0;
-		top: 0;
-		background: #FFF;
-		&.visible{
-			transform: translateY(0);
-		}
-		.head{
-			width: 100vw;
-			height: 50px;
-			background: $blue;
+		font-size: 50px;
+		padding-left: 50px;
+		line-height: 95px;
+		position: relative;
+		a{
 			color: #FFF;
-			font-size: 1.2em;
-			text-align: center;
-			line-height: 50px;
 		}
-		.cards{
-			height: 90vh;
-			overflow: auto;
-			padding: 10px;
+		.dev{
+			display: inline-block;
+			vertical-align: middle;
+			margin-top: -7px;
+			input{
+				height: 30px;
+				width: 200px;
+				display: inline-block;
+				vertical-align: middle;
+				line-height: normal;
+				font-size: initial;
+			}
+			button{
+				width: 100px;
+				height: 30px;
+				display: inline-block;
+				line-height: normal;
+				vertical-align: middle;
+				font-size: initial;
+			}
+		}
+		.readme{
+			width: 135px;
+			height: 100%;
+			position: absolute;
+			background: $lightblue;
+			top: 0;
+			right: 0;
+			font-size: 20px;
+			text-align: center;
+			line-height: 1.5em;
+			padding-top: 15px;
+			&:after{
+				content: '';
+				position: absolute;
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: 8px 0 8px 8px;
+				border-color: transparent transparent transparent #ffffff;
+				margin-left: 10px;
+				margin-top: -10px;
+			}
 		}
 	}
-	.step3{
-		width: 100vw;
-		height: 100vh;
-		position: fixed;
-		transform: translateY(100vh);
-		transition: all .3s;
-		left: 0;
-		top: 0;
+	.main_area{
+		padding: 20px 0;
+		margin-bottom: 26px;
 		background: #FFF;
-		&.visible{
-			transform: translateY(0);
+		.left{
+			width: 30%;
+			float: left;
 		}
-		.wrapper{
-			height: 100vh;
-			overflow: auto;
-			.uipanel{
-				width: 100%;
-				padding: 10px 40px 10px 10px;
-				background: $blue;
-				color: #FFF;
-				text-align: left;
-				.choose{
-					position: absolute;
-					top: 13px;
-					right: 13px;
-					padding: 7px 15px;
-					background: #307a0b;
-					color: #FFF;
-				}
-				.ui{
-					display: inline-block;
-					margin: 5px;
-				}
-				.total{
+		.inputarea{
+			padding-left: 45px;
+			.source{
+				.url{
 					width: 100%;
-					text-align: center;
-					input{
-						width: 30px;
-						margin: 0 5px;
-						text-align: center;
-					}
+					padding-left: 15px;
+					height: 32px;
+					line-height: 32px;
+					font-size: 16px;
 				}
-				.search{
-					input{
-						width: 100px;
-						padding-left: 5px;
-					}
+			}
+			.btn{
+				width: 110px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				padding: 0;
+				margin-right: 5px;
+				border-radius: 3px;
+				color: #FFF;
+				font-size: 16px;
+				background: $lightblue;
+			}
+			.page_btn{
+				text-align: center;
+				padding: 5px 10px;
+				display: inline-block;
+				vertical-align: top;
+				margin-right: 5px;
+				border-radius: 3px;
+				font-size: 16px;
+				background: #FFF;
+				border: 1px solid $lightblue;
+				color: $lightblue;
+				cursor: pointer;
+				line-height: 1.5em;
+				margin: 0 10px 10px;
+				&:hover, &.active{
+					color: #FFF;
+					background: $lightblue;
 				}
-				.optionFilter{
-					.tag{
-						margin-right: 10px;
+			}
+			.message{
+				margin: 20px 0;
+				font-size: 1.1em;
+				line-height: 1.5em;
+			}
+			.payRead{
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 12px;
+				margin-right: 10px;
+				cursor: pointer;
+				text-decoration: none;
+			}
+			#btn_pay{
+				width: 90px; 
+				font-size: 12px;
+			}
+			.identity{
+				display: inline-block;
+				vertical-align: middle;
+				img{
+					vertical-align: middle;
+					margin-right: 5px;
+					width: 30px;
+					height: 30px;
+				}
+				span{
+					color: $blue;
+				}
+			}
+		}
+		&:after{
+			content: '';
+			display: block;
+			clear:both;
+		}
+	}
+	.section{
+		position: relative;
+		&.step2{
+			.step1{
+				transform: translateX(-100vw);
+			}
+			.step2{
+				transform: translateX(0);
+			}
+		}
+		.step{
+			width: 100%;
+			position: absolute;
+		}
+		.step1{
+			z-index: 50;
+			transition: all .3s ease-in-out;
+			.donate_area{
+				width: 100%;
+				min-height: 120px;
+				background: #FFF;
+				padding: 28px 35px;
+				position: relative;
+				margin-bottom: 50px;
+				.title{
+					font-size: 1.85em;
+					font-weight: bold;
+					color: $blue;
+					border-bottom: 1px solid $blue;
+					padding-bottom: 15px;
+					margin-bottom: 15px;
+				}
+				.right{
+					&>.title{
+						font-size: 1.85em;
+						font-weight: bold;
+						color: $blue;
+					}
+					.recommands{
+						display: flex;
+						flex-wrap: wrap;
+						.card{
+							margin: 20px 17px;
+							border: 1px solid #CCC;
+							width: 300px;
+							height: 450px;
+							overflow: hidden;
+							position: relative;
+							.card-content{
+								border-top: 1px solid #CCC;
+								padding: 20px;
+								.content{
+									word-break: break-all;
+									line-height: 1.5em;
+									font-size: 0.9em;
+									small{
+										display: block;
+										margin-top: 20px;
+									}
+								}
+							}
+							.card-image{
+								overflow: hidden;
+								width: 300px;
+								height: 225px;
+								img{
+									width: 100%;
+									height: auto;
+								}
+							}
+							.pick{
+								position: absolute;
+								width: 100%;
+								height: 30px;
+								background: $blue;
+								color: #FFF;
+								line-height: 30px;
+								text-align: center;
+								bottom: 0;
+								cursor: pointer;
+								&:hover{
+									background: #1c5052;
+								}
+							}
+						}
 					}
 				}
 			}
-
-			#comment_table{
-				margin-top: 15px;
-				padding-bottom: 20px;
+			.feeds{
+				width: 100%;
+				background: #FFF;
+				padding: 28px 35px;
+				position: relative;
+				margin-bottom: 50px;
+				text-align: center;
 				table{
 					width: 100% !important;
-					td{
+					th{
 						text-align: center;
 						vertical-align: middle;
+						padding: 10px;
+						border: 1px solid #CCC;
+					}
+					td{
+						vertical-align: middle;
+						padding: 10px;
+						border: 1px solid #CCC;
+						line-height: 1.5em;
 						&.force-break{
 							text-align: left;
 						}
 						&.nowrap{
 							white-space: nowrap;
 						}
-					}
-				}
-				#awardList{
-					display: none;
-					&>p{
-						font-size: 2em;
-						font-weight: bold;
-						color: $blue;
-					}
-					table{
-						td.prizeName{
+						.pick{
+							width: 70px;
+							height: 30px;
 							background: $blue;
 							color: #FFF;
-							padding-left: 20px;
-							span{
-								color: #13FDFF;
-								margin-left: 30px;
+							line-height: 30px;
+							text-align: center;
+							cursor: pointer;
+							margin: 0 auto;
+							&:hover{
+								background: #1c5052;
+							}
+						}
+					}
+				}
+				.btn{
+					background: $blue;
+					color: #FFF;
+					margin-top: 20px;
+				}
+			}
+		}
+		.step2{
+			z-index: 40;
+			transform: translateX(100vw);
+			transition: all .3s ease-in-out;
+			.result_area{
+				width: 100%;
+				min-height: 450px;
+				background: #FFF;
+				padding: 28px 45px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin-bottom: 50px;
+				.title{
+					font-size: 1.85em;
+					font-weight: bold;
+					color: $blue;
+					span{
+						font-size: 15px;
+						margin-left: 20px;
+						color: #DDD;
+						font-weight: normal;
+					}
+				}
+				#moreprize{
+					margin-top: 17px;
+					color: #666;
+					transition: all .3s;
+					&.active{
+						background: $blue;
+						color: #FFF;
+					}
+					&:hover{
+						border: 1px solid $blue;
+					}
+				}
+				#endTime{
+					color: #666;
+					transition: all .3s;
+					&.active{
+						background: transparent;
+						box-shadow: none;
+						color: #000;
+						&+input{
+							transform: scaleX(1);
+						}
+					}
+					&:hover{
+						border: 1px solid $blue;
+					}
+					&+input{
+						transition: all .3s;
+						transform: scaleX(0);
+						transform-origin: left;
+					}
+				}
+				.limitTime{
+					display: inline-block;
+					margin-left: 30px;
+					vertical-align: bottom;
+					input{
+						height: 32px;
+						padding-left: 10px;
+						font-size: 0.9em;
+						width: 135px;
+					}
+				}
+				.uipanel{
+					position: absolute;
+					right: 45px;
+					top: 28px;
+					font-weight: bold;
+					text-align: right;
+					input[type="text"]{
+						width: 130px;
+						margin-left: 10px;
+						height: 32px;
+						font-size: 14px;
+						line-height: 32px;
+						padding-left: 10px;
+					}
+					select{
+						width: 136px;
+						height: 32px;
+						font-size: 14px;
+						line-height: 32px;
+						padding-left: 10px;
+					}
+					#howmany{
+						width: 78px;
+						margin: 10px 5px;
+						padding-left: 5px;
+					}
+					.gettotal{
+						display: inline-block;
+						transition: all .3s;
+						&.fadeout{
+							transform: scaleX(0.01);
+							transform-origin: right;
+							opacity: 0;
+							visibility:hidden;
+						}
+					}
+					.btn{
+						min-width: 110px;
+						height: 30px;
+						text-align: center;
+						line-height: 30px;
+						padding: 0;
+						margin-right: 5px;
+						border-radius: 3px;
+						color: #FFF;
+						font-size: 16px;
+						background: $lightblue;
+						vertical-align: middle;
+						margin-top: -8px;
+						margin-left: 10px;
+					}
+				}
+				.prizeDetail{
+					width: 100%;
+					min-height: 50px;
+					border: 1px solid $blue;
+					margin-top: 20px;
+					padding: 20px;
+					position: relative;
+					transition: all .3s;
+					transform: scaleX(0.01);
+					transform-origin: center 0;
+					opacity: 0;
+					visibility:hidden;
+					display: none;
+					&.fadein{
+						opacity: 1;
+						visibility: visible;
+						display: block;
+						transform: scaleY(1);
+					}
+					#btn_addPrize{
+						display: block;
+						background: $lightblue;
+						color: #FFF;
+						margin-bottom: 20px;
+					}
+					.prize{
+						margin: 20px 19px;
+						float: left;
+						border: 1px solid $blue;
+						padding: 0 20px;
+						.input_group{
+							margin: 15px 0;
+							input[type="text"]{
+								width: 150px;
+							}
+							input[type="number"]{
+								width: 122px;
+							}
+						}
+					}
+					&:after{
+						content: "";
+						display: block;
+						clear: both;
+					}
+				}
+				#comment_table{
+					margin-top: 40px;
+					table{
+						width: 100% !important;
+						td{
+							text-align: center;
+							vertical-align: middle;
+							&.force-break{
+								text-align: left;
+							}
+							&.nowrap{
+								white-space: nowrap;
+							}
+						}
+					}
+					.tabs{
+						text-align: center;
+						.tab{
+							width: 100px;
+							height: 30px;
+							line-height: 30px;
+							border: 1px solid $lightblue;
+							color: $lightblue;
+							text-align: center;
+							display: inline-block;
+							margin: 5px 10px;
+							cursor: pointer;
+							&.active, &:hover{
+								background: $lightblue;
+								color: #FFF;
+							}
+						}
+					}
+					.filters{
+						margin: 10px 0;
+						label{
+							cursor: pointer;
+						}
+						label.picture{
+							margin-left: 15px;
+						}
+					}
+					#awardList{
+						display: none;
+						&>p{
+							font-size: 2em;
+							font-weight: bold;
+							color: $blue;
+						}
+						table{
+							td.prizeName{
+								background: $blue;
+								color: #FFF;
+								padding-left: 20px;
+								span{
+									color: #13FDFF;
+									margin-left: 30px;
+								}
+							}
+						}
+					}
+					.tables{
+						&>div{
+							display: none;
+							&.active{
+								display: block;
+							}
+						}
+						.comments{
+							.tag{
+								margin-right: 10px;
 							}
 						}
 					}
 				}
 			}
 		}
+		
+	}
+}
+
+.goPay{
+	width: 270px;
+	height: 80px;
+	display: block;
+	border: 1px solid #3b5fb2;
+	border-top: 15px solid #3b5fb2;
+	background: #fff url(../images/ci.png) 10px top no-repeat;
+	background-size: contain;
+	font-size: 28px;
+	line-height: 65px;
+	padding-left: 100px;
+	margin: 30px auto;
+	color: #3b5fb2;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+	&:hover{
+		color: #44B1DA;
+		border-color: #44B1DA;
+		text-decoration: none;
 	}
 }
 
@@ -426,6 +685,58 @@ table{
 }
 
 
+
+.bigExcel{
+	position: relative;
+	.title{
+		position: absolute;
+		left: 300px;
+		top: 30px;
+		background: #FFF;
+		width: 150px;
+		height: 40px;
+		font-size: 1.8em;
+		padding-left: 40px;
+	}
+	.steps{
+		position: absolute;
+		left: 300px;
+		top: 80px;
+		.step2{
+			p{
+				line-height: 1.5em;
+				margin-top: 10px;
+				padding-right: 20px;
+			}
+		}
+		.step3{
+			margin-top: 10px;
+			p{
+				line-height: 2em;
+			}
+		}
+		.copyed{
+			display: inline-block;
+			padding: 6px 8px;
+			vertical-align: middle;
+			background: #000;
+			color: #CCC;
+			margin-left: 5px;
+			font-size: 12px;
+			opacity: 0;
+			transition: all .3s;
+			&.show{
+				display: inline-block !important;
+				opacity: 1;
+			}
+		}
+		textarea{
+			margin: 10px 0;
+			resize: none;
+		}
+	}
+}
+
 .loading{
   width: 100%;
   height: 100%;
@@ -434,28 +745,24 @@ table{
   top: 0;
   left: 0;
   background: rgba(0,0,0,0.8);
-  transform: translateY(100vh);
-  transition: all .3s;
-  &.visible{
-	transform: translateY(0);
-  }
 }
 .console{
-  width: 100vw;
-  height: 100vh;
-  background: url(../images/ci.png) #FFF center 30px no-repeat;
+  width: 540px;
+  height: 350px;
+  background: url(../images/progress.jpg);
+  margin: 105px auto;
   position: relative;
-  padding: 20px;
   .message{
+  	position: absolute;
   	font-size: 1.5em;
   	font-weight: bold;
-  	text-align: center;
-  	margin-top: 375px;
+  	left: 305px;
+  	top: 100px;
   }
   .error{
   	position: absolute;
-  	width: 90%;
   	bottom: 20px;
+  	left: 20px;
   	font-size: 16px;
   	color: #B74D00;
   	display: none;
@@ -472,9 +779,8 @@ table{
 .sk-folding-cube {
   width: 40px;
   height: 40px;
-  left: 50%;
-  margin-left: -20px;
-  top: 310px;
+  right: 140px;
+  bottom: 80px;
   position: absolute;
   transform: rotateZ(45deg);
 }

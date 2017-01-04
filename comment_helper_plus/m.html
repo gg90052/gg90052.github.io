@@ -1,0 +1,185 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="Description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" />
+<meta property="og:title" content="Facebook 粉絲團留言抽籤小助手" /> 
+<meta property="og:type" content="article" /> 
+<meta property="og:url" content="http://gg90052.github.io/comment_helper" />
+<meta property="og:image" content="http://gg90052.github.io/comment_helper/share.jpg" />
+<meta property="og:description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" /> 
+
+<title>Facebook Lottery 粉絲團留言抽籤小助手 - 粉絲團抽獎最佳夥伴</title>
+
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<link rel="stylesheet" href="css/m.css">
+
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script src="//connect.facebook.net/zh_TW/all.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/datedropper.min.css" />
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script src="js/datedropper.js"></script>
+
+<script src="js/main_m.js"></script>
+
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5C9K9S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5C9K9S');</script>
+<!-- End Google Tag Manager -->
+
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1390069707889707',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.1' // use version 2.1
+  });
+}
+// 1494465264176752 pro
+// 1390069707889707 dev
+
+
+(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/zh_TW/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+</script>
+
+</head>
+
+<body>
+<div class="login">
+	<div class="logo"><img src="images/logo.png" alt=""></div>
+	<div class="area">
+		<p class="title">粉絲團留言抽籤小助手 Plus</p>
+		<div id="btn_login">Login with Facebook</div>
+		<div class="readme">
+			<p>本服務為封閉系統，有使用需求請至粉絲團詢問</p>
+			<div class="fb-page" data-href="https://www.facebook.com/commenthelper/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="false"><blockquote cite="https://www.facebook.com/commenthelper/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/commenthelper/">粉絲團留言抽籤小助手</a></blockquote></div>
+		</div>
+	</div>
+</div>
+<div class="wrapper">
+	<header>Facebook粉絲團留言抽籤小助手</header>
+	<div class="step step1">
+		<select name="" id="select">
+			<option value="0">請選擇你要抽的社團或粉絲團</option>
+		</select>
+		<p class="word">你可能想抽的文章：</p>
+		<div class="cards">
+			<!-- <div class="card">
+				<p>
+					<input type="text" class="url">
+				</p>
+				<div class="action">
+					<div class="reactions" onclick="url.send(this, 'likes')">讚</div>
+					<div class="comments" onclick="url.send(this, 'comments')">留言</div>
+					<div class="sharedposts" onclick="url.send(this, 'sharedposts')">分享</div>
+				</div>
+			</div> -->
+		</div>
+	</div>
+	<div class="step step2">
+		<div class="head">
+			<div class="back" onclick="step.step2to1()">←</div>
+			<span></span>
+		</div>
+		<div class="cards">
+			
+		</div>
+	</div>
+	<div class="step step3">
+		<div class="wrapper">
+			<div class="uipanel">
+				<div class="back" onclick="step.step3hide()">←</div>
+				<div class="choose" onclick="choose.go()">馬上抽</div>
+				<div class="ui total">
+					幫我抽出<input type="number" id="howmany" />個人
+				</div>
+				<br>
+				<div class="ui filters">
+					<label for="unique" class="unique">
+						<input type="checkbox" id="unique" checked="true"> 排除重複
+					</label>
+				</div>
+				<div class="ui search">
+					<input type="text" placeholder="搜尋姓名" id="searchName" />
+				</div>
+				<div class="ui optionFilter">
+					<select name="react" class="react hide">
+						<option value="all">全部表情</option>
+						<option value="LIKE">讚 (LIKE)</option>
+						<option value="LOVE">大心 (LOVE)</option>
+						<option value="HAHA">哈 (HAHA)</option>
+						<option value="WOW">哇 (WOW)</option>
+						<option value="SAD">嗚 (SAD)</option>
+						<option value="ANGRY">怒 (ANGRY)</option>
+					</select>
+					<!-- <label for="tag" class="tag">
+						<input type="checkbox" id="tag"> 篩選TAG
+					</label> -->
+					<div class="timelimit">
+						<span>活動截止日期：</span><input type="text" placeholder="截止日期" data-modal="true" data-large-mode="true" data-format="Y-m-d">
+					</div>
+				</div>
+			</div>
+			<div id="comment_table">
+				<div id="awardList">
+					<p>中獎名單</p>
+					<table class="table">
+						<thead>
+							<tr>
+								<td></td>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+				<table class="table table-striped main_table">
+					<thead>
+						<tr>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="loading waiting">
+	<div class="console">
+		<div class="message"></div>
+		<div class="error">發生錯誤，請截圖通知管理員</div>
+		<div class="sk-folding-cube">
+			<div class="sk-cube1 sk-cube"></div>
+			<div class="sk-cube2 sk-cube"></div>
+			<div class="sk-cube4 sk-cube"></div>
+			<div class="sk-cube3 sk-cube"></div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

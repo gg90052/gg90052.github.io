@@ -581,7 +581,7 @@ let table = {
 					// picture = `<img src="http://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 				}
 				let td = `<td>${j+1}</td>
-				<td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>`;
+				<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
 				if(key === 'reactions'){
 					td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
 				}else if(key === 'sharedposts'){
@@ -694,7 +694,7 @@ let compare = {
 		let tbody = '';
 		for(let [j, val] of data_and.entries()){
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
+			<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
 			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
 			<td>${val.like_count || '0'}</td>
@@ -709,7 +709,7 @@ let compare = {
 		let tbody2 = '';
 		for(let [j, val] of data_or.entries()){
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
+			<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
 			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
 			<td>${val.like_count || ''}</td>
@@ -786,9 +786,15 @@ let choose = {
 		}
 		let insert = '';
 		for(let i of choose.award){
-			insert += '<tr>' + $('.tables > div.active table').DataTable().row(i).node().innerHTML + '</tr>';
+			let tar = $('.tables > div.active table').DataTable().row(i).node().innerHTML;
+			insert += '<tr>' + tar + '</tr>';
 		}
 		$('#awardList table tbody').html(insert);
+		$("#awardList tbody tr").each(function(){
+			let tar = $(this).find('td').eq(1);
+			let id = tar.find('a').attr('attr-fbid');
+			tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
+		});
 		$('#awardList table tbody tr').addClass('success');
 
 		if(choose.detail){

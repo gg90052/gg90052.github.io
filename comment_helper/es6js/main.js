@@ -585,6 +585,7 @@ let fbid = {
 							obj.pureID = url.substring(start+5,end);
 						}else{
 							let start = url.indexOf('posts/');
+							if (start === -1) start = url.indexOf('ideos/');
 							obj.pureID = url.substring(start+6,url.length);
 						}
 						obj.fullID = obj.pageID + '_' + obj.pureID;

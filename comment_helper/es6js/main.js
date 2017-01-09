@@ -551,6 +551,9 @@ let fbid = {
 		FB.api("/me",function(res){
 			data.userid = res.id;
 			let url = fbid.format($('#enterURL .url').val());
+			if (url.indexOf('.php?') === -1){
+				url = url.substring(0, url.indexOf('?'));
+			}
 			fbid.get(url, type).then((fbid)=>{
 				data.start(fbid);
 			})
@@ -585,10 +588,14 @@ let fbid = {
 							obj.pureID = url.substring(start+5,end);
 						}else{
 							let start = url.indexOf('posts/');
-							if (start === -1) start = url.indexOf('ideos/');
 							obj.pureID = url.substring(start+6,url.length);
 						}
-						obj.fullID = obj.pageID + '_' + obj.pureID;
+						let video = url.indexOf('videos/');
+						if (video >= 0){
+							obj.fullID = url.substring(start+7,url.length);
+						}else{
+							obj.fullID = obj.pageID + '_' + obj.pureID;
+						}
 						resolve(obj);
 					}else if (urltype === 'pure'){
 						obj.fullID = url.replace(/\"/g,'');

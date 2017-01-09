@@ -378,14 +378,47 @@ let fb = {
 				}).done();
 			}else{
 				data.raw.extension = true;
-				data.raw.data.sharedposts = JSON.parse(localStorage.getItem("sharedposts"));
-				data.finish(data.raw);
+				let extend = JSON.parse(localStorage.getItem("sharedposts"));
+				let fid = [];
+				let ids = [];
+				for(let i of extend){
+					fid.push(i.from.id);
+					if (fid.length >=45){
+						ids.push(fid);
+						fid = [];
+					}
+				}
+				ids.push(fid);
+				let promise_array = [], names = {};
+				for(let i of ids){
+					let promise = fb.getName(i).then((res)=>{
+						for(let i of Object.keys(res)){
+							names[i] = res[i];
+						}
+					});
+					promise_array.push(promise);
+				}
+
+				Promise.all(promise_array).then(()=>{
+					for(let i of extend){
+						i.from.name = names[i.from.id].name;
+					}
+					data.raw.data.sharedposts = extend;
+					data.finish(data.raw);
+				});
 			}
 		}else{
 			FB.login(function(response) {
 				fb.extensionCallback(response);
 			}, {scope: config.auth ,return_scopes: true});
 		}
+	},
+	getName: (ids)=>{
+		return new Promise((resolve, reject)=>{
+			FB.api(`${config.apiVersion.newest}/?ids=${ids.toString()}`, (res)=>{
+				resolve(res);
+			});
+		});
 	}
 }
 let step = {

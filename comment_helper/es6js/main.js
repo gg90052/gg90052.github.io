@@ -551,7 +551,7 @@ let fbid = {
 		FB.api("/me",function(res){
 			data.userid = res.id;
 			let url = fbid.format($('#enterURL .url').val());
-			if (url.indexOf('.php?') >= 0){
+			if (url.indexOf('.php?') === -1 && url.indexOf('?') > 0){
 				url = url.substring(0, url.indexOf('?'));
 			}
 			fbid.get(url, type).then((fbid)=>{

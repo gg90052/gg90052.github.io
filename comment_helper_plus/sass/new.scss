@@ -75,7 +75,7 @@ table{
 }
 
 .wrapper{
-	width: 1450px;
+	width: 1300px;
 	margin: 0 auto;
 	header{
 		width: 100%;
@@ -225,7 +225,7 @@ table{
 		position: relative;
 		&.step2{
 			.step1{
-				transform: translateX(-100vw);
+				transform: translateX(-150%);
 			}
 			.step2{
 				transform: translateX(0);

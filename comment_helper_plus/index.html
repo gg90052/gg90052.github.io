@@ -44,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script type="text/javascript">
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '1494465264176752',
+    appId      : '1390069707889707',
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
@@ -118,6 +118,9 @@ window.fbAsyncInit = function() {
 					<button type="button" id="endTime" class="btn">活動截止時間：</button>
 					<input type="text" class="rangeDate">
 				</div>
+				<label for="unique" class="unique">
+					<input type="checkbox" id="unique" checked="true"> 排除重複
+				</label>
 				<div class="uipanel">
 					<div class="gettotal">
 						幫我抽出<input type="number" id="howmany" />個人 
@@ -152,14 +155,7 @@ window.fbAsyncInit = function() {
 							</tbody>
 						</table>
 					</div>
-					<div class="filters">
-						<label for="unique" class="unique">
-							<input type="checkbox" id="unique" checked="true"> 排除重複留言
-						</label>
-						<!-- <label for="picture" class="picture">
-							<input type="checkbox" id="picture"> 顯示大頭貼
-						</label> -->
-					</div>
+					
 					<ul class="tabs">
 						<li class="tab" attr-type="compare">比對結果</li>
 						<li class="tab active" attr-type="comments">留言</li>

@@ -525,7 +525,6 @@ let data = {
 		data.raw = fbid;
 		localStorage.setItem("raw", JSON.stringify(fbid));
 		data.filter(data.raw, true);
-		ui.reset();
 	},
 	filter: (rawData, generate = false)=>{
 		data.filtered = {};
@@ -673,7 +672,7 @@ let compare = {
 	init: ()=>{
 		compare.and = [];
 		compare.or = [];
-		compare.raw = data.filtered;
+		compare.raw = data.filter(data.raw);
 		let ignore = $('.tables .total .filters select').val();
 		let base = [];
 		let final = [];
@@ -812,14 +811,23 @@ let choose = {
 		choose.go();
 	},
 	go: ()=>{
+		let command = tab.now;
 		if (tab.now === 'compare'){
 			choose.award = genRandomArray(compare[$('.compare_condition').val()].length).splice(0,choose.num);
 		}else{
-			choose.award = genRandomArray(choose.data[tab.now].length).splice(0,choose.num);	
+			choose.award = genRandomArray(choose.data[command].length).splice(0,choose.num);	
 		}
 		let insert = '';
+		let tempArr = [];
+		if (command === 'comments'){
+			$('.tables > div.active table').DataTable().column(2).data().each(function(value, index){
+				let word = $('.searchComment').val();
+				if (value.indexOf(word) >= 0) tempArr.push(index);
+			});
+		}
 		for(let i of choose.award){
-			let tar = $('.tables > div.active table').DataTable().row(i).node().innerHTML;
+			let row = (tempArr.length == 0) ? i:tempArr[i];
+			let tar = $('.tables > div.active table').DataTable().row(row).node().innerHTML;
 			insert += '<tr>' + tar + '</tr>';
 		}
 		$('#awardList table tbody').html(insert);
@@ -834,7 +842,7 @@ let choose = {
 			let now = 0;
 			for(let k in choose.list){
 				let tar = $("#awardList tbody tr").eq(now);
-				$(`<tr><td class="prizeName" colspan="5">獎品： ${choose.list[k].name} <span>共 ${choose.list[k].num} 名</span></td></tr>`).insertBefore(tar);
+				$(`<tr><td class="prizeName" colspan="7">獎品： ${choose.list[k].name} <span>共 ${choose.list[k].num} 名</span></td></tr>`).insertBefore(tar);
 				now += (choose.list[k].num + 1);
 			}
 			$("#moreprize").removeClass("active");
@@ -851,10 +859,10 @@ let filter = {
 		if (isDuplicate){
 			data = filter.unique(data);
 		}
-		if (word !== ''){
+		if (word !== '' && command == 'comments'){
 			data = filter.word(data, word);
 		}
-		if (isTag){
+		if (isTag && command == 'comments'){
 			data = filter.tag(data);
 		}
 		if (command !== 'reactions'){
@@ -921,29 +929,6 @@ let filter = {
 let ui = {
 	init: ()=>{
 
-	},
-	reset: ()=>{
-		let command = data.raw.command;
-		// if (data.raw.extension){
-		// 	$('.tables > .sharedposts .btn').addClass('hide');
-		// }else{
-		// 	$('.tables > .sharedposts .btn').removeClass('hide');
-		// }
-		if (command === 'reactions'){
-			$('.limitTime, #searchComment').addClass('hide');
-			$('.uipanel .react').removeClass('hide');
-		}else{
-			$('.limitTime, #searchComment').removeClass('hide');
-			$('.uipanel .react').addClass('hide');
-		}
-		if (command === 'comments'){
-			$('label.tag').removeClass('hide');
-		}else{
-			if ($("#tag").prop("checked")){
-				$("#tag").click();
-			}
-			$('label.tag').addClass('hide');
-		}
 	}
 }
 

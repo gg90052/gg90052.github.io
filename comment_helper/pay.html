@@ -1,33 +1,119 @@
-<!DOCTYPE html>
-<html lang="zh_TW">
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+	<link rel="stylesheet" href="css/style.css"> <!-- Resource style -->
+  	
 	<title>粉絲團留言抽籤小助手付費項目說明</title>
-	<link rel="stylesheet" type="text/css" href="css/new.css">
-	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 </head>
 <body>
-<div class="payArea">
-	<p class="title">粉絲團留言抽籤小助手付費項目說明</p>
-	<p class="paragrah">在付費前，請詳閱以下說明：</p>
-	<div class="lists">
-		<p class="list">費用是300元，請自行在歐付寶的頁面輸入金額</p>
-		<p class="list">付費後請到粉絲團私訊給管理員，並附上付款證明等待管理員開通</p>
-		<p class="list">付費授權是跟著Facebook帳號，非粉絲團</p>
-		<p class="list">付費為一次性付費，可一直使用直到小助手停止維護</p>
-		<p class="list">沒有退費機制，若付費後1個月內因Facebook系統問題導致服務無法繼續營運下去，會在粉絲專頁上公佈退費細節</p>
-		<!-- <p class="list" style="color: #F00">目前FB有BUG，分享機制是無法使用的，詳情請見：<a href="https://goo.gl/h0DQnu">https://goo.gl/h0DQnu</a></p> -->
-		<p class="list">無法轉移權限，除了因Facebook程式上問題導致特定帳號無法抓取資料時可協助轉移權限外。</p>
-		<p class="list">我不是公司行號，無法開發票</p>
-		<p class="list">金流採用綠界，付款方式有信用卡、ATM轉帳跟超商繳款，請按照網頁內的指示操作，都是中文....沒道理看不懂</p>
+	<header class="cd-header">
+		<h1>粉絲團留言抽籤小助手付費項目說明</h1>
+	</header>
+
+	<div class="cd-pricing-container cd-has-margins">
+
+		<ul class="cd-pricing-list">
+			<li>
+				<header class="cd-pricing-header">
+					<h2>Basic</h2>
+
+					<div class="cd-price">
+						<span class="cd-value">免費</span>
+					</div>
+				</header> <!-- .cd-pricing-header -->
+
+				<div class="cd-pricing-body">
+					<ul class="cd-pricing-features">
+						<li><em>粉絲團</em> 抓留言、抓心情</li>
+						<li>-</li>
+						<li>-</li>
+						<li>-</li>
+						<li>-</li>
+						<li>-</li>
+					</ul>
+				</div> <!-- .cd-pricing-body -->
+
+				<footer class="cd-pricing-footer">
+					<a class="cd-select" href="https://www.facebook.com/commenthelper/posts/1177829882249844">開始使用</a>
+				</footer> <!-- .cd-pricing-footer -->
+			</li>
+			<li class="cd-popular">
+				<header class="cd-pricing-header">
+					<h2>Popular</h2>
+
+					<div class="cd-price">
+						<span class="cd-currency">NTD</span>
+						<span class="cd-value">300</span>
+					</div>
+				</header> <!-- .cd-pricing-header -->
+
+				<div class="cd-pricing-body">
+					<ul class="cd-pricing-features">
+						<li><em>粉絲團</em> 抓留言、抓心情</li>
+						<li><em>粉絲團</em>抓分享</li>
+						<li><em>社團</em>抓留言、心情、分享</li>
+						<li><em>個人貼文</em>抓留言、心情、分享</li>
+						<li>-</li>
+						<li>-</li>
+					</ul>
+				</div> <!-- .cd-pricing-body -->
+
+				<footer class="cd-pricing-footer">
+					<a class="cd-select goPay" href="https://p.ecpay.com.tw/ULx0q">購買</a>
+				</footer> <!-- .cd-pricing-footer -->
+			</li>
+			<li>
+				<header class="cd-pricing-header">
+					<h2>PLUS</h2>
+
+					<div class="cd-price">
+						<span class="cd-currency">NTD</span>
+						<span class="cd-value">1000</span>
+					</div>
+				</header> <!-- .cd-pricing-header -->
+
+				<div class="cd-pricing-body">
+					<ul class="cd-pricing-features">
+						<li><em>粉絲團</em> 抓留言、抓心情</li>
+						<li><em>粉絲團</em>抓分享</li>
+						<li><em>社團</em>抓留言、心情、分享</li>
+						<li><em>個人貼文</em>抓留言、心情、分享</li>
+						<li>手機版</li>
+						<li>資料比對功能</li>
+					</ul>
+				</div> <!-- .cd-pricing-body -->
+
+				<footer class="cd-pricing-footer">
+					<a class="cd-select goPay" href="https://p.ecpay.com.tw/ULx0q">購買</a>
+				</footer>  <!-- .cd-pricing-footer -->
+			</li>
+		</ul> <!-- .cd-pricing-list -->
+	</div> <!-- .cd-pricing-container -->
+	<div class="ccc">
+		<label for="checkbox" class="check">
+			<input type="checkbox" id="checkbox">我已詳閱並同意下方說明
+		</label>
 	</div>
-	<label for="checkbox" class="check">
-		<input type="checkbox" id="checkbox">我已詳閱並同意以上說明
-	</label>
-	<div class="goPay">點我去付款</div>
-</div>
+	<div class="ps">
+		<ol>
+			<li>請依需求在下一步中輸入對應的金額</li>
+			<li>付費後請到粉絲團私訊給管理員，並附上付款證明等待管理員開通</li>
+			<li>付費授權是跟著Facebook帳號，非粉絲團</li>
+			<li>付費為一次性付費，可使用到Facebook停止提供相關支援為止</li>
+			<li>無法轉移權限，除了因Facebook程式上問題導致特定帳號無法抓取資料時可協助轉移權限外。</li>
+			<li>需要發票者，請另外至粉絲團私訊給管理員詢問含稅價格及提供發票相關資訊</li>
+		</ol>
+	</div>
+<script src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript">
-	$(".goPay").click(function(){
+	$(".goPay").click(function(e){
+		e.preventDefault();
 		if ($("#checkbox").prop("checked")){
 			location.href="https://p.ecpay.com.tw/ULx0q";
 		}else{

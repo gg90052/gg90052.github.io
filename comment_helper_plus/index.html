@@ -341,6 +341,7 @@ function msieversion() {
     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
     {
     	alert('本系統不支援IE，請改用其他瀏覽器\nNot support Internet Explore, please change other browser.');
+    	location.href = 'https://www.google.com.tw/intl/zh-TW/chrome/browser/desktop/';
     }
 
     return false;

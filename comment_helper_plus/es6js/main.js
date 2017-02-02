@@ -370,13 +370,7 @@ let fb = {
 	},
 	extensionCallback: (response)=>{
 		if (response.status === 'connected') {
-			if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
-				swal({
-					title: '抓分享需付費，詳情請見粉絲專頁',
-					html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-					type: 'warning'
-				}).done();
-			}else{
+			if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_managed_groups') >= 0 && authStr.indexOf('user_posts') >= 0){
 				data.raw.extension = true;
 				let extend = JSON.parse(localStorage.getItem("sharedposts"));
 				let fid = [];
@@ -406,6 +400,12 @@ let fb = {
 					data.raw.data.sharedposts = extend;
 					data.finish(data.raw);
 				});
+			}else{
+				swal({
+					title: '抓分享需付費，詳情請見粉絲專頁',
+					html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+					type: 'warning'
+				}).done();
 			}
 		}else{
 			FB.login(function(response) {

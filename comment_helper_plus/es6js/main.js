@@ -209,7 +209,7 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
-	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups,manage_pages',
+	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
 	extension: false,
 }
 

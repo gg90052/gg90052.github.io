@@ -117,7 +117,8 @@ let fb = {
 	callback: (response, type)=>{
 		if (response.status === 'connected') {
 			if (type == "login"){
-				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
+				let authStr = response.authResponse.grantedScopes;
+				if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_managed_groups') >= 0 && authStr.indexOf('user_posts') >= 0){
 					step.step1();
 				}else{
 					alert('沒有權限或授權不完成');

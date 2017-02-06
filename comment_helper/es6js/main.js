@@ -202,13 +202,14 @@ let fb = {
 	getAuth: (type)=>{
 		FB.login(function(response) {
 			fb.callback(response, type);
-			console.log(response);
 		}, {scope: config.auth ,return_scopes: true});
 	},
 	callback: (response, type)=>{
+		console.log(response);
 		if (response.status === 'connected') {
+			let authStr = response.authResponse.grantedScopes;
 			if (type == "addScope"){
-				if (response.authResponse.grantedScopes.indexOf('read_stream') >= 0){
+				if (authStr.indexOf('read_stream') >= 0){
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
@@ -222,17 +223,18 @@ let fb = {
 						).done();
 				}
 			}else if (type == "sharedposts"){
-				if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
+				if (authStr.indexOf("read_stream") < 0){
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
 						type: 'warning'
 					}).done();
 				}else{
+					fb.user_posts = true;
 					fbid.init(type);
 				}
 			}else{
-				if (response.authResponse.grantedScopes.indexOf("read_stream") >= 0){
+				if (authStr.indexOf("read_stream") >= 0){
 					fb.user_posts = true;
 				}
 				fbid.init(type);			
@@ -557,7 +559,7 @@ let fbid = {
 			fbid.get(url, type).then((fbid)=>{
 				data.start(fbid);
 			})
-			$('.identity').removeClass('hide').html(`登入身份：<img src="http://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`)
+			// $('.identity').removeClass('hide').html(`登入身份：<img src="http://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`);
 		});
 	},
 	get: (url, type)=>{

@@ -3,6 +3,20 @@
 $blue: #3b5fb2;
 $lightblue: #44b1da;
 
+@mixin for-size($size) {
+  @if $size == pad {
+    @media (max-width: 800px) { @content; }
+  } @else if $size == tablet-portrait-up {
+    @media (min-width: 600px) { @content; }
+  } @else if $size == tablet-landscape-up {
+    @media (min-width: 900px) { @content; }
+  } @else if $size == desktop-up {
+    @media (min-width: 1200px) { @content; }
+  } @else if $size == big-desktop-up {
+    @media (min-width: 1800px) { @content; }
+  }
+}
+
 * {
 	box-sizing:border-box;
 }
@@ -12,6 +26,11 @@ html, body {
 }
 body{
 	background: #FFF;
+}
+h3{
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 2em;
 }
 table{
 	td{
@@ -78,20 +97,29 @@ table{
 	background: #ECEFF2;
 	z-index: 100000;
 	transition: all .3s;
+	&.auth{
+		width: 100%;
+		height: auto;
+		position: static;
+	}
 	&.success{
 		transform: translateY(-100vh);
 	}
 	.logo{
 		width: 150px;
-		margin: 20px auto;
+		margin: 0 auto;
+		padding: 20px 0;
 		img{
 			width: 100%;
 		}
 	}
 	.area{
-		width: 100vw;
-		max-width: 320px;
-		margin: 30px auto;
+		width: 100%;
+		// margin: 30px auto;
+		text-align: center;
+		@include for-size(pad){
+			max-width: 320px;
+		}
 		.title{
 			text-align: center;
 			font-size: 1.5rem;
@@ -100,7 +128,7 @@ table{
 			color: #616182;
 		}
 		#btn_login{
-			width: 100%;
+			width: 320px;
 			height: 60px;
 			line-height: 60px;
 			color: #FFF;
@@ -123,6 +151,27 @@ table{
 				color: red;
 				margin-bottom: 20px;
 			}
+		}
+		.qa{
+			width: 650px;
+			margin: 10px auto;
+			article{
+				margin-top: 20px;
+				a{
+					color: #068e06;
+				}
+				p{
+					text-align: left;
+					line-height: 1.5em;
+					font-size: 18px;
+				}
+				.q{
+					color: #a03319;
+				}
+				.a{
+					color: #000090;
+				}
+			}	
 		}
 	}
 }

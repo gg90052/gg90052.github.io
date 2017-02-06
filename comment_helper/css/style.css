@@ -304,6 +304,40 @@ Main Components
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.cd-pricing-features li span{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 18px;
+  font-weight: bold;
+  margin-top: -3px;
+  margin-left: 5px;
+  border: 1px solid #173d50;
+  background: #ff9c1d;
+  cursor: pointer;
+}
+.cd-pricing-features li .tip{
+  position: absolute;
+  background: #000;
+  color: #FFF;
+  padding: 5px 10px;
+  z-index: 20;
+  margin-top: 10px;
+  line-height: 1.5em;
+  text-align: left;
+  opacity: 0;
+  visibility:hidden;
+  max-height: 0;
+  transition: all .3s;
+}
+.cd-pricing-features li .tip.active{
+  max-height: 1000px;
+  visibility: visible;
+  opacity: 1;
+}
 .cd-pricing-features em {
   display: block;
   margin-bottom: 5px;

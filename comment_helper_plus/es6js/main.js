@@ -30,8 +30,12 @@ $(document).ready(function(){
 	$("#btn_start").click(function(){
 		fb.getAuth('addScope');
 	});
-	$("#btn_choose").click(function(){
-		choose.init();
+	$("#btn_choose").click(function(e){
+		if (e.ctrlKey || e.altKey){
+			choose.init(true);
+		}else{
+			choose.init();
+		}
 	});
 	
 	$("#moreprize").click(function(){
@@ -59,12 +63,12 @@ $(document).ready(function(){
 	});
 
 	$(window).keydown(function(e){
-		if (e.ctrlKey){
+		if (e.ctrlKey || e.altKey){
 			$("#btn_excel").text("輸出JSON");
 		}
 	});
 	$(window).keyup(function(e){
-		if (!e.ctrlKey){
+		if (!e.ctrlKey || !e.altKey){
 			$("#btn_excel").text("輸出EXCEL");
 		}
 	});
@@ -788,7 +792,7 @@ let choose = {
 	num: 0,
 	detail: false,
 	list: [],
-	init: ()=>{
+	init: (ctrl = false)=>{
 		let thead = $('.main_table thead').html();
 		$('#awardList table thead').html(thead);
 		$('#awardList table tbody').html('');
@@ -809,9 +813,9 @@ let choose = {
 		}else{
 			choose.num = $("#howmany").val();
 		}
-		choose.go();
+		choose.go(ctrl);
 	},
-	go: ()=>{
+	go: (ctrl)=>{
 		let command = tab.now;
 		if (tab.now === 'compare'){
 			choose.award = genRandomArray(compare[$('.compare_condition').val()].length).splice(0,choose.num);
@@ -832,11 +836,14 @@ let choose = {
 			insert += '<tr>' + tar + '</tr>';
 		}
 		$('#awardList table tbody').html(insert);
-		$("#awardList tbody tr").each(function(){
-			let tar = $(this).find('td').eq(1);
-			let id = tar.find('a').attr('attr-fbid');
-			tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
-		});
+		if (!ctrl){
+			$("#awardList tbody tr").each(function(){
+				let tar = $(this).find('td').eq(1);
+				let id = tar.find('a').attr('attr-fbid');
+				tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
+			});
+		}
+		
 		$('#awardList table tbody tr').addClass('success');
 
 		if(choose.detail){

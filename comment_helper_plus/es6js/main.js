@@ -400,7 +400,7 @@ let fb = {
 
 				Promise.all(promise_array).then(()=>{
 					for(let i of extend){
-						i.from.name = names[i.from.id].name;
+						i.from.name = names[i.from.id] ? names[i.from.id].name : i.from.name;
 					}
 					data.raw.data.sharedposts = extend;
 					data.finish(data.raw);

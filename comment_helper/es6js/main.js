@@ -574,7 +574,7 @@ let fbid = {
 					resolve(obj);
 				});
 			}else{
-				let regex = /\d{4,}/g;
+				let regex = /\d{6,}/g;
 				let result = url.match(regex);
 				let urltype = fbid.checkType(url);
 				fbid.checkPageID(url, urltype).then((id)=>{
@@ -594,9 +594,9 @@ let fbid = {
 						}
 						let video = url.indexOf('videos/');
 						if (video >= 0){
-							obj.fullID = url.substring(start+7,url.length);
+							obj.fullID = obj.pageID + '_' + result[0];
 						}else{
-							obj.fullID = obj.pageID + '_' + obj.pureID;
+							obj.fullID = obj.pageID + '_' + result[0];
 						}
 						resolve(obj);
 					}else if (urltype === 'pure'){

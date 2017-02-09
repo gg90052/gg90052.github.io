@@ -481,21 +481,25 @@ let data = {
 			let datas = [];
 			let promise_array = [];
 			if (fbid.type === 'group') command = 'group';
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${command}?limit=${config.limit[command]}&order=chronological&fields=${config.field[command].toString()}`,(res)=>{
-				data.nowLength += res.data.length;
-				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
-				for(let d of res.data){
-					if (command == 'reactions'){
-						d.from = {id: d.id, name: d.name};
+			if (command === 'sharedposts'){
+				getShare();
+			}else{
+				FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${command}?limit=${config.limit[command]}&order=chronological&fields=${config.field[command].toString()}`,(res)=>{
+					data.nowLength += res.data.length;
+					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
+					for(let d of res.data){
+						if (command == 'reactions'){
+							d.from = {id: d.id, name: d.name};
+						}
+						datas.push(d);
 					}
-					datas.push(d);
-				}
-				if (res.data.length > 0 && res.paging.next){
-					getNext(res.paging.next);
-				}else{
-					resolve(datas);
-				}
-			});
+					if (res.data.length > 0 && res.paging.next){
+						getNext(res.paging.next);
+					}else{
+						resolve(datas);
+					}
+				});
+			}
 
 			function getNext(url, limit=0){
 				if (limit !== 0){
@@ -518,6 +522,23 @@ let data = {
 				}).fail(()=>{
 					getNext(url, 200);
 				});
+			}
+
+			function getShare(after=''){
+				let url = `https://am66ahgtp8.execute-api.ap-northeast-1.amazonaws.com/share?fbid=${fbid.fullID}&after=${after}`;
+				$.getJSON(url, function(res){
+					if (res === 'end'){
+						resolve(datas);
+					}else{
+						for(let i of res.data){
+							let name = i.story.substring(0, i.story.indexOf(' shared'));
+							let id = i.id.substring(0, i.id.indexOf("_"));
+							i.from = {id, name};
+							datas.push(i);
+						}
+						getShare(res.after);
+					}
+				})
 			}
 		});
 	},
@@ -622,7 +643,7 @@ let table = {
 				if(key === 'reactions'){
 					td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
 				}else if(key === 'sharedposts'){
-					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
+					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || val.story}</a></td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 				}else{
 					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>

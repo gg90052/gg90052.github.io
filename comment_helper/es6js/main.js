@@ -574,7 +574,7 @@ let fbid = {
 					resolve(obj);
 				});
 			}else{
-				let regex = /\d{6,}/g;
+				let regex = /\d{4,}/g;
 				let result = url.match(regex);
 				let urltype = fbid.checkType(url);
 				fbid.checkPageID(url, urltype).then((id)=>{

@@ -524,9 +524,9 @@ let choose = {
 	go: ()=>{
 		choose.award = genRandomArray(choose.data.filtered.length).splice(0,choose.num);
 		let insert = '';
-		for(let i of choose.award){
-			insert += '<tr>' + $('.main_table').DataTable().rows({search:'applied'}).nodes()[i].innerHTML + '</tr>';
-		}
+		choose.award.map((val, index)=>{
+			insert += '<tr title="第'+(index+1)+'名">' + $('.main_table').DataTable().rows({search:'applied'}).nodes()[val].innerHTML + '</tr>';
+		})
 		$('#awardList table tbody').html(insert);
 		$('#awardList table tbody tr').addClass('success');
 

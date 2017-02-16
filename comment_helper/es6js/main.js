@@ -26,7 +26,10 @@ $(document).ready(function(){
 		fb.getAuth('comments');
 	});
 
-	$("#btn_like").click(function(){
+	$("#btn_like").click(function(e){
+		if (e.ctrlKey || e.altKey){
+			config.likes = true;
+		}
 		fb.getAuth('reactions');
 	});
 	$("#btn_url").click(function(){
@@ -172,14 +175,16 @@ let config = {
 		reactions: [],
 		sharedposts: ['story','from', 'created_time'],
 		url_comments: [],
-		feed: []
+		feed: [],
+		likes: ['name']
 	},
 	limit: {
 		comments: '500',
 		reactions: '500',
 		sharedposts: '500',
 		url_comments: '500',
-		feed: '500'
+		feed: '500',
+		likes: '500'
 	},
 	apiVersion: {
 		comments: 'v2.7',
@@ -194,7 +199,8 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
-	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups'
+	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups',
+	likes: false
 }
 
 let fb = {
@@ -301,14 +307,16 @@ let data = {
 			let command = fbid.command;
 			if (fbid.type === 'group') command = 'group';
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
+			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=chronological&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
-					if (fbid.command == 'reactions'){
+					if (fbid.command == 'reactions' || config.likes){
 						d.from = {id: d.id, name: d.name};
 					}
+					if (config.likes) d.type = "LIKE";
 					if (d.from){
 						datas.push(d);
 					}
@@ -329,7 +337,7 @@ let data = {
 					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 					for(let d of res.data){
 						if (d.id){
-							if (fbid.command == 'reactions'){
+							if (fbid.command == 'reactions' || config.likes){
 								d.from = {id: d.id, name: d.name};
 							}
 							if (d.from){
@@ -418,7 +426,7 @@ let table = {
 		let thead = '';
 		let tbody = '';
 		let pic = $("#picture").prop("checked");
-		if(rawdata.command === 'reactions'){
+		if(rawdata.command === 'reactions' || config.likes){
 			thead = `<td>序號</td>
 			<td>名字</td>
 			<td>表情</td>`;
@@ -446,7 +454,7 @@ let table = {
 			}
 			let td = `<td>${j+1}</td>
 			<td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>`;
-			if(rawdata.command === 'reactions'){
+			if(rawdata.command === 'reactions' || config.likes){
 				td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
 			}else if(rawdata.command === 'sharedposts'){
 				td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
@@ -732,10 +740,10 @@ let filter = {
 		if (isTag){
 			data = filter.tag(data);
 		}
-		if (rawdata.command !== 'reactions'){
-			data = filter.time(data, endTime);
+		if (rawdata.command === 'reactions' || config.likes){
+			data = filter.react(data, react);	
 		}else{
-			data = filter.react(data, react);
+			data = filter.time(data, endTime);
 		}
 
 		return data;
@@ -799,7 +807,7 @@ let ui = {
 	},
 	reset: ()=>{
 		let command = data.raw.command;
-		if (command === 'reactions'){
+		if (command === 'reactions' || config.likes){
 			$('.limitTime, #searchComment').addClass('hide');
 			$('.uipanel .react').removeClass('hide');
 		}else{

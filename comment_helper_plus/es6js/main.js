@@ -530,13 +530,17 @@ let data = {
 					if (res === 'end'){
 						resolve(datas);
 					}else{
-						for(let i of res.data){
-							let name = i.story.substring(0, i.story.indexOf(' shared'));
-							let id = i.id.substring(0, i.id.indexOf("_"));
-							i.from = {id, name};
-							datas.push(i);
+						if (res.errorMessage){
+							resolve(datas);
+						}else{
+							for(let i of res.data){
+								let name = i.story.substring(0, i.story.indexOf(' shared'));
+								let id = i.id.substring(0, i.id.indexOf("_"));
+								i.from = {id, name};
+								datas.push(i);
+							}
+							getShare(res.after);
 						}
-						getShare(res.after);
 					}
 				})
 			}

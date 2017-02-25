@@ -612,7 +612,7 @@ var fbid = {
 				});
 			} else {
 				(function () {
-					var regex = /\d{4,}/g;
+					var regex = /\d{5,}/g;
 					var result = url.match(regex);
 					var urltype = fbid.checkType(url);
 					fbid.checkPageID(url, urltype).then(function (id) {

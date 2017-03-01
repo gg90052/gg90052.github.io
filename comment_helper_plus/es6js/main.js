@@ -480,6 +480,7 @@ let data = {
 		return new Promise((resolve, reject)=>{
 			let datas = [];
 			let promise_array = [];
+			let shareError = 0;
 			if (fbid.type === 'group') command = 'group';
 			if (command === 'sharedposts'){
 				getShare();
@@ -532,7 +533,8 @@ let data = {
 					}else{
 						if (res.errorMessage){
 							resolve(datas);
-						}else{
+						}else if(res.data){
+							shareError = 0;
 							for(let i of res.data){
 								let name = i.story.substring(0, i.story.indexOf(' shared'));
 								let id = i.id.substring(0, i.id.indexOf("_"));
@@ -540,6 +542,8 @@ let data = {
 								datas.push(i);
 							}
 							getShare(res.after);
+						}else{
+							resolve(datas);
 						}
 					}
 				})

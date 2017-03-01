@@ -12,19 +12,18 @@ var gulp = require('gulp'),
 
 // Paths
 var paths = {
-  'source': './source/',
-  'component': './source/component/',
+  'source': './',
+  'component': '.component/',
   'js': './es6js/',
-  'sass': './source/sass/',
-  'img': './source/images/',
+  'sass': './sass/',
+  'img': './images/icons',
   'public': './'
 }
 
 gulp.task('webserver', function(){
-	connect.server({
-    root: 'public',
-		livereload: true
-	});
+  connect.server({
+    livereload: true
+  });
 });
 
 gulp.task('html-include', function() {
@@ -61,7 +60,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('sprite', function () {
-  var spriteData = gulp.src(paths.img+'/icon/*.png').pipe(spritesmith({
+  var spriteData = gulp.src(paths.img+'/*.png').pipe(spritesmith({
     imgName: 'sprite.png',
     imgPath: '../images/sprite.png',
     cssName: 'sprite.css'
@@ -78,6 +77,11 @@ gulp.task('sprite', function () {
   return merge(imgStream, cssStream);
 });
 
+
 gulp.task('default',['webserver'],function(){
+  gulp.watch(paths.img+'/icon/*',['sprite']);
+  gulp.watch(paths.sass+'/*',['sass']);
   gulp.watch(paths.js+'/*',['babel']);
+  gulp.watch(paths.source+'/*.html', ['html-include']);
+  gulp.watch(paths.component+'/*.html', ['html-include']);
 });

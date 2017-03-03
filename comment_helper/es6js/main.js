@@ -583,7 +583,9 @@ let fbid = {
 				});
 			}else{
 				let regex = /\d{4,}/g;
-				let result = url.match(regex);
+				let newurl = url.substr(url.indexOf('/',28)+1,200);
+				// https://www.facebook.com/ 共25字元，因此選28開始找/
+				let result = newurl.match(regex);
 				let urltype = fbid.checkType(url);
 				fbid.checkPageID(url, urltype).then((id)=>{
 					if (id === 'personal'){
@@ -602,8 +604,6 @@ let fbid = {
 						}
 						let video = url.indexOf('videos/');
 						if (video >= 0){
-							obj.fullID = obj.pageID + '_' + result[0];
-						}else{
 							obj.fullID = obj.pageID + '_' + result[0];
 						}
 						resolve(obj);
@@ -635,6 +635,9 @@ let fbid = {
 									type: 'warning'
 								}).done();
 							}
+						}else if (urltype === 'photo'){
+							let regex = /\d{4,}/g;
+							let result = url.match(regex);
 						}else{
 							if (result.length == 1 || result.length == 3){
 								obj.pureID = result[0];
@@ -669,6 +672,9 @@ let fbid = {
 		};
 		if (posturl.indexOf("events") >= 0){
 			return 'event';
+		};
+		if (posturl.indexOf("/photos/") >= 0){
+			return 'photo';
 		};
 		if (posturl.indexOf('"') >= 0){
 			return 'pure';

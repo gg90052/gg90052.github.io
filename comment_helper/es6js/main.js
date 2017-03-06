@@ -604,8 +604,9 @@ let fbid = {
 						}
 						let video = url.indexOf('videos/');
 						if (video >= 0){
-							obj.fullID = obj.pageID + '_' + result[0];
+							obj.pureID = result[0];
 						}
+						obj.fullID = obj.pageID + '_' + obj.pureID;
 						resolve(obj);
 					}else if (urltype === 'pure'){
 						obj.fullID = url.replace(/\"/g,'');

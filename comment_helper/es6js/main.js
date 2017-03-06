@@ -638,6 +638,9 @@ let fbid = {
 						}else if (urltype === 'photo'){
 							let regex = /\d{4,}/g;
 							let result = url.match(regex);
+							obj.pureID = result[result.length-1];
+							obj.fullID = obj.pageID + '_' + obj.pureID;
+							resolve(obj);
 						}else{
 							if (result.length == 1 || result.length == 3){
 								obj.pureID = result[0];

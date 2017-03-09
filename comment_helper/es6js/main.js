@@ -199,6 +199,7 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
+	order: 'chronological',
 	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups',
 	likes: false
 }
@@ -309,7 +310,7 @@ let data = {
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=chronological&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
@@ -579,6 +580,8 @@ let fbid = {
 				}
 				FB.api(`/${posturl}`,function(res){
 					let obj = {fullID: res.og_object.id, type: type, command: 'comments'};
+					config.limit['comments'] = '25';
+					config.order = '';
 					resolve(obj);
 				});
 			}else{

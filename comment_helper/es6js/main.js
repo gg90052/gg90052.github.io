@@ -23,6 +23,9 @@ $(document).ready(function(){
 	}
 
 	$("#btn_comments").click(function(e){
+		if (e.ctrlKey || e.altKey){
+			config.order = '';
+		}
 		fb.getAuth('comments');
 	});
 

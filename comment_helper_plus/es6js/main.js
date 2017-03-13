@@ -355,14 +355,14 @@ let fb = {
 	},
 	getPage: ()=>{
 		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/accounts`, (res)=>{
+			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res)=>{
 				resolve(res.data);
 			});
 		});
 	},
 	getGroup: ()=>{
 		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/groups`, (res)=>{
+			FB.api(`${config.apiVersion.newest}/me/groups?limit=100`, (res)=>{
 				resolve(res.data);
 			});
 		});

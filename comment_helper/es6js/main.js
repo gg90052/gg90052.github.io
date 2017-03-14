@@ -24,8 +24,9 @@ $(document).ready(function(){
 	}
 
 	$("#btn_comments").click(function(e){
+		console.log(e);
 		if (e.ctrlKey || e.altKey){
-			config.order = '';
+			config.order = 'chronological';
 		}
 		fb.getAuth('comments');
 	});
@@ -203,7 +204,7 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
-	order: 'chronological',
+	order: '',
 	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups',
 	likes: false
 }

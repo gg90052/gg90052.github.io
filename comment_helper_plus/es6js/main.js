@@ -731,13 +731,18 @@ let compare = {
 
 		let temp = '';
 		let temp_name = '';
+		// console.log(base);
 		for(let i in base){
 			let obj = base[i];
 			if (obj.from.id == temp || (data.raw.extension && (obj.from.name == temp_name))){
 				let tar = final[final.length-1];
 				tar.match++;
 				for(let key of Object.keys(obj)){
-					if (!tar[key]) tar[key] = obj[key];
+					if (!tar[key]) tar[key] = obj[key]; //合併資料
+				}
+				if (tar.match == compare_num){
+					temp_name = '';
+					temp = '';
 				}
 			}else{
 				final.push(obj);

@@ -719,48 +719,49 @@ var data = {
 				var after = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
 				var url = "https://am66ahgtp8.execute-api.ap-northeast-1.amazonaws.com/share?fbid=" + fbid.fullID + "&after=" + after;
-				$.getJSON(url, function (res) {
-					if (res === 'end') {
-						resolve(datas);
-					} else {
-						if (res.errorMessage) {
-							resolve(datas);
-						} else if (res.data) {
-							shareError = 0;
-							var _iteratorNormalCompletion11 = true;
-							var _didIteratorError11 = false;
-							var _iteratorError11 = undefined;
+				resolve(datas);
+				// $.getJSON(url, function (res) {
+				// 	if (res === 'end') {
+				// 		resolve(datas);
+				// 	} else {
+				// 		if (res.errorMessage) {
+				// 			resolve(datas);
+				// 		} else if (res.data) {
+				// 			shareError = 0;
+				// 			var _iteratorNormalCompletion11 = true;
+				// 			var _didIteratorError11 = false;
+				// 			var _iteratorError11 = undefined;
 
-							try {
-								for (var _iterator11 = res.data[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
-									var _i3 = _step11.value;
+				// 			try {
+				// 				for (var _iterator11 = res.data[Symbol.iterator](), _step11; !(_iteratorNormalCompletion11 = (_step11 = _iterator11.next()).done); _iteratorNormalCompletion11 = true) {
+				// 					var _i3 = _step11.value;
 
-									var name = _i3.story.substring(0, _i3.story.indexOf(' shared'));
-									var id = _i3.id.substring(0, _i3.id.indexOf("_"));
-									_i3.from = { id: id, name: name };
-									datas.push(_i3);
-								}
-							} catch (err) {
-								_didIteratorError11 = true;
-								_iteratorError11 = err;
-							} finally {
-								try {
-									if (!_iteratorNormalCompletion11 && _iterator11.return) {
-										_iterator11.return();
-									}
-								} finally {
-									if (_didIteratorError11) {
-										throw _iteratorError11;
-									}
-								}
-							}
+				// 					var name = _i3.story.substring(0, _i3.story.indexOf(' shared'));
+				// 					var id = _i3.id.substring(0, _i3.id.indexOf("_"));
+				// 					_i3.from = { id: id, name: name };
+				// 					datas.push(_i3);
+				// 				}
+				// 			} catch (err) {
+				// 				_didIteratorError11 = true;
+				// 				_iteratorError11 = err;
+				// 			} finally {
+				// 				try {
+				// 					if (!_iteratorNormalCompletion11 && _iterator11.return) {
+				// 						_iterator11.return();
+				// 					}
+				// 				} finally {
+				// 					if (_didIteratorError11) {
+				// 						throw _iteratorError11;
+				// 					}
+				// 				}
+				// 			}
 
-							getShare(res.after);
-						} else {
-							resolve(datas);
-						}
-					}
-				});
+				// 			getShare(res.after);
+				// 		} else {
+				// 			resolve(datas);
+				// 		}
+				// 	}
+				// });
 			}
 		});
 	},

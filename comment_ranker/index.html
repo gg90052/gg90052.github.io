@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>comment_ranker</title>
+	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/tables-min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+	<script src="//connect.facebook.net/zh_TW/all.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1494465264176752',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.1' // use version 2.1
+  });
+}
+// 160833824415744 pro
+// 1390069707889707 dev
+
+
+(function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/zh_TW/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<div class="main">
+	<header>Facebook粉絲團留言整理小助手 <!-- <a href="#" target="_blank">使用說明</a> --></header>
+	<section class="body">
+		<aside>
+			<div class="step step1">
+				<p><span>Step 1</span>選擇您的粉絲專頁</p>
+				<div class="input_group">
+					<select></select>
+				</div>
+			</div>
+			<button class="login" onclick="fb.getAuth('addScope');">使用Facebook帳號登入</button>
+			<button class="start" onclick="fb.selectPage()">開始</button>
+		</aside>
+		<article class="result">
+			<p class="title">排名結果</p>
+			<div class="info">
+				<p>統計日期<span>最近的25篇貼文</span></p>
+				<p class="all_people">統計人數<span></span></p>
+			</div>
+			<p class="title">計算方式</p>
+			<div class="score_rule">
+				留言一次3分<br>TAG人一個1分，最多3分<br>
+				留言的心情十個1分，無條件進位，最多3分<br>
+				留言的留言一個1分，最大6分<br>
+			</div>
+			<!-- <div class="rank">
+				<div class="input_group">
+					<p>顯示</p>
+					<select name="" id="">
+						<option value="10">前10名</option>
+					</select>
+				</div>
+			</div> -->
+			<div class="tables">
+				<table class="pure-table">
+					<thead>
+						<td>排名</td>
+						<td>名字</td>
+						<td>分數</td>
+						<td>操作</td>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
+		</article>
+	</section>
+</div>
+<div class="popup">
+	<div class="content">
+		<div class="close" onclick="popup.hide();"></div>
+		<p><span></span>的留言清單</p>
+		<table class="pure-table">
+			<thead>
+				<td>序號</td>
+				<td>留言內容</td>
+				<td>回覆數</td>
+				<td>tag數</td>
+				<td>心情符號數</td>
+				<td>得分</td>
+				<td>操作</td>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

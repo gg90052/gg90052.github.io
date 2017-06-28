@@ -135,8 +135,9 @@ window.fbAsyncInit = function() {
 <script type="text/javascript" src="js/picker.zh_TW.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
+$('#start_date').attr('data-value', moment().format("YYYY/MM/DD"));
+$('#end_date').attr('data-value', moment().subtract(30, 'days').format("YYYY/MM/DD"));
 $('.datepicker').pickadate();
-$('#end_date').pickadate();
 </script>
 </body>
 </html>

@@ -7,6 +7,8 @@
 	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/tables-min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="css/datepicker/default.css">
+	<link rel="stylesheet" type="text/css" href="css/datepicker/default.date.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
 	<script src="//connect.facebook.net/zh_TW/all.js"></script>
@@ -45,13 +47,21 @@ window.fbAsyncInit = function() {
 					<select></select>
 				</div>
 			</div>
+			<div class="step step2">
+				<p><span>Step 2</span>設定貼文日期區間</p>
+				<div class="input_group">
+					開始日期：<input type="text" id="start_date" class="datepicker">
+					<br><br>
+					結束日期：<input type="text" id="end_date" class="datepicker">
+				</div>
+			</div>
 			<button class="login" onclick="fb.getAuth('addScope');">使用Facebook帳號登入</button>
 			<button class="start" onclick="fb.selectPage()">開始</button>
 		</aside>
 		<article class="result">
 			<p class="title">排名結果</p>
 			<div class="info">
-				<p>統計日期<span>最近的25篇貼文</span></p>
+				<p class="date_range">統計日期<span></span></p>
 				<p class="all_people">統計人數<span></span></p>
 			</div>
 			<p class="title">計算方式</p>
@@ -119,9 +129,14 @@ window.fbAsyncInit = function() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/picker.js"></script>
+<script type="text/javascript" src="js/picker.date.js"></script>
+<script type="text/javascript" src="js/picker.zh_TW.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
-
+$('.datepicker').pickadate();
+$('#end_date').pickadate();
 </script>
 </body>
 </html>

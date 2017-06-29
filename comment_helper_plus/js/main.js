@@ -727,7 +727,6 @@ var data = {
 						if (res.errorMessage) {
 							resolve(datas);
 						} else if (res.data) {
-							// shareError = 0;
 							var _iteratorNormalCompletion11 = true;
 							var _didIteratorError11 = false;
 							var _iteratorError11 = undefined;

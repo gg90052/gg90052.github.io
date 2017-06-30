@@ -70,24 +70,24 @@ window.fbAsyncInit = function() {
 				留言的心情十個1分，無條件進位，最多3分<br>
 				留言的留言一個1分，最大6分<br>
 			</div>
-			<!-- <div class="rank">
-				<div class="input_group">
+			<div class="rank">
+				<!-- <div class="input_group">
 					<p>顯示</p>
 					<select name="" id="">
 						<option value="10">前10名</option>
 					</select>
-				</div>
-			</div> -->
+				</div> -->
+				<div class="chart"></div>
+			</div>
 			<div class="tables">
 				<table class="pure-table">
 					<thead>
 						<td>排名</td>
 						<td>名字</td>
 						<td>分數</td>
-						<td>操作</td>
 					</thead>
 					<tbody>
-						
+
 					</tbody>
 				</table>
 			</div>
@@ -106,7 +106,6 @@ window.fbAsyncInit = function() {
 				<td>tag數</td>
 				<td>心情符號數</td>
 				<td>得分</td>
-				<td>操作</td>
 			</thead>
 			<tbody>
 				
@@ -133,6 +132,7 @@ window.fbAsyncInit = function() {
 <script type="text/javascript" src="js/picker.js"></script>
 <script type="text/javascript" src="js/picker.date.js"></script>
 <script type="text/javascript" src="js/picker.zh_TW.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
 $('#start_date').attr('data-value', moment().subtract(30, 'days').format("YYYY/MM/DD"));

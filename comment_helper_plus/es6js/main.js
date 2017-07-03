@@ -534,9 +534,14 @@ let data = {
 						if (res.errorMessage){
 							resolve(datas);
 						}else if(res.data){
-							shareError = 0;
+							// shareError = 0;
 							for(let i of res.data){
-								let name = i.story.substring(0, i.story.indexOf(' shared'));
+								let name = '';
+								if(i.story){
+									name = i.story.substring(0, i.story.indexOf(' shared'));
+								}else{
+									name = i.id.substring(0, i.id.indexOf("_"));
+								}
 								let id = i.id.substring(0, i.id.indexOf("_"));
 								i.from = {id, name};
 								datas.push(i);

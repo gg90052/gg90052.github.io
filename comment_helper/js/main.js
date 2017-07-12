@@ -190,7 +190,7 @@ var config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups',
+	auth: 'user_photos,user_posts,user_managed_groups',
 	likes: false
 };
 

@@ -194,9 +194,9 @@ let config = {
 	apiVersion: {
 		comments: 'v2.7',
 		reactions: 'v2.7',
-		sharedposts: 'v2.3',
+		sharedposts: 'v2.9',
 		url_comments: 'v2.7',
-		feed: 'v2.3',
+		feed: 'v2.9',
 		group: 'v2.7'
 	},
 	filter: {
@@ -205,7 +205,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'read_stream,user_photos,user_posts,user_groups,user_managed_groups',
+	auth: 'user_photos,user_posts,user_managed_groups',
 	likes: false
 }
 

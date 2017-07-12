@@ -206,13 +206,13 @@ var fb = {
 		if (response.status === 'connected') {
 			var authStr = response.authResponse.grantedScopes;
 			if (type == "addScope") {
-				if (authStr.indexOf('read_stream') >= 0) {
+				if (authStr.indexOf('user_posts') >= 0) {
 					swal('付費授權完成，請再次執行抓留言', 'Authorization Finished! Please getComments again.', 'success').done();
 				} else {
 					swal('付費授權失敗，請聯絡管理員確認', 'Authorization Failed! Please contact the admin.', 'error').done();
 				}
 			} else if (type == "sharedposts") {
-				if (authStr.indexOf("read_stream") < 0) {
+				if (authStr.indexOf("user_posts") < 0) {
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -223,7 +223,7 @@ var fb = {
 					fbid.init(type);
 				}
 			} else {
-				if (authStr.indexOf("read_stream") >= 0) {
+				if (authStr.indexOf("user_posts") >= 0) {
 					fb.user_posts = true;
 				}
 				fbid.init(type);

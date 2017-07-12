@@ -241,7 +241,7 @@ var fb = {
 	},
 	extensionCallback: function extensionCallback(response) {
 		if (response.status === 'connected') {
-			if (response.authResponse.grantedScopes.indexOf("read_stream") < 0) {
+			if (response.authResponse.grantedScopes.indexOf("user_posts") < 0) {
 				swal({
 					title: '抓分享需付費，詳情請見粉絲專頁',
 					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',

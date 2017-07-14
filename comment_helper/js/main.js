@@ -149,7 +149,8 @@ $(document).ready(function () {
 			$("#inputJSON").removeClass("hide");
 		}
 		if (e.ctrlKey || e.altKey) {
-			fb.getAuth('sharedposts');
+			// fb.getAuth('sharedposts');
+			$("#btn_share").click();
 		}
 	});
 	$("#inputJSON").change(function () {
@@ -179,9 +180,9 @@ var config = {
 	apiVersion: {
 		comments: 'v2.7',
 		reactions: 'v2.7',
-		sharedposts: 'v2.3',
+		sharedposts: 'v2.7',
 		url_comments: 'v2.7',
-		feed: 'v2.3',
+		feed: 'v2.7',
 		group: 'v2.7'
 	},
 	filter: {

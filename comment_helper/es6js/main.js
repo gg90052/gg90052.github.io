@@ -164,7 +164,7 @@ $(document).ready(function(){
 			$("#inputJSON").removeClass("hide");
 		}
 		if(e.ctrlKey || e.altKey){
-			fb.getAuth('sharedposts');
+			
 		}
 	});
 	$("#inputJSON").change(function() {
@@ -174,9 +174,13 @@ $(document).ready(function(){
 	});
 });
 
+function shareBTN(){
+	alert('認真看完跳出來的那頁上面寫了什麼\n\n看完你就會知道你為什麼不能抓分享');
+}
+
 let config = {
 	field: {
-		comments: ['like_count','message_tags','message,from','created_time'],
+		comments: ['like_count','message_tags','message','from','created_time'],
 		reactions: [],
 		sharedposts: ['story','from', 'created_time'],
 		url_comments: [],
@@ -221,7 +225,7 @@ let fb = {
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
 			if (type == "addScope"){
-				if (authStr.indexOf('read_stream') >= 0){
+				if (authStr.indexOf('user_posts') >= 0){
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
@@ -235,7 +239,7 @@ let fb = {
 						).done();
 				}
 			}else if (type == "sharedposts"){
-				if (authStr.indexOf("read_stream") < 0){
+				if (authStr.indexOf("user_posts") < 0){
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -246,7 +250,7 @@ let fb = {
 					fbid.init(type);
 				}
 			}else{
-				if (authStr.indexOf("read_stream") >= 0){
+				if (authStr.indexOf("user_posts") >= 0){
 					fb.user_posts = true;
 				}
 				fbid.init(type);			
@@ -264,7 +268,7 @@ let fb = {
 	},
 	extensionCallback: (response)=>{
 		if (response.status === 'connected') {
-			if (response.authResponse.grantedScopes.indexOf("read_stream") < 0){
+			if (response.authResponse.grantedScopes.indexOf("user_posts") < 0){
 				swal({
 					title: '抓分享需付費，詳情請見粉絲專頁',
 					html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -325,6 +329,11 @@ let data = {
 					if (config.likes) d.type = "LIKE";
 					if (d.from){
 						datas.push(d);
+					}else{
+						//event
+						d.from = {id: d.id, name: d.id};
+						d.created_time = d.updated_time;
+						datas.push(d);
 					}
 				}
 				if (res.data.length > 0 && res.paging.next){
@@ -347,6 +356,11 @@ let data = {
 								d.from = {id: d.id, name: d.name};
 							}
 							if (d.from){
+								datas.push(d);
+							}else{
+								//event
+								d.from = {id: d.id, name: d.id};
+								d.created_time = d.updated_time;
 								datas.push(d);
 							}
 						}

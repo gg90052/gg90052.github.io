@@ -22,6 +22,15 @@ $(document).ready(function(){
 			fb.extensionAuth();
 		});
 	}
+	if (hash.indexOf("ranker") >= 0){
+		let datas = {
+			command: 'ranker',
+			data: localStorage.ranker
+		}
+		data.raw = datas;
+		data.finish(data.raw);
+	}
+
 
 	$("#btn_comments").click(function(e){
 		console.log(e);
@@ -455,6 +464,10 @@ let table = {
 			<td>名字</td>
 			<td class="force-break">留言內容</td>
 			<td width="110">留言時間</td>`;
+		}else if(rawdata.command === 'ranker'){
+			thead = `<td>排名</td>
+			<td>名字</td>
+			<td>分數</td>`;
 		}else{
 			thead = `<td>序號</td>
 			<td width="200">名字</td>
@@ -479,6 +492,10 @@ let table = {
 			}else if(rawdata.command === 'sharedposts'){
 				td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
+			}else if(rawdata.command === 'ranker'){
+				td = `<td>${val.rank}</td>
+					  <td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
+					  <td>${val.score}</td>`;
 			}else{
 				td += `<td class="force-break"><a href="${host}${val.id}" target="_blank">${val.message}</a></td>
 				<td>${val.like_count}</td>

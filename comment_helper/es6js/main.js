@@ -25,7 +25,7 @@ $(document).ready(function(){
 	if (hash.indexOf("ranker") >= 0){
 		let datas = {
 			command: 'ranker',
-			data: localStorage.ranker
+			data: JSON.parse(localStorage.ranker)
 		}
 		data.raw = datas;
 		data.finish(data.raw);
@@ -493,7 +493,7 @@ let table = {
 				td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			}else if(rawdata.command === 'ranker'){
-				td = `<td>${val.rank}</td>
+				td = `<td>${j+1}</td>
 					  <td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
 					  <td>${val.score}</td>`;
 			}else{
@@ -791,6 +791,8 @@ let filter = {
 		}
 		if (rawdata.command === 'reactions' || config.likes){
 			data = filter.react(data, react);	
+		}else if (rawdata.command === 'ranker'){
+
 		}else{
 			data = filter.time(data, endTime);
 		}

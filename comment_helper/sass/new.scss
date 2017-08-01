@@ -639,12 +639,18 @@ table{
   background: url(../images/progress.jpg);
   margin: 105px auto;
   position: relative;
+  &.big{
+  	background: url(../images/progress_big.jpg);
+  	width: 900px;
+  	height: 600px;
+  	margin: 80px auto;
+  }
   .message{
   	position: absolute;
-  	font-size: 1.5em;
+  	font-size: 2em;
   	font-weight: bold;
   	left: 305px;
-  	top: 100px;
+  	top: 40px;
   }
   .error{
   	position: absolute;
@@ -659,6 +665,11 @@ table{
   	margin-left: 290px;
   	margin-top: 35px;
   }
+  iframe{
+  	position: absolute;
+  	left: 260px;
+  	top: 95px;
+  }
 }
 .chrome{
 	display: none;
@@ -666,8 +677,8 @@ table{
 .sk-folding-cube {
   width: 40px;
   height: 40px;
-  right: 140px;
-  bottom: 80px;
+  left: 110px;
+  bottom: 150px;
   position: absolute;
   transform: rotateZ(45deg);
 }

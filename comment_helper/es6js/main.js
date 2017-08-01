@@ -308,7 +308,7 @@ let data = {
 	init: ()=>{
 		$(".main_table").DataTable().destroy();
 		$("#awardList").hide();
-		$(".console .message").text('');
+		$(".console .message").text('截取資料中...');
 		data.nowLength = 0;
 		data.raw = [];
 	},

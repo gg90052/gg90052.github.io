@@ -599,7 +599,7 @@ let choose = {
 				award.userid = $(val).find('td').eq(1).find('a').attr('href').replace('http://www.facebook.com/','');
 				award.message = $(val).find('td').eq(2).find('a').text();
 				award.link = $(val).find('td').eq(2).find('a').attr('href');
-				award.time = $(val).find('td').eq(4).text();
+				award.time = $(val).find('td').eq($(val).find('td').length-1).text();
 			}else{
 				award.award_name = true;
 				award.name = $(val).find('td').text();

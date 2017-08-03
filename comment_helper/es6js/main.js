@@ -587,6 +587,45 @@ let choose = {
 			$('.prizeDetail').removeClass("fadein");
 		}
 		$("#awardList").fadeIn(1000);
+	},
+	gen_big_award: ()=>{
+		let li = '';
+		let awards = [];
+		$('#awardList tbody tr').each(function(index, val){
+			let award = {};
+			if (val.hasAttribute('title')){
+				award.award_name = false;
+				award.name = $(val).find('td').eq(1).find('a').text();
+				award.userid = $(val).find('td').eq(1).find('a').attr('href').replace('http://www.facebook.com/','');
+				award.message = $(val).find('td').eq(2).find('a').text();
+				award.link = $(val).find('td').eq(2).find('a').attr('href');
+				award.time = $(val).find('td').eq(4).text();
+			}else{
+				award.award_name = true;
+				award.name = $(val).find('td').text();
+			}
+			awards.push(award);
+		});
+		for(let i of awards){
+			if (i.award_name === true){
+				li += `<li class="prizeName">${i.name}</li>`;
+			}else{
+				li += `<li>
+				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="http://graph.facebook.com/${i.userid}/picture?type=large" alt=""></a>
+				<div class="info">
+				<p class="name"><a href="https://www.facebook.com/${i.userid}" target="_blank">${i.name}</a></p>
+				<p class="message"><a href="https://www.facebook.com/${i.link}" target="_blank">${i.message}</a></p>
+				<p class="time"><a href="https://www.facebook.com/${i.link}" target="_blank">${i.time}</a></p>
+				</div>
+				</li>`;
+			}
+		}
+		$('.big_award ul').append(li);
+		$('.big_award').addClass('show');
+	},
+	close_big_award: ()=>{
+		$('.big_award').removeClass('show');
+		$('.big_award ul').empty();
 	}
 }
 

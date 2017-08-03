@@ -473,6 +473,10 @@ table{
 						font-weight: bold;
 						color: $blue;
 					}
+					.btn{
+						background: #44b1da;
+						color: #FFF;
+					}
 					table{
 						td.prizeName{
 							background: $blue;
@@ -620,6 +624,90 @@ table{
 		textarea{
 			margin: 10px 0;
 			resize: none;
+		}
+	}
+}
+.big_award{
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: #FFF;
+	padding: 0 5vw;
+	overflow: auto;
+	opacity: 0;
+	visibility: hidden;
+	transition: all .3s;
+	&.show{
+		opacity: 1;
+		visibility: visible;
+	}
+	.title{
+		font-size: 1.85em;
+		font-weight: bold;
+		color: $blue;
+		text-align: center;
+		margin: 3vh 0 5vh;
+	}
+	.closebtn{
+		position: absolute;
+		right: 40px;
+		top: 20px;
+		font-size: 40px;
+		cursor: pointer;
+	}
+	ul{
+		display:flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-content: center;
+		align-items: center;
+		li{
+			width: 50%;
+			display:flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: center;
+			align-content: center;
+			align-items: center;
+			margin-bottom: 5vh;
+			&.prizeName{
+				width: 100%;
+				background: #3b5fb2;
+				color: #FFF;
+				padding: 20px 0;
+				font-size: 35px;
+			}
+			a{
+				width: 200px;
+				height: 200px;
+				img{
+					width: 100%;
+				}
+			}
+			.info{
+				margin: 0 20px;
+				width: calc(95% - 200px);
+				.name{
+					font-size: 50px;
+					a{
+						color: #ff7626;
+					}
+				}
+				.message{
+					font-size: 14px;
+					margin-top: 15px;
+					line-height: 1.5em;
+					height: 100px;
+					overflow: hidden;
+				}
+				.time{
+					margin-top: 15px;
+				}
+			}
+			
 		}
 	}
 }

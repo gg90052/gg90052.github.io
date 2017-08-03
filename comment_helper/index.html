@@ -202,7 +202,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 			<div id="comment_table">
 				<div id="awardList">
-					<p>中獎名單 - <span style="font-size:0.7em">本名單由「Facebook粉絲團留言抽籤小助手」產生</span></p>
+					<p>中獎名單 - <span style="font-size:0.7em">本名單由「Facebook粉絲團留言抽籤小助手」產生</span>
+					<button class="btn" onclick="choose.gen_big_award();">放大顯示</button></p>
 					<table class="table">
 						<thead>
 							<tr>
@@ -239,6 +240,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="big_award">
+	<div class="closebtn" onclick="choose.close_big_award();">X</div>
+	<p class="title">中獎名單 - 本名單由「Facebook粉絲團留言抽籤小助手」產生</p>
+	<ul>
+		
+	</ul>
 </div>
 
 <div class="loading waiting hide">

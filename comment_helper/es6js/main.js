@@ -481,7 +481,6 @@ let table = {
 
 		for(let [j, val] of filterdata.entries()){
 			let picture = '';
-			
 			if (pic){
 				picture = `<img src="http://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 			}
@@ -819,9 +818,6 @@ let fbid = {
 let filter = {
 	totalFilter: (rawdata, isDuplicate, isTag, word, react, endTime)=>{
 		let data = rawdata.data;
-		if (isDuplicate){
-			data = filter.unique(data);
-		}
 		if (word !== ''){
 			data = filter.word(data, word);
 		}
@@ -829,11 +825,14 @@ let filter = {
 			data = filter.tag(data);
 		}
 		if (rawdata.command === 'reactions' || config.likes){
-			data = filter.react(data, react);	
+			data = filter.react(data, react);
 		}else if (rawdata.command === 'ranker'){
 
 		}else{
 			data = filter.time(data, endTime);
+		}
+		if (isDuplicate){
+			data = filter.unique(data);
 		}
 
 		return data;
@@ -914,8 +913,6 @@ let ui = {
 		}
 	}
 }
-
-
 
 
 function nowDate(){

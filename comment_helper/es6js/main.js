@@ -1,5 +1,6 @@
 var errorMessage = false;
-window.onerror=handleErr
+window.onerror=handleErr;
+var TABLE;
 
 function handleErr(msg,url,l)
 {
@@ -510,20 +511,20 @@ let table = {
 		active();
 
 		function active(){
-			let table = $(".main_table").DataTable({
+			TABLE = $(".main_table").DataTable({
 				"pageLength": 1000,
 				"searching": true,
 				"lengthChange": false
 			});
 
 			$("#searchName").on( 'blur change keyup', function () {
-				table
+				TABLE
 				.columns(1)
 				.search(this.value)
 				.draw();
 			});
 			$("#searchComment").on( 'blur change keyup', function () {
-				table
+				TABLE
 				.columns(2)
 				.search(this.value)
 				.draw();
@@ -550,6 +551,7 @@ let choose = {
 		choose.award = [];
 		choose.list = [];
 		choose.num = 0;
+		table.redo();
 		if ($("#moreprize").hasClass("active")){
 			choose.detail = true;
 			$(".prizeDetail .prize").each(function(){

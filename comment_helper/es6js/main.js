@@ -615,8 +615,8 @@ let choose = {
 				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="http://graph.facebook.com/${i.userid}/picture?type=large" alt=""></a>
 				<div class="info">
 				<p class="name"><a href="https://www.facebook.com/${i.userid}" target="_blank">${i.name}</a></p>
-				<p class="message"><a href="https://www.facebook.com/${i.link}" target="_blank">${i.message}</a></p>
-				<p class="time"><a href="https://www.facebook.com/${i.link}" target="_blank">${i.time}</a></p>
+				<p class="message"><a href="${i.link}" target="_blank">${i.message}</a></p>
+				<p class="time"><a href="${i.link}" target="_blank">${i.time}</a></p>
 				</div>
 				</li>`;
 			}

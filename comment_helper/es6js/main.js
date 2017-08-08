@@ -551,7 +551,9 @@ let choose = {
 		choose.award = [];
 		choose.list = [];
 		choose.num = 0;
-		table.redo();
+		if($("#searchComment").val() != ''){
+			table.redo();
+		}
 		if ($("#moreprize").hasClass("active")){
 			choose.detail = true;
 			$(".prizeDetail .prize").each(function(){

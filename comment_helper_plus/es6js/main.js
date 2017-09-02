@@ -20,7 +20,11 @@ $(document).ready(function(){
 	}
 
 	$(".tables > .sharedposts button").click(function(e){
-		fb.extensionAuth();
+		if (e.ctrlKey || e.altKey){
+			fb.extensionAuth('import');
+		}else{
+			fb.extensionAuth();
+		}
 	});
 	
 	$("#btn_comments").click(function(e){
@@ -367,16 +371,19 @@ let fb = {
 			});
 		});
 	},
-	extensionAuth: ()=>{
+	extensionAuth: (command = '')=>{
 		FB.login(function(response) {
-			fb.extensionCallback(response);
+			fb.extensionCallback(response, command);
 		}, {scope: config.auth ,return_scopes: true});
 	},
-	extensionCallback: (response)=>{
+	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
 			if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_managed_groups') >= 0 && authStr.indexOf('user_posts') >= 0){
 				data.raw.extension = true;
+				if (command == 'import'){
+					localStorage.setItem("sharedposts", $('#import').val());
+				}
 				let extend = JSON.parse(localStorage.getItem("sharedposts"));
 				let fid = [];
 				let ids = [];

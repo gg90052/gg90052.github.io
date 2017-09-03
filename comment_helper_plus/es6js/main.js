@@ -268,7 +268,7 @@ let fb = {
 				options += `<div class="page_btn" attr-type="${type}" attr-value="${j.id}" onclick="fb.selectPage(this)">${j.name}</div>`;
 			}
 		}
-		$('#enterURL').append(options).removeClass('hide');
+		$('#enterURL').html(options).removeClass('hide');
 	},
 	selectPage: (e)=>{
 		$('#enterURL .page_btn').removeClass('active');

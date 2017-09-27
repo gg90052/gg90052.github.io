@@ -884,9 +884,9 @@ let choose = {
 		$('#awardList table tbody').html(insert);
 		if (!ctrl){
 			$("#awardList tbody tr").each(function(){
-				let tar = $(this).find('td').eq(1);
-				let id = tar.find('a').attr('attr-fbid');
-				tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
+				// let tar = $(this).find('td').eq(1);
+				// let id = tar.find('a').attr('attr-fbid');
+				// tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
 			});
 		}
 		

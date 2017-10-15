@@ -78,6 +78,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 		</div>
 		<div class="inputarea">
+			<div class="morelink">
+				<p>追加貼文</p>
+				<input type="text" class="addurl" placeholder="請輸入 Facebook 文章網址" />
+				<button id="addnew" type="button" class="btn" onclick="fb.getAuth();">追加貼文</button>
+			</div>
 			<div id="enterURL">
 				<div class="source">
 					<input type="text" class="url" placeholder="請輸入 Facebook 文章網址" />
@@ -163,7 +168,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 			</div>
 		</div>
 		<div class="result_area">
-			<div class="title">以下是您的結果</div>
+			<div class="title">
+				以下是您的結果
+				<button type="button" id="morepost" class="btn">追加其他貼文</button>
+			</div>
 			<button type="button" id="moreprize" class="btn">獎項明細</button>
 			<div class="limitTime">
 				<button type="button" id="endTime" class="btn">活動截止時間：</button>

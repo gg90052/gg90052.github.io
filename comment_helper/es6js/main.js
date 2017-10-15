@@ -1,6 +1,8 @@
 var errorMessage = false;
 window.onerror=handleErr;
 var TABLE;
+var lastCommand = 'comments';
+var addLink = false;
 
 function handleErr(msg,url,l)
 {
@@ -55,6 +57,9 @@ $(document).ready(function(){
 	});
 	$("#btn_choose").click(function(){
 		choose.init();
+	});
+	$("#morepost").click(function(){
+		ui.addLink();
 	});
 	
 	$("#moreprize").click(function(){
@@ -225,7 +230,14 @@ let config = {
 
 let fb = {
 	user_posts: false,
-	getAuth: (type)=>{
+	getAuth: (type = '')=>{
+		if (type === ''){
+			addLink = true;
+			type = lastCommand;
+		}else{
+			addLink = false;
+			lastCommand = type;
+		}
 		FB.login(function(response) {
 			fb.callback(response, type);
 		}, {scope: config.auth ,return_scopes: true});
@@ -311,12 +323,17 @@ let data = {
 		$("#awardList").hide();
 		$(".console .message").text('截取資料中...');
 		data.nowLength = 0;
-		data.raw = [];
+		if (!addLink){
+			data.raw = [];
+		}
 	},
 	start: (fbid)=>{
 		$(".waiting").removeClass("hide");
 		data.get(fbid).then((res)=>{
-			fbid.data = res;
+			// fbid.data = res;
+			for(let i of res){
+				fbid.data.push(i);
+			}
 			data.finish(fbid);
 		});
 	},
@@ -639,7 +656,13 @@ let fbid = {
 		data.init();
 		FB.api("/me",function(res){
 			data.userid = res.id;
-			let url = fbid.format($('#enterURL .url').val());
+			let url = '';
+			if (addLink){
+				url = fbid.format($('.morelink .addurl').val());
+				$('.morelink .addurl').val('');
+			}else{
+				url = fbid.format($('#enterURL .url').val());
+			}
 			if (url.indexOf('.php?') === -1 && url.indexOf('?') > 0){
 				url = url.substring(0, url.indexOf('?'));
 			}
@@ -673,7 +696,8 @@ let fbid = {
 						urltype = 'personal';
 						id = data.userid;
 					}
-					let obj = {pageID: id, type: urltype, command: type};
+					let obj = {pageID: id, type: urltype, command: type, data:[]};
+					if (addLink) obj.data = data.raw.data; //追加貼文
 					if (urltype === 'personal'){
 						let start = url.indexOf('fbid=');
 						if(start >= 0){
@@ -897,6 +921,14 @@ let filter = {
 let ui = {
 	init: ()=>{
 
+	},
+	addLink: ()=>{
+		let tar = $('.inputarea .morelink');
+		if (tar.hasClass('show')){
+			tar.removeClass('show');
+		}else{
+			tar.addClass('show');
+		}
 	},
 	reset: ()=>{
 		let command = data.raw.command;

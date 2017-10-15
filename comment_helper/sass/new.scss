@@ -125,6 +125,43 @@ table{
 			width: 50%;
 			margin-left: 2%;
 			float: left;
+			position: relative;
+			.morelink{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				width: 100%;
+				height: 0;
+				left: 0;
+				top: 0;
+				background: #FFF;
+				transition: all .2s;
+				overflow: hidden;
+				p{
+					font-size: 1.85em;
+					font-weight: bold;
+					color: #3b5fb2;
+					border-bottom: 1px solid #3b5fb2;
+					padding-bottom: 15px;
+					margin-bottom: 15px;
+					margin-right: 35px;
+				}
+				.addurl{
+					width: 80%;
+					margin-top: 15px;
+					height: 32px;
+					line-height: 32px;
+					font-size: 16px;
+					padding-left: 15px;
+				}
+				.btn{
+					display: block;
+					margin-top: 20px;
+				}
+				&.show{
+					height: 100%;
+				}
+			}
 			.source{
 				.url{
 					width: 76%;

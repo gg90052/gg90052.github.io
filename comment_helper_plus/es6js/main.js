@@ -259,7 +259,7 @@ let fb = {
 	},
 	genOption: (res)=>{
 		fb.next = '';
-		let options = '';
+		let options = `<input id="pure_fbid"><button class="btn" onclick="fb.hiddenStart()">由FBID擷取</button><br>`;
 		let type = -1;
 		$('#btn_start').addClass('hide');
 		for(let i of res){
@@ -279,7 +279,7 @@ let fb = {
 		step.step1();
 	},
 	hiddenStart: ()=>{
-		let fbid = $('header .dev input').val();
+		let fbid = $('#pure_fbid').val();
 		data.start(fbid);
 	},
 	feed: (pageID, type, url = '', clear = true)=>{

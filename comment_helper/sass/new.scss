@@ -333,6 +333,10 @@ table{
 				font-weight: bold;
 				color: $blue;
 			}
+			.pure_fbid{
+				font-size: 0.5em;
+				color: #b9b9b9;
+			}
 			#moreprize{
 				margin-top: 17px;
 				color: #666;
@@ -781,12 +785,19 @@ table{
   	height: 600px;
   	margin: 80px auto;
   }
+  .pure_fbid{
+  	position: absolute;
+  	font-size: 1em;
+  	font-weight: bold;
+  	left: 305px;
+  	top: 40px;
+  }
   .message{
   	position: absolute;
   	font-size: 2em;
   	font-weight: bold;
   	left: 305px;
-  	top: 40px;
+  	top: 60px;
   }
   .error{
   	position: absolute;

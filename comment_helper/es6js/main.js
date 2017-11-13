@@ -329,6 +329,7 @@ let data = {
 	},
 	start: (fbid)=>{
 		$(".waiting").removeClass("hide");
+		$('.pure_fbid').text(fbid.fullID);
 		data.get(fbid).then((res)=>{
 			// fbid.data = res;
 			for(let i of res){

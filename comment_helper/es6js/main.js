@@ -332,6 +332,7 @@ let data = {
 		$('.pure_fbid').text(fbid.fullID);
 		data.get(fbid).then((res)=>{
 			// fbid.data = res;
+			fbid.data = [];
 			for(let i of res){
 				fbid.data.push(i);
 			}

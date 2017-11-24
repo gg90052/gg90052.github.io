@@ -107,11 +107,10 @@ $(document).ready(function(){
 	});
 
 	$('.rangeDate').daterangepicker({
-		"singleDatePicker": true,
 		"timePicker": true,
 		"timePicker24Hour": true,
 		"locale": {
-			"format": "YYYY-MM-DD   HH:mm",
+			"format": "YYYY/MM/DD HH:mm",
 			"separator": "-",
 			"applyLabel": "確定",
 			"cancelLabel": "取消",
@@ -144,7 +143,8 @@ $(document).ready(function(){
 			"firstDay": 1
 		},
 	},function(start, end, label) {
-		config.filter.endTime = start.format('YYYY-MM-DD-HH-mm-ss');
+		config.filter.startTime = start.format('YYYY-MM-DD-HH-mm-ss');
+		config.filter.endTime = end.format('YYYY-MM-DD-HH-mm-ss');
 		table.redo();
 	});
 	$('.rangeDate').data('daterangepicker').setStartDate(nowDate());
@@ -221,6 +221,7 @@ let config = {
 	filter: {
 		word: '',
 		react: 'all',
+		startTime: '1988-12-31-00-00-00',
 		endTime: nowDate()
 	},
 	order: '',
@@ -348,6 +349,10 @@ let data = {
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/`, (res)=>{
+				config.filter.startTime = moment(res.created_time).format('YYYY-MM-DD-HH-mm-ss');
+
+			});
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
@@ -846,7 +851,7 @@ let fbid = {
 }
 
 let filter = {
-	totalFilter: (rawdata, isDuplicate, isTag, word, react, endTime)=>{
+	totalFilter: (rawdata, isDuplicate, isTag, word, react, startTime, endTime)=>{
 		let data = rawdata.data;
 		if (word !== ''){
 			data = filter.word(data, word);
@@ -859,7 +864,7 @@ let filter = {
 		}else if (rawdata.command === 'ranker'){
 
 		}else{
-			data = filter.time(data, endTime);
+			data = filter.time(data, startTime, endTime);
 		}
 		if (isDuplicate){
 			data = filter.unique(data);
@@ -895,12 +900,14 @@ let filter = {
 		});
 		return newAry;
 	},
-	time: (data, t)=>{
+	time: (data, st, t)=>{
+		let time_ary2 = st.split("-");
 		let time_ary = t.split("-");
-		let time = moment(new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]))._d;
+		let endtime = moment(new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]))._d;
+		let starttime = moment(new Date(time_ary2[0],(parseInt(time_ary2[1])-1),time_ary2[2],time_ary2[3],time_ary2[4],time_ary2[5]))._d;
 		let newAry = $.grep(data,function(n, i){
 			let created_time = moment(n.created_time)._d;
-			if (created_time < time || n.created_time == ""){
+			if ((created_time > starttime && created_time < endtime) || n.created_time == ""){
 				return true;
 			}
 		});

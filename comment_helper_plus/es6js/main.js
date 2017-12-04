@@ -11,6 +11,14 @@ function handleErr(msg,url,l)
 	return false;
 }
 $(document).ready(function(){
+	let hidearea = 0;
+	$('header').click(function(){
+		hidearea++;
+		if (hidearea >= 5){
+			$('header').off('click');
+			$('#fbid_button, #pure_fbid').removeClass('hide');
+		}
+	});
 	let lastData = JSON.parse(localStorage.getItem("raw"));
 	if (lastData){
 		data.finish(lastData);
@@ -259,7 +267,7 @@ let fb = {
 	},
 	genOption: (res)=>{
 		fb.next = '';
-		let options = `<input id="pure_fbid"><button class="btn" onclick="fb.hiddenStart()">由FBID擷取</button><br>`;
+		let options = `<input id="pure_fbid" class="hide"><button id="fbid_button" class="btn hide" onclick="fb.hiddenStart()">由FBID擷取</button><br>`;
 		let type = -1;
 		$('#btn_start').addClass('hide');
 		for(let i of res){

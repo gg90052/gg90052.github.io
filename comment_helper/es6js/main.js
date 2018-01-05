@@ -199,7 +199,7 @@ let config = {
 		reactions: [],
 		sharedposts: ['story','from', 'created_time'],
 		url_comments: [],
-		feed: [],
+		feed: ['created_time','from','message','story'],
 		likes: ['name']
 	},
 	limit: {
@@ -353,8 +353,11 @@ let data = {
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/`, (res)=>{
-				config.filter.startTime = moment(res.created_time).format('YYYY-MM-DD-HH-mm-ss');
-
+				if (res.created_time){
+					config.filter.startTime = moment(res.created_time).format('YYYY-MM-DD-HH-mm-ss');
+				}else if(res.start_time){
+					config.filter.startTime = moment(res.start_time).format('YYYY-MM-DD-HH-mm-ss');
+				}
 			});
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
@@ -364,14 +367,8 @@ let data = {
 						d.from = {id: d.id, name: d.name};
 					}
 					if (config.likes) d.type = "LIKE";
-					if (d.from){
-						datas.push(d);
-					}else{
-						//event
-						d.from = {id: d.id, name: d.id};
-						d.created_time = d.updated_time;
-						datas.push(d);
-					}
+
+					datas.push(d);
 				}
 				if (res.data.length > 0 && res.paging.next){
 					getNext(res.paging.next);

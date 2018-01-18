@@ -367,8 +367,9 @@ let data = {
 						d.from = {id: d.id, name: d.name};
 					}
 					if (config.likes) d.type = "LIKE";
-
-					datas.push(d);
+					if (d.from){
+						datas.push(d);
+					}
 				}
 				if (res.data.length > 0 && res.paging.next){
 					getNext(res.paging.next);

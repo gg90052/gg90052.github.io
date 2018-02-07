@@ -225,7 +225,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_photos,user_posts,user_managed_groups',
+	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
 	likes: false,
 	pageToken: '',
 }

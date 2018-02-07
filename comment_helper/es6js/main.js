@@ -369,6 +369,9 @@ let data = {
 					if (config.likes) d.type = "LIKE";
 					if (d.from){
 						datas.push(d);
+					}else{
+						d.from = {id: d.id, name: d.id};
+						datas.push(d);
 					}
 				}
 				if (res.data.length > 0 && res.paging.next){
@@ -376,6 +379,7 @@ let data = {
 				}else{
 					resolve(datas);
 				}
+				//s
 			});
 
 			function getNext(url, limit=0){
@@ -395,7 +399,7 @@ let data = {
 							}else{
 								//event
 								d.from = {id: d.id, name: d.id};
-								d.created_time = d.updated_time;
+								// d.created_time = d.updated_time;
 								datas.push(d);
 							}
 						}

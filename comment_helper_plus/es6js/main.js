@@ -198,25 +198,27 @@ $(document).ready(function(){
 
 let config = {
 	field: {
-		comments: ['like_count','message_tags','message,from','created_time'],
+		comments: ['like_count','message_tags','message','from','created_time'],
 		reactions: [],
 		sharedposts: ['story','from', 'created_time'],
 		url_comments: [],
-		feed: []
+		feed: ['created_time','from','message','story'],
+		likes: ['name']
 	},
 	limit: {
 		comments: '500',
 		reactions: '500',
 		sharedposts: '500',
 		url_comments: '500',
-		feed: '500'
+		feed: '500',
+		likes: '500'
 	},
 	apiVersion: {
 		comments: 'v2.7',
 		reactions: 'v2.7',
 		sharedposts: 'v2.3',
 		url_comments: 'v2.7',
-		feed: 'v2.3',
+		feed: 'v2.9',
 		group: 'v2.3',
 		newest: 'v2.8'
 	},
@@ -225,8 +227,10 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
+	order: '',
 	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
 	extension: false,
+	pageToken: '',
 }
 
 let fb = {
@@ -283,8 +287,19 @@ let fb = {
 		fb.next = '';
 		let tar = $(e);
 		tar.addClass('active');
+		if (tar.attr('attr-type') == 1){
+			fb.setToken(tar.attr('attr-value'));
+		}
 		fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
 		step.step1();
+	},
+	setToken: (pageid)=>{
+		let pages = JSON.parse(sessionStorage.login)[1];
+		for(let i of pages){
+			if (i.id == pageid){
+				config.pageToken = i.access_token;
+			}
+		}
 	},
 	hiddenStart: ()=>{
 		let fbid = $('#pure_fbid').val();
@@ -500,14 +515,23 @@ let data = {
 			if (command === 'sharedposts'){
 				getShare();
 			}else{
-				FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${command}?limit=${config.limit[command]}&order=chronological&fields=${config.field[command].toString()}`,(res)=>{
+				FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`,(res)=>{
 					data.nowLength += res.data.length;
 					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 					for(let d of res.data){
 						if (command == 'reactions'){
 							d.from = {id: d.id, name: d.name};
 						}
-						datas.push(d);
+						if (d.from){
+							datas.push(d);
+						}else{
+							//event
+							d.from = {id: d.id, name: d.id};
+							if (d.updated_time){
+								d.created_time = d.updated_time;
+							}
+							datas.push(d);
+						}
 					}
 					if (res.data.length > 0 && res.paging.next){
 						getNext(res.paging.next);
@@ -528,7 +552,16 @@ let data = {
 						if (command == 'reactions'){
 							d.from = {id: d.id, name: d.name};
 						}
-						datas.push(d);
+						if (d.from){
+							datas.push(d);
+						}else{
+							//event
+							d.from = {id: d.id, name: d.id};
+							if (d.updated_time){
+								d.created_time = d.updated_time;
+							}
+							datas.push(d);
+						}
 					}
 					if (res.data.length > 0 && res.paging.next){
 						getNext(res.paging.next);

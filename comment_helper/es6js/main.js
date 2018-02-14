@@ -779,7 +779,16 @@ let fbid = {
 									obj.pureID = result[result.length-1];
 								}
 								obj.fullID = obj.pageID + '_' + obj.pureID;
-								resolve(obj);
+								FB.api(`/${obj.pageID}?fields=access_token`,function(res){
+									if (res.error){
+										resolve(obj);
+									}else{
+										if (res.access_token){
+											config.pageToken = res.access_token;
+										}
+										resolve(obj);
+									}
+								});
 							}
 						}
 					}

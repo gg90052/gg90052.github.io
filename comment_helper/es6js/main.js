@@ -147,7 +147,7 @@ $(document).ready(function(){
 		config.filter.endTime = end.format('YYYY-MM-DD-HH-mm-ss');
 		table.redo();
 	});
-	$('.rangeDate').data('daterangepicker').setStartDate(nowDate());
+	$('.rangeDate').data('daterangepicker').setStartDate(config.filter.startTime);
 
 
 	$("#btn_excel").click(function(e){
@@ -221,12 +221,13 @@ let config = {
 	filter: {
 		word: '',
 		react: 'all',
-		startTime: '1988-12-31-00-00-00',
+		startTime: '2000-12-31-00-00-00',
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_photos,user_posts,user_managed_groups',
-	likes: false
+	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
+	likes: false,
+	pageToken: '',
 }
 
 let fb = {
@@ -273,10 +274,16 @@ let fb = {
 					fbid.init(type);
 				}
 			}else{
-				if (authStr.indexOf("user_posts") >= 0){
+				console.log(authStr);
+				if (authStr.indexOf("user_posts") >= 0 && authStr.indexOf("manage_pages") >= 0){
 					fb.user_posts = true;
-				}
-				fbid.init(type);			
+					fbid.init(type);
+				}else{
+					swal({
+						title: '此系統需要付費，免費版本將於2018/03/01重新上線',
+						type: 'warning'
+					}).done();
+				}		
 			}
 		}else{
 			FB.login(function(response) {
@@ -352,14 +359,8 @@ let data = {
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/`, (res)=>{
-				if (res.created_time){
-					config.filter.startTime = moment(res.created_time).format('YYYY-MM-DD-HH-mm-ss');
-				}else if(res.start_time){
-					config.filter.startTime = moment(res.start_time).format('YYYY-MM-DD-HH-mm-ss');
-				}
-			});
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&debug=all`,(res)=>{
+
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&access_token=${config.pageToken}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 				for(let d of res.data){
@@ -370,7 +371,11 @@ let data = {
 					if (d.from){
 						datas.push(d);
 					}else{
+						//event
 						d.from = {id: d.id, name: d.id};
+						if (d.updated_time){
+							d.created_time = d.updated_time;
+						}
 						datas.push(d);
 					}
 				}
@@ -379,7 +384,6 @@ let data = {
 				}else{
 					resolve(datas);
 				}
-				//s
 			});
 
 			function getNext(url, limit=0){
@@ -399,7 +403,9 @@ let data = {
 							}else{
 								//event
 								d.from = {id: d.id, name: d.id};
-								// d.created_time = d.updated_time;
+								if (d.updated_time){
+									d.created_time = d.updated_time;
+								}
 								datas.push(d);
 							}
 						}
@@ -664,6 +670,7 @@ let choose = {
 let fbid = {
 	fbid: [],
 	init: (type)=>{
+		config.pageToken = '';
 		fbid.fbid = [];
 		data.init();
 		FB.api("/me",function(res){
@@ -834,10 +841,13 @@ let fbid = {
 					resolve('event');
 				}else{
 					var pagename = posturl.substring(start,end);
-					FB.api(`/${pagename}`,function(res){
+					FB.api(`/${pagename}?fields=access_token`,function(res){
 						if (res.error){
 							resolve('personal');
 						}else{
+							if (res.access_token){
+								config.pageToken = res.access_token;
+							}
 							resolve(res.id);
 						}
 					});

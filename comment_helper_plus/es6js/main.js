@@ -12,10 +12,10 @@ function handleErr(msg,url,l)
 }
 $(document).ready(function(){
 	let hidearea = 0;
-	$('#header').click(function(){
+	$('header').click(function(){
 		hidearea++;
 		if (hidearea >= 5){
-			$('#header').off('click');
+			$('header').off('click');
 			$('#fbid_button, #pure_fbid').removeClass('hide');
 		}
 	});

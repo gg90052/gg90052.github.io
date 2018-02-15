@@ -42,6 +42,12 @@ $(document).ready(function(){
 	$("#btn_start").click(function(){
 		fb.getAuth('addScope');
 	});
+	$("#btn_cache").click(function(){
+		localStorage.removeItem('raw');
+		sessionStorage.removeItem('login');
+		alert('已清除暫存，請重新進行登入');
+		location.reload();
+	});
 	$("#btn_choose").click(function(e){
 		if (e.ctrlKey || e.altKey){
 			choose.init(true);
@@ -219,7 +225,7 @@ let config = {
 		sharedposts: 'v2.3',
 		url_comments: 'v2.7',
 		feed: 'v2.9',
-		group: 'v2.3',
+		group: 'v2.9',
 		newest: 'v2.8'
 	},
 	filter: {

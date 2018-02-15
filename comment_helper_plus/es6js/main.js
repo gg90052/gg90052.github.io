@@ -19,7 +19,16 @@ $(document).ready(function(){
 			$('#fbid_button, #pure_fbid').removeClass('hide');
 		}
 	});
+
+	let hash = location.hash;
+	if (hash.indexOf("clear") >= 0){
+		localStorage.removeItem('raw');
+		sessionStorage.removeItem('login');
+		alert('已清除暫存，請重新進行登入');
+		location.href = 'https://gg90052.github.io/comment_helper_plus';
+	}
 	let lastData = JSON.parse(localStorage.getItem("raw"));
+
 	if (lastData){
 		data.finish(lastData);
 	}
@@ -41,12 +50,6 @@ $(document).ready(function(){
 
 	$("#btn_start").click(function(){
 		fb.getAuth('addScope');
-	});
-	$("#btn_cache").click(function(){
-		localStorage.removeItem('raw');
-		sessionStorage.removeItem('login');
-		alert('已清除暫存，請重新進行登入');
-		location.reload();
 	});
 	$("#btn_choose").click(function(e){
 		if (e.ctrlKey || e.altKey){

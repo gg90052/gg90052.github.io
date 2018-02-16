@@ -6,7 +6,7 @@ function handleErr(msg,url,l)
 	if (!errorMessage){
 		console.log("%c發生錯誤，請將完整錯誤訊息截圖傳送給管理員，並附上你輸入的網址","font-size:30px; color:#F00");
 		$(".console .error").fadeIn();
-		errorMessage = true;	
+		errorMessage = true;
 	}
 	return false;
 }
@@ -312,7 +312,17 @@ let fb = {
 	},
 	hiddenStart: ()=>{
 		let fbid = $('#pure_fbid').val();
-		data.start(fbid);
+		let pageID = fbid.split('_')[0];
+		FB.api(`/${pageID}?fields=access_token`,function(res){
+			if (res.error){
+				data.start(fbid);
+			}else{
+				if (res.access_token){
+					config.pageToken = res.access_token;
+				}
+				data.start(fbid);
+			}
+		});
 	},
 	feed: (pageID, type, url = '', clear = true)=>{
 		if (clear){

@@ -275,12 +275,12 @@ let fb = {
 				}
 			}else{
 				console.log(authStr);
-				if (authStr.indexOf("user_posts") >= 0 && authStr.indexOf("manage_pages") >= 0){
+				if (authStr.indexOf("manage_pages") >= 0){
 					fb.user_posts = true;
 					fbid.init(type);
 				}else{
 					swal({
-						title: '此系統需要付費，免費版本將於2018/03/01重新上線',
+						title: '不給予粉絲專頁管理權限無法使用',
 						type: 'warning'
 					}).done();
 				}		

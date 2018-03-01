@@ -182,6 +182,14 @@ $(document).ready(function(){
 			
 		}
 	});
+	let at_counter = 0;
+	$(".tokenLocker").click(function(e){
+		at_counter++;
+		if (at_counter >= 5){
+			$(".token").removeAttr("disabled");
+		}
+	});
+
 	$("#inputJSON").change(function() {
 		$(".waiting").removeClass("hide");
 		$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');

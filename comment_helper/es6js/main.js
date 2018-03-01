@@ -280,7 +280,8 @@ let fb = {
 					fbid.init(type);
 				}else{
 					swal({
-						title: '此系統需要付費，免費版本將於2018/03/01重新上線',
+						title: '此系統需要付費，免費版本請點以下網址',
+						html:'<a href="http://gg90052.github.io/comment_helper_free/" target="_blank">http://gg90052.github.io/comment_helper_free/</a>',
 						type: 'warning'
 					}).done();
 				}		
@@ -359,6 +360,12 @@ let data = {
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
+
+			if($('.token').val() === ''){
+				$('.token').val(config.pageToken);
+			}else{
+				config.pageToken = $('.token').val();
+			}
 
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&access_token=${config.pageToken}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;

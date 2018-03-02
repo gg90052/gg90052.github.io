@@ -103,7 +103,8 @@ let config = {
 		react: 'all',
 		endTime: nowDate()
 	},
-	auth: 'user_photos,user_posts,user_managed_groups,manage_pages'
+	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
+	pageTokens: []
 }
 
 let fb = {
@@ -147,6 +148,7 @@ let step = {
 	step1: ()=>{
 		$('.login').addClass('success');
 		FB.api('v2.8/me/accounts', (res)=>{
+			config.pageTokens = res.data;
 			for(let i of res.data){
 				fanpage.push(i);
 				$("#select").prepend(`<option data-type="posts" value="${i.id}">${i.name}</option>`);
@@ -220,6 +222,7 @@ let step = {
 		$('.step2').addClass('visible');
 		$('.step2 .cards').html("");
 		$('.step2 .head span').text(page.name);
+		data.pageid = page.id;
 		let command = page.type;
 		FB.api(`v2.8/${page.id}/${command}`, (res)=>{
 			for(let j of res.data){
@@ -258,7 +261,13 @@ let step = {
 			$('.optionFilter .react').removeClass('hide');
 			$('.optionFilter .timelimit').addClass('hide');
 		}
-		FB.api(`${config.apiVersion[command]}/${fbid}/${command}`, (res)=>{
+		let token = '';
+		for(let i of config.pageTokens){
+			if (i.id == data.pageid){
+				token = i.access_token;
+			}
+		}
+		FB.api(`${config.apiVersion[command]}/${fbid}/${command}?access_token=${token}`, (res)=>{
 			console.log(res);
 			data.length = res.data.length;
 			for(let d of res.data){
@@ -318,7 +327,8 @@ let data = {
 	raw: [],
 	filtered: [],
 	command: '',
-	length: 0
+	length: 0,
+	pageid: ''
 }
 
 let table = {

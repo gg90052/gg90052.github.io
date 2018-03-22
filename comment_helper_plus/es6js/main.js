@@ -302,14 +302,6 @@ let fb = {
 		fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
 		step.step1();
 	},
-	setToken: (pageid)=>{
-		let pages = JSON.parse(sessionStorage.login)[1];
-		for(let i of pages){
-			if (i.id == pageid){
-				config.pageToken = i.access_token;
-			}
-		}
-	},
 	hiddenStart: ()=>{
 		let fbid = $('#pure_fbid').val();
 		let pageID = fbid.split('_')[0];

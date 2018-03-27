@@ -1,0 +1,799 @@
+@import "reset";
+$blue: #3b5fb2;
+$lightblue: #44b1da;
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	font-size: 14px;
+	font-family: "微軟正黑體", "Microsoft JhengHei", "新細明體", "PMingLiU", Verdana, Helvetica, sans-serif;
+}
+
+body {
+	background: #dbdbdb;
+	overflow-x: hidden;
+}
+
+.hide {
+	display: none;
+}
+
+table {
+	td {
+		&.center {
+			text-align: center;
+		}
+		span.react {
+			display: inline-block;
+			vertical-align: middle;
+			transform: scale(0.5);
+			width: 48px;
+			height: 48px;
+			&.LIKE {
+				background-position: 0 -147px;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+			&.LOVE {
+				background-position: 0 -196px;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+			&.HAHA {
+				background-position: 0 -98px;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+			&.WOW {
+				background-position: 0 -294px;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+			&.SAD {
+				background-position: 0 -245px;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+			&.ANGRY {
+				background-position: 0 0;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+			&.THANKFUL {
+				background-position: 0 -49px;
+				background-image: url(../images/reaction.png);
+				background-repeat: no-repeat;
+				background-size: auto;
+			}
+		}
+	}
+}
+
+.wrapper {
+	width: 1300px;
+	margin: 0 auto;
+	header {
+		width: 100%;
+		height: 95px;
+		background: $blue;
+		color: #FFF;
+		font-size: 50px;
+		padding-left: 50px;
+		line-height: 95px;
+		position: relative;
+		a {
+			color: #FFF;
+		}
+		.dev {
+			display: inline-block;
+			vertical-align: middle;
+			margin-top: -7px;
+			input {
+				height: 30px;
+				width: 200px;
+				display: inline-block;
+				vertical-align: middle;
+				line-height: normal;
+				font-size: initial;
+			}
+			button {
+				width: 100px;
+				height: 30px;
+				display: inline-block;
+				line-height: normal;
+				vertical-align: middle;
+				font-size: initial;
+			}
+		}
+		.readme {
+			width: 135px;
+			height: 100%;
+			position: absolute;
+			background: $lightblue;
+			top: 0;
+			right: 0;
+			font-size: 20px;
+			text-align: center;
+			line-height: 1.5em;
+			padding-top: 15px;
+			&:after {
+				content: '';
+				position: absolute;
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: 8px 0 8px 8px;
+				border-color: transparent transparent transparent #ffffff;
+				margin-left: 10px;
+				margin-top: -10px;
+			}
+		}
+	}
+	.main_area {
+		padding: 20px 0;
+		margin-bottom: 26px;
+		background: #FFF;
+		.left {
+			width: 30%;
+			float: left;
+		}
+		.inputarea {
+			padding-left: 45px;
+			#import {
+				margin-left: 20px;
+			}
+			.source {
+				.url {
+					width: 100%;
+					padding-left: 15px;
+					height: 32px;
+					line-height: 32px;
+					font-size: 16px;
+				}
+			}
+			.btn {
+				min-width: 110px;
+				text-align: center;
+				margin-right: 5px;
+				border-radius: 3px;
+				color: #FFF;
+				font-size: 16px;
+				background: #44b1da;
+				vertical-align: middle;
+				margin-left: 10px;
+				border: none;
+			}
+			.page_btn {
+				text-align: center;
+				padding: 5px 10px;
+				display: inline-block;
+				vertical-align: top;
+				margin-right: 5px;
+				border-radius: 3px;
+				font-size: 16px;
+				background: #FFF;
+				border: 1px solid $lightblue;
+				color: $lightblue;
+				cursor: pointer;
+				line-height: 1.5em;
+				margin: 10px 10px 10px 0;
+				&:hover,
+				&.active {
+					color: #FFF;
+					background: $lightblue;
+				}
+			}
+			.message {
+				margin: 20px 0;
+				font-size: 1.1em;
+				line-height: 1.5em;
+			}
+			.payRead {
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 12px;
+				margin-right: 10px;
+				cursor: pointer;
+				text-decoration: none;
+			}
+			#btn_pay {
+				width: 90px;
+				font-size: 12px;
+			}
+			.identity {
+				display: inline-block;
+				vertical-align: middle;
+				img {
+					vertical-align: middle;
+					margin-right: 5px;
+					width: 30px;
+					height: 30px;
+				}
+				span {
+					color: $blue;
+				}
+			}
+		}
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+		}
+	}
+	.section {
+		position: relative;
+		&.step2 {
+			.step1 {
+				transform: translateX(-150%);
+			}
+			.step2 {
+				transform: translateX(0);
+			}
+		}
+		.step {
+			width: 100%;
+			position: absolute;
+		}
+		.step1 {
+			z-index: 50;
+			transition: all .3s ease-in-out;
+			.feeds {
+				width: 100%;
+				background: #FFF;
+				padding: 28px 35px;
+				position: relative;
+				margin-bottom: 50px;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				align-content: flex-start;
+				align-items: flex-start;
+				.card{
+					border: 1px solid #ccc;
+					position: relative;
+					width: 300px;
+					overflow: hidden;
+					margin-bottom: 20px;
+					.likes{
+						position: absolute;
+						margin-top: -30px;
+						margin-left: 10px;
+					}
+					.message{
+						padding: 10px 5px;
+					}
+				}
+				.btn {
+					width: 100%;
+					background: $blue;
+					color: #FFF;
+					margin-top: 20px;
+				}
+			}
+		}
+		.step2 {
+			z-index: 40;
+			transform: translateX(100vw);
+			transition: all .3s ease-in-out;
+			.result_area {
+				width: 100%;
+				min-height: 450px;
+				background: #FFF;
+				padding: 28px 45px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				margin-bottom: 50px;
+				.title {
+					font-size: 1.85em;
+					font-weight: bold;
+					color: $blue;
+					span {
+						font-size: 15px;
+						margin-left: 20px;
+						color: #DDD;
+						font-weight: normal;
+					}
+				}
+				#moreprize {
+					margin-top: 17px;
+					color: #666;
+					transition: all .3s;
+					&.active {
+						background: $blue;
+						color: #FFF;
+					}
+					&:hover {
+						border: 1px solid $blue;
+					}
+				}
+				#endTime {
+					color: #666;
+					transition: all .3s;
+					&.active {
+						background: transparent;
+						box-shadow: none;
+						color: #000;
+						&+input {
+							transform: scaleX(1);
+						}
+					}
+					&:hover {
+						border: 1px solid $blue;
+					}
+					&+input {
+						transition: all .3s;
+						transform: scaleX(0);
+						transform-origin: left;
+					}
+				}
+				.limitTime {
+					display: inline-block;
+					margin-left: 30px;
+					vertical-align: bottom;
+					input {
+						height: 32px;
+						padding-left: 10px;
+						font-size: 0.9em;
+						width: 135px;
+					}
+				}
+				label.unique {
+					display: inline-block;
+					vertical-align: middle;
+					margin-top: 9px;
+					margin-left: 10px;
+				}
+				.uipanel {
+					position: absolute;
+					right: 45px;
+					top: 28px;
+					font-weight: bold;
+					text-align: right;
+					input[type="text"] {
+						width: 130px;
+						margin-left: 10px;
+						height: 32px;
+						font-size: 14px;
+						line-height: 32px;
+						padding-left: 10px;
+					}
+					select {
+						width: 136px;
+						height: 32px;
+						font-size: 14px;
+						line-height: 32px;
+						padding-left: 10px;
+					}
+					#howmany {
+						width: 78px;
+						margin: 10px 5px;
+						padding-left: 5px;
+					}
+					.gettotal {
+						display: inline-block;
+						transition: all .3s;
+						&.fadeout {
+							transform: scaleX(0.01);
+							transform-origin: right;
+							opacity: 0;
+							visibility: hidden;
+						}
+					}
+					.btn {
+						min-width: 110px;
+						height: 30px;
+						text-align: center;
+						line-height: 30px;
+						padding: 0;
+						margin-right: 5px;
+						border-radius: 3px;
+						color: #FFF;
+						font-size: 16px;
+						background: $lightblue;
+						vertical-align: middle;
+						margin-top: -8px;
+						margin-left: 10px;
+					}
+				}
+				.prizeDetail {
+					width: 100%;
+					min-height: 50px;
+					border: 1px solid $blue;
+					margin-top: 20px;
+					padding: 20px;
+					position: relative;
+					transition: all .3s;
+					transform: scaleX(0.01);
+					transform-origin: center 0;
+					opacity: 0;
+					visibility: hidden;
+					display: none;
+					&.fadein {
+						opacity: 1;
+						visibility: visible;
+						display: block;
+						transform: scaleY(1);
+					}
+					#btn_addPrize {
+						display: block;
+						background: $lightblue;
+						color: #FFF;
+						margin-bottom: 20px;
+					}
+					.prize {
+						margin: 20px 19px;
+						float: left;
+						border: 1px solid $blue;
+						padding: 0 20px;
+						.input_group {
+							margin: 15px 0;
+							input[type="text"] {
+								width: 150px;
+							}
+							input[type="number"] {
+								width: 122px;
+							}
+						}
+					}
+					&:after {
+						content: "";
+						display: block;
+						clear: both;
+					}
+				}
+				#comment_table {
+					margin-top: 40px;
+					table {
+						width: 100% !important;
+						td {
+							text-align: center;
+							vertical-align: middle;
+							&.force-break {
+								text-align: left;
+							}
+							&.nowrap {
+								white-space: nowrap;
+							}
+						}
+					}
+					.tabs {
+						text-align: center;
+						.tab {
+							width: auto;
+							padding: 0 10px;
+							height: 30px;
+							line-height: 30px;
+							border: 1px solid $lightblue;
+							color: $lightblue;
+							text-align: center;
+							display: inline-block;
+							margin: 5px 10px;
+							cursor: pointer;
+							&.active,
+							&:hover {
+								background: $lightblue;
+								color: #FFF;
+							}
+						}
+					}
+					.filters {
+						margin: 10px 0;
+						label {
+							cursor: pointer;
+						}
+						label.picture {
+							margin-left: 15px;
+						}
+					}
+					#awardList {
+						display: none;
+						&>p {
+							font-size: 2em;
+							font-weight: bold;
+							color: $blue;
+						}
+						table {
+							td.prizeName {
+								background: $blue;
+								color: #FFF;
+								padding-left: 20px;
+								span {
+									color: #13FDFF;
+									margin-left: 30px;
+								}
+							}
+						}
+					}
+					.tables {
+						&>div {
+							display: none;
+							&.active {
+								display: block;
+							}
+						}
+						.comments {
+							.tag {
+								margin-right: 10px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.goPay {
+	width: 270px;
+	height: 80px;
+	display: block;
+	border: 1px solid #3b5fb2;
+	border-top: 15px solid #3b5fb2;
+	background: #fff url(../images/ci.png) 10px top no-repeat;
+	background-size: contain;
+	font-size: 28px;
+	line-height: 65px;
+	padding-left: 100px;
+	margin: 30px auto;
+	color: #3b5fb2;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+	&:hover {
+		color: #44B1DA;
+		border-color: #44B1DA;
+		text-decoration: none;
+	}
+}
+
+.force-break {
+	word-break: break-all;
+}
+
+.force-break a {
+	color: #D68927 !important;
+}
+
+.dataTables_filter {
+	display: none;
+}
+
+.payArea {
+	.title {
+		font-size: 2em;
+		text-align: center;
+		color: #00F;
+		margin: 30px 0;
+	}
+	.paragrah {
+		text-align: center;
+		font-size: 1.5em;
+		margin: 20px 0;
+		color: #F00;
+	}
+	.lists {
+		width: 600px;
+		background: #FFF;
+		padding: 30px 15px;
+		margin: 20px auto;
+		counter-reset: list;
+		.list {
+			font-size: 1.2em;
+			line-height: 1.5em;
+			margin: 15px 0 15px 25px;
+			&:before {
+				counter-increment: list;
+				content: counter(list) ". ";
+				position: absolute;
+				margin-left: -20px;
+			}
+		}
+	}
+	.check {
+		width: 600px;
+		margin: 20px auto;
+		background: #FFF;
+		display: block;
+		padding: 15px;
+		text-align: center;
+		font-size: 1.5em;
+		input {
+			width: 20px;
+			height: 20px;
+			vertical-align: middle;
+			margin-right: 10px;
+		}
+	}
+}
+
+.bigExcel {
+	position: relative;
+	.title {
+		position: absolute;
+		left: 300px;
+		top: 30px;
+		background: #FFF;
+		width: 150px;
+		height: 40px;
+		font-size: 1.8em;
+		padding-left: 40px;
+	}
+	.steps {
+		position: absolute;
+		left: 300px;
+		top: 80px;
+		.step2 {
+			p {
+				line-height: 1.5em;
+				margin-top: 10px;
+				padding-right: 20px;
+			}
+		}
+		.step3 {
+			margin-top: 10px;
+			p {
+				line-height: 2em;
+			}
+		}
+		.copyed {
+			display: inline-block;
+			padding: 6px 8px;
+			vertical-align: middle;
+			background: #000;
+			color: #CCC;
+			margin-left: 5px;
+			font-size: 12px;
+			opacity: 0;
+			transition: all .3s;
+			&.show {
+				display: inline-block !important;
+				opacity: 1;
+			}
+		}
+		textarea {
+			margin: 10px 0;
+			resize: none;
+		}
+	}
+}
+
+.loading {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.console {
+	width: 540px;
+	height: 350px;
+	background: url(../images/progress.jpg);
+	margin: 105px auto;
+	position: relative;
+	.message {
+		position: absolute;
+		font-size: 1.5em;
+		font-weight: bold;
+		left: 305px;
+		top: 100px;
+	}
+	.error {
+		position: absolute;
+		bottom: 20px;
+		left: 20px;
+		font-size: 16px;
+		color: #B74D00;
+		display: none;
+	}
+	.btn.auth {
+		width: 200px;
+		margin-left: 290px;
+		margin-top: 35px;
+	}
+}
+
+.chrome {
+	display: none;
+}
+
+.sk-folding-cube {
+	width: 40px;
+	height: 40px;
+	right: 140px;
+	bottom: 80px;
+	position: absolute;
+	transform: rotateZ(45deg);
+}
+
+.sk-folding-cube .sk-cube {
+	float: left;
+	width: 50%;
+	height: 50%;
+	position: relative;
+	transform: scale(1.1);
+}
+
+.sk-folding-cube .sk-cube:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: $blue;
+	animation: sk-foldCubeAngle 2.4s infinite linear both;
+	transform-origin: 100% 100%;
+}
+
+.sk-folding-cube .sk-cube2 {
+	transform: scale(1.1) rotateZ(90deg);
+}
+
+.sk-folding-cube .sk-cube3 {
+	transform: scale(1.1) rotateZ(180deg);
+}
+
+.sk-folding-cube .sk-cube4 {
+	transform: scale(1.1) rotateZ(270deg);
+}
+
+.sk-folding-cube .sk-cube2:before {
+	animation-delay: 0.3s;
+}
+
+.sk-folding-cube .sk-cube3:before {
+	animation-delay: 0.6s;
+}
+
+.sk-folding-cube .sk-cube4:before {
+	animation-delay: 0.9s;
+}
+
+@-webkit-keyframes sk-foldCubeAngle {
+	0%,
+	10% {
+		transform: perspective(140px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+	75% {
+		transform: perspective(140px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+	100% {
+		transform: perspective(140px) rotateY(180deg);
+		opacity: 0;
+	}
+}
+
+@keyframes sk-foldCubeAngle {
+	0%,
+	10% {
+		transform: perspective(140px) rotateX(-180deg);
+		opacity: 0;
+	}
+	25%,
+	75% {
+		transform: perspective(140px) rotateX(0deg);
+		opacity: 1;
+	}
+	90%,
+	100% {
+		transform: perspective(140px) rotateY(180deg);
+		opacity: 0;
+	}
+}

@@ -1,0 +1,264 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="Description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" />
+<meta property="og:title" content="Facebook 粉絲團留言抽籤小助手" /> 
+<meta property="og:type" content="article" /> 
+<meta property="og:url" content="http://gg90052.github.io/comment_helper" />
+<meta property="og:image" content="http://gg90052.github.io/comment_helper/share.jpg" />
+<meta property="og:description" content="需要做粉絲團活動留言抽籤嗎？ 讓小助手來幫助你" /> 
+
+<title>Facebook Lottery 粉絲團留言抽籤小助手 - 粉絲團抽獎最佳夥伴</title>
+
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.2.4/sweetalert2.min.css">
+<link rel="stylesheet" href="css/new.css">
+
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script src="//connect.facebook.net/zh_TW/all.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootbox.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/4.2.4/sweetalert2.min.js"></script>
+<script src="js/main.js"></script>
+
+<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5C9K9S"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5C9K9S');</script>
+<!-- End Google Tag Manager -->
+
+
+</head>
+
+<body>
+
+<div class="wrapper">
+	<header>
+		Instagram留言抽籤小助手
+	</header>
+	<div class="main_area">
+		<div class="left">
+			
+		</div>
+		<div class="inputarea">
+			<div id="enterURL">
+				<button id="btn_start" type="button" class="btn">使用 Instagram 帳號登入</button>
+				<!-- <input id="inputURL" type="text">
+				<button id="btn_start" type="button" class="btn">送出網址</button> -->
+				<br>
+			</div>
+		</div>
+	</div>
+	<div class="section">
+		<div class="step step1">
+			<div class="feeds">
+
+			</div>
+		</div>
+		<div class="step step2">
+			<div class="result_area">
+				<div class="title">以下是您的結果<span></span></div>
+				<button type="button" id="moreprize" class="btn">獎項明細</button>
+				<div class="limitTime">
+					<button type="button" id="endTime" class="btn">活動截止時間：</button>
+					<input type="text" class="rangeDate">
+				</div>
+				<label for="unique" class="unique">
+					<input type="checkbox" id="unique" checked="true"> 排除重複
+				</label>
+				<div class="uipanel">
+					<div class="gettotal">
+						幫我抽出<input type="number" id="howmany" />個人 
+					</div>
+					<button type="button" id="btn_choose" class="btn">馬上抽</button>
+					<!-- <button id="btn_excel" type="button" class="btn">輸出EXCEL</button> -->
+				</div>
+				<div class="prizeDetail">
+					<button type="button" id="btn_addPrize" class="btn"> + 增加獎項</button>
+					<div class="prize">
+						<div class="input_group">
+							品名：
+							<input type="text">
+						</div>
+						<div class="input_group">
+							抽獎人數：
+							<input type="number">
+						</div>
+					</div>
+				</div>
+				<div id="comment_table">
+					<div id="awardList">
+						<p>中獎名單 - <span style="font-size:0.7em">本名單由「Instagram留言抽籤小助手」產生</span></p>	
+						<table class="table">
+							<thead>
+								<tr>
+									<td></td>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+						</table>
+					</div>
+					
+					<ul class="tabs">
+						<li class="tab" attr-type="compare">比對結果</li>
+						<li class="tab active" attr-type="comments">留言</li>
+						<li class="tab" attr-type="reactions">按讚</li>
+					</ul>
+					<div class="tables">
+						<div class="total">
+							條件：
+							<select name="compare_condition" class="compare_condition">
+								<option value="and" selected="selected">且</option>
+								<option value="or">或</option>
+							</select>
+							<div class="filters">
+								範圍：
+								<select>
+									<option value="sharedposts" selected="selected">留言+按讚</option>
+								</select>
+							</div>
+							<div class="table_compare and">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<td>序號</td>
+											<td>名字</td>
+											<td>心情</td>
+											<td class="force-break">留言內容</td>
+											<td width="110">留言時間</td>
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+							</div>
+							<div class="table_compare or hide">
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<td>序號</td>
+											<td>名字</td>
+											<td>心情</td>
+											<td class="force-break">留言內容</td>
+											<td width="110">留言時間</td>
+										</tr>
+									</thead>
+									<tbody>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="comments active">
+							<div class="filters">
+								<input type="text" placeholder="搜尋姓名" class="searchName" />
+								<input type="text" placeholder="搜尋留言" class="searchComment" />
+							</div>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+						<div class="reactions">
+							<div class="filters">
+								<input type="text" placeholder="搜尋姓名" class="searchName" />
+							</div>
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="loading waiting hide">
+	<div class="console">
+		<div class="message"></div>
+		<div class="error">發生錯誤，請按下Ctrl+Shift+J，按照指示截圖，並通知管理員</div>
+		<div class="sk-folding-cube">
+			<div class="sk-cube1 sk-cube"></div>
+			<div class="sk-cube2 sk-cube"></div>
+			<div class="sk-cube4 sk-cube"></div>
+			<div class="sk-cube3 sk-cube"></div>
+		</div>
+	</div>
+</div>
+
+<div class="loading checkAuth hide">
+	<div class="console">
+		<button type="button" class="btn btn-success auth">檢查抓分享權限</button>
+	</div>
+</div>
+
+<div class="loading bigExcel hide">
+	<div class="console">
+		<div class="title"><a href="https://www.facebook.com/commenthelper/photos/a.1100170563349110.1073741830.1009468269086007/1100170613349105/?type=3&theater" target="_blank">使用說明</a></div>
+		<div class="steps">
+			<div class="step step1">
+				<span>Step 1：</span>
+				<button class="btn btn-success" id="genExcel">產生EXCEL資料</button>
+			</div>
+			<textarea name="exceldata" id="exceldata" cols="25" rows="5"></textarea>
+			<div class="step step2">
+				<span>Step 2：</span>
+				<p>將上方輸入框內的全選(Ctrl+A)，然後複製(Ctrl+C)</p>
+			</div>
+			<div class="step step3">
+				<p>Step 3：</p>
+				到 <a href="http://www.convertcsv.com/json-to-csv.htm" target="blank">JSON To CSV Converter</a> 進行轉換
+			</div>
+		</div>
+	</div>
+</div>
+
+<textarea class="chrome" type="hidden"></textarea>
+
+<script type="text/javascript">
+msieversion();
+function msieversion() {
+
+		var ua = window.navigator.userAgent;
+		var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))  // If Internet Explorer, return version number
+    {
+    	alert('本系統不支援IE，請改用其他瀏覽器\nNot support Internet Explore, please change other browser.');
+    	location.href = 'https://www.google.com.tw/intl/zh-TW/chrome/browser/desktop/';
+    }
+
+    return false;
+}
+</script>
+</body>
+</html>

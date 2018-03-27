@@ -216,7 +216,7 @@ let config = {
 let fb = {
 	next: '',
 	getAuth: (type) => {
-		let url = 'https://api.instagram.com/oauth/authorize/?client_id=b8c49f124d8347d68d5c068b8351622c&redirect_uri=http://localhost:8080&response_type=token&scope=public_content';
+		let url = 'https://api.instagram.com/oauth/authorize/?client_id=b8c49f124d8347d68d5c068b8351622c&redirect_uri=http://gg90052.github.io/comment_helper_ig/&response_type=token&scope=public_content';
 		location.href = url;
 	},
 	start: () => {
@@ -238,7 +238,7 @@ let fb = {
 				<img src="${i.images.low_resolution.url}">
 				<p class="likes"><span class="fa fa-heart"></span>${i.likes.count}</p>
 				<p class="message">${message}</p>
-				<button class="btn" onclick="step.step2('${i.id}')">開始</button>
+				<button class="btn" onclick="step.step2('${i.id}')">START</button>
 				</div>`;
 				$('.step.step1 .feeds').append(card);
 			}

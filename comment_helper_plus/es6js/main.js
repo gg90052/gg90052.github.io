@@ -36,13 +36,13 @@ $(document).ready(function(){
 		fb.genOption(JSON.parse(sessionStorage.login));
 	}
 
-	$(".tables > .sharedposts button").click(function(e){
-		if (e.ctrlKey || e.altKey){
-			fb.extensionAuth('import');
-		}else{
-			fb.extensionAuth();
-		}
-	});
+	// $(".tables > .sharedposts button").click(function(e){
+	// 	if (e.ctrlKey || e.altKey){
+	// 		fb.extensionAuth('import');
+	// 	}else{
+	// 		fb.extensionAuth();
+	// 	}
+	// });
 	
 	$("#btn_comments").click(function(e){
 		fb.getAuth('comments');
@@ -223,13 +223,13 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v2.7',
-		reactions: 'v2.7',
-		sharedposts: 'v2.3',
-		url_comments: 'v2.7',
-		feed: 'v2.9',
-		group: 'v2.9',
-		newest: 'v2.8'
+		comments: 'v2.12',
+		reactions: 'v2.12',
+		sharedposts: 'v2.12',
+		url_comments: 'v2.12',
+		feed: 'v2.12',
+		group: 'v2.12',
+		newest: 'v2.12'
 	},
 	filter: {
 		word: '',
@@ -446,12 +446,29 @@ let fb = {
 					});
 					promise_array.push(promise);
 				}
+				if (command == 'comments'){
+					for(let i of extend){
+						i.message = i.story;
+						delete i.story;
+						delete i.postlink;
+						i.like_count = 'N/A';
+					}
+				}
+				if (command == 'reactions'){
+					for(let i of extend){
+						delete i.story;
+						delete i.created_time;
+						delete i.postlink;
+						delete i.like_count;
+						i.type = 'LIKE';
+					}
+				}
 
 				Promise.all(promise_array).then(()=>{
 					for(let i of extend){
 						i.from.name = names[i.from.id] ? names[i.from.id].name : i.from.name;
 					}
-					data.raw.data.sharedposts = extend;
+					data.raw.data[command] = extend;
 					data.finish(data.raw);
 				});
 			}else{

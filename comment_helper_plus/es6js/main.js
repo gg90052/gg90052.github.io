@@ -659,8 +659,8 @@ let data = {
 	filter: (rawData, generate = false)=>{
 		data.filtered = {};
 		let isDuplicate = $("#unique").prop("checked");
-		let isTag = $("#tag").prop("checked");
 		for(let key of Object.keys(rawData.data)){
+			let isTag = $("#tag").prop("checked");
 			if (key === 'reactions') isTag = false;
 			let newData = filter.totalFilter(rawData.data[key], key, isDuplicate, isTag, ...obj2Array(config.filter));	
 			data.filtered[key] = newData;

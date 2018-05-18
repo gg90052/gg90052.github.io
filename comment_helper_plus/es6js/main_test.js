@@ -254,7 +254,7 @@ let fb = {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_managed_groups') >= 0 && authStr.indexOf('user_posts') >= 0){
+				if (authStr.indexOf('user_managed_groups') >= 0){
 					fb.start();
 				}else{
 					swal(

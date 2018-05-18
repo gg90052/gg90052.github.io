@@ -415,7 +415,7 @@ let fb = {
 	},
 	getGroup: ()=>{
 		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/groups?limit=100`, (res)=>{
+			FB.api(`${config.apiVersion.newest}/me/groups?limit=50`, (res)=>{
 				resolve(res.data);
 			});
 		});

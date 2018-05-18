@@ -917,8 +917,14 @@ let filter = {
 	},
 	word: (data, word)=>{
 		let newAry = $.grep(data,function(n, i){
-			if (n.message.indexOf(word) > -1){
-				return true;
+			if (n.message === undefined){
+				if (n.story.indexOf(word) > -1){
+					return true;
+				}
+			}else{
+				if (n.message.indexOf(word) > -1){
+					return true;
+				}
 			}
 		});
 		return newAry;

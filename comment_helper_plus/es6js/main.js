@@ -453,21 +453,77 @@ let fb = {
 					});
 					promise_array.push(promise);
 				}
+				let postdata = JSON.parse(localStorage.postdata);
 				if (command == 'comments'){
-					for(let i of extend){
-						i.message = i.story;
-						delete i.story;
-						delete i.postlink;
-						i.like_count = 'N/A';
+					if (postdata.type === 'personal') {
+						FB.api("/me", function (res) {
+							if (res.name === postdata.owner) {
+								for(let i of extend){
+									i.message = i.story;
+									delete i.story;
+									delete i.postlink;
+									i.like_count = 'N/A';
+								}
+							}else{
+								swal({
+									title: '個人貼文只有發文者本人能抓',
+									html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+									type: 'warning'
+								}).done();
+							}
+						});
+					}else if(postdata.type === 'group'){
+						for(let i of extend){
+							i.message = i.story;
+							delete i.story;
+							delete i.postlink;
+							i.like_count = 'N/A';
+						}
+					}else{
+						for(let i of extend){
+							i.message = i.story;
+							delete i.story;
+							delete i.postlink;
+							i.like_count = 'N/A';
+						}
 					}
 				}
+
 				if (command == 'reactions'){
-					for(let i of extend){
-						delete i.story;
-						delete i.created_time;
-						delete i.postlink;
-						delete i.like_count;
-						i.type = 'LIKE';
+					if (postdata.type === 'personal') {
+						FB.api("/me", function (res) {
+							if (res.name === postdata.owner) {
+								for(let i of extend){
+									delete i.story;
+									delete i.created_time;
+									delete i.postlink;
+									delete i.like_count;
+									i.type = 'LIKE';
+								}
+							}else{
+								swal({
+									title: '個人貼文只有發文者本人能抓',
+									html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+									type: 'warning'
+								}).done();
+							}
+						});
+					}else if(postdata.type === 'group'){
+						for(let i of extend){
+							delete i.story;
+							delete i.created_time;
+							delete i.postlink;
+							delete i.like_count;
+							i.type = 'LIKE';
+						}
+					}else{
+						for(let i of extend){
+							delete i.story;
+							delete i.created_time;
+							delete i.postlink;
+							delete i.like_count;
+							i.type = 'LIKE';
+						}
 					}
 				}
 

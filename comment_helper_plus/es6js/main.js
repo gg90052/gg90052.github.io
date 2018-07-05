@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
+	auth: 'user_photos,user_posts,manage_pages',
 	extension: false,
 	pageToken: '',
 }
@@ -254,7 +254,7 @@ let fb = {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_managed_groups') >= 0 && authStr.indexOf('user_posts') >= 0){
+				if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_posts') >= 0){
 					fb.start();
 				}else{
 					swal(

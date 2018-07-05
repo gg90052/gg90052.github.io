@@ -283,15 +283,17 @@ let fb = {
 				}
 			}else{
 				console.log(authStr);
-				if (authStr.indexOf("manage_pages") >= 0){
-					fb.user_posts = true;
-					fbid.init(type);
-				}else{
-					swal({
-						title: '不給予粉絲專頁管理權限無法使用',
-						type: 'warning'
-					}).done();
-				}		
+				fb.user_posts = true;
+				fbid.init(type);
+				// if (authStr.indexOf("manage_pages") >= 0){
+				// 	fb.user_posts = true;
+				// 	fbid.init(type);
+				// }else{
+				// 	swal({
+				// 		title: '不給予粉絲專頁管理權限無法使用',
+				// 		type: 'warning'
+				// 	}).done();
+				// }		
 			}
 		}else{
 			FB.login(function(response) {

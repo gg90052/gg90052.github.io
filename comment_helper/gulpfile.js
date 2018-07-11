@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'), //微型伺服器
     plumber = require('gulp-plumber'), //錯誤攔截
-    include = require('gulp-html-tag-include'), //HTML合併
     sass = require('gulp-sass'),
     merge = require('merge-stream'), //合併工作流 for spritesmith
     spritesmith = require('gulp.spritesmith'), //產生sprite
@@ -28,8 +27,6 @@ gulp.task('webserver', function(){
 
 gulp.task('html-include', function() {
     return gulp.src(paths.source+'./*.html')
-        .pipe(include())
-        .pipe(gulp.dest(paths.public))
         .pipe(connect.reload());
 });
 

@@ -227,6 +227,7 @@ let config = {
 	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
 	likes: false,
 	pageToken: '',
+	from_extension: false,
 }
 
 let fb = {
@@ -250,6 +251,7 @@ let fb = {
 		console.log(response);
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
+			config.from_extension = false;
 			if (type == "addScope") {
 				if (authStr.indexOf('user_posts') >= 0) {
 					swal(
@@ -307,6 +309,7 @@ let fb = {
 	},
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {
+			config.from_extension = true;
 			if (response.authResponse.grantedScopes.indexOf("user_posts") < 0) {
 				swal({
 					title: '抓分享需付費，詳情請見粉絲專頁',
@@ -484,9 +487,11 @@ let data = {
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
-		rawData.data = rawData.data.filter(item=>{
-			return item.is_hidden === false
-		});
+		if (config.from_extension === false){
+			rawData.data = rawData.data.filter(item => {
+				return item.is_hidden === false
+			});
+		}
 		let newData = filter.totalFilter(rawData, isDuplicate, isTag, ...obj2Array(config.filter));
 		rawData.filtered = newData;
 		if (generate === true) {

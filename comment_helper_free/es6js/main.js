@@ -182,13 +182,6 @@ $(document).ready(function(){
 			
 		}
 	});
-	let at_counter = 0;
-	$(".tokenLocker").click(function(e){
-		at_counter++;
-		if (at_counter >= 5){
-			$(".token").removeAttr("disabled");
-		}
-	});
 
 	$("#inputJSON").change(function() {
 		$(".waiting").removeClass("hide");
@@ -203,7 +196,7 @@ function shareBTN(){
 
 let config = {
 	field: {
-		comments: ['like_count','message_tags','message','from','created_time'],
+		comments: ['like_count','message_tags','message','from','created_time','is_hidden'],
 		reactions: [],
 		sharedposts: ['story','from', 'created_time'],
 		url_comments: [],
@@ -369,11 +362,9 @@ let data = {
 			if (fbid.type === 'group' && fbid.command !== 'reactions') fbid.fullID = fbid.pureID;
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-			if($('.token').val() === ''){
-				$('.token').val(config.pageToken);
-			}else{
-				config.pageToken = $('.token').val();
-			}
+
+			$('.token').val(config.pageToken);
+
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&access_token=${config.pageToken}&debug=all`,(res)=>{
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
@@ -448,6 +439,9 @@ let data = {
 	filter: (rawData, generate = false)=>{
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
+		rawData.data = rawData.data.filter(item=>{
+			return item.is_hidden === false
+		});
 		let newData = filter.totalFilter(rawData, isDuplicate, isTag, ...obj2Array(config.filter));
 		rawData.filtered = newData;
 		if (generate === true){

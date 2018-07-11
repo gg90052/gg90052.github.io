@@ -194,7 +194,7 @@ function shareBTN() {
 
 let config = {
 	field: {
-		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
+		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time','is_hidden'],
 		reactions: [],
 		sharedposts: ['story', 'from', 'created_time'],
 		url_comments: [],
@@ -484,6 +484,9 @@ let data = {
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
+		rawData.data = rawData.data.filter(item=>{
+			return item.is_hidden === false
+		});
 		let newData = filter.totalFilter(rawData, isDuplicate, isTag, ...obj2Array(config.filter));
 		rawData.filtered = newData;
 		if (generate === true) {

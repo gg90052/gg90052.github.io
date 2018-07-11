@@ -1,7 +1,6 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'), //微型伺服器
     plumber = require('gulp-plumber'), //錯誤攔截
-    include = require('gulp-html-tag-include'), //HTML合併
     sass = require('gulp-sass'),
     merge = require('merge-stream'), //合併工作流 for spritesmith
     spritesmith = require('gulp.spritesmith'), //產生sprite
@@ -24,13 +23,6 @@ gulp.task('webserver', function(){
   connect.server({
     livereload: true
   });
-});
-
-gulp.task('html-include', function() {
-    return gulp.src(paths.source+'./*.html')
-        .pipe(include())
-        .pipe(gulp.dest(paths.public))
-        .pipe(connect.reload());
 });
 
 gulp.task('babel', function() {
@@ -82,6 +74,5 @@ gulp.task('default',['webserver'],function(){
   gulp.watch(paths.img+'/icon/*',['sprite']);
   gulp.watch(paths.sass+'/*',['sass']);
   gulp.watch(paths.js+'/*',['babel']);
-  gulp.watch(paths.source+'/*.html', ['html-include']);
-  gulp.watch(paths.component+'/*.html', ['html-include']);
+  gulp.watch(paths.source+'/*.html', ['babel']);
 });

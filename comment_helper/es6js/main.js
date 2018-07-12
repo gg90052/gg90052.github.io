@@ -378,7 +378,6 @@ let data = {
 			if (fbid.type == "url_comments") {
 				fbid.data = [];
 			}
-
 			for (let i of res) {
 				fbid.data.push(i);
 			}
@@ -487,7 +486,7 @@ let data = {
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
-		if (config.from_extension === false){
+		if (config.from_extension === false && rawData.command === 'comments'){
 			rawData.data = rawData.data.filter(item => {
 				return item.is_hidden === false
 			});

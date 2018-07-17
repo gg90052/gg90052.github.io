@@ -194,7 +194,7 @@ function shareBTN() {
 
 let config = {
 	field: {
-		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time','is_hidden'],
+		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time', 'is_hidden'],
 		reactions: [],
 		sharedposts: ['story', 'from', 'created_time'],
 		url_comments: [],
@@ -319,20 +319,21 @@ let fb = {
 			} else {
 				let postdata = JSON.parse(localStorage.postdata);
 				if (postdata.type === 'personal') {
-					FB.api("/me", function (res) {
-						if (res.name === postdata.owner) {
-							fb.authOK();
-						}else{
-							swal({
-								title: '個人貼文只有發文者本人能抓',
-								html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
-								type: 'warning'
-							}).done();
-						}
-					});
-				}else if(postdata.type === 'group'){
+					// FB.api("/me", function (res) {
+					// 	if (res.name === postdata.owner) {
+					// 		fb.authOK();
+					// 	}else{
+					// 		swal({
+					// 			title: '個人貼文只有發文者本人能抓',
+					// 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+					// 			type: 'warning'
+					// 		}).done();
+					// 	}
+					// });
 					fb.authOK();
-				}else{
+				} else if (postdata.type === 'group') {
+					fb.authOK();
+				} else {
 					fb.authOK();
 				}
 			}
@@ -347,8 +348,9 @@ let fb = {
 	},
 	authOK: () => {
 		$(".loading.checkAuth").addClass("hide");
+		let postdata = JSON.parse(localStorage.postdata);
 		let datas = {
-			command: 'sharedposts',
+			command: postdata.command,
 			data: JSON.parse($(".chrome").val())
 		}
 		data.raw = datas;
@@ -486,7 +488,7 @@ let data = {
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
-		if (config.from_extension === false && rawData.command === 'comments'){
+		if (config.from_extension === false && rawData.command === 'comments') {
 			rawData.data = rawData.data.filter(item => {
 				return item.is_hidden === false
 			});
@@ -589,7 +591,11 @@ let table = {
 					  <td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
 					  <td>${val.score}</td>`;
 			} else {
-				td += `<td class="force-break"><a href="${host}${val.id}" target="_blank">${val.message}</a></td>
+				let link = val.id;
+				if (config.from_extension) {
+					link = val.postlink;
+				}
+				td += `<td class="force-break"><a href="${host}${link}" target="_blank">${val.message}</a></td>
 				<td>${val.like_count}</td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			}

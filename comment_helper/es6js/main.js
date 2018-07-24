@@ -503,20 +503,33 @@ let data = {
 	},
 	excel: (raw) => {
 		var newObj = [];
+		console.log(raw);
 		if (data.extension) {
-			$.each(raw.data, function (i) {
-				var tmp = {
-					"序號": i + 1,
-					"臉書連結": 'http://www.facebook.com/' + this.from.id,
-					"姓名": this.from.name,
-					"分享連結": this.postlink,
-					"留言內容": this.story,
-					"該分享讚數": this.like_count
-				}
-				newObj.push(tmp);
-			});
+			if (raw.command == 'comments'){
+				$.each(raw.filtered, function (i) {
+					var tmp = {
+						"序號": i + 1,
+						"臉書連結": 'http://www.facebook.com/' + this.from.id,
+						"姓名": this.from.name,
+						"留言連結": 'http://www.facebook.com/' + this.postlink,
+						"留言內容": this.message,
+					}
+					newObj.push(tmp);
+				});
+			}else{
+				$.each(raw.filtered, function (i) {
+					var tmp = {
+						"序號": i + 1,
+						"臉書連結": 'http://www.facebook.com/' + this.from.id,
+						"姓名": this.from.name,
+						"分享連結": this.postlink,
+						"留言內容": this.story,
+					}
+					newObj.push(tmp);
+				});
+			}
 		} else {
-			$.each(raw.data, function (i) {
+			$.each(raw.filtered, function (i) {
 				var tmp = {
 					"序號": i + 1,
 					"臉書連結": 'http://www.facebook.com/' + this.from.id,

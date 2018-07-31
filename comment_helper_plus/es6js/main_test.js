@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_managed_groups',
+	auth: 'groups_access_member_info',
 	extension: false,
 	pageToken: '',
 }
@@ -254,7 +254,7 @@ let fb = {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('user_managed_groups') >= 0){
+				if (authStr.indexOf('groups_access_member_info') >= 0){
 					fb.start();
 				}else{
 					swal(
@@ -416,7 +416,7 @@ let fb = {
 	getGroup: ()=>{
 		return new Promise((resolve, reject)=>{
 			FB.api(`${config.apiVersion.newest}/me/groups?limit=50`, (res)=>{
-				resolve(res.data);
+				resolve (res.data.filter(item=>{return item.administrator === true}));
 			});
 		});
 	},

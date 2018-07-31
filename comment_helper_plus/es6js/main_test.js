@@ -414,8 +414,10 @@ let fb = {
 		});
 	},
 	getGroup: ()=>{
-		FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
-			resolve (res.data.filter(item=>{return item.administrator === true}));
+		return new Promise((resolve, reject)=>{
+			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
+				resolve (res.data.filter(item=>{return item.administrator === true}));
+			});
 		});
 	},
 	extensionAuth: (command = '')=>{

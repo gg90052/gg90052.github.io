@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_photos,user_posts,manage_pages',
+	auth: 'manage_pages',
 	extension: false,
 	pageToken: '',
 }
@@ -415,8 +415,8 @@ let fb = {
 	},
 	getGroup: ()=>{
 		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/groups?limit=100`, (res)=>{
-				resolve(res.data);
+			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
+				resolve (res.data.filter(item=>{return item.administrator === true}));
 			});
 		});
 	},

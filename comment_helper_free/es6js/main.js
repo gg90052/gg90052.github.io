@@ -226,7 +226,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_photos,user_posts,user_managed_groups,manage_pages',
+	auth: 'manage_pages',
 	likes: false,
 	pageToken: '',
 }
@@ -250,7 +250,7 @@ let fb = {
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
 			if (type == "addScope"){
-				if (authStr.indexOf('user_posts') >= 0){
+				if (authStr.indexOf('manage_pages') >= 0){
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
@@ -264,7 +264,7 @@ let fb = {
 						).done();
 				}
 			}else if (type == "sharedposts"){
-				if (authStr.indexOf("user_posts") < 0){
+				if (authStr.indexOf("manage_pages") < 0){
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',

@@ -254,7 +254,7 @@ let fb = {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_posts') >= 0){
+				if (authStr.indexOf('manage_pages') >= 0){
 					fb.start();
 				}else{
 					swal(
@@ -428,7 +428,7 @@ let fb = {
 	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
-			if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_posts') >= 0){
+			if (authStr.indexOf('manage_pages') >= 0){
 				data.raw.extension = true;
 				if (command == 'import'){
 					localStorage.setItem("sharedposts", $('#import').val());

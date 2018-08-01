@@ -239,7 +239,7 @@ var fb = {
 			console.log(response);
 			if (type == "addScope") {
 				var authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_posts') >= 0) {
+				if (authStr.indexOf('manage_pages') >= 0) {
 					fb.start();
 				} else {
 					swal('授權失敗，請給予所有權限', 'Authorization Failed! Please contact the admin.', 'error').done();

@@ -224,7 +224,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'user_photos,user_posts,manage_pages',
+	auth: 'manage_pages',
 	likes: false,
 	pageToken: '',
 	from_extension: false,
@@ -253,7 +253,7 @@ let fb = {
 			let authStr = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
-				if (authStr.indexOf('user_posts') >= 0) {
+				if (authStr.indexOf('manage_pages') >= 0) {
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
@@ -267,7 +267,7 @@ let fb = {
 					).done();
 				}
 			} else if (type == "sharedposts") {
-				if (authStr.indexOf("user_posts") < 0) {
+				if (authStr.indexOf("manage_pages") < 0) {
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -279,7 +279,7 @@ let fb = {
 				}
 			} else {
 				console.log(authStr);
-				if (authStr.indexOf("user_posts") >= 0 && authStr.indexOf("manage_pages") >= 0) {
+				if (authStr.indexOf("manage_pages") >= 0) {
 					fb.user_posts = true;
 					fbid.init(type);
 				} else {
@@ -310,7 +310,7 @@ let fb = {
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {
 			config.from_extension = true;
-			if (response.authResponse.grantedScopes.indexOf("user_posts") < 0) {
+			if (response.authResponse.grantedScopes.indexOf("manage_pages") < 0) {
 				swal({
 					title: '抓分享需付費，詳情請見粉絲專頁',
 					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',

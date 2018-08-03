@@ -3,6 +3,7 @@ window.onerror = handleErr;
 var TABLE;
 var lastCommand = 'comments';
 var addLink = false;
+var auth_scope = '';
 
 function handleErr(msg, url, l) {
 	if (!errorMessage) {
@@ -250,10 +251,10 @@ let fb = {
 	callback: (response, type) => {
 		console.log(response);
 		if (response.status === 'connected') {
-			let authStr = response.authResponse.grantedScopes;
+			auth_scope = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
-				if (authStr.indexOf('groups_access_member_info') >= 0) {
+				if (auth_scope.indexOf('groups_access_member_info') >= 0) {
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
@@ -267,7 +268,7 @@ let fb = {
 					).done();
 				}
 			} else if (type == "sharedposts") {
-				if (authStr.indexOf("groups_access_member_info") < 0) {
+				if (auth_scope.indexOf("groups_access_member_info") < 0) {
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -301,7 +302,8 @@ let fb = {
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {
 			config.from_extension = true;
-			if (response.authResponse.grantedScopes.indexOf("groups_access_member_info") < 0) {
+			auth_scope = response.authResponse.grantedScopes;
+			if (auth_scope.indexOf("groups_access_member_info") < 0) {
 				swal({
 					title: '抓分享需付費，詳情請見粉絲專頁',
 					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -818,7 +820,7 @@ let fbid = {
 								resolve(obj);
 							}
 						} else if (urltype === 'group') {
-							if (fb.user_posts) {
+							if (auth_scope.indexOf("groups_access_member_info") > 0) {
 								obj.pureID = result[result.length - 1];
 								obj.pageID = result[0];
 								obj.fullID = obj.pageID + "_" + obj.pureID;

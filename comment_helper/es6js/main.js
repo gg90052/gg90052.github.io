@@ -224,7 +224,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'manage_pages',
+	auth: 'manage_pages,groups_access_member_info',
 	likes: false,
 	pageToken: '',
 	from_extension: false,
@@ -253,7 +253,7 @@ let fb = {
 			let authStr = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
-				if (authStr.indexOf('manage_pages') >= 0) {
+				if (authStr.indexOf('groups_access_member_info') >= 0) {
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
@@ -267,7 +267,7 @@ let fb = {
 					).done();
 				}
 			} else if (type == "sharedposts") {
-				if (authStr.indexOf("manage_pages") < 0) {
+				if (authStr.indexOf("groups_access_member_info") < 0) {
 					swal({
 						title: '抓分享需付費，詳情請見粉絲專頁',
 						html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -278,17 +278,8 @@ let fb = {
 					fbid.init(type);
 				}
 			} else {
-				console.log(authStr);
-				if (authStr.indexOf("manage_pages") >= 0) {
-					fb.user_posts = true;
-					fbid.init(type);
-				} else {
-					swal({
-						title: '此系統需要付費，免費版本請點以下網址',
-						html: '<a href="http://gg90052.github.io/comment_helper_free/" target="_blank">http://gg90052.github.io/comment_helper_free/</a>',
-						type: 'warning'
-					}).done();
-				}
+				fb.user_posts = true;
+				fbid.init(type);
 			}
 		} else {
 			FB.login(function (response) {
@@ -310,7 +301,7 @@ let fb = {
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {
 			config.from_extension = true;
-			if (response.authResponse.grantedScopes.indexOf("manage_pages") < 0) {
+			if (response.authResponse.grantedScopes.indexOf("groups_access_member_info") < 0) {
 				swal({
 					title: '抓分享需付費，詳情請見粉絲專頁',
 					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
@@ -319,17 +310,6 @@ let fb = {
 			} else {
 				let postdata = JSON.parse(localStorage.postdata);
 				if (postdata.type === 'personal') {
-					// FB.api("/me", function (res) {
-					// 	if (res.name === postdata.owner) {
-					// 		fb.authOK();
-					// 	}else{
-					// 		swal({
-					// 			title: '個人貼文只有發文者本人能抓',
-					// 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
-					// 			type: 'warning'
-					// 		}).done();
-					// 	}
-					// });
 					fb.authOK();
 				} else if (postdata.type === 'group') {
 					fb.authOK();
@@ -505,7 +485,7 @@ let data = {
 		var newObj = [];
 		console.log(raw);
 		if (data.extension) {
-			if (raw.command == 'comments'){
+			if (raw.command == 'comments') {
 				$.each(raw.filtered, function (i) {
 					var tmp = {
 						"序號": i + 1,
@@ -516,7 +496,7 @@ let data = {
 					}
 					newObj.push(tmp);
 				});
-			}else{
+			} else {
 				$.each(raw.filtered, function (i) {
 					var tmp = {
 						"序號": i + 1,
@@ -856,6 +836,16 @@ let fbid = {
 							obj.pureID = result[result.length - 1];
 							obj.fullID = obj.pageID + '_' + obj.pureID;
 							resolve(obj);
+						} else if (urltype === 'video') {
+							obj.pureID = result[result.length - 1];
+							FB.api(`/${obj.pureID}?fields=live_status`, function (res) {
+								if (res.live_status === 'LIVE') {
+									obj.fullID = obj.pureID;
+								} else {
+									obj.fullID = obj.pageID + '_' + obj.pureID;
+								}
+								resolve(obj);
+							});
 						} else {
 							if (result.length == 1 || result.length == 3) {
 								obj.pureID = result[0];
@@ -903,6 +893,9 @@ let fbid = {
 		if (posturl.indexOf("/photos/") >= 0) {
 			return 'photo';
 		};
+		if (posturl.indexOf("/videos/") >= 0) {
+			return 'video';
+		}
 		if (posturl.indexOf('"') >= 0) {
 			return 'pure';
 		};

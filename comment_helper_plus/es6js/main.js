@@ -317,7 +317,7 @@ let fb = {
 			}
 		}
 	},
-	hiddenStart: ()=>{
+	hiddenStart: (e)=>{
 		let fbid = $('#pure_fbid').val();
 		let pageID = fbid.split('_')[0];
 		FB.api(`/${pageID}?fields=access_token`,function(res){
@@ -327,7 +327,11 @@ let fb = {
 				if (res.access_token){
 					config.pageToken = res.access_token;
 				}
-				data.start(fbid);
+				if (e.ctrlKey || e.altKey) {
+					data.start(fbid, 'live');
+				}else{
+					data.start(fbid);
+				}
 			}
 		});
 	},
@@ -740,7 +744,7 @@ let data = {
 			$.each(raw,function(i){
 				var tmp = {
 					"序號": i+1,
-					"臉書連結" : 'http://www.facebook.com/' + this.from.id,
+					"臉書連結" : 'https://www.facebook.com/' + this.from.id,
 					"姓名" : this.from.name,
 					"分享連結" : this.postlink,
 					"留言內容" : this.story,
@@ -752,7 +756,7 @@ let data = {
 			$.each(raw,function(i){
 				var tmp = {
 					"序號": i+1,
-					"臉書連結" : 'http://www.facebook.com/' + this.from.id,
+					"臉書連結" : 'https://www.facebook.com/' + this.from.id,
 					"姓名" : this.from.name,
 					"心情" : this.type || '',
 					"留言內容" : this.message || this.story,
@@ -803,17 +807,17 @@ let table = {
 			for(let [j, val] of filtered[key].entries()){
 				let picture = '';
 				if (pic){
-					// picture = `<img src="http://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
+					// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 				}
 				let td = `<td>${j+1}</td>
-				<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
+				<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
 				if(key === 'reactions'){
 					td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
 				}else if(key === 'sharedposts'){
-					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || val.story}</a></td>
+					td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || val.story}</a></td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 				}else{
-					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>
+					td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>
 					<td>${val.like_count}</td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 				}
@@ -924,11 +928,11 @@ let compare = {
 		let tbody = '';
 		for(let [j, val] of data_and.entries()){
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
+			<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
 			<td>${val.like_count || '0'}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
 			<td class="nowrap">${timeConverter(val.created_time) || ''}</td>`;
 			let tr = `<tr>${td}</tr>`;
 			tbody += tr;
@@ -939,11 +943,11 @@ let compare = {
 		let tbody2 = '';
 		for(let [j, val] of data_or.entries()){
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
+			<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
 			<td>${val.like_count || ''}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
 			<td class="nowrap">${timeConverter(val.created_time) || ''}</td>`;
 			let tr = `<tr>${td}</tr>`;
 			tbody2 += tr;
@@ -1033,7 +1037,7 @@ let choose = {
 			$("#awardList tbody tr").each(function(){
 				// let tar = $(this).find('td').eq(1);
 				// let id = tar.find('a').attr('attr-fbid');
-				// tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
+				// tar.prepend(`<img src="https://graph.facebook.com/${id}/picture?type=small"><br>`);
 			});
 		}
 		

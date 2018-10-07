@@ -491,9 +491,9 @@ let data = {
 				$.each(raw.filtered, function (i) {
 					var tmp = {
 						"序號": i + 1,
-						"臉書連結": 'http://www.facebook.com/' + this.from.id,
+						"臉書連結": 'https://www.facebook.com/' + this.from.id,
 						"姓名": this.from.name,
-						"留言連結": 'http://www.facebook.com/' + this.postlink,
+						"留言連結": 'https://www.facebook.com/' + this.postlink,
 						"留言內容": this.message,
 					}
 					newObj.push(tmp);
@@ -502,7 +502,7 @@ let data = {
 				$.each(raw.filtered, function (i) {
 					var tmp = {
 						"序號": i + 1,
-						"臉書連結": 'http://www.facebook.com/' + this.from.id,
+						"臉書連結": 'https://www.facebook.com/' + this.from.id,
 						"姓名": this.from.name,
 						"分享連結": this.postlink,
 						"留言內容": this.story,
@@ -514,7 +514,7 @@ let data = {
 			$.each(raw.filtered, function (i) {
 				var tmp = {
 					"序號": i + 1,
-					"臉書連結": 'http://www.facebook.com/' + this.from.id,
+					"臉書連結": 'https://www.facebook.com/' + this.from.id,
 					"姓名": this.from.name,
 					"表情": this.type || '',
 					"留言內容": this.message || this.story,
@@ -566,24 +566,24 @@ let table = {
 			<td class="nowrap">留言時間</td>`;
 		}
 
-		let host = 'http://www.facebook.com/';
+		let host = 'https://www.facebook.com/';
 		if (data.raw.type === 'url_comments') host = $('#enterURL .url').val() + '?fb_comment_id=';
 
 		for (let [j, val] of filterdata.entries()) {
 			let picture = '';
 			if (pic) {
-				picture = `<img src="http://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
+				picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 			}
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>`;
+			<td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>`;
 			if (rawdata.command === 'reactions' || config.likes) {
 				td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
 			} else if (rawdata.command === 'sharedposts') {
-				td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
+				td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			} else if (rawdata.command === 'ranker') {
 				td = `<td>${j+1}</td>
-					  <td><a href='http://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
+					  <td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
 					  <td>${val.score}</td>`;
 			} else {
 				let link = val.id;
@@ -697,7 +697,7 @@ let choose = {
 			if (val.hasAttribute('title')) {
 				award.award_name = false;
 				award.name = $(val).find('td').eq(1).find('a').text();
-				award.userid = $(val).find('td').eq(1).find('a').attr('href').replace('http://www.facebook.com/', '');
+				award.userid = $(val).find('td').eq(1).find('a').attr('href').replace('https://www.facebook.com/', '');
 				award.message = $(val).find('td').eq(2).find('a').text();
 				award.link = $(val).find('td').eq(2).find('a').attr('href');
 				award.time = $(val).find('td').eq($(val).find('td').length - 1).text();
@@ -712,7 +712,7 @@ let choose = {
 				li += `<li class="prizeName">${i.name}</li>`;
 			} else {
 				li += `<li>
-				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="http://graph.facebook.com/${i.userid}/picture?type=large" alt=""></a>
+				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large" alt=""></a>
 				<div class="info">
 				<p class="name"><a href="https://www.facebook.com/${i.userid}" target="_blank">${i.name}</a></p>
 				<p class="message"><a href="${i.link}" target="_blank">${i.message}</a></p>
@@ -751,7 +751,7 @@ let fbid = {
 			fbid.get(url, type).then((fbid) => {
 				data.start(fbid);
 			})
-			// $('.identity').removeClass('hide').html(`登入身份：<img src="http://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`);
+			// $('.identity').removeClass('hide').html(`登入身份：<img src="https://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`);
 		});
 	},
 	get: (url, type) => {

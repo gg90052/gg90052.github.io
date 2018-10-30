@@ -195,7 +195,7 @@ function shareBTN() {
 
 let config = {
 	field: {
-		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time', 'is_hidden'],
+		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
 		reactions: [],
 		sharedposts: ['story', 'from', 'created_time'],
 		url_comments: [],
@@ -224,7 +224,7 @@ let config = {
 		startTime: '2000-12-31-00-00-00',
 		endTime: nowDate()
 	},
-	order: '',
+	order: 'chronological',
 	auth: 'manage_pages,groups_access_member_info',
 	likes: false,
 	pageToken: '',

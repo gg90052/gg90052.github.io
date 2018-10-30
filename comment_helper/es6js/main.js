@@ -211,12 +211,12 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v2.7',
-		reactions: 'v2.7',
-		sharedposts: 'v2.9',
-		url_comments: 'v2.7',
-		feed: 'v2.9',
-		group: 'v2.7'
+		comments: 'v3.2',
+		reactions: 'v3.2',
+		sharedposts: 'v3.2',
+		url_comments: 'v3.2',
+		feed: 'v3.2',
+		group: 'v3.2'
 	},
 	filter: {
 		word: '',

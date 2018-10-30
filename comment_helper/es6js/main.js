@@ -470,11 +470,11 @@ let data = {
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
-		if (config.from_extension === false && rawData.command === 'comments') {
-			rawData.data = rawData.data.filter(item => {
-				return item.is_hidden === false
-			});
-		}
+		// if (config.from_extension === false && rawData.command === 'comments') {
+		// 	rawData.data = rawData.data.filter(item => {
+		// 		return item.is_hidden === false
+		// 	});
+		// }
 		let newData = filter.totalFilter(rawData, isDuplicate, isTag, ...obj2Array(config.filter));
 		rawData.filtered = newData;
 		if (generate === true) {

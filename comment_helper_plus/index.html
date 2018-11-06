@@ -40,27 +40,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 
 <script type="text/javascript">
-if (location.protocol == 'http:') location.href = location.href.replace('http:','https:');
 window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '160833824415744',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v3.1' // use version 2.1
-  });
-}
-// 160833824415744 pro
-// 1390069707889707 dev
-// 193165111321405 test
+    FB.init({
+		appId            : '160833824415744',
+		autoLogAppEvents : true,
+		xfbml            : true,
+		version          : 'v3.2'
+    });
+};
 
-(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) return;
-	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/zh_TW/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+	// 160833824415744 pro
+	// 1390069707889707 dev
+	// 193165111321405 test
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+if (location.protocol == 'http:') location.href = location.href.replace('http:','https:');
 
 </script>
 

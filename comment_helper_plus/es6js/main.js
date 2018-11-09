@@ -223,13 +223,13 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v2.12',
-		reactions: 'v2.12',
-		sharedposts: 'v2.12',
-		url_comments: 'v2.12',
-		feed: 'v2.12',
-		group: 'v2.12',
-		newest: 'v2.12'
+		comments: 'v3.2',
+		reactions: 'v3.2',
+		sharedposts: 'v3.2',
+		url_comments: 'v3.2',
+		feed: 'v3.2',
+		group: 'v3.2',
+		newest: 'v3.2'
 	},
 	filter: {
 		word: '',
@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'manage_pages',
+	auth: 'manage_pages,groups_access_member_info',
 	extension: false,
 	pageToken: '',
 }
@@ -247,7 +247,11 @@ let fb = {
 	getAuth: (type)=>{
 		FB.login(function(response) {
 			fb.callback(response, type);
-		}, {scope: config.auth ,return_scopes: true});
+		}, {
+			auth_type: 'rerequest',
+			scope: config.auth,
+			return_scopes: true
+		});
 	},
 	callback: (response, type)=>{
 		if (response.status === 'connected') {

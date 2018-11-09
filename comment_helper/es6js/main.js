@@ -244,6 +244,7 @@ let fb = {
 		FB.login(function (response) {
 			fb.callback(response, type);
 		}, {
+			auth_type: 'rerequest' ,
 			scope: config.auth,
 			return_scopes: true
 		});

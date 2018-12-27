@@ -1065,9 +1065,6 @@ let choose = {
 let filter = {
 	totalFilter: (raw, command, isDuplicate, isTag, word, react, endTime)=>{
 		let data = raw;
-		if (isDuplicate){
-			data = filter.unique(data);
-		}
 		if (word !== '' && command == 'comments'){
 			data = filter.word(data, word);
 		}
@@ -1078,6 +1075,9 @@ let filter = {
 			data = filter.time(data, endTime);
 		}else{
 			data = filter.react(data, react);
+		}
+		if (isDuplicate){
+			data = filter.unique(data);
 		}
 
 		return data;

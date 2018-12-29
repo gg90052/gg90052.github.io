@@ -311,6 +311,8 @@ let fb = {
 			fb.setToken(tar.attr('attr-value'));
 		}
 		fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
+		$('.forfb').addClass('hide');
+		$('.step1').removeClass('hide');
 		step.step1();
 	},
 	setToken: (pageid)=>{
@@ -436,7 +438,7 @@ let fb = {
 	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
-			if (authStr.indexOf('manage_pages') >= 0){
+			if (authStr.indexOf('groups_access_member_info') >= 0){
 				data.raw.extension = true;
 				if (command == 'import'){
 					localStorage.setItem("sharedposts", $('#import').val());

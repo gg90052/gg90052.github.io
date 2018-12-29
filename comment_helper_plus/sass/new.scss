@@ -234,6 +234,25 @@ table{
 				transform: translateX(0);
 			}
 		}
+		.forfb{
+			width: 100%;
+			background: #FFF;
+			.read{
+				border: 2px solid #666;	
+				padding: 10px 15px;
+				margin: 15px;
+				display: inline-block;
+				vertical-align: top;
+				font-size: 1.5em;
+				line-height: 1.5em;
+				color: #F00;
+				max-width: 100%;
+				img{
+					margin-top: 10px;
+					width: 100%;
+				}
+			}
+		}
 		.step{
 			width: 100%;
 			position: absolute;

@@ -578,6 +578,7 @@ let step = {
 		$("html, body").scrollTop(0);
 	},
 	step2: ()=>{
+		$('.forfb').addClass('hide');
 		$('.recommands, .feeds tbody').empty();
 		$('.section').addClass('step2');
 		$("html, body").scrollTop(0);

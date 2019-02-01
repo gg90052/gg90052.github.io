@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'manage_pages,groups_access_member_info',
+	auth: 'manage_pages',
 	extension: false,
 	pageToken: '',
 }
@@ -431,9 +431,16 @@ let fb = {
 		});
 	},
 	extensionAuth: (command = '')=>{
-		FB.login(function(response) {
-			fb.extensionCallback(response, command);
-		}, {scope: config.auth ,return_scopes: true});
+		let response = {
+			status: 'connected',
+			authResponse:{
+				grantedScopes: 'groups_access_member_info',
+			}
+		}
+		fb.extensionCallback(response, command);
+		// FB.login(function(response) {
+		// 	fb.extensionCallback(response, command);
+		// }, {scope: config.auth ,return_scopes: true});
 	},
 	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {
@@ -586,7 +593,7 @@ let step = {
 }
 
 let data = {
-	raw: {},
+	raw: {data:{}},
 	filtered: {},
 	userid: '',
 	nowLength: 0,

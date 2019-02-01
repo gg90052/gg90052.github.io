@@ -288,14 +288,23 @@ let fb = {
 		if (response.status === 'connected') {
 			config.from_extension = true;
 			auth_scope = response.authResponse.grantedScopes;
-			if (auth_scope.indexOf("groups_access_member_info") < 0) {
-				// swal({
-				// 	title: '抓分享需付費，詳情請見粉絲專頁',
-				// 	html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-				// 	type: 'warning'
-				// }).done();
-			} else {
-				let postdata = JSON.parse(localStorage.postdata);
+			// if (auth_scope.indexOf("groups_access_member_info") < 0) {
+			// 	swal({
+			// 		title: '抓分享需付費，詳情請見粉絲專頁',
+			// 		html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+			// 		type: 'warning'
+			// 	}).done();
+			// } else {
+			// 	let postdata = JSON.parse(localStorage.postdata);
+			// 	if (postdata.type === 'personal') {
+			// 		fb.authOK();
+			// 	} else if (postdata.type === 'group') {
+			// 		fb.authOK();
+			// 	} else {
+			// 		fb.authOK();
+			// 	}
+			// }
+			let postdata = JSON.parse(localStorage.postdata);
 				if (postdata.type === 'personal') {
 					fb.authOK();
 				} else if (postdata.type === 'group') {
@@ -303,7 +312,6 @@ let fb = {
 				} else {
 					fb.authOK();
 				}
-			}
 		} else {
 			FB.login(function (response) {
 				fb.extensionCallback(response);

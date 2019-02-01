@@ -223,13 +223,13 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v2.12',
-		reactions: 'v2.12',
-		sharedposts: 'v2.12',
-		url_comments: 'v2.12',
-		feed: 'v2.12',
-		group: 'v2.12',
-		newest: 'v2.12'
+		comments: 'v3.2',
+		reactions: 'v3.2',
+		sharedposts: 'v3.2',
+		url_comments: 'v3.2',
+		feed: 'v3.2',
+		group: 'v3.2',
+		newest: 'v3.2'
 	},
 	filter: {
 		word: '',
@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'groups_access_member_info',
+	auth: 'manage_pages,groups_access_member_info',
 	extension: false,
 	pageToken: '',
 }
@@ -247,14 +247,18 @@ let fb = {
 	getAuth: (type)=>{
 		FB.login(function(response) {
 			fb.callback(response, type);
-		}, {scope: config.auth ,return_scopes: true});
+		}, {
+			auth_type: 'rerequest',
+			scope: config.auth,
+			return_scopes: true
+		});
 	},
 	callback: (response, type)=>{
 		if (response.status === 'connected') {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('groups_access_member_info') >= 0){
+				if (authStr.indexOf('manage_pages') >= 0){
 					fb.start();
 				}else{
 					swal(
@@ -307,6 +311,8 @@ let fb = {
 			fb.setToken(tar.attr('attr-value'));
 		}
 		fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
+		$('.forfb').addClass('hide');
+		$('.step1').removeClass('hide');
 		step.step1();
 	},
 	setToken: (pageid)=>{
@@ -317,7 +323,7 @@ let fb = {
 			}
 		}
 	},
-	hiddenStart: ()=>{
+	hiddenStart: (e)=>{
 		let fbid = $('#pure_fbid').val();
 		let pageID = fbid.split('_')[0];
 		FB.api(`/${pageID}?fields=access_token`,function(res){
@@ -327,7 +333,11 @@ let fb = {
 				if (res.access_token){
 					config.pageToken = res.access_token;
 				}
-				data.start(fbid);
+				if (e.ctrlKey || e.altKey) {
+					data.start(fbid, 'live');
+				}else{
+					data.start(fbid);
+				}
 			}
 		});
 	},
@@ -421,14 +431,21 @@ let fb = {
 		});
 	},
 	extensionAuth: (command = '')=>{
-		FB.login(function(response) {
-			fb.extensionCallback(response, command);
-		}, {scope: config.auth ,return_scopes: true});
+		let response = {
+			status: 'connected',
+			authResponse:{
+				grantedScopes: 'groups_access_member_info',
+			}
+		}
+		fb.extensionCallback(response, command);
+		// FB.login(function(response) {
+		// 	fb.extensionCallback(response, command);
+		// }, {scope: config.auth ,return_scopes: true});
 	},
 	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {
 			let authStr = response.authResponse.grantedScopes;
-			if (authStr.indexOf('manage_pages') >= 0 && authStr.indexOf('user_managed_groups') >= 0 && authStr.indexOf('user_posts') >= 0){
+			if (authStr.indexOf('groups_access_member_info') >= 0){
 				data.raw.extension = true;
 				if (command == 'import'){
 					localStorage.setItem("sharedposts", $('#import').val());
@@ -453,21 +470,84 @@ let fb = {
 					});
 					promise_array.push(promise);
 				}
+				let postdata = JSON.parse(localStorage.postdata);
 				if (command == 'comments'){
-					for(let i of extend){
-						i.message = i.story;
-						delete i.story;
-						delete i.postlink;
-						i.like_count = 'N/A';
+					if (postdata.type === 'personal') {
+						// FB.api("/me", function (res) {
+						// 	if (res.name === postdata.owner) {
+						// 		for(let i of extend){
+						// 			i.message = i.story;
+						// 			delete i.story;
+						// 			delete i.postlink;
+						// 			i.like_count = 'N/A';
+						// 		}
+						// 	}else{
+						// 		swal({
+						// 			title: '個人貼文只有發文者本人能抓',
+						// 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+						// 			type: 'warning'
+						// 		}).done();
+						// 	}
+						// });
+						for(let i of extend){
+							delete i.story;
+							delete i.postlink;
+							i.like_count = 'N/A';
+						}
+					}else if(postdata.type === 'group'){
+						for(let i of extend){
+							delete i.story;
+							delete i.postlink;
+							i.like_count = 'N/A';
+						}
+					}else{
+						for(let i of extend){
+							delete i.story;
+							delete i.postlink;
+							i.like_count = 'N/A';
+						}
 					}
 				}
+
 				if (command == 'reactions'){
-					for(let i of extend){
-						delete i.story;
-						delete i.created_time;
-						delete i.postlink;
-						delete i.like_count;
-						i.type = 'LIKE';
+					if (postdata.type === 'personal') {
+						// FB.api("/me", function (res) {
+						// 	if (res.name === postdata.owner) {
+						// 		for(let i of extend){
+						// 			delete i.story;
+						// 			delete i.created_time;
+						// 			delete i.postlink;
+						// 			delete i.like_count;
+						// 			i.type = 'LIKE';
+						// 		}
+						// 	}else{
+						// 		swal({
+						// 			title: '個人貼文只有發文者本人能抓',
+						// 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+						// 			type: 'warning'
+						// 		}).done();
+						// 	}
+						// });
+						for(let i of extend){
+							delete i.story;
+							delete i.created_time;
+							delete i.postlink;
+							delete i.like_count;
+						}
+					}else if(postdata.type === 'group'){
+						for(let i of extend){
+							delete i.story;
+							delete i.created_time;
+							delete i.postlink;
+							delete i.like_count;
+						}
+					}else{
+						for(let i of extend){
+							delete i.story;
+							delete i.created_time;
+							delete i.postlink;
+							delete i.like_count;
+						}
 					}
 				}
 
@@ -505,6 +585,7 @@ let step = {
 		$("html, body").scrollTop(0);
 	},
 	step2: ()=>{
+		$('.forfb').addClass('hide');
 		$('.recommands, .feeds tbody').empty();
 		$('.section').addClass('step2');
 		$("html, body").scrollTop(0);
@@ -512,7 +593,7 @@ let step = {
 }
 
 let data = {
-	raw: {},
+	raw: {data:{}},
 	filtered: {},
 	userid: '',
 	nowLength: 0,
@@ -677,7 +758,7 @@ let data = {
 			$.each(raw,function(i){
 				var tmp = {
 					"序號": i+1,
-					"臉書連結" : 'http://www.facebook.com/' + this.from.id,
+					"臉書連結" : 'https://www.facebook.com/' + this.from.id,
 					"姓名" : this.from.name,
 					"分享連結" : this.postlink,
 					"留言內容" : this.story,
@@ -689,7 +770,7 @@ let data = {
 			$.each(raw,function(i){
 				var tmp = {
 					"序號": i+1,
-					"臉書連結" : 'http://www.facebook.com/' + this.from.id,
+					"臉書連結" : 'https://www.facebook.com/' + this.from.id,
 					"姓名" : this.from.name,
 					"心情" : this.type || '',
 					"留言內容" : this.message || this.story,
@@ -740,17 +821,17 @@ let table = {
 			for(let [j, val] of filtered[key].entries()){
 				let picture = '';
 				if (pic){
-					// picture = `<img src="http://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
+					// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 				}
 				let td = `<td>${j+1}</td>
-				<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
+				<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
 				if(key === 'reactions'){
 					td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
 				}else if(key === 'sharedposts'){
-					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || val.story}</a></td>
+					td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || val.story}</a></td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 				}else{
-					td += `<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>
+					td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>
 					<td>${val.like_count}</td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 				}
@@ -861,11 +942,11 @@ let compare = {
 		let tbody = '';
 		for(let [j, val] of data_and.entries()){
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
+			<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
 			<td>${val.like_count || '0'}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
 			<td class="nowrap">${timeConverter(val.created_time) || ''}</td>`;
 			let tr = `<tr>${td}</tr>`;
 			tbody += tr;
@@ -876,11 +957,11 @@ let compare = {
 		let tbody2 = '';
 		for(let [j, val] of data_or.entries()){
 			let td = `<td>${j+1}</td>
-			<td><a href='http://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
+			<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
 			<td>${val.like_count || ''}</td>
-			<td class="force-break"><a href="http://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
+			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story || ''}</a></td>
 			<td class="nowrap">${timeConverter(val.created_time) || ''}</td>`;
 			let tr = `<tr>${td}</tr>`;
 			tbody2 += tr;
@@ -970,7 +1051,7 @@ let choose = {
 			$("#awardList tbody tr").each(function(){
 				// let tar = $(this).find('td').eq(1);
 				// let id = tar.find('a').attr('attr-fbid');
-				// tar.prepend(`<img src="http://graph.facebook.com/${id}/picture?type=small"><br>`);
+				// tar.prepend(`<img src="https://graph.facebook.com/${id}/picture?type=small"><br>`);
 			});
 		}
 		
@@ -994,9 +1075,6 @@ let choose = {
 let filter = {
 	totalFilter: (raw, command, isDuplicate, isTag, word, react, endTime)=>{
 		let data = raw;
-		if (isDuplicate){
-			data = filter.unique(data);
-		}
 		if (word !== '' && command == 'comments'){
 			data = filter.word(data, word);
 		}
@@ -1007,6 +1085,9 @@ let filter = {
 			data = filter.time(data, endTime);
 		}else{
 			data = filter.react(data, react);
+		}
+		if (isDuplicate){
+			data = filter.unique(data);
 		}
 
 		return data;

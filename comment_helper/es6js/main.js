@@ -225,7 +225,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: 'chronological',
-	auth: 'manage_pages,groups_access_member_info',
+	auth: 'manage_pages',
 	likes: false,
 	pageToken: '',
 	from_extension: false,
@@ -255,30 +255,14 @@ let fb = {
 			auth_scope = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
-				if (auth_scope.indexOf('groups_access_member_info') >= 0) {
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
 						'success'
 					).done();
-				} else {
-					swal(
-						'付費授權失敗，請聯絡管理員確認',
-						'Authorization Failed! Please contact the admin.',
-						'error'
-					).done();
-				}
-			} else if (type == "sharedposts") {
-				if (auth_scope.indexOf("groups_access_member_info") < 0) {
-					swal({
-						title: '抓分享需付費，詳情請見粉絲專頁',
-						html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-						type: 'warning'
-					}).done();
-				} else {
+			} else if (type == "sharedposts") {	
 					fb.user_posts = true;
 					fbid.init(type);
-				}
 			} else {
 				fb.user_posts = true;
 				fbid.init(type);
@@ -305,11 +289,11 @@ let fb = {
 			config.from_extension = true;
 			auth_scope = response.authResponse.grantedScopes;
 			if (auth_scope.indexOf("groups_access_member_info") < 0) {
-				swal({
-					title: '抓分享需付費，詳情請見粉絲專頁',
-					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-					type: 'warning'
-				}).done();
+				// swal({
+				// 	title: '抓分享需付費，詳情請見粉絲專頁',
+				// 	html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+				// 	type: 'warning'
+				// }).done();
 			} else {
 				let postdata = JSON.parse(localStorage.postdata);
 				if (postdata.type === 'personal') {
@@ -821,18 +805,12 @@ let fbid = {
 								resolve(obj);
 							}
 						} else if (urltype === 'group') {
-							if (auth_scope.indexOf("groups_access_member_info") > 0) {
+
 								obj.pureID = result[result.length - 1];
 								obj.pageID = result[0];
 								obj.fullID = obj.pageID + "_" + obj.pureID;
 								resolve(obj);
-							} else {
-								swal({
-									title: '社團使用需付費，詳情請見粉絲團',
-									html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-									type: 'warning'
-								}).done();
-							}
+							
 						} else if (urltype === 'photo') {
 							let regex = /\d{4,}/g;
 							let result = url.match(regex);

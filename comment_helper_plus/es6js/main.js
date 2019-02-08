@@ -237,7 +237,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'manage_pages',
+	auth: 'manage_pages,groups_access_member_info',
 	extension: false,
 	pageToken: '',
 }

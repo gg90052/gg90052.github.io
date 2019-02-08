@@ -635,11 +635,16 @@ let data = {
 			let datas = [];
 			let promise_array = [];
 			let shareError = 0;
+			let api_fbid = fbid.fullID;
+			if ($('.page_btn.active').attr('attr-type') == 2){
+				api_fbid = fbid.fullID.split('_')[1];
+				if (command === 'reactions') command = 'likes';
+			}
 			if (fbid.type === 'group') command = 'group';
 			if (command === 'sharedposts'){
 				getShare();
 			}else{
-				FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`,(res)=>{
+				FB.api(`${api_fbid}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`,(res)=>{
 					data.nowLength += res.data.length;
 					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
 					for(let d of res.data){
@@ -699,31 +704,32 @@ let data = {
 
 			function getShare(after=''){
 				let url = `https://am66ahgtp8.execute-api.ap-northeast-1.amazonaws.com/share?fbid=${fbid.fullID}&after=${after}`;
-				$.getJSON(url, function(res){
-					if (res === 'end'){
-						resolve(datas);
-					}else{
-						if (res.errorMessage){
-							resolve(datas);
-						}else if(res.data){
-							// shareError = 0;
-							for(let i of res.data){
-								let name = '';
-								if(i.story){
-									name = i.story.substring(0, i.story.indexOf(' shared'));
-								}else{
-									name = i.id.substring(0, i.id.indexOf("_"));
-								}
-								let id = i.id.substring(0, i.id.indexOf("_"));
-								i.from = {id, name};
-								datas.push(i);
-							}
-							getShare(res.after);
-						}else{
-							resolve(datas);
-						}
-					}
-				})
+				resolve([]);
+				// $.getJSON(url, function(res){
+				// 	if (res === 'end'){
+				// 		resolve(datas);
+				// 	}else{
+				// 		if (res.errorMessage){
+				// 			resolve(datas);
+				// 		}else if(res.data){
+				// 			// shareError = 0;
+				// 			for(let i of res.data){
+				// 				let name = '';
+				// 				if(i.story){
+				// 					name = i.story.substring(0, i.story.indexOf(' shared'));
+				// 				}else{
+				// 					name = i.id.substring(0, i.id.indexOf("_"));
+				// 				}
+				// 				let id = i.id.substring(0, i.id.indexOf("_"));
+				// 				i.from = {id, name};
+				// 				datas.push(i);
+				// 			}
+				// 			getShare(res.after);
+				// 		}else{
+				// 			resolve(datas);
+				// 		}
+				// 	}
+				// })
 			}
 		});
 	},

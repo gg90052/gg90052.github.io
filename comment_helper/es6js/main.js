@@ -153,9 +153,7 @@ $(document).ready(function () {
 	$("#btn_excel").click(function (e) {
 		let filterData = data.filter(data.raw);
 		if (e.ctrlKey || e.altKey) {
-			var url = 'data:text/json;charset=utf8,' + JSON.stringify(filterData);
-			window.open(url, '_blank');
-			window.focus();
+			exportToJsonFile(filterData);
 		} else {
 			if (filterData.length > 7000) {
 				$(".bigExcel").removeClass("hide");
@@ -188,6 +186,18 @@ $(document).ready(function () {
 		data.import(this.files[0]);
 	});
 });
+
+function exportToJsonFile(jsonData) {
+    let dataStr = JSON.stringify(jsonData);
+    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    let exportFileDefaultName = 'data.json';
+    
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+}
 
 function shareBTN() {
 	alert('認真看完跳出來的那頁上面寫了什麼\n\n看完你就會知道你為什麼不能抓分享');

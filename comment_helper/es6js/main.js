@@ -715,7 +715,7 @@ let choose = {
 				li += `<li class="prizeName">${i.name}</li>`;
 			} else {
 				li += `<li>
-				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large" alt=""></a>
+				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large&access_token=${config.pageToken}" alt=""></a>
 				<div class="info">
 				<p class="name"><a href="https://www.facebook.com/${i.userid}" target="_blank">${i.name}</a></p>
 				<p class="message"><a href="${i.link}" target="_blank">${i.message}</a></p>

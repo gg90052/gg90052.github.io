@@ -235,7 +235,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: 'chronological',
-	auth: 'manage_pages',
+	auth: 'manage_pages,groups_access_member_info',
 	likes: false,
 	pageToken: '',
 	from_extension: false,

@@ -376,7 +376,10 @@ let data = {
 			let datas = [];
 			let promise_array = [];
 			let command = fbid.command;
-			if (fbid.type === 'group') command = 'group';
+			if (fbid.type === 'group'){
+				fbid.fullID = fbid.pureID;
+				command = 'group';
+			}
 			if (fbid.type === 'group' && fbid.command == 'reactions') {
 				fbid.fullID = fbid.pureID;
 				fbid.command = 'likes';

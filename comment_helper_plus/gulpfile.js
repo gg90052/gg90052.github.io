@@ -22,7 +22,8 @@ var paths = {
 
 gulp.task('webserver', function(){
   connect.server({
-    livereload: true
+    livereload: true,
+    https: true,
   });
 });
 

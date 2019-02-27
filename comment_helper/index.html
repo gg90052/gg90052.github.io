@@ -20,7 +20,7 @@
 	<!-- <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/jhgjhncplhbjpdlgpenfmojcicihhcoe"> -->
 
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	<script src="//connect.facebook.net/zh_TW/all.js"></script>
+	<!-- <script src="//connect.facebook.net/zh_TW/all.js"></script> -->
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/bootbox.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
@@ -37,27 +37,26 @@
 <script>window.LogRocket && window.LogRocket.init('1gzxfh/comment_helper');</script> -->
 
 	<script type="text/javascript">
-		
-
-		window.fbAsyncInit = function () {
+		window.fbAsyncInit = function() {
 			FB.init({
-				appId: '1494465264176752',
-				autoLogAppEvents: true,
-				xfbml: true,
-				version: 'v3.2'
+				appId      : '1494465264176752',
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v3.2'
 			});
+			
+			FB.AppEvents.logPageView();   
+			
 		};
-
-		(function (d, s, id) {
+		
+		(function(d, s, id){
 			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {
-				return;
-			}
-			js = d.createElement(s);
-			js.id = id;
-			js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
+
 
 		// 1494465264176752 pro
 		// 1390069707889707 dev

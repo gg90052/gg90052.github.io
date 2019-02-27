@@ -265,11 +265,19 @@ let fb = {
 			auth_scope = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
+				if (auth_scope.includes('groups_access_member_info')){
 					swal(
 						'付費授權完成，請再次執行抓留言',
 						'Authorization Finished! Please getComments again.',
 						'success'
 					).done();
+				}else{
+					swal(
+						'付費授權檢查錯誤，該功能需付費',
+						'Authorization Failed! It is a paid feature.',
+						'error'
+					).done();
+				}
 			} else if (type == "sharedposts") {	
 					fb.user_posts = true;
 					fbid.init(type);
@@ -298,30 +306,15 @@ let fb = {
 		if (response.status === 'connected') {
 			config.from_extension = true;
 			auth_scope = response.authResponse.grantedScopes;
-			// if (auth_scope.indexOf("groups_access_member_info") < 0) {
-			// 	swal({
-			// 		title: '抓分享需付費，詳情請見粉絲專頁',
-			// 		html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-			// 		type: 'warning'
-			// 	}).done();
-			// } else {
-			// 	let postdata = JSON.parse(localStorage.postdata);
-			// 	if (postdata.type === 'personal') {
-			// 		fb.authOK();
-			// 	} else if (postdata.type === 'group') {
-			// 		fb.authOK();
-			// 	} else {
-			// 		fb.authOK();
-			// 	}
-			// }
-			let postdata = JSON.parse(localStorage.postdata);
-				if (postdata.type === 'personal') {
-					fb.authOK();
-				} else if (postdata.type === 'group') {
-					fb.authOK();
-				} else {
-					fb.authOK();
-				}
+			if (auth_scope.indexOf("groups_access_member_info") < 0) {
+				swal({
+					title: '抓分享需付費，詳情請見粉絲專頁',
+					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+					type: 'warning'
+				}).done();
+			} else {
+				fb.authOK();
+			}
 		} else {
 			FB.login(function (response) {
 				fb.extensionCallback(response);
@@ -471,10 +464,20 @@ let data = {
 		$(".main_table").removeClass("hide");
 		$(".update_area,.donate_area").slideUp();
 		$(".result_area").slideDown();
-		swal('完成！', 'Done!', 'success').done();
-		data.raw = fbid;
-		data.filter(data.raw, true);
-		ui.reset();
+		if (auth_scope.includes('groups_access_member_info')){
+			swal('完成！', 'Done!', 'success').done();
+			data.raw = fbid;
+			data.filter(data.raw, true);
+			ui.reset();
+		}else{
+			swal(
+				'付費授權檢查錯誤，抓社團貼文需付費',
+				'Authorization Failed! It is a paid feature.',
+				'error'
+			).done();
+		}
+
+		
 	},
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");

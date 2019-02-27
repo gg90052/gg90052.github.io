@@ -258,14 +258,14 @@ let fb = {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('manage_pages') >= 0){
+				if (authStr.includes('groups_access_member_info')){
 					fb.start();
 				}else{
 					swal(
-						'授權失敗，請給予所有權限',
-						'Authorization Failed! Please contact the admin.',
+						'付費授權檢查錯誤，該功能需付費',
+						'Authorization Failed! It is a paid feature.',
 						'error'
-						).done();
+					).done();
 				}
 			}else{
 				fbid.init(type);			
@@ -431,16 +431,16 @@ let fb = {
 		});
 	},
 	extensionAuth: (command = '')=>{
-		let response = {
-			status: 'connected',
-			authResponse:{
-				grantedScopes: 'groups_access_member_info',
-			}
-		}
-		fb.extensionCallback(response, command);
-		// FB.login(function(response) {
-		// 	fb.extensionCallback(response, command);
-		// }, {scope: config.auth ,return_scopes: true});
+		// let response = {
+		// 	status: 'connected',
+		// 	authResponse:{
+		// 		grantedScopes: 'groups_access_member_info',
+		// 	}
+		// }
+		// fb.extensionCallback(response, command);
+		FB.login(function(response) {
+			fb.extensionCallback(response, command);
+		}, {scope: config.auth ,return_scopes: true});
 	},
 	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {

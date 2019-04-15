@@ -284,7 +284,7 @@ let fb = {
 	},
 	genOption: (res)=>{
 		fb.next = '';
-		let options = `<input id="pure_fbid" class="hide"><button id="fbid_button" class="btn hide" onclick="fb.hiddenStart()">由FBID擷取</button><label><input type="checkbox" onchange="fb.optionDisplay(this)">隱藏列表</label><br>`;
+		let options = `<input id="pure_fbid" class="hide"><button id="fbid_button" class="btn hide" onclick="fb.hiddenStart(this)">由FBID擷取</button><label><input type="checkbox" onchange="fb.optionDisplay(this)">隱藏列表</label><br>`;
 		let type = -1;
 		$('#btn_start').addClass('hide');
 		for(let i of res){

@@ -295,9 +295,9 @@ Main Components
   clear: both;
 }
 .cd-pricing-features li {
-  width: 100px;
-  float: left;
-  padding: 1.6em 1em;
+  float: none;
+  width: auto;
+  padding: 1em;
   font-size: 1.6rem;
   text-align: center;
   white-space: nowrap;
@@ -372,6 +372,35 @@ Main Components
     background-color: transparent;
   }
 }
+@media only screen and (max-width: 768px) {
+  .cd-pricing-features {
+    width: auto;
+  }
+  .cd-pricing-features li {
+    float: none;
+    width: auto;
+    padding: 1em;
+  }
+  .cd-popular .cd-pricing-features li {
+    margin: 0 3px;
+  }
+  .cd-pricing-features li:nth-of-type(2n+1) {
+    background-color: rgba(23, 61, 80, 0.06);
+  }
+  .cd-pricing-features em {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+  .cd-has-margins .cd-popular .cd-pricing-features li, .cd-secondary-theme .cd-popular .cd-pricing-features li {
+    margin: 0;
+  }
+  .cd-secondary-theme .cd-pricing-features li {
+    color: #FFFFFF;
+  }
+  .cd-secondary-theme .cd-pricing-features li:nth-of-type(2n+1) {
+    background-color: transparent;
+  }
+}
 
 .cd-pricing-footer {
   position: absolute;
@@ -412,6 +441,20 @@ Main Components
     padding-bottom: 0;
   }
 }
+@media only screen and (max-width: 768px) {
+  .cd-pricing-footer {
+    position: relative;
+    height: auto;
+    text-align: center;
+  }
+  .cd-pricing-footer::after {
+    /* hide arrow */
+    display: none;
+  }
+  .cd-has-margins .cd-pricing-footer {
+    padding-bottom: 0;
+  }
+}
 
 .cd-select {
   position: relative;
@@ -425,6 +468,41 @@ Main Components
   color: transparent;
 }
 @media only screen and (min-width: 768px) {
+  .cd-select {
+    position: static;
+    display: inline-block;
+    height: auto;
+    padding: 1.3em 3em;
+    color: #FFFFFF;
+    border-radius: 2px;
+    background-color: #0c1f28;
+    font-size: 1.4rem;
+    text-indent: 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .no-touch .cd-select:hover {
+    background-color: #112e3c;
+  }
+  .cd-popular .cd-select {
+    background-color: #e97d68;
+  }
+  .no-touch .cd-popular .cd-select:hover {
+    background-color: #ec907e;
+  }
+  .cd-secondary-theme .cd-popular .cd-select {
+    background-color: #0c1f28;
+  }
+  .no-touch .cd-secondary-theme .cd-popular .cd-select:hover {
+    background-color: #112e3c;
+  }
+  .cd-has-margins .cd-select {
+    display: block;
+    padding: 1.7em 0;
+    border-radius: 0 0 4px 4px;
+  }
+}
+@media only screen and (max-width: 768px) {
   .cd-select {
     position: static;
     display: inline-block;

@@ -13,18 +13,31 @@
 		.cd-header{
 			height: auto;
 		}
-  		.cd-pricing-list{
-  			display:flex;
-  			flex-direction: row;
-  			flex-wrap: nowrap;
-  			justify-content: space-between;
-  			align-content: flex-start;
-  			align-items: flex-start;
-  		}
-  		.cd-pricing-list>li{
-  			width: 24%;
-  		}
-  	</style>
+		.cd-pricing-list{
+			display:flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			align-content: flex-start;
+			align-items: flex-start;
+		}
+		.cd-pricing-list>li{
+			width: 24%;
+		}
+		@media only screen and (max-width: 768px) {
+			.ps{
+				width: 95%;
+				max-width: 400px;
+			}
+			.cd-pricing-list{
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+			.cd-pricing-list>li{
+				width: 95%;
+			}
+		}
+	</style>
 </head>
 <body>
 	<header class="cd-header">

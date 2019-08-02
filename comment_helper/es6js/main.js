@@ -448,8 +448,8 @@ let data = {
 							}
 						}
 					}
-					// if (res.data.length > 0 && res.paging.next) {
-					if (data.nowLength < 180) {
+					if (res.data.length > 0 && res.paging.next) {
+					// if (data.nowLength < 180) {
 						getNext(res.paging.next);
 					} else {
 						resolve(datas);

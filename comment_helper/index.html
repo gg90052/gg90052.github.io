@@ -239,7 +239,7 @@
 						<input type="number" id="howmany" />個人
 					</div>
 					<button type="button" id="btn_choose" class="btn">馬上抽</button>
-					<button id="btn_excel" type="button" class="btn">輸出EXCEL</button>
+					<button id="btn_excel" type="button" class="btn" data-clipboard-target=".main_table">複製表格內容</button>
 				</div>
 				<div class="prizeDetail">
 					<button type="button" id="btn_addPrize" class="btn"> + 增加獎項</button>
@@ -281,7 +281,6 @@
 						<label for="picture" class="picture hide">
 							<input type="checkbox" id="picture"> 顯示大頭貼
 						</label>
-						<button data-clipboard-target=".main_table">複製表格內容</button>
 					</div>
 					<table class="table table-striped main_table hide">
 						<thead>
@@ -371,7 +370,7 @@
 			return false;
 		}
 
-		new Clipboard('.filters button');
+		new Clipboard('#btn_excel');
 	</script>
 </body>
 

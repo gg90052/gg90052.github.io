@@ -83,6 +83,6 @@ gulp.task('default',['webserver'],function(){
   gulp.watch(paths.img+'/icon/*',['sprite']);
   gulp.watch(paths.sass+'/*',['sass']);
   gulp.watch(paths.js+'/*',['babel']);
-  gulp.watch(paths.source+'/*.html', ['html-include']);
-  gulp.watch(paths.component+'/*.html', ['html-include']);
+  // gulp.watch(paths.source+'/*.html', ['html-include']);
+  // gulp.watch(paths.component+'/*.html', ['html-include']);
 });

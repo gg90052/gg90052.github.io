@@ -93,7 +93,7 @@ $(document).ready(function () {
 	});
 	$(window).keyup(function (e) {
 		if (!e.ctrlKey || e.altKey) {
-			$("#btn_excel").text("輸出EXCEL");
+			$("#btn_excel").text("複製表格內容");
 		}
 	});
 
@@ -155,11 +155,11 @@ $(document).ready(function () {
 		if (e.ctrlKey || e.altKey) {
 			exportToJsonFile(filterData);
 		} else {
-			if (filterData.length > 7000) {
-				$(".bigExcel").removeClass("hide");
-			} else {
-				JSONToCSVConvertor(data.excel(filterData), "Comment_helper", true);
-			}
+			// if (filterData.length > 7000) {
+			// 	$(".bigExcel").removeClass("hide");
+			// } else {
+			// 	JSONToCSVConvertor(data.excel(filterData), "Comment_helper", true);
+			// }
 		}
 	});
 
@@ -213,7 +213,7 @@ let config = {
 		likes: ['name']
 	},
 	limit: {
-		comments: '500',
+		comments: '15',
 		reactions: '500',
 		sharedposts: '500',
 		url_comments: '500',
@@ -448,7 +448,8 @@ let data = {
 							}
 						}
 					}
-					if (res.data.length > 0 && res.paging.next) {
+					// if (res.data.length > 0 && res.paging.next) {
+					if (data.nowLength < 180) {
 						getNext(res.paging.next);
 					} else {
 						resolve(datas);

@@ -90,7 +90,7 @@ $(document).ready(function(){
 	});
 	$(window).keyup(function(e){
 		if (!e.ctrlKey || !e.altKey){
-			$("#btn_excel").text("輸出EXCEL");
+			$("#btn_excel").text("複製表格內容");
 		}
 	});
 
@@ -109,7 +109,9 @@ $(document).ready(function(){
 
 	$('.compare_condition').change(function(){
 		$('.tables .total .table_compare').addClass('hide');
+		$('.tables .total .table_compare table').removeClass('table-active');
 		$('.tables .total .table_compare.'+ $(this).val()).removeClass('hide');
+		$('.tables .total .table_compare.'+ $(this).val() + ' table').addClass('table-active');
 	});
 
 	$('.rangeDate').daterangepicker({
@@ -169,15 +171,15 @@ $(document).ready(function(){
 			window.open(url, '_blank');
 			window.focus();
 		}else{
-			if (filterData.length > 7000){
-				$(".bigExcel").removeClass("hide");
-			}else{
-				if (tab.now === 'compare'){
-					JSONToCSVConvertor(data.excel(compare[$('.compare_condition').val()]), "Comment_helper", true);
-				}else{
-					JSONToCSVConvertor(data.excel(filterData[tab.now]), "Comment_helper", true);
-				}
-			}
+			// if (filterData.length > 7000){
+			// 	$(".bigExcel").removeClass("hide");
+			// }else{
+			// 	if (tab.now === 'compare'){
+			// 		JSONToCSVConvertor(data.excel(compare[$('.compare_condition').val()]), "Comment_helper", true);
+			// 	}else{
+			// 		JSONToCSVConvertor(data.excel(filterData[tab.now]), "Comment_helper", true);
+			// 	}
+			// }
 		}
 	});
 
@@ -284,7 +286,10 @@ let fb = {
 	},
 	genOption: (res)=>{
 		fb.next = '';
-		let options = `<input id="pure_fbid" class="hide"><button id="fbid_button" class="btn hide" onclick="fb.hiddenStart(this)">由FBID擷取</button><label><input type="checkbox" onchange="fb.optionDisplay(this)">隱藏列表</label><br>`;
+		let options = `<input id="pure_fbid" class="hide">
+		<button id="fbid_button" class="btn hide" onclick="fb.hiddenStart(this)">由FBID擷取</button>
+		<label><input type="checkbox" onchange="fb.optionDisplay(this)">隱藏列表</label>
+		<a href="javascript:;" onclick="data.finish(data.raw)" style="margin-left:20px;">強制跳轉到表格</a><br>`;
 		let type = -1;
 		$('#btn_start').addClass('hide');
 		for(let i of res){
@@ -593,7 +598,12 @@ let step = {
 }
 
 let data = {
-	raw: {data:{}},
+	raw: {data:{
+		fullID: '',
+		comments: [],
+		reactions: [],
+		sharedposts: [],
+	}},
 	filtered: {},
 	userid: '',
 	nowLength: 0,

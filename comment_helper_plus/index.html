@@ -149,7 +149,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 						幫我抽出<input type="number" id="howmany" />個人 
 					</div>
 					<button type="button" id="btn_choose" class="btn">馬上抽</button>
-					<button id="btn_excel" type="button" class="btn">輸出EXCEL</button>
+					<button id="btn_excel" type="button" class="btn" data-clipboard-target="#comment_table .tables div.active table.table-active">複製表格內容</button>
 				</div>
 				<div class="prizeDetail">
 					<button type="button" id="btn_addPrize" class="btn"> + 增加獎項</button>
@@ -247,7 +247,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 								<input type="text" placeholder="搜尋姓名" class="searchName" />
 								<input type="text" placeholder="搜尋留言" class="searchComment" />
 							</div>
-							<table class="table table-striped">
+							<table class="table table-striped table-active">
 								<thead>
 									<tr>
 										<td></td>
@@ -272,7 +272,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 								</select>
 								<input type="text" placeholder="搜尋姓名" class="searchName" />
 							</div>
-							<table class="table table-striped">
+							<table class="table table-striped table-active">
 								<thead>
 									<tr>
 										<td></td>
@@ -288,7 +288,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 							<div class="filters">
 								<input type="text" placeholder="搜尋姓名" class="searchName" />
 							</div>
-							<table class="table table-striped">
+							<table class="table table-striped table-active">
 								<thead>
 									<tr>
 										<td></td>
@@ -363,6 +363,8 @@ function msieversion() {
 
     return false;
 }
+
+new Clipboard('#btn_excel');
 </script>
 </body>
 </html>

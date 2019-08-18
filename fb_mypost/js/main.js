@@ -66,27 +66,23 @@ $(".stat").click(function () {
 });
 
 $(".import").change(function () {
-	// rawlist = lastData;
-	// finish();
 	// data.import(this.files[0]);
-	console.log(this.files[0]);
+	var file = this.files[0];
+	var reader = new FileReader();
+	
+	reader.onload = function (event) {
+		rawlist = JSON.parse(event.target.result);
+		finish();
+	};
+	
+	reader.readAsText(file);
 });
 
-$('.export').click(function(){
-	exportToJsonFile(JSON.parse(localStorage.getItem("posts")));
+var clipboard = new ClipboardJS('.export');
+
+clipboard.on('success', function(e) {
+    alert('已複製');
 });
-
-function exportToJsonFile(jsonData) {
-	var dataStr = JSON.stringify(jsonData);
-	var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-
-	var exportFileDefaultName = 'data.json';
-
-	var linkElement = document.createElement('a');
-	linkElement.setAttribute('href', dataUri);
-	linkElement.setAttribute('download', exportFileDefaultName);
-	linkElement.click();
-}
 
 function callback(response) {
 	if (response.status === 'connected') {
@@ -229,6 +225,7 @@ function finish() {
 	genSelect(rawlist);
 	renderList(rawlist.slice(0, 25));
 	localStorage.setItem("posts", JSON.stringify(rawlist));
+	$('#output').val(JSON.stringify(rawlist));
 	$("button").removeClass("is-loading");
 	genStat();
 	// alert("完成");

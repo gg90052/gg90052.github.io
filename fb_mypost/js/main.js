@@ -78,11 +78,20 @@ $(".import").change(function () {
 	reader.readAsText(file);
 });
 
-var clipboard = new ClipboardJS('.export');
-
-clipboard.on('success', function(e) {
-    alert('已複製');
+$('.export').click(function(){
+	exportToJsonFile(rawlist);
 });
+
+function exportToJsonFile(jsonData) {
+	var dataStr = JSON.stringify(jsonData);
+	var blob = new Blob([dataStr], { type: 'application/json' }); 
+	var dataUri = URL.createObjectURL(blob);
+
+	var linkElement = document.createElement('a');
+	linkElement.setAttribute('href', dataUri);
+	linkElement.setAttribute('download', 'data.json');
+	linkElement.click();
+}
 
 function callback(response) {
 	if (response.status === 'connected') {

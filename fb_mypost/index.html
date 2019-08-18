@@ -28,7 +28,7 @@
 
 </script>
 
-<script src="//connect.facebook.net/zh_TW/all.js"></script>
+<script src="https://connect.facebook.net/zh_TW/all.js"></script>
 
 <script type="text/javascript">
 window.fbAsyncInit = function() {
@@ -48,7 +48,7 @@ window.fbAsyncInit = function() {
 	var js, fjs = d.getElementsByTagName(s)[0];
 	if (d.getElementById(id)) return;
 	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/zh_TW/sdk.js";
+	js.src = "https://connect.facebook.net/zh_TW/sdk.js";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
@@ -63,6 +63,7 @@ window.fbAsyncInit = function() {
 		<div class="result_area show">
 			<div class="ui">
 				<button type="button" class="update button is-success">全部更新</button>
+				<input type="file" class="import button is-light">匯入JSON</button>
 				<div class="timeGroup">
 					<input type="text" class="time start" placeholder="開始時間"> - 
 					<input type="text" class="time end" placeholder="結束時間"> 
@@ -83,8 +84,8 @@ window.fbAsyncInit = function() {
 				</label>
 				<input type="text" class="search" placeholder="搜尋內文">
 				<button type="button" class="goSearch button is-info">搜尋</button>
-				<button type="button" class="stat button is-danger">統計資料
-				</button>
+				<button type="button" class="stat button is-danger">統計資料</button>
+				<button type="button" class="export button is-success">匯出JSON</button>
 			</div>
 			<div id="feeds">
 				

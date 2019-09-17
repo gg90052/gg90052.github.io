@@ -1,4 +1,5 @@
 var errorMessage = false;
+var fberror = '';
 window.onerror = handleErr;
 var TABLE;
 var lastCommand = 'comments';
@@ -7,9 +8,10 @@ var auth_scope = '';
 
 function handleErr(msg, url, l) {
 	if (!errorMessage) {
+		let url = $('#enterURL .url').val();
 		console.log("%c發生錯誤，請將完整錯誤訊息截圖傳送給管理員，並附上你輸入的網址", "font-size:30px; color:#F00");
-		console.log("Error occur URL： " + $('#enterURL .url').val());
-		$(".console .error").append("<br>" + $('#enterURL .url').val());
+		console.log("Error occur URL： " + url);
+		$(".console .error").append(`<br><br>${fberror}<br><br>${url}`);
 		$(".console .error").fadeIn();
 		errorMessage = true;
 	}
@@ -949,6 +951,7 @@ let fbid = {
 					var pagename = posturl.substring(start, end);
 					FB.api(`/${pagename}?fields=access_token`, function (res) {
 						if (res.error) {
+							fberror = res.error.message;
 							resolve('personal');
 						} else {
 							if (res.access_token) {

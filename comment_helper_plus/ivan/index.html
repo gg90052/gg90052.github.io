@@ -1,0 +1,119 @@
+<html>
+
+<head>
+	<title>group_comments</title>
+
+	<link rel="stylesheet" href="css/new.css">
+
+
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	
+
+	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '160833824415744',
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v4.0'
+			});
+			
+			//FB.AppEvents.logPageView();   
+			
+		};
+		//2261878374068468
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		if (location.protocol == 'http:') location.href = location.href.replace('http:', 'https:');
+	</script>
+
+</head>
+
+<body>
+	<div class="input_area">
+		<div class="wrapper">
+			<input type="text" id="url" placeholder="請輸入文章網址">
+			<button onclick="fb.getAuth('comments')">送出</button>
+		</div>
+	</div>
+	<div class="wrapper">
+		<div class="post">
+			<p class="from"></p>
+			<p class="time"></p>
+			<p class="message"></p>
+			<div class="img"></div>
+		</div>
+		<div id="vue_comments" class="comments">
+			<div class="ui">
+				<div class="keyword">
+					<input type="text" placeholder="請輸入關鍵字" v-model="keyword">
+				</div>
+				<div class="time_filter">
+					<input v-model="start_time" class="timepicker" type="text" placeholder="設定開始時間">
+					<input v-model="end_time" class="timepicker" type="text" placeholder="設定結束時間">
+				</div>
+				<div class="filters">
+					<label><input type="checkbox" v-model="hasPhoto">有貼照片的留言</label>
+					<label><input type="checkbox" v-model="removeDuplicate">移除重複留言</label>
+				</div>
+				<div class="choose">
+					抽出 <input type="number" v-model="winner"> 人
+					<button @click="choose">抽獎</button>
+				</div>
+			</div>
+			<div class="winner_list">
+				<div class="comment" v-for="comment in winner_list">
+					<p class="from">{{comment.from.name}}</p>
+					<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
+					<p class="message">{{comment.message}}</p>
+					<div class="img" v-if="comment.attachment && comment.attachment.type =='photo'">
+						<a :href="comment.attachment.media.image.src" target="_blank"><img :src="comment.attachment.media.image.src" height="300" alt=""></a>
+					</div>
+					<div class="feedback">
+						<p class="like_count"><span class="react LIKE"></span>{{comment.like_count}}</p>
+						<p>{{comment.comment_count}}則留言</p>
+					</div>
+				</div>
+			</div>
+			<div class="comment" v-for="comment in filter_comment">
+				<p class="from">{{comment.from.name}}</p>
+				<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
+				<p class="message">{{comment.message}}</p>
+				<div class="img" v-if="comment.attachment && comment.attachment.type =='photo'">
+					<a :href="comment.attachment.media.image.src" target="_blank"><img :src="comment.attachment.media.image.src" height="300" alt=""></a>
+				</div>
+				<div class="feedback">
+					<p class="like_count"><span class="react LIKE"></span>{{comment.like_count}}</p>
+					<p>{{comment.comment_count}}則留言</p>
+				</div>
+				<div class="replys" v-if="comment.reply.length > 0">
+					<div class="reply" v-for="reply in comment.reply">
+						<p class="from">{{reply.from.name}}</p>
+						<a :href="'https://www.facebook.com/' + reply.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
+						<p class="message">{{reply.message}}</p>
+						<div class="img" v-if="reply.attachment && reply.attachment.type =='photo'">
+							<a :href="reply.attachment.media.image.src" target="_blank"><img :src="reply.attachment.media.image.src" height="100" alt=""></a>
+						</div>
+						<p class="like_count"><span class="react LIKE"></span>{{reply.like_count}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+
+</html>

@@ -41,8 +41,14 @@
 <body>
 	<div class="input_area">
 		<div class="wrapper">
+			<!-- <input type="text" id="url" value="https://www.facebook.com/groups/commenthelper/permalink/1473332819422708/" placeholder="請輸入文章網址"> -->
 			<input type="text" id="url" placeholder="請輸入文章網址">
 			<button onclick="fb.getAuth('comments')">送出</button>
+			<button onclick="showType()">一般顯示</button>
+			<button onclick="showType('comments')">輸出留言</button>
+			<button onclick="showType('replys')">輸出回復</button>
+			<button class="copy_btn" data-clipboard-target=".comments_table">複製留言表格</button>
+			<button class="copy_btn" data-clipboard-target=".replys_table">複製回覆表格</button>
 		</div>
 	</div>
 	<div class="wrapper">
@@ -70,7 +76,7 @@
 					<button @click="choose">抽獎</button>
 				</div>
 			</div>
-			<div class="winner_list">
+			<div class="winner_list" v-if="showType == 'standard'">
 				<div class="comment" v-for="comment in winner_list">
 					<p class="from">{{comment.from.name}}</p>
 					<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
@@ -84,7 +90,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="comment" v-for="comment in filter_comment">
+			<div class="comment" v-if="showType == 'standard'" v-for="comment in filter_comment">
 				<p class="from">{{comment.from.name}}</p>
 				<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
 				<p class="message">{{comment.message}}</p>
@@ -107,12 +113,76 @@
 					</div>
 				</div>
 			</div>
+			<div class="comments_table" v-if="showType == 'comments'">
+				<table>
+					<thead>
+						<tr>
+							<td>留言編號</td>
+							<td>留言人</td>
+							<td>留言內容</td>
+							<td>照片網址</td>
+							<td>留言時間</td>
+							<td>按讚數</td>
+							<td>回覆數</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in output.comments">
+							<td>{{c.comment_index}}</td>
+							<td>{{c.from.name}}</td>
+							<td>{{c.message}}</td>
+							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
+							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td>{{c.like_count}}</td>
+							<td>{{c.comment_count}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="replys_table" v-if="showType == 'replys'">
+				<table>
+					<thead>
+						<tr>
+							<td>回覆編號</td>
+							<td>留言編號</td>
+							<td>回覆人</td>
+							<td>回覆內容</td>
+							<td>照片網址</td>
+							<td>回覆時間</td>
+							<td>按讚數</td>
+							<td>回覆數</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in output.replys">
+							<td>{{c.reply_index}}</td>
+							<td>{{c.comment_index}}</td>
+							<td>{{c.from.name}}</td>
+							<td>{{c.message}}</td>
+							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
+							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td>{{c.like_count}}</td>
+							<td>{{c.comment_count}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="loading">
+		<div class="content">
+			<div class="animate">
+				<div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-wedges"><div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>
+			</div>
+			<p class="message">擷取資料中... (<span>0</span>)</p>
+			<p class="errorMess"></p>
 		</div>
 	</div>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/clipboard.min.js"></script>
 	<script src="js/main.js"></script>
 </body>
 

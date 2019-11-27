@@ -25,6 +25,7 @@
 			
 		};
 		//2261878374068468
+		//160833824415744
 		(function(d, s, id){
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) {return;}
@@ -53,7 +54,6 @@
 	</div>
 	<div class="wrapper">
 		<div class="post">
-			<p class="from"></p>
 			<p class="time"></p>
 			<p class="message"></p>
 			<div class="img"></div>
@@ -157,7 +157,7 @@
 						<tr v-for="c in output.replys">
 							<td>{{c.reply_index}}</td>
 							<td>{{c.comment_index}}</td>
-							<td>{{c.from.name}}</td>
+							<td>{{c.from ? c.from.name:''}}</td>
 							<td>{{c.message}}</td>
 							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
 							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>

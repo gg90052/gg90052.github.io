@@ -78,7 +78,7 @@
 			</div>
 			<div class="winner_list" v-if="showType == 'standard'">
 				<div class="comment" v-for="comment in winner_list">
-					<p class="from">{{comment.from.name}}</p>
+					<p class="from">{{comment.from?comment.from.name:''}}</p>
 					<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
 					<p class="message">{{comment.message}}</p>
 					<div class="img" v-if="comment.attachment && comment.attachment.type =='photo'">
@@ -103,7 +103,7 @@
 				</div>
 				<div class="replys" v-if="comment.reply.length > 0">
 					<div class="reply" v-for="reply in comment.reply">
-						<p class="from">{{reply.from.name}}</p>
+						<p class="from">{{reply.from ? reply.from.name:''}}</p>
 						<a :href="'https://www.facebook.com/' + reply.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
 						<p class="message">{{reply.message}}</p>
 						<div class="img" v-if="reply.attachment && reply.attachment.type =='photo'">
@@ -129,7 +129,7 @@
 					<tbody>
 						<tr v-for="c in output.comments">
 							<td>{{c.comment_index}}</td>
-							<td>{{c.from.name}}</td>
+							<td>{{c.from ? c.from.name:''}}</td>
 							<td>{{c.message}}</td>
 							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
 							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>

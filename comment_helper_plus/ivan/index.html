@@ -69,14 +69,14 @@
 				</div>
 				<div class="filters">
 					<label><input type="checkbox" v-model="hasPhoto">有貼照片的留言</label>
-					<label><input type="checkbox" v-model="removeDuplicate">移除重複留言</label>
+					<label><input type="checkbox" v-model="removeDuplicate">每人限一次中獎機會</label>
 				</div>
 				<div class="choose">
 					抽出 <input type="number" v-model="winner"> 人
 					<button @click="choose">抽獎</button>
 				</div>
 			</div>
-			<div class="winner_list" v-if="showType == 'standard'">
+			<div class="winner_list" v-if="winner_list.length > 0">
 				<div class="comment" v-for="comment in winner_list">
 					<p class="from">{{comment.from?comment.from.name:''}}</p>
 					<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
@@ -114,7 +114,33 @@
 				</div>
 			</div>
 			<div class="comments_table" v-if="showType == 'comments'">
+				<table v-if="winner_list.length > 0">
+					<caption>得獎名單表格</caption>
+					<thead>
+						<tr>
+							<td>留言編號</td>
+							<td>留言人</td>
+							<td>留言內容</td>
+							<td>照片網址</td>
+							<td>留言時間</td>
+							<td>按讚數</td>
+							<td>回覆數</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in winner_list">
+							<td>{{c.comment_index}}</td>
+							<td>{{c.from ? c.from.name:''}}</td>
+							<td>{{c.message}}</td>
+							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
+							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td>{{c.like_count}}</td>
+							<td>{{c.comment_count}}</td>
+						</tr>
+					</tbody>
+				</table>
 				<table>
+					<caption>留言表格</caption>
 					<thead>
 						<tr>
 							<td>留言編號</td>

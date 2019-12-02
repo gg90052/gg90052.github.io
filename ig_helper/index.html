@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0; user-scalable=0;">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>ig_comments</title>
+
+	<link rel="stylesheet" href="css/new.css">
+
+
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
+	<script type="text/javascript" src="js/moment.min.js"></script>
+	
+
+	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '2273434409427271',
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v4.0'
+			});
+			
+			//FB.AppEvents.logPageView();   
+			
+		};
+		//2261878374068468
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		if (location.protocol == 'http:') location.href = location.href.replace('http:', 'https:');
+	</script>
+
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<div id="login">
+			<div class="ci">
+				<img src="images/ci.png" alt="">
+				<p>IG_helper</p>
+			</div>
+			<button onclick="fb.getAuth()">Login with my Facebook account</button>
+			<a href="https://help.instagram.com/399237934150902" target="_blank">How to link my Instagram account to my Facebook fanpage?</a>
+		</div>
+		<div id="vue_steps" v-if="step == 0 || step == 1">
+			<div class="step step0" v-if="step == 0">
+				<p class="title">Please select the fanpage which connected with your Instagram account.</p>
+				<a href="https://help.instagram.com/399237934150902" target="_blank">How to link my Instagram account to my Facebook fanpage?</a>
+				<div class="pages">
+					<button class="btn" v-for="page in pages" @click="getPosts(page.id)">{{page.name}}</button>
+				</div>
+			</div>
+			<div class="step step1" v-if="step == 1">
+				<p class="title">Choose your post</p>
+				<div class="posts">
+					<div class="post" v-for="post in posts" @click="getPostDetail(post)">
+						<div class="media">
+							<video v-if="post.media_type == 'VIDEO'" autoplay muted="true" loop>
+								<source :src="post.media_url" type="video/mp4">
+							</video>
+							<img v-else :src="post.media_url" alt="">
+							<div class="cover">
+								<div class="info">
+									<p class="likes_count">{{post.like_count}}</p>
+									<p class="comments_count">{{post.comments_count}}</p>
+								</div>
+								<div class="text">
+									<template v-if="post.caption">{{post.caption}}</template>
+									<p class="timestamp">
+										<a :href="post.permalink" target="_blank">{{moment(post.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="vue_comments" v-if="show">
+			<template v-if="vue_steps.step == 2">
+				<div class="post">
+					<div class="img">
+						<video v-if="post.media_type == 'VIDEO'" autoplay muted="true" loop>
+							<source :src="post.media_url" type="video/mp4">
+						</video>
+						<img v-else :src="post.media_url" alt="">
+					</div>
+					<div class="infos">
+						<div class="back" @click="backStep"></div>
+						<div class="info">
+							<p class="time">
+								<a :href="post.permalink" target="_blank">{{moment(post.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</a>
+								<button @click="extend_caption = !extend_caption">extend caption</button>
+								<div class="reload" @click="reload(post)"></div>
+							</p>
+							<p class="message" v-if="post.caption" :class="extend_caption?'show':''">{{post.caption}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="comment_area">
+					<input type="text" placeholder="comment......" v-model="comment_input">
+					<button class="send" @click="sendComment(post.id)">send</button>
+				</div>
+				<div class="ui">
+					<div class="keyword">
+						<input type="text" placeholder="filter keywords" v-model="keyword">
+					</div>
+					<div class="filters">
+						<label><input type="checkbox" v-model="removeDuplicate">remove duplicate</label>
+					</div>
+					<!-- <div class="time_filter wide">
+						<input class="timepicker start_time" type="text" placeholder="set start time">
+						<input class="timepicker end_time" type="text" placeholder="set end time">
+					</div> -->
+					<div class="choose">
+						choose <input type="number" v-model="winner"><button @click="choose">draw</button>
+					</div>
+					<div class="sort">
+						<label><input type="checkbox" v-model="desc">sort DESC</label>
+					</div>
+				</div>
+				<div class="winner_list" v-if="winner_list.length > 0">
+					<div class="comment" v-for="comment in winner_list">
+						<p class="from">{{comment.username}}</p>
+						<p class="time">{{moment(comment.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
+						<p class="message">{{comment.text}}</p>
+					</div>
+				</div>
+				<div class="comments">
+					<div class="comment" :class="show_reply.includes(comment.id) ? 'show':''" v-if="showType == 'standard'" v-for="comment in filter_comment">
+						<p class="from">{{comment.username}}</p>
+						<p class="time">{{moment(comment.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
+						<p class="message">{{comment.text}}</p>
+						<button class="detail_btn" @click="reply(comment.id)">reply<span v-if="comment.replies.data.length>0">({{comment.replies.data.length}})</button>
+						<div class="replies" v-if="comment.replies" :cid="comment.id">
+							<div class="comment_area">
+								<input type="text" placeholder="reply......" :cid="comment.id">
+								<button class="send" @click="sendReply(comment.id)">send</button>
+							</div>
+							<div class="reply" v-for="reply in comment.replies.data">
+								<p class="from">{{reply.username}}</p>
+								<p class="time">{{moment(reply.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
+								<p class="message">{{reply.text}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</template>
+		</div>
+	</div>
+	<div id="popup" :class="target?'show':''">
+		<div class="content fetching" v-if="target=='fetching'">
+			<div class="animate">
+				<div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-wedges"><div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>
+			</div>
+			<p class="message">擷取資料中... (<span>{{all_length}}</span>)</p>
+			<p class="errorMess"></p>
+		</div>
+		<div class="content loading" v-if="target=='loading'">
+			<svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+				<circle cx="15" cy="15" r="15">
+					<animate attributeName="r" from="15" to="15"
+					begin="0s" dur="0.8s"
+					values="15;9;15" calcMode="linear"
+					repeatCount="indefinite" />
+					<animate attributeName="fill-opacity" from="1" to="1"
+					begin="0s" dur="0.8s"
+					values="1;.5;1" calcMode="linear"
+					repeatCount="indefinite" />
+				</circle>
+				<circle cx="60" cy="15" r="9" fill-opacity="0.3">
+					<animate attributeName="r" from="9" to="9"
+					begin="0s" dur="0.8s"
+					values="9;15;9" calcMode="linear"
+					repeatCount="indefinite" />
+					<animate attributeName="fill-opacity" from="0.5" to="0.5"
+					begin="0s" dur="0.8s"
+					values=".5;1;.5" calcMode="linear"
+					repeatCount="indefinite" />
+				</circle>
+				<circle cx="105" cy="15" r="15">
+					<animate attributeName="r" from="15" to="15"
+					begin="0s" dur="0.8s"
+					values="15;9;15" calcMode="linear"
+					repeatCount="indefinite" />
+					<animate attributeName="fill-opacity" from="1" to="1"
+					begin="0s" dur="0.8s"
+					values="1;.5;1" calcMode="linear"
+					repeatCount="indefinite" />
+				</circle>
+			</svg>
+		</div>
+	</div>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script src="js/main.js"></script>
+</body>
+
+</html>

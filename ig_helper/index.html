@@ -66,7 +66,7 @@
 				<div class="posts">
 					<div class="post" v-for="post in posts" @click="getPostDetail(post)">
 						<div class="media">
-							<video v-if="post.media_type == 'VIDEO'" autoplay muted="true" loop>
+							<video v-if="post.media_type == 'VIDEO'" muted="true" loop>
 								<source :src="post.media_url" type="video/mp4">
 							</video>
 							<img v-else :src="post.media_url" alt="">
@@ -91,7 +91,7 @@
 			<template v-if="vue_steps.step == 2">
 				<div class="post">
 					<div class="img">
-						<video v-if="post.media_type == 'VIDEO'" autoplay muted="true" loop>
+						<video v-if="post.media_type == 'VIDEO'" muted="true" loop>
 							<source :src="post.media_url" type="video/mp4">
 						</video>
 						<img v-else :src="post.media_url" alt="">

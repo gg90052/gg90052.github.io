@@ -474,9 +474,13 @@ span.react.THANKFUL {
 }
 
 .wrapper .ui .choose input {
-  width: 50px;
-  margin-right: 10px;
+  width: 40px;
+  margin: 0 5px;
   text-align: center;
+}
+
+.wrapper .ui .choose button {
+  margin-left: 10px;
 }
 
 .wrapper .from {

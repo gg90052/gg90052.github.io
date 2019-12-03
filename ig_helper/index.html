@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh_tw">
+<html>
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0; user-scalable=0;">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<title>ig_comments</title>
+	<title>group_comments</title>
 
 	<link rel="stylesheet" href="css/new.css">
 
@@ -19,7 +15,7 @@
 	<script type="text/javascript">
 		window.fbAsyncInit = function() {
 			FB.init({
-				appId      : '2273434409427271',
+				appId      : '160833824415744',
 				cookie     : true,
 				xfbml      : true,
 				version    : 'v4.0'
@@ -29,6 +25,7 @@
 			
 		};
 		//2261878374068468
+		//160833824415744
 		(function(d, s, id){
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) {return;}
@@ -43,169 +40,175 @@
 </head>
 
 <body>
-
-	<div class="wrapper">
-		<div id="login">
-			<div class="ci">
-				<img src="images/ci.png" alt="">
-				<p>IG_helper</p>
-			</div>
-			<button onclick="fb.getAuth()">Login with my Facebook account</button>
-			<a href="https://help.instagram.com/399237934150902" target="_blank">How to link my Instagram account to my Facebook fanpage?</a>
-		</div>
-		<div id="vue_steps" v-if="step == 0 || step == 1">
-			<div class="step step0" v-if="step == 0">
-				<p class="title">Please select the fanpage which connected with your Instagram account.</p>
-				<a href="https://help.instagram.com/399237934150902" target="_blank">How to link my Instagram account to my Facebook fanpage?</a>
-				<div class="pages">
-					<button class="btn" v-for="page in pages" @click="getPosts(page.id)">{{page.name}}</button>
-				</div>
-			</div>
-			<div class="step step1" v-if="step == 1">
-				<p class="title">Choose your post</p>
-				<div class="posts">
-					<div class="post" v-for="post in posts" @click="getPostDetail(post)">
-						<div class="media">
-							<video v-if="post.media_type == 'VIDEO'" muted="true" loop>
-								<source :src="post.media_url" type="video/mp4">
-							</video>
-							<img v-else :src="post.media_url" alt="">
-							<div class="cover">
-								<div class="info">
-									<p class="likes_count">{{post.like_count}}</p>
-									<p class="comments_count">{{post.comments_count}}</p>
-								</div>
-								<div class="text">
-									<template v-if="post.caption">{{post.caption}}</template>
-									<p class="timestamp">
-										<a :href="post.permalink" target="_blank">{{moment(post.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</a>
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="vue_comments" v-if="show">
-			<template v-if="vue_steps.step == 2">
-				<div class="post">
-					<div class="img">
-						<video v-if="post.media_type == 'VIDEO'" muted="true" loop>
-							<source :src="post.media_url" type="video/mp4">
-						</video>
-						<img v-else :src="post.media_url" alt="">
-					</div>
-					<div class="infos">
-						<div class="back" @click="backStep"></div>
-						<div class="info">
-							<p class="time">
-								<a :href="post.permalink" target="_blank">{{moment(post.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</a>
-								<button @click="extend_caption = !extend_caption">extend caption</button>
-								<div class="reload" @click="reload(post)"></div>
-							</p>
-							<p class="message" v-if="post.caption" :class="extend_caption?'show':''">{{post.caption}}</p>
-						</div>
-					</div>
-				</div>
-				<div class="comment_area">
-					<input type="text" placeholder="comment......" v-model="comment_input">
-					<button class="send" @click="sendComment(post.id)">send</button>
-				</div>
-				<div class="ui">
-					<div class="keyword">
-						<input type="text" placeholder="filter keywords" v-model="keyword">
-					</div>
-					<div class="filters">
-						<label><input type="checkbox" v-model="removeDuplicate">remove duplicate</label>
-					</div>
-					<!-- <div class="time_filter wide">
-						<input class="timepicker start_time" type="text" placeholder="set start time">
-						<input class="timepicker end_time" type="text" placeholder="set end time">
-					</div> -->
-					<div class="choose">
-						choose <input type="number" v-model="winner"><button @click="choose">draw</button>
-					</div>
-					<div class="sort">
-						<label><input type="checkbox" v-model="desc">sort DESC</label>
-					</div>
-				</div>
-				<div class="winner_list" v-if="winner_list.length > 0">
-					<div class="comment" v-for="comment in winner_list">
-						<p class="from">{{comment.username}}</p>
-						<p class="time">{{moment(comment.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
-						<p class="message">{{comment.text}}</p>
-					</div>
-				</div>
-				<div class="comments">
-					<div class="comment" :class="show_reply.includes(comment.id) ? 'show':''" v-if="showType == 'standard'" v-for="comment in filter_comment">
-						<p class="from">{{comment.username}}</p>
-						<p class="time">{{moment(comment.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
-						<p class="message">{{comment.text}}</p>
-						<button class="detail_btn" @click="reply(comment.id)">reply<span v-if="comment.replies.data.length>0">({{comment.replies.data.length}})</button>
-						<div class="replies" v-if="comment.replies" :cid="comment.id">
-							<div class="comment_area">
-								<input type="text" placeholder="reply......" :cid="comment.id">
-								<button class="send" @click="sendReply(comment.id)">send</button>
-							</div>
-							<div class="reply" v-for="reply in comment.replies.data">
-								<p class="from">{{reply.username}}</p>
-								<p class="time">{{moment(reply.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
-								<p class="message">{{reply.text}}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</template>
+	<div class="input_area">
+		<div class="wrapper">
+			<!-- <input type="text" id="url" value="https://www.facebook.com/groups/commenthelper/permalink/1473332819422708/" placeholder="請輸入文章網址"> -->
+			<input type="text" id="url" placeholder="請輸入文章網址">
+			<button onclick="fb.getAuth('comments')">送出</button>
+			<button onclick="showType()">一般顯示</button>
+			<button onclick="showType('comments')">輸出留言</button>
+			<button onclick="showType('replys')">輸出回復</button>
+			<button class="copy_btn" data-clipboard-target=".comments_table">複製留言表格</button>
+			<button class="copy_btn" data-clipboard-target=".replys_table">複製回覆表格</button>
 		</div>
 	</div>
-	<div id="popup" :class="target?'show':''">
-		<div class="content fetching" v-if="target=='fetching'">
+	<div class="wrapper">
+		<div class="post">
+			<p class="time"></p>
+			<p class="message"></p>
+			<div class="img"></div>
+		</div>
+		<div id="vue_comments" class="comments">
+			<div class="ui">
+				<div class="keyword">
+					<input type="text" placeholder="請輸入關鍵字" v-model="keyword">
+				</div>
+				<div class="time_filter">
+					<input v-model="start_time" class="timepicker" type="text" placeholder="設定開始時間">
+					<input v-model="end_time" class="timepicker" type="text" placeholder="設定結束時間">
+				</div>
+				<div class="filters">
+					<label><input type="checkbox" v-model="hasPhoto">有貼照片的留言</label>
+					<label><input type="checkbox" v-model="removeDuplicate">每人限一次中獎機會</label>
+				</div>
+				<div class="choose">
+					抽出 <input type="number" v-model="winner"> 人
+					<button @click="choose">抽獎</button>
+				</div>
+			</div>
+			<div class="winner_list" v-if="winner_list.length > 0">
+				<div class="comment" v-for="comment in winner_list">
+					<p class="from">{{comment.from?comment.from.name:''}}</p>
+					<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
+					<p class="message">{{comment.message}}</p>
+					<div class="img" v-if="comment.attachment && comment.attachment.type =='photo'">
+						<a :href="comment.attachment.media.image.src" target="_blank"><img :src="comment.attachment.media.image.src" height="300" alt=""></a>
+					</div>
+					<div class="feedback">
+						<p class="like_count"><span class="react LIKE"></span>{{comment.like_count}}</p>
+						<p>{{comment.comment_count}}則留言</p>
+					</div>
+				</div>
+			</div>
+			<div class="comment" v-if="showType == 'standard'" v-for="comment in filter_comment">
+				<p class="from">{{comment.from.name}}</p>
+				<a :href="'https://www.facebook.com/' + comment.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
+				<p class="message">{{comment.message}}</p>
+				<div class="img" v-if="comment.attachment && comment.attachment.type =='photo'">
+					<a :href="comment.attachment.media.image.src" target="_blank"><img :src="comment.attachment.media.image.src" height="300" alt=""></a>
+				</div>
+				<div class="feedback">
+					<p class="like_count"><span class="react LIKE"></span>{{comment.like_count}}</p>
+					<p>{{comment.comment_count}}則留言</p>
+				</div>
+				<div class="replys" v-if="comment.reply.length > 0">
+					<div class="reply" v-for="reply in comment.reply">
+						<p class="from">{{reply.from ? reply.from.name:''}}</p>
+						<a :href="'https://www.facebook.com/' + reply.id" target="_blank"><p class="time">{{moment(comment.created_time).format('YYYY-MM-DD HH:mm:ss')}}</p></a>
+						<p class="message">{{reply.message}}</p>
+						<div class="img" v-if="reply.attachment && reply.attachment.type =='photo'">
+							<a :href="reply.attachment.media.image.src" target="_blank"><img :src="reply.attachment.media.image.src" height="100" alt=""></a>
+						</div>
+						<p class="like_count"><span class="react LIKE"></span>{{reply.like_count}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="comments_table" v-if="showType == 'comments'">
+				<table v-if="winner_list.length > 0">
+					<caption>得獎名單表格</caption>
+					<thead>
+						<tr>
+							<td>留言編號</td>
+							<td>留言人</td>
+							<td>留言內容</td>
+							<td>照片網址</td>
+							<td>留言時間</td>
+							<td>按讚數</td>
+							<td>回覆數</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in winner_list">
+							<td>{{c.comment_index}}</td>
+							<td>{{c.from ? c.from.name:''}}</td>
+							<td>{{c.message}}</td>
+							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
+							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td>{{c.like_count}}</td>
+							<td>{{c.comment_count}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<table>
+					<caption>留言表格</caption>
+					<thead>
+						<tr>
+							<td>留言編號</td>
+							<td>留言人</td>
+							<td>留言內容</td>
+							<td>照片網址</td>
+							<td>留言時間</td>
+							<td>按讚數</td>
+							<td>回覆數</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in output.comments">
+							<td>{{c.comment_index}}</td>
+							<td>{{c.from ? c.from.name:''}}</td>
+							<td>{{c.message}}</td>
+							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
+							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td>{{c.like_count}}</td>
+							<td>{{c.comment_count}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="replys_table" v-if="showType == 'replys'">
+				<table>
+					<thead>
+						<tr>
+							<td>回覆編號</td>
+							<td>留言編號</td>
+							<td>回覆人</td>
+							<td>回覆內容</td>
+							<td>照片網址</td>
+							<td>回覆時間</td>
+							<td>按讚數</td>
+							<td>回覆數</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="c in output.replys">
+							<td>{{c.reply_index}}</td>
+							<td>{{c.comment_index}}</td>
+							<td>{{c.from ? c.from.name:''}}</td>
+							<td>{{c.message}}</td>
+							<td v-text="c.attachment && c.attachment.type == 'photo' ? c.attachment.media.image.src:''"></td>
+							<td>{{moment(c.created_time).format('YYYY-MM-DD HH:mm:ss')}}</td>
+							<td>{{c.like_count}}</td>
+							<td>{{c.comment_count}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div id="loading">
+		<div class="content">
 			<div class="animate">
 				<div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-wedges"><div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>
 			</div>
-			<p class="message">擷取資料中... (<span>{{all_length}}</span>)</p>
+			<p class="message">擷取資料中... (<span>0</span>)</p>
 			<p class="errorMess"></p>
-		</div>
-		<div class="content loading" v-if="target=='loading'">
-			<svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#fff">
-				<circle cx="15" cy="15" r="15">
-					<animate attributeName="r" from="15" to="15"
-					begin="0s" dur="0.8s"
-					values="15;9;15" calcMode="linear"
-					repeatCount="indefinite" />
-					<animate attributeName="fill-opacity" from="1" to="1"
-					begin="0s" dur="0.8s"
-					values="1;.5;1" calcMode="linear"
-					repeatCount="indefinite" />
-				</circle>
-				<circle cx="60" cy="15" r="9" fill-opacity="0.3">
-					<animate attributeName="r" from="9" to="9"
-					begin="0s" dur="0.8s"
-					values="9;15;9" calcMode="linear"
-					repeatCount="indefinite" />
-					<animate attributeName="fill-opacity" from="0.5" to="0.5"
-					begin="0s" dur="0.8s"
-					values=".5;1;.5" calcMode="linear"
-					repeatCount="indefinite" />
-				</circle>
-				<circle cx="105" cy="15" r="15">
-					<animate attributeName="r" from="15" to="15"
-					begin="0s" dur="0.8s"
-					values="15;9;15" calcMode="linear"
-					repeatCount="indefinite" />
-					<animate attributeName="fill-opacity" from="1" to="1"
-					begin="0s" dur="0.8s"
-					values="1;.5;1" calcMode="linear"
-					repeatCount="indefinite" />
-				</circle>
-			</svg>
 		</div>
 	</div>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script type="text/javascript" src="js/vue.min.js"></script>
+	<script type="text/javascript" src="js/clipboard.min.js"></script>
 	<script src="js/main.js"></script>
 </body>
 

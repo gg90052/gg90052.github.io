@@ -12,7 +12,6 @@
 
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
 	<script type="text/javascript" src="js/moment.min.js"></script>
 	
 
@@ -101,7 +100,7 @@
 						<div class="info">
 							<p class="time">
 								<a :href="post.permalink" target="_blank">{{moment(post.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</a>
-								<button @click="extend_caption = !extend_caption">extend caption</button>
+								<button @click="extend_caption = !extend_caption">展開</button>
 								<div class="reload" @click="reload(post)"></div>
 							</p>
 							<p class="message" v-if="post.caption" :class="extend_caption?'show':''">{{post.caption}}</p>
@@ -109,7 +108,7 @@
 					</div>
 				</div>
 				<div class="comment_area">
-					<input type="text" placeholder="comment......" v-model="comment_input">
+					<input type="text" placeholder="留言......" v-model="comment_input">
 					<button class="send" @click="sendComment(post.id)">send</button>
 				</div>
 				<div class="ui">
@@ -142,10 +141,10 @@
 						<p class="from">{{comment.username}}</p>
 						<p class="time">{{moment(comment.timestamp).format('YYYY-MM-DD HH:mm:ss')}}</p>
 						<p class="message">{{comment.text}}</p>
-						<button class="detail_btn" @click="reply(comment.id)">reply<span v-if="comment.replies.data.length>0">({{comment.replies.data.length}})</button>
+						<button class="detail_btn" @click="reply(comment.id)">回覆<span v-if="comment.replies.data.length>0">({{comment.replies.data.length}})</button>
 						<div class="replies" v-if="comment.replies" :cid="comment.id">
 							<div class="comment_area">
-								<input type="text" placeholder="reply......" :cid="comment.id">
+								<input type="text" placeholder="回覆......" :cid="comment.id">
 								<button class="send" @click="sendReply(comment.id)">send</button>
 							</div>
 							<div class="reply" v-for="reply in comment.replies.data">

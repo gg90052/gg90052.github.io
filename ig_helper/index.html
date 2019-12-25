@@ -27,6 +27,7 @@
 			//FB.AppEvents.logPageView();   
 			
 		};
+		//2273434409427271
 		//2261878374068468
 		(function(d, s, id){
 			var js, fjs = d.getElementsByTagName(s)[0];
@@ -112,22 +113,25 @@
 					<button class="send" @click="sendComment(post.id)">send</button>
 				</div>
 				<div class="ui">
-					<div class="keyword">
+					<div class="keyword" v-if="auth_user">
 						<input type="text" placeholder="搜尋關鍵字" v-model="keyword">
 					</div>
-					<div class="filters">
+					<div class="filters" v-if="auth_user">
 						<label><input type="checkbox" v-model="removeDuplicate">移除重複留言</label>
 					</div>
-					<!-- <div class="time_filter wide">
+					<div class="time_filter wide" v-if="auth_user">
 						<input class="timepicker start_time" type="text" placeholder="set start time">
 						<input class="timepicker end_time" type="text" placeholder="set end time">
-					</div> -->
+					</div>
 					<div class="choose">
 						抽 <input type="number" v-model="winner">人<button @click="choose">抽獎</button>
 					</div>
-					<div class="sort">
+					<div class="sort" v-if="auth_user">
 						<label><input type="checkbox" v-model="desc">由新到舊排序</label>
 					</div>
+					<template  v-if="!auth_user">
+						<a href="pay.html" target="_blank">進階功能請見付費說明</a>
+					</template>
 				</div>
 				<div class="winner_list" v-if="winner_list.length > 0">
 					<div class="comment" v-for="comment in winner_list">

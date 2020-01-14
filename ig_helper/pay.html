@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<title>IG小助手付費說明</title>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<link rel="stylesheet" href="css/new.css">
+<body>
+	<script type="text/javascript">
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '2273434409427271',
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v4.0'
+			});
+			
+			//FB.AppEvents.logPageView();   
+			
+		};
+		//2273434409427271
+		//2261878374068468
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		
+		if (location.protocol == 'http:') location.href = location.href.replace('http:', 'https:');
+	</script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-53709812-5"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		
+		gtag('config', 'UA-53709812-5');
+	</script>
+
+	<div class="pay_content">
+		<p class="title">付費授權頁面</p>
+		<div class="auth_area">
+			<button id="checkID">確認帳號身分</button>
+			<p class="username hide">帳號身分：<span></span></p>
+			<input type="text" id="token" placeholder="請輸入授權token">
+			<button id="sendToken">送出</button>
+		</div>
+		<div class="readme">
+			<p class="subtitle">付費須知</p>
+			<ol>
+				<li>付費後請到<a href="https://www.facebook.com/commenthelper/" target="_blank">粉絲團</a>私訊給管理員，並附上付款證明等待管理員開通</li>
+				<li>付費授權是跟著Facebook帳號，非粉絲團也非Instagram帳號</li>
+				<li>無法轉移權限</li>
+				<li>需要發票者，請另外至粉絲團私訊給管理員詢問含稅價格及提供發票相關資訊</li>
+			</ol>
+			<a href="https://core.newebpay.com/EPG/comment_helper/IebKuK" class="paylink" target="_blank">前往付款</a>
+			<p class="subtitle">付費功能</p>
+			<ul>
+				<li>利用關鍵字抽獎</li>
+				<li>設定時間內留言才有抽獎資格</li>
+				<li>排除多次留言</li>
+				<li>依新到舊排序留言</li>
+				<li>直接回覆或新增留言</li>
+			</ul>
+		</div>
+	</div>
+	<div id="popup" class="">
+		<div class="content loading">
+			<svg width="120" height="30" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+				<circle cx="15" cy="15" r="15">
+					<animate attributeName="r" from="15" to="15"
+					begin="0s" dur="0.8s"
+					values="15;9;15" calcMode="linear"
+					repeatCount="indefinite" />
+					<animate attributeName="fill-opacity" from="1" to="1"
+					begin="0s" dur="0.8s"
+					values="1;.5;1" calcMode="linear"
+					repeatCount="indefinite" />
+				</circle>
+				<circle cx="60" cy="15" r="9" fill-opacity="0.3">
+					<animate attributeName="r" from="9" to="9"
+					begin="0s" dur="0.8s"
+					values="9;15;9" calcMode="linear"
+					repeatCount="indefinite" />
+					<animate attributeName="fill-opacity" from="0.5" to="0.5"
+					begin="0s" dur="0.8s"
+					values=".5;1;.5" calcMode="linear"
+					repeatCount="indefinite" />
+				</circle>
+				<circle cx="105" cy="15" r="15">
+					<animate attributeName="r" from="15" to="15"
+					begin="0s" dur="0.8s"
+					values="15;9;15" calcMode="linear"
+					repeatCount="indefinite" />
+					<animate attributeName="fill-opacity" from="1" to="1"
+					begin="0s" dur="0.8s"
+					values="1;.5;1" calcMode="linear"
+					repeatCount="indefinite" />
+				</circle>
+			</svg>
+		</div>
+	</div>
+	<script>
+		var username, user_id;
+		$('#checkID').click(function(){
+			$('#popup').addClass('show');
+			FB.login(function (response) {
+				$('#popup').removeClass('show');
+				if (response.status === 'connected') {
+					FB.api(`/me?fields=id,name`, (res) => {
+						$('#checkID').addClass('hide');
+						$('.username').removeClass('hide');
+						username = res.name;
+						user_id = res.id;
+						$('.username span').text(username);
+					});
+				}
+			});
+		});
+		$('#sendToken').click(function(){
+			if ($('.username').hasClass('hide')) return alert('請先點擊上方確認帳號身分');
+			if ($('#token').val().trim() == '') return alert('請輸入授權token');
+			$('#popup').addClass('show');
+			var obj = {
+				token: $('#token').val(),
+				username: username,
+				app_scope_id: user_id
+			}
+			$.post('https://script.google.com/macros/s/AKfycbzdxacA1GUkCbJtxif8S2Pb6-anv_G3Kk2gQTFrGlpaoqvjL0w/exec', obj, function(res){
+				$('#popup').removeClass('show');
+				// let res = JSON.parse(result);
+				alert(res.message);
+				if (res.code == 1){
+					location.href = "index.html";
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

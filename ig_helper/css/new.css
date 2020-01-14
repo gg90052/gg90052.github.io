@@ -71,6 +71,10 @@ a {
   color: #385898;
 }
 
+.hide {
+  display: none;
+}
+
 .comments_table, .replys_table {
   border: 1px solid #000;
 }
@@ -871,4 +875,107 @@ span.react.THANKFUL {
   height: 200px !important;
   -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
   transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
+
+.pay_content {
+  padding: 30px 15px;
+}
+
+.pay_content .title {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.pay_content .auth_area {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-align-content: center;
+      -ms-flex-line-pack: center;
+          align-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 80%;
+  margin: 20px auto 0;
+  padding-top: 10px;
+}
+
+.pay_content .auth_area #checkID, .pay_content .auth_area .username {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.pay_content .auth_area button {
+  background: #3897f0;
+  color: #FFF;
+  height: 30px;
+  border: none;
+  min-width: 60px;
+}
+
+.pay_content .auth_area input {
+  height: 30px;
+  line-height: 30px;
+}
+
+.pay_content .readme {
+  margin-top: 30px;
+  line-height: 1.5em;
+  padding: 0 15px;
+}
+
+.pay_content .readme .subtitle {
+  font-size: 1.2em;
+  text-align: center;
+  margin-bottom: 10px;
+  padding-top: 20px;
+  border-top: 1px solid #000;
+}
+
+.pay_content .readme a {
+  margin: 0 10px;
+}
+
+.pay_content .readme a.paylink {
+  display: block;
+  margin: 15px auto;
+  width: 30%;
+  height: 40px;
+  line-height: 40px;
+  background: #3897f0;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  color: #FFF;
+}
+
+.pay_content .readme ol {
+  list-style-type: decimal;
+}
+
+.pay_content .readme ol li {
+  margin-bottom: 5px;
+}
+
+.pay_content .readme ul {
+  list-style-type: disc;
+}
+
+.pay_content .readme ul li {
+  margin-bottom: 5px;
 }

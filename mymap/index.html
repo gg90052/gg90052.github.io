@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0; user-scalable=0;">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+	<div id="app">
+		<div id="map"></div>
+		<div id="settings" @click="menu_show = !menu_show"></div>
+		<label id="import">
+			<input type="file" id="kml_file" style="display: none">
+		</label>
+		<div id="ui" :class="menu_show ? 'show':''">
+			<p class="title">My Map</p>
+			<div class="list" :class="now_open == i ? 'show':''" v-for="(li, i) in saved_data">
+				<p class="name" v-text="li.name" @click="open(i)"></p>
+				<div class="description" v-html="li.description" v-if="li.description"></div>
+				<p class="location">({{li.position.toString()}})</p>
+			</div>
+		</div>
+	</div>
+	
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/vue.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi3HU4qGpnvRXeAGj3m2k2sDLrZQ9ZmVA&libraries=places"></script>
+	<script src="https://mapbox.github.io/togeojson/togeojson.js"></script>
+	<script src="js/main.js"></script>
+
+</body>
+
+</html>

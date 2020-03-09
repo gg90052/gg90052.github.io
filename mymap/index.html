@@ -4,17 +4,57 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0; user-scalable=0;">
+	<title>my map</title>
 	<link rel="stylesheet" href="css/main.css">
 </head>
 
 <body>
 	<div id="app">
 		<div id="map"></div>
-		<div id="settings" @click="menu_show = !menu_show"></div>
-		<label id="import">
-			<input type="file" id="kml_file" style="display: none">
-		</label>
+		<div id="settings" v-if="!list_show" @click="menu_show = !menu_show"></div>
+		<div id="lists" v-if="!menu_show" @click="list_show = !list_show"></div>
 		<div id="ui" :class="menu_show ? 'show':''">
+			<p class="title">My Map</p>
+			<div class="list">
+				<p class="name" @click="aboutOpen($event)">版本紀錄</p>
+			</div>
+			<div class="list show">
+				<p class="name" @click="aboutOpen($event)">使用說明</p>
+				<div class="description">
+					<p class="step">
+						1.用電腦打開 Google Map，並進入我的地圖，並打開要使用的地圖。(我的地圖詳細操作請自行參閱<a href="https://risu.io/Iyf" target="_blank">網路教學</a>)
+						<br>
+						若無地圖檔，這邊提供一個別人分享的<a href="https://gg90052.github.io/mymap/map/newyork.kml" target="_blank">地圖檔案</a>，下載後請直接跳到步驟5
+					</p>
+					<p class="step">
+						2.點選清單右上角的點點，選擇「匯出成KML/KMZ」。
+						<img src="images/readme1.jpg" alt="">
+					</p>
+					<p class="step">
+						3.記得要勾選「匯出為.KML，而非.KMZ。不支援所有圖示」，然後按下載
+						<img src="images/readme2.jpg" alt="">
+					</p>
+					<p class="step">
+						4.將剛剛下載好的檔案想辦法傳到手機上(Email、Google Cloud、iCloud...)。
+					</p>
+					<p class="step">
+						5.點擊左上角<span class="icon menu"></span>回到地圖畫面，點擊右上角的 <span class="icon map"></span> 地圖清單圖示。
+						<img src="images/readme3.jpg" alt="">
+					</p>
+					<p class="step">
+						6.接著點擊左上角的 <span class="icon import"></span> 匯入圖示並選擇剛剛傳到手機的.KML檔。
+						<img src="images/readme4.jpg" alt="">
+						選擇「瀏覽」，預設應該會在下載項目裡面
+						<img src="images/readme5.jpg" alt="">
+						<img src="images/readme6.jpg" alt="">
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="map_list" :class="list_show ? 'show':''">
+			<label id="import">
+				<input type="file" id="kml_file" style="display: none">
+			</label>
 			<p class="title">My Map</p>
 			<div class="list" :class="now_open == i ? 'show':''" v-for="(li, i) in saved_data">
 				<p class="name" v-text="li.name" @click="open(i)"></p>

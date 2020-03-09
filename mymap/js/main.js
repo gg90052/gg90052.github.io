@@ -14,6 +14,7 @@ var googleMap = new Vue({
     saved_data: [],
     infoWindow: '',
     menu_show: false,
+    list_show: false,
     now_open: -1
   },
   methods: {
@@ -35,6 +36,8 @@ var googleMap = new Vue({
 
       if (localStorage.geoJSON) {
         this.addMarker(JSON.parse(localStorage.geoJSON));
+      } else {
+        this.menu_show = true;
       } // if (navigator.geolocation) {
       //     navigator.geolocation.getCurrentPosition(position=> {
       //         let pos = {
@@ -65,7 +68,7 @@ var googleMap = new Vue({
         lng: data[0].position[1]
       };
       this.map.setCenter(this.map_center);
-      this.map.setZoom(10);
+      this.map.setZoom(13);
 
       var _loop = function _loop(i) {
         _this.markers[i] = new google.maps.Marker({
@@ -265,7 +268,8 @@ var googleMap = new Vue({
     },
     groupGmapData: function groupGmapData(place) {
       return "\n            <div class=\"gmap\">\n            <p class=\"name\">".concat(place.name, "</p>\n            <p class=\"address\">").concat(place.address, "</p>\n            <a href=\"").concat(place.gmap_url, "\" target=\"_blank\">\u4EE5google map\u958B\u555F\u9019\u500B\u5730\u9EDE</a>\n            </div>\n            ");
-    }
+    },
+    aboutOpen: function aboutOpen(e) {}
   },
   mounted: function mounted() {
     var _this2 = this;
@@ -282,7 +286,7 @@ var googleMap = new Vue({
       reader.onloadend = function () {
         var geoJSON = vm.transformMarker(toGeoJSON['kml'](new DOMParser().parseFromString(reader.result, 'text/xml')));
         localStorage.geoJSON = JSON.stringify(geoJSON);
-        vm.menu_show = false;
+        vm.list_show = false;
         vm.addMarker(geoJSON);
       };
     });

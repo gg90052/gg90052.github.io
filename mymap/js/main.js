@@ -269,7 +269,7 @@ var googleMap = new Vue({
       var _this2 = this;
 
       if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
           var pos = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -277,8 +277,6 @@ var googleMap = new Vue({
 
           if (_this2.mypos.icon) {
             _this2.mypos.icon.setMap(null);
-
-            _this2.mypos.range.setMap(null);
           }
 
           _this2.mypos.icon = new google.maps.Marker({
@@ -296,6 +294,9 @@ var googleMap = new Vue({
             center: pos,
             radius: position.coords.accuracy
           });
+          setTimeout(function () {
+            _this2.mypos.range.setMap(null);
+          }, 3000);
 
           _this2.map.setCenter(pos);
         });

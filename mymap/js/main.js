@@ -1,5 +1,10 @@
 "use strict";
 
+document.body.addEventListener('touchmove', function (e) {
+  if (e._isScroller) return e.preventDefault();
+}, {
+  passive: false
+});
 var googleMap = new Vue({
   el: '#app',
   data: {
@@ -11,6 +16,7 @@ var googleMap = new Vue({
     place: null,
     // 存place確定後回傳的資料
     markers: [],
+    mypos: {},
     saved_data: [],
     infoWindow: '',
     menu_show: false,
@@ -38,18 +44,7 @@ var googleMap = new Vue({
         this.addMarker(JSON.parse(localStorage.geoJSON));
       } else {
         this.menu_show = true;
-      } // if (navigator.geolocation) {
-      //     navigator.geolocation.getCurrentPosition(position=> {
-      //         let pos = {
-      //             lat: position.coords.latitude,
-      //             lng: position.coords.longitude
-      //         };
-      //         this.map.setCenter(pos);
-      //     });
-      // } else {
-      //     alert("錯誤！");
-      // }
-
+      }
     },
     open: function open(index) {
       if (index == this.now_open) {
@@ -269,14 +264,45 @@ var googleMap = new Vue({
     groupGmapData: function groupGmapData(place) {
       return "\n            <div class=\"gmap\">\n            <p class=\"name\">".concat(place.name, "</p>\n            <p class=\"address\">").concat(place.address, "</p>\n            <a href=\"").concat(place.gmap_url, "\" target=\"_blank\">\u4EE5google map\u958B\u555F\u9019\u500B\u5730\u9EDE</a>\n            </div>\n            ");
     },
-    aboutOpen: function aboutOpen(e) {}
+    aboutOpen: function aboutOpen(e) {},
+    getPosition: function getPosition() {
+      var _this2 = this;
+
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(function (position) {
+          var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          _this2.mypos.icon = new google.maps.Marker({
+            position: pos,
+            map: _this2.map,
+            icon: 'https://gg90052.github.io/mymap/images/location.png'
+          });
+          _this2.mypos.range = new google.maps.Circle({
+            strokeColor: '#0000FF',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: '#0000FF',
+            fillOpacity: 0.15,
+            map: _this2.map,
+            center: pos,
+            radius: position.coords.accuracy
+          });
+
+          _this2.map.setCenter(pos);
+        });
+      } else {
+        alert("錯誤！");
+      }
+    }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this3 = this;
 
     var vm = this;
     window.addEventListener('load', function () {
-      _this2.initMap();
+      _this3.initMap();
     });
     $('#kml_file').on('change', function () {
       var file = document.getElementById("kml_file").files[0];

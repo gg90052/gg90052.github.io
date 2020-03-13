@@ -13,6 +13,7 @@
 		<div id="map"></div>
 		<div id="settings" v-if="!list_show" @click="menu_show = !menu_show"></div>
 		<div id="lists" v-if="!menu_show" @click="list_show = !list_show"></div>
+		<div id="gps" @click="getPosition"></div>
 		<div id="ui" :class="menu_show ? 'show':''">
 			<p class="title">My Map</p>
 			<div class="list">

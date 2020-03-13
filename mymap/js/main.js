@@ -274,6 +274,13 @@ var googleMap = new Vue({
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+
+          if (_this2.mypos.icon) {
+            _this2.mypos.icon.setMap(null);
+
+            _this2.mypos.range.setMap(null);
+          }
+
           _this2.mypos.icon = new google.maps.Marker({
             position: pos,
             map: _this2.map,

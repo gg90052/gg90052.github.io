@@ -280,7 +280,8 @@ var app = new Vue({
 
     $('#app').removeClass('unmounted');
     $.get('https://script.google.com/macros/s/AKfycbzkb1pjj_3YAoy_SmZ8is5qfFGTJXKz9WbbtNzu7AWfoihcC00/exec?time=-1', function (res) {
-      _this6.last_time = res;
+      var d = new Date(res).toLocaleString();
+      _this6.last_time = d;
     });
   }
 });

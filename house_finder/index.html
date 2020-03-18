@@ -29,7 +29,8 @@
 	<div id="app" class="unmounted">
 		<div class="ci" :class="send_login ? 'mini':''">
 			<img src="images/smart-house.png" alt="">
-			<p>租屋幫手</p>
+			<p>租屋小助手</p>
+			<p class="lasttime" v-if="last_time">Last Update:<br>{{last_time}}</p>
 		</div>
 		<div class="fb-login-button" data-onlogin="app.login()" data-size="large" data-button-type="continue_with" data-layout="default"></div>
 		<div class="have_data" v-if="!is_edit && send_login">
@@ -43,7 +44,7 @@
 				<label for="">LINE通知權杖</label>
 				<input type="password" v-model="token">
 			</div>
-			<a href="https://www.oxxostudio.tw/articles/201806/line-notify.html" target="_blank">如何取得權杖?</a>
+			<a href="#" onclick="readme(event)">如何取得權杖?</a>
 			<div class="input_group">
 				<label for="">縣市</label>
 				<select name="" id="" v-model="region">
@@ -69,6 +70,52 @@
 				<button class="btn send" @click="send">送出</button>
 			</div>
 		</div>
+	</div>
+
+	<div class="popup">
+		<div class="close" onclick="readme()"></div>
+		<div class="step">
+			<p>1.用<span>電腦</span>開啟網址 <a href="https://notify-bot.line.me/zh_TW/" target="_blank">https://notify-bot.line.me/zh_TW/</a>，並點擊右上角<span>登入</span>。<br>(一定要用電腦開啟，手機版網頁無法發行權杖)</p>
+			<div class="img">
+				<img src="images/readme01.jpg" alt="">
+			</div>
+		</div>
+		<div class="step">
+			<p>2.登入後點擊右上角<span>你的名字</span>，再點選<span>個人頁面</span></p>
+			<div class="img">
+				<img src="images/readme02.jpg" alt="">
+			</div>
+		</div>
+		<div class="step">
+			<p>3.上方會顯示已連動的服務，點擊下面的<span>發行權杖</span></p>
+			<div class="img">
+				<img src="images/readme03.jpg" alt="">
+			</div>
+		</div>
+		<div class="step">
+			<p>4.第一個框填訊息來源的名稱，可以隨個人喜好輸入<br>
+				第二個框選擇接收訊息的聊天室，建議點選<span>透過1對1聊天接收LINE Notify的通知</span><br>
+				接著按下<span>發行</span>
+			</p>
+			<div class="img">
+				<img src="images/readme04.jpg" alt="">
+			</div>
+		</div>
+		<div class="step">
+			<p>5.畫面中間就會出現一段英文與數字組合的權杖，把他複製起來即可。<br>
+			(如果沒複製到的話請回到步驟3解除連動以後重新申請權杖)
+			</p>
+			<div class="img">
+				<img src="images/readme05.jpg" alt="">
+			</div>
+		</div>
+		<div class="step">
+			<p>6.最後把複製好的權杖貼到<span>LINE通知權杖</span>的格子內，並完成其他欄位後按下送出即可</p>
+			<div class="img">
+				<img src="images/readme06.jpg" alt="">
+			</div>
+		</div>
+		<button class="btn send" onclick="readme()">關閉說明</button>
 	</div>
 	
 

@@ -83,6 +83,17 @@ var address_code = [{
     name: '樹林區'
   }]
 }];
+
+function readme() {
+  var e = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+  if (e) {
+    e.preventDefault();
+  }
+
+  $('.popup').toggleClass('show');
+}
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -90,6 +101,7 @@ var app = new Vue({
     have_data: false,
     is_edit: false,
     location: address_code,
+    last_time: false,
     region: '1',
     section_list: address_code[0].section,
     section: '0',
@@ -264,6 +276,11 @@ var app = new Vue({
     }
   },
   mounted: function mounted() {
+    var _this6 = this;
+
     $('#app').removeClass('unmounted');
+    $.get('https://script.google.com/macros/s/AKfycbzkb1pjj_3YAoy_SmZ8is5qfFGTJXKz9WbbtNzu7AWfoihcC00/exec?time=-1', function (res) {
+      _this6.last_time = res;
+    });
   }
 });

@@ -119,9 +119,18 @@ html, body {
   font-size: 35px;
 }
 
+.ci.mini p.lasttime {
+  margin-top: 15px;
+}
+
 .ci p {
   font-size: 40px;
   margin-top: 30px;
+}
+
+.ci p.lasttime {
+  font-size: 14px;
+  line-height: 1.5em;
 }
 
 .have_data .condition {
@@ -292,4 +301,66 @@ html, body {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
   }
+}
+
+.popup {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: auto;
+  padding-top: 30px;
+  background: #FFF;
+  -webkit-transform: scale(0.01);
+          transform: scale(0.01);
+  -webkit-transition: all .2s;
+  transition: all .2s;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.popup .close {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAHdElNRQfkAxIGHyuZ2p2cAAAA6ElEQVRIx52UsQ6CMBRFT/wvRv5CNgwQnUxc+FEGBhIlIWHQRGepi5QaW/oeb2oI5zzS3AskNFzZo52MGw0JtBgME5UKr5gwGFoYMWrFjBtGKL5HuWLBDQXA2VGcoviBt32/nh/KFV5crgjiMsUqHldE8XWFCA8rxLhfocL/FWoc4OIoltRdpPjvV6i3+xVBfBcUvJjs2fDU7nevTlozZ0rn6hZFuWV7rSw7vtioFP7YiBV5MHWu4qjHRYo8mvlVRRxfVcjwoEKOexWZurBu2TMYNvR9UQzQbfldWEUHKT13eVHslDzoST90qEu59+FPHwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMC0wMy0xOFQwNjozMTo0MyswMDowMDgYctIAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjAtMDMtMThUMDY6MzE6NDMrMDA6MDBJRcpuAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg==") center center no-repeat;
+  background-size: contain;
+  right: 10px;
+  top: 10px;
+}
+
+.popup .step {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 14px;
+  line-height: 1.5em;
+}
+
+.popup .step a {
+  color: #4587ff;
+}
+
+.popup .step span {
+  color: #ff5f5f;
+  font-size: 1.2em;
+}
+
+.popup .step .img {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.popup .step .img img {
+  max-width: 100%;
 }

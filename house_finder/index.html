@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0; user-scalable=0;">
+	<title>House Finder</title>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+	<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '220103926033288',
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v6.0'
+			});
+		};
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/zh_TW/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<div id="app" class="unmounted">
+		<div class="ci" :class="send_login ? 'mini':''">
+			<img src="images/smart-house.png" alt="">
+			<p>租屋幫手</p>
+		</div>
+		<div class="fb-login-button" data-onlogin="app.login()" data-size="large" data-button-type="continue_with" data-layout="default"></div>
+		<div class="have_data" v-if="!is_edit && send_login">
+			<p class="condition" v-html="placeWord"></p>
+			<button class="btn edit" v-if="have_data" @click="is_edit = true">修改條件</button>
+			<button class="btn unsub" v-if="have_data" @click="unsub">取消通知</button>
+		</div>
+		<p class="ps"></p>
+		<div class="datas" v-if="is_edit">
+			<div class="input_group">
+				<label for="">LINE通知權杖</label>
+				<input type="password" v-model="token">
+			</div>
+			<a href="https://www.oxxostudio.tw/articles/201806/line-notify.html" target="_blank">如何取得權杖?</a>
+			<div class="input_group">
+				<label for="">縣市</label>
+				<select name="" id="" v-model="region">
+					<option :value="region.region" v-for="region in location">{{region.name}}</option>
+				</select>
+			</div>
+			<div class="input_group">
+				<label for="">區域</label>
+				<select name="" id="" v-model="section">
+					<option value="0">選擇區域</option>
+					<option :value="section.code" v-for="section in section_list">{{section.name}}</option>
+				</select>
+			</div>
+			<div class="input_group">
+				<label for="">預算最低</label>
+				<input type="number" v-model="range_bottom">元
+			</div>
+			<div class="input_group">
+				<label for="">預算最高</label>
+				<input type="number" v-model="range_top">元
+			</div>
+			<div class="actions">
+				<button class="btn send" @click="send">送出</button>
+			</div>
+		</div>
+	</div>
+	
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/vue.min.js"></script>
+	<script src="js/main.js"></script>
+
+</body>
+
+</html>

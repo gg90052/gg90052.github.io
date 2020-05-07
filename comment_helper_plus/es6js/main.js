@@ -225,13 +225,13 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v3.2',
-		reactions: 'v3.2',
-		sharedposts: 'v3.2',
-		url_comments: 'v3.2',
-		feed: 'v3.2',
-		group: 'v3.2',
-		newest: 'v3.2'
+		comments: 'v6.0',
+		reactions: 'v6.0',
+		sharedposts: 'v6.0',
+		url_comments: 'v6.0',
+		feed: 'v6.0',
+		group: 'v6.0',
+		newest: 'v6.0'
 	},
 	filter: {
 		word: '',
@@ -355,7 +355,7 @@ let fb = {
 				fb.feed(tar.val(), tar.attr('attr-type'), fb.next, false);
 			});
 		}
-		let command = (type == '2') ? 'feed':'posts';
+		let command = 'feed';
 		let api;
 		if (url == ''){
 			api = `${config.apiVersion.newest}/${pageID}/${command}?fields=link,full_picture,created_time,message&limit=25`;
@@ -378,6 +378,7 @@ let fb = {
 		});
 
 		function genData(obj){
+			console.log(obj);
 			let ids = obj.id.split("_");
 			let link = 'https://www.facebook.com/'+ids[0]+'/posts/'+ids[1];
 
@@ -626,7 +627,7 @@ let data = {
 			fullID: fbid
 		}
 		$(".waiting").removeClass("hide");
-		let commands = ['comments','reactions','sharedposts'];
+		let commands = ['comments','reactions'];
 		let temp_data = obj;
 		for(let i of commands){
 			temp_data.data = {};
@@ -646,39 +647,35 @@ let data = {
 			let promise_array = [];
 			let shareError = 0;
 			let api_fbid = fbid.fullID;
-			if ($('.page_btn.active').attr('attr-type') == 2){
-				api_fbid = fbid.fullID.split('_')[1];
-				if (command === 'reactions') command = 'likes';
-			}
+			// if ($('.page_btn.active').attr('attr-type') == 2){
+			// 	api_fbid = fbid.fullID.split('_')[1];
+			// 	if (command === 'reactions') command = 'likes';
+			// }
 			if (fbid.type === 'group') command = 'group';
-			if (command === 'sharedposts'){
-				getShare();
-			}else{
-				FB.api(`${api_fbid}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`,(res)=>{
-					data.nowLength += res.data.length;
-					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
-					for(let d of res.data){
-						if (command == 'reactions'){
-							d.from = {id: d.id, name: d.name};
-						}
-						if (d.from){
-							datas.push(d);
-						}else{
-							//event
-							d.from = {id: d.id, name: d.id};
-							if (d.updated_time){
-								d.created_time = d.updated_time;
-							}
-							datas.push(d);
-						}
+			FB.api(`${api_fbid}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`,(res)=>{
+				data.nowLength += res.data.length;
+				$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
+				for(let d of res.data){
+					if (command == 'reactions'){
+						d.from = {id: d.id, name: d.name};
 					}
-					if (res.data.length > 0 && res.paging.next){
-						getNext(res.paging.next);
+					if (d.from){
+						datas.push(d);
 					}else{
-						resolve(datas);
+						//event
+						d.from = {id: d.id, name: d.id};
+						if (d.updated_time){
+							d.created_time = d.updated_time;
+						}
+						datas.push(d);
 					}
-				});
-			}
+				}
+				if (res.data.length > 0 && res.paging.next){
+					getNext(res.paging.next);
+				}else{
+					resolve(datas);
+				}
+			});
 
 			function getNext(url, limit=0){
 				if (limit !== 0){
@@ -712,35 +709,6 @@ let data = {
 				});
 			}
 
-			function getShare(after=''){
-				let url = `https://am66ahgtp8.execute-api.ap-northeast-1.amazonaws.com/share?fbid=${fbid.fullID}&after=${after}`;
-				resolve([]);
-				// $.getJSON(url, function(res){
-				// 	if (res === 'end'){
-				// 		resolve(datas);
-				// 	}else{
-				// 		if (res.errorMessage){
-				// 			resolve(datas);
-				// 		}else if(res.data){
-				// 			// shareError = 0;
-				// 			for(let i of res.data){
-				// 				let name = '';
-				// 				if(i.story){
-				// 					name = i.story.substring(0, i.story.indexOf(' shared'));
-				// 				}else{
-				// 					name = i.id.substring(0, i.id.indexOf("_"));
-				// 				}
-				// 				let id = i.id.substring(0, i.id.indexOf("_"));
-				// 				i.from = {id, name};
-				// 				datas.push(i);
-				// 			}
-				// 			getShare(res.after);
-				// 		}else{
-				// 			resolve(datas);
-				// 		}
-				// 	}
-				// })
-			}
 		});
 	},
 	finish: (fbid)=>{

@@ -358,7 +358,7 @@ let fb = {
 		let command = 'feed';
 		let api;
 		if (url == ''){
-			api = `${config.apiVersion.newest}/${pageID}/${command}?fields=link,full_picture,created_time,message&limit=25`;
+			api = `${config.apiVersion.newest}/${pageID}/${command}?fields=full_picture,created_time,message&limit=25`;
 		}else{
 			api = url;
 		}

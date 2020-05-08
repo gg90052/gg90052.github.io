@@ -115,15 +115,48 @@ table{
 		}
 	}
 	.main_area{
-		padding: 58px 35px;
+		padding: 58px 15px;
 		margin-bottom: 26px;
 		background: #FFF;
+		display:flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-content: flex-start;
+		align-items: flex-start;
 		.left{
 			float: left;
 			.ci{
 				width: 281px;
 				height: 253px;
 				background: url(../images/ci.png);
+			}
+			.btn{
+				min-width: 110px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				padding: 0;
+				margin-right: 5px;
+				border-radius: 3px;
+				color: #FFF;
+				font-size: 12px;
+				background: $lightblue;
+				margin-left: 20px;
+				margin-top: 20px;
+			}
+			.message{
+				margin: 20px 0;
+				font-size: 1.1em;
+				line-height: 1.5em;
+			}
+			.payRead{
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 12px;
+				margin-right: 10px;
+				cursor: pointer;
+				text-decoration: none;
 			}
 		}
 		.inputarea{
@@ -191,18 +224,14 @@ table{
 				font-size: 16px;
 				background: $lightblue;
 			}
+			#btn_page_selector{
+				padding: 0 22px;
+				margin-top: 15px;
+			}
 			.message{
 				margin: 20px 0;
 				font-size: 1.1em;
 				line-height: 1.5em;
-			}
-			.payRead{
-				display: inline-block;
-				vertical-align: middle;
-				font-size: 12px;
-				margin-right: 10px;
-				cursor: pointer;
-				text-decoration: none;
 			}
 			#btn_pay{
 				width: 90px;
@@ -257,7 +286,7 @@ table{
 			display:flex;
 			flex-direction: row;
 			flex-wrap: nowrap;
-			justify-content: space-around;
+			justify-content: space-between;
 			align-content: flex-start;
 			align-items: flex-start;
 			.title{
@@ -789,6 +818,91 @@ table{
 		width: 900px;
 		height: 600px;
 		margin: 80px auto;
+	}
+	&.superbig{
+		background: #FFF;
+		width: 1200px;
+		height: 90vh;
+		margin: 5vh auto;
+		display:flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		align-content: flex-start;
+		align-items: flex-start;
+		p{
+			color: $blue;
+			font-size: 20px;
+			padding: 0 10px 10px;
+			border-bottom: 1px solid $blue;
+			margin-top: 30px;
+		}
+		.left{
+			width: 300px;
+			flex-shrink: 0;
+			border-right: 1px solid #000;
+			height: 100%;
+			overflow: auto;
+			.page_btn{
+				font-size: 14px;
+				padding: 10px 20px;
+				line-height: 1.5em;
+				cursor: pointer;
+				&:hover, &.active{
+					background: $lightblue;
+					color: #FFF;
+				}
+			}
+		}
+		.right{
+			flex-grow: 1;
+			overflow: auto;
+			height: 100%;
+			padding: 0 10px;
+			table{
+				margin: 20px 0;
+				width: 100%;
+				thead{
+					border-bottom: 1px solid $blue;
+					color: $blue;
+					font-size: 16px;
+					th{
+						height: 30px;
+						padding-bottom: 10px;
+						padding-left: 10px;
+					}
+				}
+				tbody{
+					font-size: 14px;
+					tr{
+						border-bottom: 1px solid #000;
+						td{
+							vertical-align: middle;
+							height: 40px;
+							line-height: 1.5em;
+							padding: 15px 10px;
+							word-break: break-all;
+							button{
+								width: 80px;
+								border-right: 1px solid #000;
+								color: #FFF;
+								background: $lightblue;
+								border: none;
+								padding: 5px 0;
+							}
+							&:first-child{
+								border-right: 1px solid #000;
+							}
+							&:last-child{
+								white-space: nowrap;
+								border-left: 1px solid #000;
+								padding-left: 10px;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	.pure_fbid{
 		position: absolute;

@@ -36,6 +36,9 @@ $(document).ready(function () {
 		data.finish(data.raw);
 	}
 
+	$("#btn_page_selector").click(function (e) {
+		fb.getAuth('page_selector');
+	});
 
 	$("#btn_comments").click(function (e) {
 		console.log(e);
@@ -223,12 +226,13 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v3.2',
-		reactions: 'v3.2',
-		sharedposts: 'v3.2',
-		url_comments: 'v3.2',
-		feed: 'v3.2',
-		group: 'v3.2'
+		comments: 'v6.0',
+		reactions: 'v6.0',
+		sharedposts: 'v6.0',
+		url_comments: 'v6.0',
+		feed: 'v6.0',
+		group: 'v6.0',
+		newest: 'v6.0'
 	},
 	filter: {
 		word: '',
@@ -262,7 +266,7 @@ let fb = {
 		});
 	},
 	callback: (response, type) => {
-		console.log(response);
+		// console.log(response);
 		if (response.status === 'connected') {
 			auth_scope = response.authResponse.grantedScopes;
 			config.from_extension = false;
@@ -280,9 +284,8 @@ let fb = {
 						'error'
 					).done();
 				}
-			} else if (type == "sharedposts") {	
-					fb.user_posts = true;
-					fbid.init(type);
+			} else if (type == "page_selector") {	
+				page_selector.show();
 			} else {
 				fb.user_posts = true;
 				fbid.init(type);
@@ -1086,6 +1089,63 @@ let ui = {
 			}
 			$('label.tag').addClass('hide');
 		}
+	}
+}
+let page_selector = {
+	pages: [],
+	groups: [],
+	show: ()=>{
+		$('.page_selector').removeClass('hide');
+		page_selector.getAdmin();
+	},
+	getAdmin: ()=>{
+		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res)=>{
+			page_selector.genAdmin(res);
+		});
+	},
+	getPage: ()=>{
+		return new Promise((resolve, reject)=>{
+			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res)=>{
+				resolve(res.data);
+			});
+		});
+	},
+	getGroup: ()=>{
+		return new Promise((resolve, reject)=>{
+			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
+				resolve (res.data.filter(item=>{return item.administrator === true}));
+			});
+		});
+	},
+	genAdmin: (res)=>{
+		let pages = '';
+		let groups = '';
+		for(let i of res[0]){
+			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		}
+		for(let i of res[1]){
+			groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		}
+		$('.select_page').html(pages);
+		$('.select_group').html(groups);
+	},
+	selectPage: (target)=>{
+		let page_id = $(target).data('value');
+		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
+			let tbody = '';
+			for(let tr of res.data){
+				tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+			}
+			$('#post_table tbody').html(tbody);
+		});
+	},
+	selectPost: (fbid)=>{
+		$('.page_selector').addClass('hide');
+		$('.select_page').html('');
+		$('.select_group').html('');
+		$('#post_table tbody').html('');
+		let id = '"'+fbid+'"';
+		$('#enterURL .url').val(id);
 	}
 }
 

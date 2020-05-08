@@ -94,7 +94,8 @@
 		<div class="main_area">
 			<div class="left">
 				<div class="ci"></div>
-
+				<a href="pay.html" target="blank" class="btn payRead">付費說明</a>
+				<button id="btn_pay" type="button" class="btn" ng-click="getAuth('addScope')">已付費授權</button>
 			</div>
 			<div class="inputarea">
 				<div class="morelink">
@@ -114,13 +115,14 @@
 						 target="_blank" class="btn" onclick="shareBTN()">抓分享</a>
 						<button id="btn_like" type="button" class="btn">抓按讚</button>
 						<!-- <button id="btn_url" type="button" class="btn">URL留言</button> -->
-
+					</div>
+					<div class="page_target">
+						<button id="btn_page_selector" type="button" class="btn">從粉絲專頁/社團選擇貼文</button>
 					</div>
 					<p class="message">
 						<span style="color: red">付款後請到粉絲團私訊付款證明給管理員，待管理員開通後方可授權</span>
 					</p>
-					<a href="pay.html" target="blank" class="btn payRead">付費說明</a>
-					<button id="btn_pay" type="button" class="btn" ng-click="getAuth('addScope')">已付費授權</button>
+					
 					<!-- <br><br><br>
 				<p>Access Token:</p>
 				<input type="text" style="width:300px;" class="token"> -->
@@ -329,6 +331,23 @@
 					到
 					<a href="http://www.convertcsv.com/json-to-csv.htm" target="blank">JSON To CSV Converter</a> 進行轉換
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="loading page_selector hide">
+		<div class="console superbig">
+			<div class="left">
+				<p>粉絲專頁</p>
+				<div class="select_page"></div>
+				<p>社團</p>
+				<div class="select_group"></div>
+			</div>
+			<div class="right">
+				<p>貼文列表</p>
+				<table id="post_table">
+					<tbody></tbody>
+				</table>
 			</div>
 		</div>
 	</div>

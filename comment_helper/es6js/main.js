@@ -360,9 +360,6 @@ let data = {
 		$('.pure_fbid').text(fbid.fullID);
 		data.get(fbid).then((res) => {
 			// fbid.data = res;
-			if (fbid.type == "url_comments") {
-				fbid.data = [];
-			}
 			for (let i of res) {
 				fbid.data.push(i);
 			}
@@ -384,14 +381,8 @@ let data = {
 			}
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-
-			// if($('.token').val() === ''){
-			// 	$('.token').val(config.pageToken);
-			// }else{
-			// 	config.pageToken = $('.token').val();
-			// }
-
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}&access_token=${config.pageToken}&debug=all`, (res) => {
+			let token = config.pageToken == '' ? '':`&access_token=${config.pageToken}`;
+			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}${token}&debug=all`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
 				for (let d of res.data) {
@@ -756,7 +747,6 @@ let choose = {
 let fbid = {
 	fbid: [],
 	init: (type) => {
-		config.pageToken = '';
 		fbid.fbid = [];
 		data.init();
 		FB.api("/me", function (res) {
@@ -779,120 +769,92 @@ let fbid = {
 	},
 	get: (url, type) => {
 		return new Promise((resolve, reject) => {
-			if (type == 'url_comments') {
-				let posturl = url;
-				if (posturl.indexOf("?") > 0) {
-					posturl = posturl.substring(0, posturl.indexOf("?"));
+			let regex = /\d{4,}/g;
+			let newurl = url.substr(url.indexOf('/', 28) + 1, 200);
+			// https://www.facebook.com/ 共25字元，因此選28開始找/
+			let result = newurl.match(regex);
+			let urltype = fbid.checkType(url);
+			fbid.checkPageID(url, urltype).then((id) => {
+				if (id === 'personal') {
+					urltype = 'personal';
+					id = data.userid;
 				}
-				FB.api(`/${posturl}`, function (res) {
-					let obj = {
-						fullID: res.og_object.id,
-						type: type,
-						command: 'comments'
-					};
-					config.limit['comments'] = '25';
-					config.order = '';
-					resolve(obj);
-				});
-			} else {
-				let regex = /\d{4,}/g;
-				let newurl = url.substr(url.indexOf('/', 28) + 1, 200);
-				// https://www.facebook.com/ 共25字元，因此選28開始找/
-				let result = newurl.match(regex);
-				let urltype = fbid.checkType(url);
-				fbid.checkPageID(url, urltype).then((id) => {
-					if (id === 'personal') {
-						urltype = 'personal';
-						id = data.userid;
+				let obj = {
+					pageID: id,
+					type: urltype,
+					command: type,
+					data: []
+				};
+				if (addLink) obj.data = data.raw.data; //追加貼文
+				if (urltype === 'personal') {
+					let start = url.indexOf('fbid=');
+					if (start >= 0) {
+						let end = url.indexOf("&", start);
+						obj.pureID = url.substring(start + 5, end);
+					} else {
+						let start = url.indexOf('posts/');
+						obj.pureID = url.substring(start + 6, url.length);
 					}
-					let obj = {
-						pageID: id,
-						type: urltype,
-						command: type,
-						data: []
-					};
-					if (addLink) obj.data = data.raw.data; //追加貼文
-					if (urltype === 'personal') {
-						let start = url.indexOf('fbid=');
-						if (start >= 0) {
-							let end = url.indexOf("&", start);
-							obj.pureID = url.substring(start + 5, end);
-						} else {
-							let start = url.indexOf('posts/');
-							obj.pureID = url.substring(start + 6, url.length);
-						}
-						let video = url.indexOf('videos/');
-						if (video >= 0) {
-							obj.pureID = result[0];
-						}
+					let video = url.indexOf('videos/');
+					if (video >= 0) {
+						obj.pureID = result[0];
+					}
+					obj.fullID = obj.pageID + '_' + obj.pureID;
+					resolve(obj);
+				} else if (urltype === 'pure') {
+					obj.fullID = url.replace(/\"/g, '');
+					resolve(obj);
+				} else {
+					if (urltype === 'group') {
+						
+						obj.pureID = result[result.length - 1];
+						obj.pageID = result[0];
+						obj.fullID = obj.pageID + "_" + obj.pureID;
+						resolve(obj);
+						
+					} else if (urltype === 'photo') {
+						let regex = /\d{4,}/g;
+						let result = url.match(regex);
+						obj.pureID = result[result.length - 1];
 						obj.fullID = obj.pageID + '_' + obj.pureID;
 						resolve(obj);
-					} else if (urltype === 'pure') {
-						obj.fullID = url.replace(/\"/g, '');
-						resolve(obj);
-					} else {
-						if (urltype === 'event') {
-							if (result.length == 1) {
-								//抓EVENT中所有留言
-								obj.command = 'feed';
-								obj.fullID = result[0];
-								resolve(obj);
+					} else if (urltype === 'video') {
+						obj.pureID = result[result.length - 1];
+						FB.api(`/${obj.pureID}?fields=live_status`, function (res) {
+							if (res.live_status === 'LIVE') {
+								obj.fullID = obj.pureID;
 							} else {
-								//抓EVENT中某篇留言的留言
-								obj.fullID = result[1];
-								resolve(obj);
+								obj.fullID = obj.pageID + '_' + obj.pureID;
 							}
-						} else if (urltype === 'group') {
-
-								obj.pureID = result[result.length - 1];
-								obj.pageID = result[0];
-								obj.fullID = obj.pageID + "_" + obj.pureID;
-								resolve(obj);
-							
-						} else if (urltype === 'photo') {
-							let regex = /\d{4,}/g;
-							let result = url.match(regex);
-							obj.pureID = result[result.length - 1];
+							resolve(obj);
+						});
+					} else {
+						if (result.length == 1 || result.length == 3) {
+							obj.pureID = result[0];
 							obj.fullID = obj.pageID + '_' + obj.pureID;
 							resolve(obj);
-						} else if (urltype === 'video') {
-							obj.pureID = result[result.length - 1];
-							FB.api(`/${obj.pureID}?fields=live_status`, function (res) {
-								if (res.live_status === 'LIVE') {
-									obj.fullID = obj.pureID;
-								} else {
-									obj.fullID = obj.pageID + '_' + obj.pureID;
-								}
-								resolve(obj);
-							});
 						} else {
-							if (result.length == 1 || result.length == 3) {
+							if (urltype === 'unname') {
 								obj.pureID = result[0];
-								obj.fullID = obj.pageID + '_' + obj.pureID;
-								resolve(obj);
+								obj.pageID = result[result.length - 1];
 							} else {
-								if (urltype === 'unname') {
-									obj.pureID = result[0];
-									obj.pageID = result[result.length - 1];
-								} else {
-									obj.pureID = result[result.length - 1];
-								}
-								obj.fullID = obj.pageID + '_' + obj.pureID;
-								FB.api(`/${obj.pageID}?fields=access_token`, function (res) {
-									if (res.error) {
-										resolve(obj);
-									} else {
-										if (res.access_token) {
-											config.pageToken = res.access_token;
-										}
-										resolve(obj);
-									}
-								});
+								obj.pureID = result[result.length - 1];
 							}
+							obj.fullID = obj.pageID + '_' + obj.pureID;
+							FB.api(`/${obj.pageID}?fields=access_token`, function (res) {
+								if (res.error) {
+									resolve(obj);
+								} else {
+									if (res.access_token) {
+										config.pageToken = res.access_token;
+									}
+									resolve(obj);
+								}
+							});
 						}
 					}
-				});
-			}
+				}
+			});
 		});
 	},
 	checkType: (posturl) => {
@@ -1131,6 +1093,15 @@ let page_selector = {
 	},
 	selectPage: (target)=>{
 		let page_id = $(target).data('value');
+		if ($(target).data('type') == '1'){
+			FB.api(`/${page_id}?fields=access_token`, function (res) {
+				if (res.access_token) {
+					config.pageToken = res.access_token;
+				}else{
+					config.pageToken = '';
+				}
+			});
+		}
 		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
 			let tbody = '';
 			for(let tr of res.data){

@@ -244,6 +244,7 @@ let config = {
 	auth: 'manage_pages,groups_access_member_info',
 	likes: false,
 	pageToken: '',
+	userToken: '',
 	from_extension: false,
 }
 
@@ -268,6 +269,7 @@ let fb = {
 	callback: (response, type) => {
 		// console.log(response);
 		if (response.status === 'connected') {
+			config.userToken = response.authResponse.accessToken;
 			auth_scope = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
@@ -381,7 +383,7 @@ let data = {
 			}
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-			let token = config.pageToken == '' ? '':`&access_token=${config.pageToken}`;
+			let token = config.pageToken == '' ? `&access_token=${config.userToken}`:`&access_token=${config.pageToken}`;
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}${token}&debug=all`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');

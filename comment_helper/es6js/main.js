@@ -1095,15 +1095,13 @@ let page_selector = {
 	},
 	selectPage: (target)=>{
 		let page_id = $(target).data('value');
-		if ($(target).data('type') == '1'){
-			FB.api(`/${page_id}?fields=access_token`, function (res) {
-				if (res.access_token) {
-					config.pageToken = res.access_token;
-				}else{
-					config.pageToken = '';
-				}
-			});
-		}
+		FB.api(`/${page_id}?fields=access_token`, function (res) {
+			if (res.access_token) {
+				config.pageToken = res.access_token;
+			}else{
+				config.pageToken = '';
+			}
+		});
 		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
 			let tbody = '';
 			for(let tr of res.data){

@@ -950,6 +950,12 @@ table{
 	bottom: 150px;
 	position: absolute;
 	transform: rotateZ(45deg);
+	&.fb_loading{
+		left: 50%;
+		margin-left: 10%;
+		top: 50%;
+		margin-top: -20px;
+	}
 }
 
 .sk-folding-cube .sk-cube {

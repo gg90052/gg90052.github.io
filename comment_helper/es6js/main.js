@@ -1095,6 +1095,8 @@ let page_selector = {
 	},
 	selectPage: (target)=>{
 		let page_id = $(target).data('value');
+		$('#post_table tbody').html('');
+		$('.fb_loading').removeClass('hide');
 		FB.api(`/${page_id}?fields=access_token`, function (res) {
 			if (res.access_token) {
 				config.pageToken = res.access_token;
@@ -1103,6 +1105,7 @@ let page_selector = {
 			}
 		});
 		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
+			$('.fb_loading').addClass('hide');
 			let tbody = '';
 			for(let tr of res.data){
 				tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;

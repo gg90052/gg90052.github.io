@@ -1,14 +1,14 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'), //微型伺服器
     plumber = require('gulp-plumber'), //錯誤攔截
-    include = require('gulp-html-tag-include'), //HTML合併
-    sass = require('node-sass'),
+    sass = require('gulp-sass'),
     merge = require('merge-stream'), //合併工作流 for spritesmith
     spritesmith = require('gulp.spritesmith'), //產生sprite
     postcss = require('gulp-postcss'),
     autoprefixer = require('autoprefixer'), //自動前綴 for postcss
     sourcemaps = require('gulp-sourcemaps');
     babel = require("gulp-babel");
+
 
 // Paths
 var paths = {

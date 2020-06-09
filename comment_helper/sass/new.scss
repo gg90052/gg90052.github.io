@@ -871,6 +871,34 @@ table{
 						padding-bottom: 10px;
 						padding-left: 10px;
 					}
+					tr{
+						border-bottom: 1px solid #000;
+						background: #ffdbdb;
+						td{
+							vertical-align: middle;
+							height: 40px;
+							line-height: 1.5em;
+							padding: 15px 10px;
+							word-break: break-all;
+							button{
+								width: 80px;
+								border-right: 1px solid #000;
+								color: #FFF;
+								background: $lightblue;
+								border: none;
+								padding: 5px 0;
+							}
+							&:first-child{
+								border-right: 1px solid #000;
+								text-align: center;
+							}
+							&:last-child{
+								white-space: nowrap;
+								border-left: 1px solid #000;
+								padding-left: 10px;
+							}
+						}
+					}
 				}
 				tbody{
 					font-size: 14px;

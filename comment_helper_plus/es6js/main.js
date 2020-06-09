@@ -279,33 +279,16 @@ let fb = {
 		}
 	},
 	start: ()=>{
-		Promise.all([fb.getMe(),fb.getPage(), fb.getGroup()]).then((res)=>{
-			sessionStorage.login = JSON.stringify(res);
-			fb.genOption(res);
-		});
-	},
-	genOption: (res)=>{
+		page_selector.show();
 		fb.next = '';
-		let options = `<input id="pure_fbid" class="hide">
-		<button id="fbid_button" class="btn hide" onclick="fb.hiddenStart(this)">由FBID擷取</button>
-		<label><input type="checkbox" onchange="fb.optionDisplay(this)">隱藏列表</label>
+		let options = `
+		<button class="btn" onclick="page_selector.show()">從粉絲專頁/社團選擇貼文</button><br>
+		<input id="pure_fbid">
+		<button id="fbid_button" class="btn" onclick="fb.hiddenStart(this)">由FBID擷取</button>
 		<a href="javascript:;" onclick="data.finish(data.raw)" style="margin-left:20px;">強制跳轉到表格</a><br>`;
 		let type = -1;
 		$('#btn_start').addClass('hide');
-		for(let i of res){
-			type++;
-			for(let j of i){
-				options += `<div class="page_btn" attr-type="${type}" attr-value="${j.id}" onclick="fb.selectPage(this)">${j.name}</div>`;
-			}
-		}
 		$('#enterURL').html(options).removeClass('hide');
-	},
-	optionDisplay: (checkbox)=>{
-		if ($(checkbox).prop('checked')){
-			$('.page_btn').addClass('hide');
-		}else{
-			$('.page_btn').removeClass('hide');
-		}
 	},
 	selectPage: (e)=>{
 		$('#enterURL .page_btn').removeClass('active');
@@ -1053,6 +1036,85 @@ let choose = {
 			$('.prizeDetail').removeClass("fadein");
 		}
 		$("#awardList").fadeIn(1000);
+	},
+}
+
+let page_selector = {
+	pages: [],
+	groups: [],
+	show: ()=>{
+		$('.page_selector').removeClass('hide');
+		page_selector.getAdmin();
+	},
+	hide: ()=>{
+		$('.page_selector').addClass('hide');
+	},
+	getAdmin: ()=>{
+		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res)=>{
+			page_selector.genAdmin(res);
+		});
+	},
+	getPage: ()=>{
+		return new Promise((resolve, reject)=>{
+			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res)=>{
+				resolve(res.data);
+			});
+		});
+	},
+	getGroup: ()=>{
+		return new Promise((resolve, reject)=>{
+			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
+				resolve (res.data.filter(item=>{return item.administrator === true}));
+			});
+		});
+	},
+	genAdmin: (res)=>{
+		let pages = '';
+		let groups = '';
+		for(let i of res[0]){
+			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		}
+		for(let i of res[1]){
+			groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		}
+		$('.select_page').html(pages);
+		$('.select_group').html(groups);
+	},
+	selectPage: (target)=>{
+		let page_id = $(target).data('value');
+		$('#post_table tbody').html('');
+		$('.fb_loading').removeClass('hide');
+		FB.api(`/${page_id}?fields=access_token`, function (res) {
+			if (res.access_token) {
+				config.pageToken = res.access_token;
+			}else{
+				config.pageToken = '';
+			}
+		});
+		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url`, (res)=>{
+			let thead = '';
+			for(let tr of res.data){
+				if (tr.status === 'LIVE'){
+					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+				}
+			}
+			$('#post_table thead').html(thead);
+		});
+		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
+			$('.fb_loading').addClass('hide');
+			let tbody = '';
+			for(let tr of res.data){
+				tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+			}
+			$('#post_table tbody').html(tbody);
+		});
+	},
+	selectPost: (fbid)=>{
+		$('.page_selector').addClass('hide');
+		$('.select_page').html('');
+		$('.select_group').html('');
+		$('#post_table tbody').html('');
+		data.start(fbid);
 	}
 }
 

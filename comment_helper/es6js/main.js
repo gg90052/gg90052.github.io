@@ -384,6 +384,7 @@ let data = {
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
 			let token = config.pageToken == '' ? `&access_token=${config.userToken}`:`&access_token=${config.pageToken}`;
+
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}${token}&debug=all`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
@@ -1103,6 +1104,15 @@ let page_selector = {
 			}else{
 				config.pageToken = '';
 			}
+		});
+		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url`, (res)=>{
+			let thead = '';
+			for(let tr of res.data){
+				if (tr.status === 'LIVE'){
+					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+				}
+			}
+			$('#post_table thead').html(thead);
 		});
 		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
 			$('.fb_loading').addClass('hide');

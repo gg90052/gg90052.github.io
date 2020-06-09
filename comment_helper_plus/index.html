@@ -346,6 +346,31 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 	</div>
 </div>
 
+<div class="loading page_selector hide">
+	<div class="console superbig">
+		<div class="close" onclick="page_selector.hide();">X</div>
+		<div class="left">
+			<p>粉絲專頁</p>
+			<div class="select_page"></div>
+			<p>社團</p>
+			<div class="select_group"></div>
+		</div>
+		<div class="right">
+			<p>貼文列表</p>
+			<div class="sk-folding-cube fb_loading hide">
+				<div class="sk-cube1 sk-cube"></div>
+				<div class="sk-cube2 sk-cube"></div>
+				<div class="sk-cube4 sk-cube"></div>
+				<div class="sk-cube3 sk-cube"></div>
+			</div>
+			<table id="post_table">
+				<thead></thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
 <textarea class="chrome" type="hidden"></textarea>
 
 <script type="text/javascript">

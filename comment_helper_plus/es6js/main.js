@@ -1091,11 +1091,11 @@ let page_selector = {
 				config.pageToken = '';
 			}
 		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url`, (res)=>{
+		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url,title,creation_time`, (res)=>{
 			let thead = '';
 			for(let tr of res.data){
 				if (tr.status === 'LIVE'){
-					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
 				}
 			}
 			$('#post_table thead').html(thead);

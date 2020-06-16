@@ -540,7 +540,7 @@ h6 {
   font-weight: 400;
   line-height: 1;
   margin: 0 0 1.5rem 0;
-  color: #FFFFFF;
+  color: #D2AE7A;
 }
 h1 a,
 h2 a,
@@ -1715,8 +1715,17 @@ sup {
   text-align: left;
 }
 
-#section_info .wedding-info h2,#section_info .wedding-info h4{
+#section_info .wedding-info h3{
+  font-weight: bold;
+}
+
+#section_info .wedding-info table{
+  line-height: 2em;
   color: #D2AE7A;
+  font-size: 1.5em;
+}
+#section_info .wedding-info td{
+  padding: 5px 0;
 }
 
 #section2,

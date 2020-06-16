@@ -108,7 +108,7 @@ $(document).ready(function(){
         menu: '#menu',
         direction: 'horizontal',
         keyboardScrolling: true,
-        anchors: ['Home', 'Shot1', 'Shot2', 'Shot3', 'Movie', 'Shot5', 'Shot6', 'Shot7', 'Shot8', 'Shot9'],
+        anchors: ['Home', 'Info', 'Shot1', 'Shot2', 'Shot3', 'Shot4', 'Shot5', 'Shot6', 'Shot7', 'Shot8', 'Shot9'],
         navigation: {
             'position': 'right'
         }

@@ -1110,6 +1110,8 @@ let page_selector = {
 			for(let tr of res.data){
 				if (tr.status === 'LIVE'){
 					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+				}else{
+					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
 				}
 			}
 			$('#post_table thead').html(thead);

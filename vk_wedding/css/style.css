@@ -2785,8 +2785,68 @@ span.holdscroll.menu-opened {
     -moz-transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
+
+  #section_info .map{
+    position: static;
+  }
+  #section_info .pp-tableCell{
+    vertical-align: top;
+  }
+  #section_info .wedding-info{
+    position: static;
+    text-align: left;
+  }
+  
+  #section_info .wedding-info h2{
+    text-align: center;
+  }
+  
+  #section_info .wedding-info h3{
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  #section_info .wedding-info table{
+    line-height: 1.8em;
+    color: #D2AE7A;
+    font-size: 1.2em;
+    transform-origin: center;
+    transform: scale(.9);
+  }
+  
+  #section_info .wedding-info td:first-child{
+    white-space: nowrap;
+    text-align: right;
+    font-weight: bold;
+  }
+}
+
+@media only screen and (max-width: 1500px) {
+  #section_info .map{
+    left: 10%;
+  }
+  #section_info .wedding-info{
+    left: 65%;
+  }
+  #section_info .wedding-info h3{
+    font-size: 1.5em;
+  }
+  
+  #section_info .wedding-info table{
+    line-height: 1.5em;
+    color: #D2AE7A;
+    font-size: 1.2em;
+  }
+  
+  #section_info .wedding-info td:first-child{
+    white-space: nowrap;
+    text-align: right;
+    font-weight: bold;
+  }
 }
 /* Extra Small Devices, Phones @media only screen and (max-width: 480px) */
+
 @media only screen and (max-width: 480px) {
   #menu {
     left: -100%;
@@ -2976,47 +3036,6 @@ span.holdscroll.menu-opened {
 #section1 .logo{
   width: 90%;
   top: 15%;
-}
-
-
-#section_info,
-#menu li.main-nav:nth-child(2)::after {
-  background: url("../img/photo/bg.jpg") center;
-  background-size: cover;
-}
-#section_info .map{
-  position: static;
-}
-#section_info .pp-tableCell{
-  vertical-align: top;
-}
-#section_info .wedding-info{
-  position: static;
-  text-align: left;
-}
-
-#section_info .wedding-info h2{
-  text-align: center;
-}
-
-#section_info .wedding-info h3{
-  font-weight: bold;
-  font-size: 1.5em;
-  text-align: center;
-}
-
-#section_info .wedding-info table{
-  line-height: 1.8em;
-  color: #D2AE7A;
-  font-size: 1.2em;
-  transform-origin: center;
-  transform: scale(.9);
-}
-
-#section_info .wedding-info td:first-child{
-  white-space: nowrap;
-  text-align: right;
-  font-weight: bold;
 }
 
 

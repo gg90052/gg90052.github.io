@@ -1034,6 +1034,10 @@ sup {
   display: block;
   padding: 0 2rem;
 }
+#menu #menu-link li a {
+  font-weight: normal;
+  background: #dea56e;
+}
 #menu #menu-link li a span {
   font-size: 1.1rem;
   position: absolute;
@@ -1055,7 +1059,7 @@ sup {
 }
 #menu #menu-link li a:hover {
   color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.2);
+  /* background: rgba(255, 255, 255, 0.2); */
 }
 #menu #menu-link li a:hover span {
   visibility: visible;
@@ -1690,12 +1694,14 @@ sup {
   background-size: cover;
 }
 #section1 .logo{
-  width: 800px;
-  height: 416px;
-  background: url(../img/photo/logo.png) center no-repeat;
+  width: 40%;
   position: absolute;
-  left: 0;
-  top: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+}
+#section1 .logo img{
+  width: 100%;
 }
 
 #section_info,
@@ -1724,8 +1730,20 @@ sup {
   color: #D2AE7A;
   font-size: 1.5em;
 }
+
 #section_info .wedding-info td{
   padding: 5px 0;
+}
+
+#section_info .wedding-info td i{
+  margin-left: 10px;
+}
+
+#section_info .wedding-info td a{
+  background: #dea56e;
+  padding: 5px 15px;
+  border-radius: 9px;
+  color: #FFF !important;
 }
 
 #section2,
@@ -1782,7 +1800,7 @@ sup {
 
 #section10,
 #menu li.main-nav:nth-child(11)::after {
-  background: url("../img/photo/10.jpg") center;
+  background: url("../img/photo/07.jpg") center;
   background-size: cover;
 }
 
@@ -2953,6 +2971,91 @@ span.holdscroll.menu-opened {
     right: 5px;
     top: -50px;
   }
+
+/* edit by Teddy */
+#section1 .logo{
+  width: 90%;
+  top: 15%;
+}
+
+
+#section_info,
+#menu li.main-nav:nth-child(2)::after {
+  background: url("../img/photo/bg.jpg") center;
+  background-size: cover;
+}
+#section_info .map{
+  position: static;
+}
+#section_info .pp-tableCell{
+  vertical-align: top;
+}
+#section_info .wedding-info{
+  position: static;
+  text-align: left;
+}
+
+#section_info .wedding-info h2{
+  text-align: center;
+}
+
+#section_info .wedding-info h3{
+  font-weight: bold;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#section_info .wedding-info table{
+  line-height: 1.8em;
+  color: #D2AE7A;
+  font-size: 1.2em;
+  transform-origin: center;
+  transform: scale(.9);
+}
+
+#section_info .wedding-info td:first-child{
+  white-space: nowrap;
+  text-align: right;
+  font-weight: bold;
+}
+
+
+#section2,
+#menu li.main-nav:nth-child(3)::after {
+  background: url("../img/photo/02m.jpg") center;
+  background-size: cover;
+}
+
+#section3,
+#menu li.main-nav:nth-child(4)::after {
+  background: url("../img/photo/03m.jpg") center;
+  background-size: cover;
+}
+
+#section5,
+#menu li.main-nav:nth-child(6)::after {
+  background: url("../img/photo/05m.jpg") center;
+  background-size: cover;
+}
+
+#section6,
+#menu li.main-nav:nth-child(7)::after {
+  background: url("../img/photo/06m.jpg") center;
+  background-size: cover;
+}
+
+#section9,
+#menu li.main-nav:nth-child(10)::after {
+  background: url("../img/photo/09m.jpg") center;
+  background-size: cover;
+}
+
+#section10,
+#menu li.main-nav:nth-child(11)::after {
+  background: url("../img/photo/07.jpg") center;
+  background-size: cover;
+}
+
 }
 /* Only for tablet in landscape mode @media only screen and (max-device-width: 1024px) and (orientation: landscape) */
 /* @include landscape-tablet {} */

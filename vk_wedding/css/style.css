@@ -1708,6 +1708,7 @@ sup {
 #menu li.main-nav:nth-child(2)::after {
   background: url("../img/photo/bg.jpg") center;
   background-size: cover;
+  font-family: "微軟正黑體", "Arial";
 }
 #section_info .map{
   position: absolute;
@@ -1719,15 +1720,23 @@ sup {
   left: 50%;
   top: 45%;
   text-align: left;
+  border-radius: 10px;
+  padding: 15px;
 }
 
 #section_info .wedding-info h3{
   font-weight: bold;
+  color: #a96717;
+  font-family: "微軟正黑體", "Arial";
+}
+#section_info .wedding-info h2{
+  color: #a96717;
+  font-family: "微軟正黑體", "Arial";
 }
 
 #section_info .wedding-info table{
   line-height: 2em;
-  color: #D2AE7A;
+  color: #a96717;
   font-size: 1.5em;
 }
 
@@ -2835,7 +2844,6 @@ span.holdscroll.menu-opened {
   
   #section_info .wedding-info table{
     line-height: 1.5em;
-    color: #D2AE7A;
     font-size: 1.2em;
   }
   

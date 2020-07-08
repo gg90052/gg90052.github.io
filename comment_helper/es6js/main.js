@@ -188,6 +188,7 @@ $(document).ready(function () {
 	$("#inputJSON").change(function () {
 		$(".waiting").removeClass("hide");
 		$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
+		config.from_extension = true;
 		data.import(this.files[0]);
 	});
 });
@@ -603,11 +604,11 @@ let table = {
 					  <td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
 					  <td>${val.score}</td>`;
 			} else {
-				let link = val.id;
+				let postlink = host + val.id;
 				if (config.from_extension) {
-					link = val.postlink;
+					postlink = val.postlink;
 				}
-				td += `<td class="force-break"><a href="${host}${link}" target="_blank">${val.message}</a></td>
+				td += `<td class="force-break"><a href="${postlink}" target="_blank">${val.message}</a></td>
 				<td>${val.like_count}</td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			}

@@ -274,19 +274,32 @@ let fb = {
 			auth_scope = response.authResponse.grantedScopes;
 			config.from_extension = false;
 			if (type == "addScope") {
-				if (auth_scope.includes('groups_access_member_info')){
-					swal(
-						'付費授權完成，請再次執行抓留言',
-						'Authorization Finished! Please getComments again.',
-						'success'
-					).done();
-				}else{
-					swal(
-						'付費授權檢查錯誤，該功能需付費',
-						'Authorization Failed! It is a paid feature.',
-						'error'
-					).done();
-				}
+				// if (auth_scope.includes('groups_access_member_info')){
+				// 	swal(
+				// 		'付費授權完成，請再次執行抓留言',
+				// 		'Authorization Finished! Please getComments again.',
+				// 		'success'
+				// 	).done();
+				// }else{
+				// 	swal(
+				// 		'付費授權檢查錯誤，該功能需付費',
+				// 		'Authorization Failed! It is a paid feature.',
+				// 		'error'
+				// 	).done();
+				// }
+				FB.api(`/me?fields=id,name`, (res) => {
+					let obj = {
+						token: -1,
+						username: res.name,
+						app_scope_id: res.id
+					}
+					$.post('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec', obj, function(res){
+						alert(res.message);
+						if (res.code == 1){
+							// location.href = "index.html";
+						}
+					});
+				});
 			} else if (type == "page_selector") {	
 				page_selector.show();
 			} else {

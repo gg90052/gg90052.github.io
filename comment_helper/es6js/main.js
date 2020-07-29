@@ -39,6 +39,9 @@ $(document).ready(function () {
 	$("#btn_page_selector").click(function (e) {
 		fb.getAuth('page_selector');
 	});
+	$("#btn_login").click(function (e) {
+		fb.getAuth('page_selector');
+	});
 
 	$("#btn_comments").click(function (e) {
 		console.log(e);

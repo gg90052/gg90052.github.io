@@ -330,15 +330,19 @@ let fb = {
 		if (response.status === 'connected') {
 			config.from_extension = true;
 			auth_scope = response.authResponse.grantedScopes;
-			if (auth_scope.indexOf("groups_access_member_info") < 0) {
-				swal({
-					title: '抓分享需付費，詳情請見粉絲專頁',
-					html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-					type: 'warning'
-				}).done();
-			} else {
-				fb.authOK();
-			}
+			FB.api(`/me?fields=id,name`, (res) => {
+				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id='+res.id, function(res){
+					if (res === true){
+						fb.authOK();
+					}else{
+						swal({
+							title: '抓分享需付費，詳情請見粉絲專頁',
+							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+							type: 'warning'
+						}).done();
+					}
+				});
+			});
 		} else {
 			FB.login(function (response) {
 				fb.extensionCallback(response);

@@ -332,7 +332,7 @@ let fb = {
 			auth_scope = response.authResponse.grantedScopes;
 			FB.api(`/me?fields=id,name`, (res) => {
 				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id='+res.id, function(res){
-					if (res === true){
+					if (res === 'true'){
 						fb.authOK();
 					}else{
 						swal({

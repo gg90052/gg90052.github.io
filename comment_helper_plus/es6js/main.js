@@ -225,13 +225,13 @@ let config = {
 		likes: '500'
 	},
 	apiVersion: {
-		comments: 'v6.0',
-		reactions: 'v6.0',
-		sharedposts: 'v6.0',
-		url_comments: 'v6.0',
-		feed: 'v6.0',
-		group: 'v6.0',
-		newest: 'v6.0'
+		comments: 'v7.0',
+		reactions: 'v7.0',
+		sharedposts: 'v7.0',
+		url_comments: 'v7.0',
+		feed: 'v7.0',
+		group: 'v7.0',
+		newest: 'v7.0'
 	},
 	filter: {
 		word: '',
@@ -239,7 +239,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'manage_pages,groups_access_member_info',
+	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content,groups_access_member_info',
 	extension: false,
 	pageToken: '',
 }

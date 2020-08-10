@@ -331,13 +331,13 @@ let fb = {
 			config.from_extension = true;
 			auth_scope = response.authResponse.grantedScopes;
 			FB.api(`/me?fields=id,name`, (res) => {
-				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id='+res.id, function(res){
-					if (res === 'true'){
+				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id='+res.id, function(res2){
+					if (res2 === 'true'){
 						fb.authOK();
 					}else{
 						swal({
 							title: '抓分享需付費，詳情請見粉絲專頁',
-							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
+							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：'+res.id,
 							type: 'warning'
 						}).done();
 					}

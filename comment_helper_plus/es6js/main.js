@@ -260,15 +260,16 @@ let fb = {
 			console.log(response);
 			if (type == "addScope"){
 				let authStr = response.authResponse.grantedScopes;
-				if (authStr.includes('groups_access_member_info')){
-					fb.start();
-				}else{
-					swal(
-						'付費授權檢查錯誤，該功能需付費',
-						'Authorization Failed! It is a paid feature.',
-						'error'
-					).done();
-				}
+				// if (authStr.includes('groups_access_member_info')){
+				// 	fb.start();
+				// }else{
+				// 	swal(
+				// 		'付費授權檢查錯誤，該功能需付費',
+				// 		'Authorization Failed! It is a paid feature.',
+				// 		'error'
+				// 	).done();
+				// }
+				fb.start();
 			}else{
 				fbid.init(type);			
 			}

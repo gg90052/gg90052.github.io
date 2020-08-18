@@ -319,12 +319,13 @@ let fb = {
 		}
 	},
 	extensionAuth: () => {
-		FB.login(function (response) {
-			fb.extensionCallback(response);
-		}, {
-			scope: config.auth,
-			return_scopes: true
-		});
+		fb.authOK();
+		// FB.login(function (response) {
+		// 	fb.extensionCallback(response);
+		// }, {
+		// 	scope: config.auth,
+		// 	return_scopes: true
+		// });
 	},
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {

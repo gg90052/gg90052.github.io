@@ -320,6 +320,7 @@ let fb = {
 	},
 	extensionAuth: () => {
 		fb.authOK();
+		config.from_extension = true;
 		// FB.login(function (response) {
 		// 	fb.extensionCallback(response);
 		// }, {
@@ -486,25 +487,29 @@ let data = {
 		$(".main_table").removeClass("hide");
 		$(".update_area,.donate_area").slideUp();
 		$(".result_area").slideDown();
-		if (data.raw.type == 'group'){
-			if (auth_scope.includes('groups_access_member_info')){
-				swal('完成！', 'Done!', 'success').done();
-				data.raw = fbid;
-				data.filter(data.raw, true);
-				ui.reset();
-			}else{
-				swal(
-					'付費授權檢查錯誤，抓社團貼文需付費',
-					'Authorization Failed! It is a paid feature.',
-					'error'
-				).done();
-			}
-		}else{
-			swal('完成！', 'Done!', 'success').done();
-			data.raw = fbid;
-			data.filter(data.raw, true);
-			ui.reset();
-		}
+		// if (data.raw.type == 'group'){
+		// 	if (auth_scope.includes('groups_access_member_info')){
+		// 		swal('完成！', 'Done!', 'success').done();
+		// 		data.raw = fbid;
+		// 		data.filter(data.raw, true);
+		// 		ui.reset();
+		// 	}else{
+		// 		swal(
+		// 			'付費授權檢查錯誤，抓社團貼文需付費',
+		// 			'Authorization Failed! It is a paid feature.',
+		// 			'error'
+		// 		).done();
+		// 	}
+		// }else{
+		// 	swal('完成！', 'Done!', 'success').done();
+		// 	data.raw = fbid;
+		// 	data.filter(data.raw, true);
+		// 	ui.reset();
+		// }
+		swal('完成！', 'Done!', 'success').done();
+		data.raw = fbid;
+		data.filter(data.raw, true);
+		ui.reset();
 	},
 	filter: (rawData, generate = false) => {
 		let isDuplicate = $("#unique").prop("checked");

@@ -56,7 +56,8 @@ $(document).ready(function () {
 	});
 
 	$("#btn_start").click(function () {
-		fb.getAuth('addScope');
+		// fb.getAuth('addScope');
+		data.finish(data.raw);
 	});
 	$("#btn_choose").click(function (e) {
 		if (e.ctrlKey || e.altKey) {

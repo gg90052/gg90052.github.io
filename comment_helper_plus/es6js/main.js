@@ -32,9 +32,9 @@ $(document).ready(function(){
 	if (lastData){
 		data.finish(lastData);
 	}
-	if (sessionStorage.login){
-		fb.genOption(JSON.parse(sessionStorage.login));
-	}
+	// if (sessionStorage.login){
+	// 	fb.genOption(JSON.parse(sessionStorage.login));
+	// }
 
 	// $(".tables > .sharedposts button").click(function(e){
 	// 	if (e.ctrlKey || e.altKey){
@@ -460,8 +460,20 @@ let fb = {
 	},
 	extensionCallback: (response, command = '')=>{
 		if (response.status === 'connected') {
-			let authStr = response.authResponse.grantedScopes;
-			if (authStr.indexOf('groups_access_member_info') >= 0){
+			FB.api(`/me?fields=id,name`, (res) => {
+				$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id='+res.id, function(res2){
+					if (res2 === 'true'){
+						extension_start();
+					}else{
+						swal({
+							title: 'PLUS為付費產品，詳情請見粉絲專頁',
+							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：'+res.id,
+							type: 'warning'
+						}).done();
+					}
+				});
+			});
+			function extension_start(){
 				data.raw.extension = true;
 				if (command == 'import'){
 					localStorage.setItem("sharedposts", $('#import').val());
@@ -574,12 +586,6 @@ let fb = {
 					data.raw.data[command] = extend;
 					data.finish(data.raw);
 				});
-			}else{
-				swal({
-					title: '抓分享需付費，詳情請見粉絲專頁',
-					html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-					type: 'warning'
-				}).done();
 			}
 		}else{
 			FB.login(function(response) {

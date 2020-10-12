@@ -60,11 +60,10 @@ $(document).ready(function () {
 
   if (lastData) {
     data.finish(lastData);
-  }
-
-  if (sessionStorage.login) {
-    fb.genOption(JSON.parse(sessionStorage.login));
-  } // $(".tables > .sharedposts button").click(function(e){
+  } // if (sessionStorage.login){
+  // 	fb.genOption(JSON.parse(sessionStorage.login));
+  // }
+  // $(".tables > .sharedposts button").click(function(e){
   // 	if (e.ctrlKey || e.altKey){
   // 		fb.extensionAuth('import');
   // 	}else{
@@ -478,222 +477,226 @@ var fb = {
     var command = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
     if (response.status === 'connected') {
-      var authStr = response.authResponse.grantedScopes;
+      var extension_start = function extension_start() {
+        data.raw.extension = true;
 
-      if (authStr.indexOf('groups_access_member_info') >= 0) {
-        (function () {
-          data.raw.extension = true;
+        if (command == 'import') {
+          localStorage.setItem("sharedposts", $('#import').val());
+        }
 
-          if (command == 'import') {
-            localStorage.setItem("sharedposts", $('#import').val());
-          }
+        var extend = JSON.parse(localStorage.getItem("sharedposts"));
+        var fid = [];
+        var ids = [];
 
-          var extend = JSON.parse(localStorage.getItem("sharedposts"));
-          var fid = [];
-          var ids = [];
+        var _iterator3 = _createForOfIteratorHelper(extend),
+            _step3;
 
-          var _iterator3 = _createForOfIteratorHelper(extend),
-              _step3;
+        try {
+          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+            var _i11 = _step3.value;
+            fid.push(_i11.from.id);
 
-          try {
-            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-              var _i11 = _step3.value;
-              fid.push(_i11.from.id);
-
-              if (fid.length >= 45) {
-                ids.push(fid);
-                fid = [];
-              }
-            }
-          } catch (err) {
-            _iterator3.e(err);
-          } finally {
-            _iterator3.f();
-          }
-
-          ids.push(fid);
-          var promise_array = [],
-              names = {};
-
-          for (var _i = 0, _ids = ids; _i < _ids.length; _i++) {
-            var i = _ids[_i];
-            var promise = fb.getName(i).then(function (res) {
-              for (var _i2 = 0, _Object$keys = Object.keys(res); _i2 < _Object$keys.length; _i2++) {
-                var _i3 = _Object$keys[_i2];
-                names[_i3] = res[_i3];
-              }
-            });
-            promise_array.push(promise);
-          }
-
-          var postdata = JSON.parse(localStorage.postdata);
-
-          if (command == 'comments') {
-            if (postdata.type === 'personal') {
-              // FB.api("/me", function (res) {
-              // 	if (res.name === postdata.owner) {
-              // 		for(let i of extend){
-              // 			i.message = i.story;
-              // 			delete i.story;
-              // 			delete i.postlink;
-              // 			i.like_count = 'N/A';
-              // 		}
-              // 	}else{
-              // 		swal({
-              // 			title: '個人貼文只有發文者本人能抓',
-              // 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
-              // 			type: 'warning'
-              // 		}).done();
-              // 	}
-              // });
-              var _iterator4 = _createForOfIteratorHelper(extend),
-                  _step4;
-
-              try {
-                for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                  var _i4 = _step4.value;
-                  delete _i4.story;
-                  delete _i4.postlink;
-                  _i4.like_count = 'N/A';
-                }
-              } catch (err) {
-                _iterator4.e(err);
-              } finally {
-                _iterator4.f();
-              }
-            } else if (postdata.type === 'group') {
-              var _iterator5 = _createForOfIteratorHelper(extend),
-                  _step5;
-
-              try {
-                for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-                  var _i5 = _step5.value;
-                  delete _i5.story;
-                  delete _i5.postlink;
-                  _i5.like_count = 'N/A';
-                }
-              } catch (err) {
-                _iterator5.e(err);
-              } finally {
-                _iterator5.f();
-              }
-            } else {
-              var _iterator6 = _createForOfIteratorHelper(extend),
-                  _step6;
-
-              try {
-                for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-                  var _i6 = _step6.value;
-                  delete _i6.story;
-                  delete _i6.postlink;
-                  _i6.like_count = 'N/A';
-                }
-              } catch (err) {
-                _iterator6.e(err);
-              } finally {
-                _iterator6.f();
-              }
+            if (fid.length >= 45) {
+              ids.push(fid);
+              fid = [];
             }
           }
+        } catch (err) {
+          _iterator3.e(err);
+        } finally {
+          _iterator3.f();
+        }
 
-          if (command == 'reactions') {
-            if (postdata.type === 'personal') {
-              // FB.api("/me", function (res) {
-              // 	if (res.name === postdata.owner) {
-              // 		for(let i of extend){
-              // 			delete i.story;
-              // 			delete i.created_time;
-              // 			delete i.postlink;
-              // 			delete i.like_count;
-              // 			i.type = 'LIKE';
-              // 		}
-              // 	}else{
-              // 		swal({
-              // 			title: '個人貼文只有發文者本人能抓',
-              // 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
-              // 			type: 'warning'
-              // 		}).done();
-              // 	}
-              // });
-              var _iterator7 = _createForOfIteratorHelper(extend),
-                  _step7;
+        ids.push(fid);
+        var promise_array = [],
+            names = {};
 
-              try {
-                for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-                  var _i7 = _step7.value;
-                  delete _i7.story;
-                  delete _i7.created_time;
-                  delete _i7.postlink;
-                  delete _i7.like_count;
-                }
-              } catch (err) {
-                _iterator7.e(err);
-              } finally {
-                _iterator7.f();
-              }
-            } else if (postdata.type === 'group') {
-              var _iterator8 = _createForOfIteratorHelper(extend),
-                  _step8;
-
-              try {
-                for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-                  var _i8 = _step8.value;
-                  delete _i8.story;
-                  delete _i8.created_time;
-                  delete _i8.postlink;
-                  delete _i8.like_count;
-                }
-              } catch (err) {
-                _iterator8.e(err);
-              } finally {
-                _iterator8.f();
-              }
-            } else {
-              var _iterator9 = _createForOfIteratorHelper(extend),
-                  _step9;
-
-              try {
-                for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-                  var _i9 = _step9.value;
-                  delete _i9.story;
-                  delete _i9.created_time;
-                  delete _i9.postlink;
-                  delete _i9.like_count;
-                }
-              } catch (err) {
-                _iterator9.e(err);
-              } finally {
-                _iterator9.f();
-              }
+        for (var _i = 0, _ids = ids; _i < _ids.length; _i++) {
+          var i = _ids[_i];
+          var promise = fb.getName(i).then(function (res) {
+            for (var _i2 = 0, _Object$keys = Object.keys(res); _i2 < _Object$keys.length; _i2++) {
+              var _i3 = _Object$keys[_i2];
+              names[_i3] = res[_i3];
             }
-          }
+          });
+          promise_array.push(promise);
+        }
 
-          Promise.all(promise_array).then(function () {
-            var _iterator10 = _createForOfIteratorHelper(extend),
-                _step10;
+        var postdata = JSON.parse(localStorage.postdata);
+
+        if (command == 'comments') {
+          if (postdata.type === 'personal') {
+            // FB.api("/me", function (res) {
+            // 	if (res.name === postdata.owner) {
+            // 		for(let i of extend){
+            // 			i.message = i.story;
+            // 			delete i.story;
+            // 			delete i.postlink;
+            // 			i.like_count = 'N/A';
+            // 		}
+            // 	}else{
+            // 		swal({
+            // 			title: '個人貼文只有發文者本人能抓',
+            // 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+            // 			type: 'warning'
+            // 		}).done();
+            // 	}
+            // });
+            var _iterator4 = _createForOfIteratorHelper(extend),
+                _step4;
 
             try {
-              for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-                var _i10 = _step10.value;
-                _i10.from.name = names[_i10.from.id] ? names[_i10.from.id].name : _i10.from.name;
+              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                var _i4 = _step4.value;
+                delete _i4.story;
+                delete _i4.postlink;
+                _i4.like_count = 'N/A';
               }
             } catch (err) {
-              _iterator10.e(err);
+              _iterator4.e(err);
             } finally {
-              _iterator10.f();
+              _iterator4.f();
             }
+          } else if (postdata.type === 'group') {
+            var _iterator5 = _createForOfIteratorHelper(extend),
+                _step5;
 
-            data.raw.data[command] = extend;
-            data.finish(data.raw);
-          });
-        })();
-      } else {
-        swal({
-          title: '抓分享需付費，詳情請見粉絲專頁',
-          html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-          type: 'warning'
-        }).done();
-      }
+            try {
+              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                var _i5 = _step5.value;
+                delete _i5.story;
+                delete _i5.postlink;
+                _i5.like_count = 'N/A';
+              }
+            } catch (err) {
+              _iterator5.e(err);
+            } finally {
+              _iterator5.f();
+            }
+          } else {
+            var _iterator6 = _createForOfIteratorHelper(extend),
+                _step6;
+
+            try {
+              for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                var _i6 = _step6.value;
+                delete _i6.story;
+                delete _i6.postlink;
+                _i6.like_count = 'N/A';
+              }
+            } catch (err) {
+              _iterator6.e(err);
+            } finally {
+              _iterator6.f();
+            }
+          }
+        }
+
+        if (command == 'reactions') {
+          if (postdata.type === 'personal') {
+            // FB.api("/me", function (res) {
+            // 	if (res.name === postdata.owner) {
+            // 		for(let i of extend){
+            // 			delete i.story;
+            // 			delete i.created_time;
+            // 			delete i.postlink;
+            // 			delete i.like_count;
+            // 			i.type = 'LIKE';
+            // 		}
+            // 	}else{
+            // 		swal({
+            // 			title: '個人貼文只有發文者本人能抓',
+            // 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
+            // 			type: 'warning'
+            // 		}).done();
+            // 	}
+            // });
+            var _iterator7 = _createForOfIteratorHelper(extend),
+                _step7;
+
+            try {
+              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                var _i7 = _step7.value;
+                delete _i7.story;
+                delete _i7.created_time;
+                delete _i7.postlink;
+                delete _i7.like_count;
+              }
+            } catch (err) {
+              _iterator7.e(err);
+            } finally {
+              _iterator7.f();
+            }
+          } else if (postdata.type === 'group') {
+            var _iterator8 = _createForOfIteratorHelper(extend),
+                _step8;
+
+            try {
+              for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+                var _i8 = _step8.value;
+                delete _i8.story;
+                delete _i8.created_time;
+                delete _i8.postlink;
+                delete _i8.like_count;
+              }
+            } catch (err) {
+              _iterator8.e(err);
+            } finally {
+              _iterator8.f();
+            }
+          } else {
+            var _iterator9 = _createForOfIteratorHelper(extend),
+                _step9;
+
+            try {
+              for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+                var _i9 = _step9.value;
+                delete _i9.story;
+                delete _i9.created_time;
+                delete _i9.postlink;
+                delete _i9.like_count;
+              }
+            } catch (err) {
+              _iterator9.e(err);
+            } finally {
+              _iterator9.f();
+            }
+          }
+        }
+
+        Promise.all(promise_array).then(function () {
+          var _iterator10 = _createForOfIteratorHelper(extend),
+              _step10;
+
+          try {
+            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+              var _i10 = _step10.value;
+              _i10.from.name = names[_i10.from.id] ? names[_i10.from.id].name : _i10.from.name;
+            }
+          } catch (err) {
+            _iterator10.e(err);
+          } finally {
+            _iterator10.f();
+          }
+
+          data.raw.data[command] = extend;
+          data.finish(data.raw);
+        });
+      };
+
+      FB.api("/me?fields=id,name", function (res) {
+        $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + res.id, function (res2) {
+          if (res2 === 'true') {
+            extension_start();
+          } else {
+            swal({
+              title: 'PLUS為付費產品，詳情請見粉絲專頁',
+              html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + res.id,
+              type: 'warning'
+            }).done();
+          }
+        });
+      });
     } else {
       FB.login(function (response) {
         fb.extensionCallback(response);

@@ -3,13 +3,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <meta name="Description" content="" />
-<meta property="og:title" content="粉絲團留言抽籤小助手PLUS 分享授權頁面" /> 
+<meta property="og:title" content="粉絲團留言抽籤小助手PLUS授權頁面" /> 
 <meta property="og:type" content="article" /> 
 <meta property="og:url" content="http://gg90052.github.io/comment_helper_plus/auth.html" />
 <meta property="og:image" content="http://gg90052.github.io/comment_helper_plus/auth.jpg" />
 <meta property="og:description" content="" /> 
 
-<title>粉絲團留言抽籤小助手PLUS 分享授權頁面</title>
+<title>粉絲團留言抽籤小助手PLUS授權頁面</title>
 
 
 <link rel="stylesheet" href="css/m.css">
@@ -24,7 +24,7 @@ window.fbAsyncInit = function() {
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
     xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
+    version    : 'v8.0' // use version 2.1
   });
 }
 // 160833824415744 pro
@@ -54,23 +54,15 @@ window.fbAsyncInit = function() {
 			<h3>Q&A</h3>
 			<article>
 				<p class="q">Q：這是做什麼用的？</p>
-				<p class="a">A：因 Facebook 隱私權條款，分享的文章須透過使用者授權才能取得，雖然也可以透過別的方式抓到分享，但會有總數上的限制，因此在這個頁面上跟參加抽獎者要求使用者給予權限。</p>
+				<p class="a">A：因 Facebook 隱私權條款，用戶提供權限才可透過app取得公開的資料，因此在這個頁面上跟參加抽獎者要求使用者給予權限。</p>
 			</article>
 			<article>
 				<p class="q">Q：我會給出甚麼權限，又會有甚麼後果？</p>
-				<p class="a">A：本頁面僅會要求預設權限及user_posts權限，大致上就是讀取公開的名稱資料以及公開貼文，詳細的說明可見Facebook的官方說明： <a href="https://developers.facebook.com/docs/facebook-login/permissions/#reference-user_posts" target="_blank">https://developers.facebook.com/docs/facebook-login/permissions/#reference-user_posts</a></p>
-			</article>
-			<article>
-				<p class="q">Q：你會盜我的帳號亂發文嗎？</p>
-				<p class="a">A：給予權限走的是 Facebook 標準的授權流程，安全性由 Facebook 所保證，你給予的user_posts權限只能用來讀取，不能幫你發文。</p>
-			</article>
-			<article>
-				<p class="q">Q：你會不會偷存或把我資料拿去賣？</p>
-				<p class="a">A：此頁面為純前端靜態頁面，如果你有工程師朋友可以請他們來檢查程式碼，沒有參雜任何儲存個人資訊的程式，如果你覺得即使這樣還是不可信，那請不要授權，我只能跟你保證我不會盜你帳號。</p>
+				<p class="a">A：本頁面僅會要求預設權限，大致上就是讀取公開的名稱資料，詳細的說明可見Facebook的官方說明： <a href="https://www.facebook.com/help/187333441316612" target="_blank">https://www.facebook.com/help/187333441316612</a></p>
 			</article>
 			<article>
 				<p class="q">Q：我後悔了，我不想要給你權限。</p>
-				<p class="a">A：請按照此篇教學 <a href="https://www.facebook.com/commenthelper/posts/1042925192406981" target="_blank">https://www.facebook.com/commenthelper/posts/1042925192406981</a><br>將權限移除後即可，本程式即無法取得你的貼文資料。</p>
+				<p class="a">A：請按照此篇教學 <a href="https://www.facebook.com/help/170585223002660" target="_blank">https://www.facebook.com/help/170585223002660</a><br>將權限移除後即可，本程式即無法取得你的貼文資料。</p>
 			</article>
 		</section>
 	</div>
@@ -80,21 +72,16 @@ window.fbAsyncInit = function() {
 $("#btn_login").click(function(){
 	FB.login(function(response) {
 		callback(response);
-	}, {scope: 'user_posts' ,return_scopes: true});
+	}, {return_scopes: true});
 });
 
 function callback(response){
 	if (response.status === 'connected') {
-		let authStr = response.authResponse.grantedScopes;
-		if (authStr.indexOf('user_posts') >= 0){
-			alert('授權完成！');
-		}else{
-			alert('授權失敗！');
-		}
+		alert('授權完成！');
 	}else{
 		FB.login(function(response) {
 			fb.callback(response);
-		}, {scope: 'user_posts' ,return_scopes: true});
+		}, {return_scopes: true});
 	}
 }
 </script>

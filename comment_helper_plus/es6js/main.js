@@ -49,7 +49,10 @@ $(document).ready(function(){
 	});
 
 	$("#btn_start").click(function(){
-		fb.getAuth('addScope');
+		fb.getAuth('signin');
+	});
+	$("#btn_auth").click(function(){
+		fb.getAuth('signup');
 	});
 	$("#btn_choose").click(function(e){
 		if (e.ctrlKey || e.altKey){
@@ -239,9 +242,10 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content,groups_access_member_info',
+	auth: 'pages_show_list, pages_read_engagement, pages_read_user_content,groups_access_member_info',
 	extension: false,
 	pageToken: '',
+	userToken: '',
 }
 
 let fb = {
@@ -258,20 +262,42 @@ let fb = {
 	callback: (response, type)=>{
 		if (response.status === 'connected') {
 			console.log(response);
-			if (type == "addScope"){
-				let authStr = response.authResponse.grantedScopes;
-				// if (authStr.includes('groups_access_member_info')){
-				// 	fb.start();
-				// }else{
-				// 	swal(
-				// 		'付費授權檢查錯誤，該功能需付費',
-				// 		'Authorization Failed! It is a paid feature.',
-				// 		'error'
-				// 	).done();
-				// }
-				fb.start();
-			}else{
-				fbid.init(type);			
+			config.userToken = response.authResponse.accessToken;
+			config.from_extension = false;
+
+			if(type == 'signup'){
+				// 註冊
+				FB.api(`/me?fields=id,name`, (res) => {
+					let obj = {
+						token: -1,
+						username: res.name,
+						app_scope_id: res.id
+					}
+					$.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function(res){
+						if (res.code == 1){
+							fb.callback(response, 'signin');
+						}else{
+							// alert(res.message);
+							fb.callback(response, 'signin');
+						}
+					});
+				});
+			}
+
+			if(type == 'signin'){
+				FB.api(`/me?fields=id,name`, (res) => {
+					$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id='+res.id, function(res2){
+						if (res2 === 'true'){
+							fb.start();
+						}else{
+							swal({
+								title: 'PLUS為付費產品，詳情請見粉絲專頁',
+								html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：'+res.id,
+								type: 'warning'
+							}).done();
+						}
+					});
+				});
 			}
 		}else{
 			FB.login(function(response) {

@@ -146,6 +146,9 @@ table{
 			padding-left: 45px;
 			#import{
 				margin-left: 20px;
+				&::placeholder{
+					color: #ddd;
+				}
 			}
 			.source{
 				.url{

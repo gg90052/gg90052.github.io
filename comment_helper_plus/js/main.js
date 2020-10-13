@@ -241,7 +241,8 @@ var config = {
   auth: 'pages_show_list, pages_read_engagement, pages_read_user_content,groups_access_member_info',
   extension: false,
   pageToken: '',
-  userToken: ''
+  userToken: '',
+  me: ''
 };
 var fb = {
   next: '',
@@ -258,40 +259,45 @@ var fb = {
     if (response.status === 'connected') {
       console.log(response);
       config.userToken = response.authResponse.accessToken;
+      config.me = response.authResponse.userID;
       config.from_extension = false;
 
       if (type == 'signup') {
         // 註冊
         FB.api("/me?fields=id,name", function (res) {
           var obj = {
-            token: -1,
+            token: $('#import').val() || -1,
             username: res.name,
             app_scope_id: res.id
           };
+          $('.waiting').removeClass('hide');
           $.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function (res) {
+            $('.waiting').addClass('hide');
+
             if (res.code == 1) {
+              alert(res.message);
               fb.callback(response, 'signin');
             } else {
-              // alert(res.message);
-              fb.callback(response, 'signin');
+              alert(res.message); // fb.callback(response, 'signin');
             }
           });
         });
       }
 
       if (type == 'signin') {
-        FB.api("/me?fields=id,name", function (res) {
-          $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + res.id, function (res2) {
-            if (res2 === 'true') {
-              fb.start();
-            } else {
-              swal({
-                title: 'PLUS為付費產品，詳情請見粉絲專頁',
-                html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + res.id,
-                type: 'warning'
-              }).done();
-            }
-          });
+        $('.waiting').removeClass('hide');
+        $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + config.me, function (res2) {
+          $('.waiting').addClass('hide');
+
+          if (res2 === 'true') {
+            fb.start();
+          } else {
+            swal({
+              title: 'PLUS為付費產品，詳情請見粉絲專頁',
+              html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + config.me,
+              type: 'warning'
+            }).done();
+          }
         });
       }
     } else {
@@ -459,13 +465,6 @@ var fb = {
   },
   extensionAuth: function extensionAuth() {
     var command = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    // let response = {
-    // 	status: 'connected',
-    // 	authResponse:{
-    // 		grantedScopes: 'groups_access_member_info',
-    // 	}
-    // }
-    // fb.extensionCallback(response, command);
     FB.login(function (response) {
       fb.extensionCallback(response, command);
     }, {
@@ -684,18 +683,20 @@ var fb = {
         });
       };
 
-      FB.api("/me?fields=id,name", function (res) {
-        $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + res.id, function (res2) {
-          if (res2 === 'true') {
-            extension_start();
-          } else {
-            swal({
-              title: 'PLUS為付費產品，詳情請見粉絲專頁',
-              html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + res.id,
-              type: 'warning'
-            }).done();
-          }
-        });
+      var me = response.authResponse.userID;
+      $('.waiting').removeClass('hide');
+      $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + me, function (res2) {
+        $('.waiting').addClass('hide');
+
+        if (res2 === 'true') {
+          extension_start();
+        } else {
+          swal({
+            title: 'PLUS為付費產品，詳情請見粉絲專頁',
+            html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + me,
+            type: 'warning'
+          }).done();
+        }
       });
     } else {
       FB.login(function (response) {

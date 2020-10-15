@@ -466,6 +466,7 @@ var data = {
         if (res.data.length > 0 && res.paging.next) {
           getNext(res.paging.next);
         } else {
+          $(".console .message").text('');
           resolve(datas);
         }
       });
@@ -523,6 +524,7 @@ var data = {
             // if (data.nowLength < 180) {
             getNext(res.paging.next);
           } else {
+            $(".console .message").text('');
             resolve(datas);
           }
         }).fail(function () {

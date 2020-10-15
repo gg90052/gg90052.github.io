@@ -303,6 +303,8 @@ let fb = {
 					$('.waiting').addClass('hide');
 					if (res2 === 'true') {
 						config.auth_user = true;
+					}else{
+						config.auth_user = false;
 					}
 					page_selector.show();
 				});

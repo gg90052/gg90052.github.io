@@ -1047,3 +1047,88 @@ table{
 		opacity: 0;
 	}
 }
+
+.login{
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: #ECEFF2;
+	z-index: 100000;
+	transition: all .3s;
+	&.auth{
+		width: 100%;
+		height: auto;
+		position: static;
+	}
+	&.success{
+		transform: translateY(-100vh);
+	}
+	.logo{
+		width: 150px;
+		margin: 0 auto;
+		padding: 20px 0;
+		img{
+			width: 100%;
+		}
+	}
+	.area{
+		width: 100%;
+		// margin: 30px auto;
+		text-align: center;
+		.title{
+			text-align: center;
+			font-size: 1.5rem;
+			font-weight: bold;
+			line-height: 1.5em;
+			color: #616182;
+		}
+		#btn_login{
+			width: 320px;
+			height: 60px;
+			line-height: 60px;
+			color: #FFF;
+			font-size: 1.5rem;
+			border: 1px solid #dbdbdb;
+			border-radius: 5px;
+			background: #4B68A3;
+			text-align: center;
+           	margin: 20px auto;
+           	cursor: pointer;
+           	transition: all .2s ease-out;
+           	&:active{
+           		transform: scale(0.95);
+           	}
+		}
+		.readme{
+			overflow: hidden;
+			p{
+				text-align: center;
+				color: red;
+				margin-bottom: 20px;
+			}
+		}
+		.qa{
+			width: 650px;
+			margin: 10px auto;
+			article{
+				margin-top: 20px;
+				a{
+					color: #068e06;
+				}
+				p{
+					text-align: left;
+					line-height: 1.5em;
+					font-size: 18px;
+				}
+				.q{
+					color: #a03319;
+				}
+				.a{
+					color: #000090;
+				}
+			}	
+		}
+	}
+}

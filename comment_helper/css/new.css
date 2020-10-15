@@ -1242,3 +1242,103 @@ table td span.react.THANKFUL {
     opacity: 0;
   }
 }
+
+.login {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: #ECEFF2;
+  z-index: 100000;
+  transition: all .3s;
+}
+
+.login.auth {
+  width: 100%;
+  height: auto;
+  position: static;
+}
+
+.login.success {
+  transform: translateY(-100vh);
+}
+
+.login .logo {
+  width: 150px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.login .logo img {
+  width: 100%;
+}
+
+.login .area {
+  width: 100%;
+  text-align: center;
+}
+
+.login .area .title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.5em;
+  color: #616182;
+}
+
+.login .area #btn_login {
+  width: 320px;
+  height: 60px;
+  line-height: 60px;
+  color: #FFF;
+  font-size: 1.5rem;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  background: #4B68A3;
+  text-align: center;
+  margin: 20px auto;
+  cursor: pointer;
+  transition: all .2s ease-out;
+}
+
+.login .area #btn_login:active {
+  transform: scale(0.95);
+}
+
+.login .area .readme {
+  overflow: hidden;
+}
+
+.login .area .readme p {
+  text-align: center;
+  color: red;
+  margin-bottom: 20px;
+}
+
+.login .area .qa {
+  width: 650px;
+  margin: 10px auto;
+}
+
+.login .area .qa article {
+  margin-top: 20px;
+}
+
+.login .area .qa article a {
+  color: #068e06;
+}
+
+.login .area .qa article p {
+  text-align: left;
+  line-height: 1.5em;
+  font-size: 18px;
+}
+
+.login .area .qa article .q {
+  color: #a03319;
+}
+
+.login .area .qa article .a {
+  color: #000090;
+}

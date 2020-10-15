@@ -37,31 +37,29 @@ $(document).ready(function () {
 	}
 
 	$("#btn_page_selector").click(function (e) {
-		fb.getAuth('page_selector');
-	});
-	$("#btn_login").click(function (e) {
-		fb.getAuth('page_selector');
+		fb.getAuth('signin');
 	});
 
 	$("#btn_comments").click(function (e) {
-		console.log(e);
 		if (e.ctrlKey || e.altKey) {
 			config.order = 'chronological';
 		}
-		fb.getAuth('comments');
+		fb.user_posts = true;
+		fbid.init('comments');
 	});
 
 	$("#btn_like").click(function (e) {
 		if (e.ctrlKey || e.altKey) {
 			config.likes = true;
 		}
-		fb.getAuth('reactions');
+		fb.user_posts = true;
+		fbid.init('reactions');
 	});
 	$("#btn_url").click(function () {
 		fb.getAuth('url_comments');
 	});
 	$("#btn_pay").click(function () {
-		fb.getAuth('addScope');
+		fb.getAuth('signup');
 	});
 	$("#btn_choose").click(function () {
 		choose.init();
@@ -197,19 +195,15 @@ $(document).ready(function () {
 });
 
 function exportToJsonFile(jsonData) {
-    let dataStr = JSON.stringify(jsonData);
-    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    let exportFileDefaultName = 'data.json';
-    
-    let linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-}
+	let dataStr = JSON.stringify(jsonData);
+	let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
 
-function shareBTN() {
-	alert('認真看完跳出來的那頁上面寫了什麼\n\n看完你就會知道你為什麼不能抓分享');
+	let exportFileDefaultName = 'data.json';
+
+	let linkElement = document.createElement('a');
+	linkElement.setAttribute('href', dataUri);
+	linkElement.setAttribute('download', exportFileDefaultName);
+	linkElement.click();
 }
 
 let config = {
@@ -249,7 +243,9 @@ let config = {
 	likes: false,
 	pageToken: '',
 	userToken: '',
+	me: '',
 	from_extension: false,
+	auth_user: false,
 }
 
 let fb = {
@@ -265,7 +261,7 @@ let fb = {
 		FB.login(function (response) {
 			fb.callback(response, type);
 		}, {
-			auth_type: 'rerequest' ,
+			auth_type: 'rerequest',
 			scope: config.auth,
 			return_scopes: true
 		});
@@ -274,40 +270,46 @@ let fb = {
 		// console.log(response);
 		if (response.status === 'connected') {
 			config.userToken = response.authResponse.accessToken;
-			auth_scope = response.authResponse.grantedScopes;
+			config.me = response.authResponse.userID;
 			config.from_extension = false;
-			if (type == "addScope") {
-				// if (auth_scope.includes('groups_access_member_info')){
-				// 	swal(
-				// 		'付費授權完成，請再次執行抓留言',
-				// 		'Authorization Finished! Please getComments again.',
-				// 		'success'
-				// 	).done();
-				// }else{
-				// 	swal(
-				// 		'付費授權檢查錯誤，該功能需付費',
-				// 		'Authorization Failed! It is a paid feature.',
-				// 		'error'
-				// 	).done();
-				// }
+
+			if (type == 'signup') {
+				// 註冊
+
+				let token = prompt("請輸入小助手提供給您的序號，若無序號請輸入-1", '-1');
 				FB.api(`/me?fields=id,name`, (res) => {
 					let obj = {
-						token: -1,
+						token,
 						username: res.name,
 						app_scope_id: res.id
 					}
-					$.post('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec', obj, function(res){
-						alert(res.message);
-						if (res.code == 1){
-							// location.href = "index.html";
+					$('.waiting').removeClass('hide');
+					$.post('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec', obj, function (res) {
+						$('.waiting').addClass('hide');
+						if (res.code == 1) {
+							alert(res.message);
+							fb.callback(response, 'signin');
+						} else {
+							alert(res.message);
+							// fb.callback(response, 'signin');
 						}
 					});
 				});
-			} else if (type == "page_selector") {	
+			}
+
+			if (type == 'signin') {
+				$('.waiting').removeClass('hide');
+				$.get('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec?id=' + config.me, function (res2) {
+					$('.waiting').addClass('hide');
+					if (res2 === 'true') {
+						config.auth_user = true;
+					}
+					page_selector.show();
+				});
+			}
+
+			if (type == "page_selector") {
 				page_selector.show();
-			} else {
-				fb.user_posts = true;
-				fbid.init(type);
 			}
 		} else {
 			FB.login(function (response) {
@@ -333,13 +335,13 @@ let fb = {
 			config.from_extension = true;
 			auth_scope = response.authResponse.grantedScopes;
 			FB.api(`/me?fields=id,name`, (res) => {
-				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id='+res.id, function(res2){
-					if (res2 === 'true'){
+				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id=' + res.id, function (res2) {
+					if (res2 === 'true') {
 						fb.authOK();
-					}else{
+					} else {
 						swal({
 							title: '抓分享需付費，詳情請見粉絲專頁',
-							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：'+res.id,
+							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + res.id,
 							type: 'warning'
 						}).done();
 					}
@@ -396,7 +398,7 @@ let data = {
 			let datas = [];
 			let promise_array = [];
 			let command = fbid.command;
-			if (fbid.type === 'group'){
+			if (fbid.type === 'group') {
 				fbid.fullID = fbid.pureID;
 				command = 'group';
 			}
@@ -406,7 +408,7 @@ let data = {
 			}
 			if (config.likes) fbid.command = 'likes';
 			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
-			let token = config.pageToken == '' ? `&access_token=${config.userToken}`:`&access_token=${config.pageToken}`;
+			let token = config.pageToken == '' ? `&access_token=${config.userToken}` : `&access_token=${config.pageToken}`;
 
 			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}${token}&debug=all`, (res) => {
 				data.nowLength += res.data.length;
@@ -471,7 +473,7 @@ let data = {
 						}
 					}
 					if (res.data.length > 0 && res.paging.next) {
-					// if (data.nowLength < 180) {
+						// if (data.nowLength < 180) {
 						getNext(res.paging.next);
 					} else {
 						resolve(datas);
@@ -618,7 +620,7 @@ let table = {
 			if (pic) {
 				picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
 			}
-			let td = `<td>${j+1}</td>
+			let td = `<td>${j + 1}</td>
 			<td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>`;
 			if ((rawdata.command == 'reactions' || rawdata.command == 'likes') || config.likes) {
 				td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
@@ -626,7 +628,7 @@ let table = {
 				td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			} else if (rawdata.command === 'ranker') {
-				td = `<td>${j+1}</td>
+				td = `<td>${j + 1}</td>
 					  <td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
 					  <td>${val.score}</td>`;
 			} else {
@@ -836,12 +838,12 @@ let fbid = {
 					resolve(obj);
 				} else {
 					if (urltype === 'group') {
-						
+
 						obj.pureID = result[result.length - 1];
 						obj.pageID = result[0];
 						obj.fullID = obj.pageID + "_" + obj.pureID;
 						resolve(obj);
-						
+
 					} else if (urltype === 'photo') {
 						let regex = /\d{4,}/g;
 						let result = url.match(regex);
@@ -1086,78 +1088,80 @@ let ui = {
 let page_selector = {
 	pages: [],
 	groups: [],
-	show: ()=>{
+	show: () => {
 		$('.page_selector').removeClass('hide');
 		page_selector.getAdmin();
 	},
-	getAdmin: ()=>{
-		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res)=>{
+	getAdmin: () => {
+		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res) => {
 			page_selector.genAdmin(res);
 		});
 	},
-	getPage: ()=>{
-		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res)=>{
+	getPage: () => {
+		return new Promise((resolve, reject) => {
+			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res) => {
 				resolve(res.data);
 			});
 		});
 	},
-	getGroup: ()=>{
-		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
-				resolve (res.data.filter(item=>{return item.administrator === true}));
+	getGroup: () => {
+		return new Promise((resolve, reject) => {
+			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
+				resolve(res.data.filter(item => { return item.administrator === true }));
 			});
 		});
 	},
-	genAdmin: (res)=>{
+	genAdmin: (res) => {
 		let pages = '';
 		let groups = '';
-		for(let i of res[0]){
+		for (let i of res[0]) {
 			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
 		}
-		for(let i of res[1]){
-			groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		if (config.auth_user === true){
+			for (let i of res[1]) {
+				groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+			}
 		}
 		$('.select_page').html(pages);
 		$('.select_group').html(groups);
 	},
-	selectPage: (target)=>{
+	selectPage: (target) => {
 		let page_id = $(target).data('value');
 		$('#post_table tbody').html('');
 		$('.fb_loading').removeClass('hide');
 		FB.api(`/${page_id}?fields=access_token`, function (res) {
 			if (res.access_token) {
 				config.pageToken = res.access_token;
-			}else{
+			} else {
 				config.pageToken = '';
 			}
 		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url,title,creation_time`, (res)=>{
+		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url,title,creation_time`, (res) => {
 			let thead = '';
-			for(let tr of res.data){
-				if (tr.status === 'LIVE'){
+			for (let tr of res.data) {
+				if (tr.status === 'LIVE') {
 					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
-				}else{
+				} else {
 					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
 				}
 			}
 			$('#post_table thead').html(thead);
 		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res)=>{
+		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res) => {
 			$('.fb_loading').addClass('hide');
 			let tbody = '';
-			for(let tr of res.data){
+			for (let tr of res.data) {
 				tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
 			}
 			$('#post_table tbody').html(tbody);
 		});
 	},
-	selectPost: (fbid)=>{
+	selectPost: (fbid) => {
 		$('.page_selector').addClass('hide');
 		$('.select_page').html('');
 		$('.select_group').html('');
 		$('#post_table tbody').html('');
-		let id = '"'+fbid+'"';
+		let id = '"' + fbid + '"';
 		$('#enterURL .url').val(id);
 	}
 }

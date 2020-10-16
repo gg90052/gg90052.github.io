@@ -241,7 +241,7 @@ let config = {
 		endTime: nowDate()
 	},
 	order: '',
-	auth: 'pages_show_list, pages_read_engagement, pages_read_user_content,groups_access_member_info',
+	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
 	extension: false,
 	pageToken: '',
 	userToken: '',

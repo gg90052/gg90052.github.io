@@ -150,13 +150,16 @@ table{
 				font-size: 1.1em;
 				line-height: 1.5em;
 			}
-			.payRead{
-				display: inline-block;
+			#pay_token{
+				width: 100px;
 				vertical-align: middle;
-				font-size: 12px;
-				margin-right: 10px;
-				cursor: pointer;
-				text-decoration: none;
+				margin-left: 20px;
+				&::placeholder{
+					color: #ddd;
+				}
+			}
+			#btn_pay{
+				margin-top: 0;
 			}
 		}
 		.inputarea{

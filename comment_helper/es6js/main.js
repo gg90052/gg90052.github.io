@@ -27,14 +27,6 @@ $(document).ready(function () {
 			fb.extensionAuth();
 		});
 	}
-	if (hash.indexOf("ranker") >= 0) {
-		let datas = {
-			command: 'ranker',
-			data: JSON.parse(localStorage.ranker)
-		}
-		data.raw = datas;
-		data.finish(data.raw);
-	}
 
 	$("#btn_page_selector").click(function (e) {
 		fb.getAuth('signin');
@@ -45,7 +37,8 @@ $(document).ready(function () {
 			config.order = 'chronological';
 		}
 		fb.user_posts = true;
-		fbid.init('comments');
+		// fbid.init('comments');
+		data.start('comments');
 	});
 
 	$("#btn_like").click(function (e) {
@@ -53,19 +46,14 @@ $(document).ready(function () {
 			config.likes = true;
 		}
 		fb.user_posts = true;
-		fbid.init('reactions');
+		data.start('likes');
 	});
-	$("#btn_url").click(function () {
-		fb.getAuth('url_comments');
-	});
+
 	$("#btn_pay").click(function () {
 		fb.getAuth('signup');
 	});
 	$("#btn_choose").click(function () {
 		choose.init();
-	});
-	$("#morepost").click(function () {
-		ui.addLink();
 	});
 
 	$("#moreprize").click(function () {
@@ -92,11 +80,6 @@ $(document).ready(function () {
 		$(".prizeDetail").append(`<div class="prize"><div class="input_group">品名：<input type="text"></div><div class="input_group">抽獎人數：<input type="number"></div></div>`);
 	});
 
-	$(window).keydown(function (e) {
-		if (e.ctrlKey || e.altKey) {
-			$("#btn_excel").text("輸出JSON");
-		}
-	});
 	$(window).keyup(function (e) {
 		if (!e.ctrlKey || e.altKey) {
 			$("#btn_excel").text("複製表格內容");
@@ -156,25 +139,6 @@ $(document).ready(function () {
 	$('.rangeDate').data('daterangepicker').setStartDate(config.filter.startTime);
 
 
-	$("#btn_excel").click(function (e) {
-		let filterData = data.filter(data.raw);
-		if (e.ctrlKey || e.altKey) {
-			exportToJsonFile(filterData);
-		} else {
-			// if (filterData.length > 7000) {
-			// 	$(".bigExcel").removeClass("hide");
-			// } else {
-			// 	JSONToCSVConvertor(data.excel(filterData), "Comment_helper", true);
-			// }
-		}
-	});
-
-	$("#genExcel").click(function () {
-		var filterData = data.filter(data.raw);
-		var excelString = data.excel(filterData)
-		$("#exceldata").val(JSON.stringify(excelString));
-	});
-
 	let ci_counter = 0;
 	$(".ci").click(function (e) {
 		ci_counter++;
@@ -194,69 +158,41 @@ $(document).ready(function () {
 	});
 });
 
-function exportToJsonFile(jsonData) {
-	let dataStr = JSON.stringify(jsonData);
-	let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-
-	let exportFileDefaultName = 'data.json';
-
-	let linkElement = document.createElement('a');
-	linkElement.setAttribute('href', dataUri);
-	linkElement.setAttribute('download', exportFileDefaultName);
-	linkElement.click();
-}
-
 let config = {
 	field: {
 		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
 		reactions: [],
-		sharedposts: ['story', 'from', 'created_time'],
-		url_comments: [],
+		sharedposts: [],
 		feed: ['created_time', 'from', 'message', 'story'],
 		likes: ['name']
 	},
-	limit: {
-		comments: '15',
-		reactions: '500',
-		sharedposts: '500',
-		url_comments: '500',
-		feed: '500',
-		likes: '500'
-	},
-	apiVersion: {
-		comments: 'v7.0',
-		reactions: 'v7.0',
-		sharedposts: 'v7.0',
-		url_comments: 'v7.0',
-		feed: 'v7.0',
-		group: 'v7.0',
-		newest: 'v7.0'
-	},
+	limit: '30',
+	apiVersion: 'v8.0',
 	filter: {
 		word: '',
 		react: 'all',
 		startTime: '2000-12-31-00-00-00',
 		endTime: nowDate()
 	},
+	target: '',
+	command: '',
 	order: 'chronological',
 	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
 	likes: false,
-	pageToken: '',
+	pageToken: false,
 	userToken: '',
 	me: '',
 	from_extension: false,
 	auth_user: false,
+	signin: false,
 }
 
 let fb = {
 	user_posts: false,
 	getAuth: (type = '') => {
-		if (type === '') {
-			addLink = true;
-			type = lastCommand;
-		} else {
-			addLink = false;
-			lastCommand = type;
+		if (config.signin === true) {
+			page_selector.show();
+			return false;
 		}
 		FB.login(function (response) {
 			fb.callback(response, type);
@@ -276,7 +212,7 @@ let fb = {
 			if (type == 'signup') {
 				// 註冊
 
-				let token = prompt("請輸入小助手提供給您的序號，若無序號請輸入-1", '-1');
+				let token = $('#pay_token').val() == '' ? '-1':$('#pay_token').val();
 				FB.api(`/me?fields=id,name`, (res) => {
 					let obj = {
 						token,
@@ -284,14 +220,13 @@ let fb = {
 						app_scope_id: res.id
 					}
 					$('.waiting').removeClass('hide');
-					$.post('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec', obj, function (res) {
+					$.post('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec', obj, function (res2) {
 						$('.waiting').addClass('hide');
-						if (res.code == 1) {
-							alert(res.message);
+						if (res2.code == 1) {
+							alert(res2.message);
 							fb.callback(response, 'signin');
 						} else {
-							alert(res.message);
-							// fb.callback(response, 'signin');
+							alert(res2.message + '\n' + JSON.stringify(obj));
 						}
 					});
 				});
@@ -303,7 +238,7 @@ let fb = {
 					$('.waiting').addClass('hide');
 					if (res2 === 'true') {
 						config.auth_user = true;
-					}else{
+					} else {
 						config.auth_user = false;
 					}
 					page_selector.show();
@@ -323,14 +258,13 @@ let fb = {
 		}
 	},
 	extensionAuth: () => {
-		fb.authOK();
 		config.from_extension = true;
-		// FB.login(function (response) {
-		// 	fb.extensionCallback(response);
-		// }, {
-		// 	scope: config.auth,
-		// 	return_scopes: true
-		// });
+		FB.login(function (response) {
+			fb.extensionCallback(response);
+		}, {
+			scope: config.auth,
+			return_scopes: true
+		});
 	},
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {
@@ -360,18 +294,14 @@ let fb = {
 	},
 	authOK: () => {
 		$(".loading.checkAuth").addClass("hide");
-		let postdata = JSON.parse(localStorage.postdata);
-		let datas = {
-			command: postdata.command,
-			data: JSON.parse($(".chrome").val())
-		}
-		data.raw = datas;
-		data.finish(data.raw);
+		config.command = JSON.parse(localStorage.postdata).command;
+		data.finish(JSON.parse($(".chrome").val()));
 	}
 }
 
 let data = {
 	raw: [],
+	filtered: [],
 	userid: '',
 	nowLength: 0,
 	extension: false,
@@ -380,43 +310,40 @@ let data = {
 		$("#awardList").hide();
 		$(".console .message").text('截取資料中...');
 		data.nowLength = 0;
-		if (!addLink) {
-			data.raw = [];
-		}
 	},
-	start: (fbid) => {
+	start: (command) => {
 		$(".waiting").removeClass("hide");
-		$('.pure_fbid').text(fbid.fullID);
+		let fbid = $('input.url').val();
+		config.command = command;
+		$('.pure_fbid').text(fbid);
+		let rawdata = [];
 		data.get(fbid).then((res) => {
 			// fbid.data = res;
 			for (let i of res) {
-				fbid.data.push(i);
+				rawdata.push(i);
 			}
-			data.finish(fbid);
+			data.finish(rawdata);
 		});
 	},
 	get: (fbid) => {
 		return new Promise((resolve, reject) => {
 			let datas = [];
-			let promise_array = [];
-			let command = fbid.command;
-			if (fbid.type === 'group') {
-				fbid.fullID = fbid.pureID;
-				command = 'group';
-			}
-			if (fbid.type === 'group' && fbid.command == 'reactions') {
-				fbid.fullID = fbid.pureID;
-				fbid.command = 'likes';
-			}
-			if (config.likes) fbid.command = 'likes';
-			console.log(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&fields=${config.field[fbid.command].toString()}&debug=all`);
 			let token = config.pageToken == '' ? `&access_token=${config.userToken}` : `&access_token=${config.pageToken}`;
 
-			FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${fbid.command}?limit=${config.limit[fbid.command]}&order=${config.order}&fields=${config.field[fbid.command].toString()}${token}&debug=all`, (res) => {
+			FB.api(`${config.apiVersion}/${fbid}/${config.command}?limit=${config.limit}&order=${config.order}&fields=${config.field[config.command].toString()}${token}&debug=all`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
+				groupData(res);
+				if (res.data.length > 0 && res.paging.next) {
+					getNext(res.paging.next);
+				} else {
+					$(".console .message").text('');
+					resolve(datas);
+				}
+			});
+			function groupData(res) {
 				for (let d of res.data) {
-					if ((fbid.command == 'reactions' || fbid.command == 'likes') || config.likes) {
+					if ((config.command == 'reactions' || config.command == 'likes') || config.likes) {
 						d.from = {
 							id: d.id,
 							name: d.name
@@ -437,44 +364,13 @@ let data = {
 						datas.push(d);
 					}
 				}
-				if (res.data.length > 0 && res.paging.next) {
-					getNext(res.paging.next);
-				} else {
-					$(".console .message").text('');
-					resolve(datas);
-				}
-			});
-
+			}
 			function getNext(url, limit = 0) {
 				if (limit !== 0) {
 					url = url.replace('limit=500', 'limit=' + limit);
 				}
 				$.getJSON(url, function (res) {
-					data.nowLength += res.data.length;
-					$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
-					for (let d of res.data) {
-						if (d.id) {
-							if ((fbid.command == 'reactions' || fbid.command == 'likes') || config.likes) {
-								d.from = {
-									id: d.id,
-									name: d.name
-								};
-							}
-							if (d.from) {
-								datas.push(d);
-							} else {
-								//event
-								d.from = {
-									id: d.id,
-									name: d.id
-								};
-								if (d.updated_time) {
-									d.created_time = d.updated_time;
-								}
-								datas.push(d);
-							}
-						}
-					}
+					groupData(res);
 					if (res.data.length > 0 && res.paging.next) {
 						// if (data.nowLength < 180) {
 						getNext(res.paging.next);
@@ -488,92 +384,24 @@ let data = {
 			}
 		});
 	},
-	finish: (fbid) => {
+	finish: (rawdata) => {
 		$(".waiting").addClass("hide");
 		$(".main_table").removeClass("hide");
 		$(".update_area,.donate_area").slideUp();
 		$(".result_area").slideDown();
-		// if (data.raw.type == 'group'){
-		// 	if (auth_scope.includes('groups_access_member_info')){
-		// 		swal('完成！', 'Done!', 'success').done();
-		// 		data.raw = fbid;
-		// 		data.filter(data.raw, true);
-		// 		ui.reset();
-		// 	}else{
-		// 		swal(
-		// 			'付費授權檢查錯誤，抓社團貼文需付費',
-		// 			'Authorization Failed! It is a paid feature.',
-		// 			'error'
-		// 		).done();
-		// 	}
-		// }else{
-		// 	swal('完成！', 'Done!', 'success').done();
-		// 	data.raw = fbid;
-		// 	data.filter(data.raw, true);
-		// 	ui.reset();
-		// }
+
 		swal('完成！', 'Done!', 'success').done();
-		data.raw = fbid;
-		data.filter(data.raw, true);
+
+		data.raw = rawdata;
+		data.filter();
 		ui.reset();
 	},
-	filter: (rawData, generate = false) => {
+	filter: () => {
 		let isDuplicate = $("#unique").prop("checked");
 		let isTag = $("#tag").prop("checked");
-		// if (config.from_extension === false && rawData.command === 'comments') {
-		// 	rawData.data = rawData.data.filter(item => {
-		// 		return item.is_hidden === false
-		// 	});
-		// }
-		let newData = filter.totalFilter(rawData, isDuplicate, isTag, ...obj2Array(config.filter));
-		rawData.filtered = newData;
-		if (generate === true) {
-			table.generate(rawData);
-		} else {
-			return rawData;
-		}
-	},
-	excel: (raw) => {
-		var newObj = [];
-		console.log(raw);
-		if (data.extension) {
-			if (raw.command == 'comments') {
-				$.each(raw.filtered, function (i) {
-					var tmp = {
-						"序號": i + 1,
-						"臉書連結": 'https://www.facebook.com/' + this.from.id,
-						"姓名": this.from.name,
-						"留言連結": 'https://www.facebook.com/' + this.postlink,
-						"留言內容": this.message,
-					}
-					newObj.push(tmp);
-				});
-			} else {
-				$.each(raw.filtered, function (i) {
-					var tmp = {
-						"序號": i + 1,
-						"臉書連結": 'https://www.facebook.com/' + this.from.id,
-						"姓名": this.from.name,
-						"分享連結": this.postlink,
-						"留言內容": this.story,
-					}
-					newObj.push(tmp);
-				});
-			}
-		} else {
-			$.each(raw.filtered, function (i) {
-				var tmp = {
-					"序號": i + 1,
-					"臉書連結": 'https://www.facebook.com/' + this.from.id,
-					"姓名": this.from.name,
-					"表情": this.type || '',
-					"留言內容": this.message || this.story,
-					"留言時間": timeConverter(this.created_time)
-				}
-				newObj.push(tmp);
-			});
-		}
-		return newObj;
+
+		data.filtered = filter.totalFilter(isDuplicate, isTag, ...obj2Array(config.filter));
+		table.generate();
 	},
 	import: (file) => {
 		let reader = new FileReader();
@@ -589,25 +417,21 @@ let data = {
 }
 
 let table = {
-	generate: (rawdata) => {
+	generate: () => {
 		$(".main_table").DataTable().destroy();
-		let filterdata = rawdata.filtered;
+		let filterdata = data.filtered;
 		let thead = '';
 		let tbody = '';
 		let pic = $("#picture").prop("checked");
-		if ((rawdata.command == 'reactions' || rawdata.command == 'likes') || config.likes) {
+		if ((config.command == 'reactions' || config.command == 'likes') || config.likes) {
 			thead = `<td>序號</td>
 			<td>名字</td>
 			<td>表情</td>`;
-		} else if (rawdata.command === 'sharedposts') {
+		} else if (config.command === 'sharedposts') {
 			thead = `<td>序號</td>
 			<td>名字</td>
 			<td class="force-break">留言內容</td>
 			<td width="110">留言時間</td>`;
-		} else if (rawdata.command === 'ranker') {
-			thead = `<td>排名</td>
-			<td>名字</td>
-			<td>分數</td>`;
 		} else {
 			thead = `<td>序號</td>
 			<td width="200">名字</td>
@@ -617,7 +441,6 @@ let table = {
 		}
 
 		let host = 'https://www.facebook.com/';
-		if (data.raw.type === 'url_comments') host = $('#enterURL .url').val() + '?fb_comment_id=';
 
 		for (let [j, val] of filterdata.entries()) {
 			let picture = '';
@@ -626,15 +449,11 @@ let table = {
 			}
 			let td = `<td>${j + 1}</td>
 			<td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>`;
-			if ((rawdata.command == 'reactions' || rawdata.command == 'likes') || config.likes) {
+			if ((config.command == 'reactions' || config.command == 'likes') || config.likes) {
 				td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
-			} else if (rawdata.command === 'sharedposts') {
+			} else if (config.command === 'sharedposts') {
 				td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.story}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
-			} else if (rawdata.command === 'ranker') {
-				td = `<td>${j + 1}</td>
-					  <td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${val.from.name}</a></td>
-					  <td>${val.score}</td>`;
 			} else {
 				let postlink = host + val.id;
 				if (config.from_extension) {
@@ -676,7 +495,7 @@ let table = {
 		}
 	},
 	redo: () => {
-		data.filter(data.raw, true);
+		data.filter();
 	}
 }
 
@@ -690,7 +509,6 @@ let choose = {
 		let thead = $('.main_table thead').html();
 		$('#awardList table thead').html(thead);
 		$('#awardList table tbody').html('');
-		choose.data = data.filter(data.raw);
 		choose.award = [];
 		choose.list = [];
 		choose.num = 0;
@@ -716,7 +534,7 @@ let choose = {
 		choose.go();
 	},
 	go: () => {
-		choose.award = genRandomArray(choose.data.filtered.length).splice(0, choose.num);
+		choose.award = genRandomArray(data.filtered.length).splice(0, choose.num);
 		let insert = '';
 		choose.award.map((val, index) => {
 			insert += '<tr title="第' + (index + 1) + '名">' + $('.main_table').DataTable().rows({
@@ -780,222 +598,25 @@ let choose = {
 	}
 }
 
-let fbid = {
-	fbid: [],
-	init: (type) => {
-		fbid.fbid = [];
-		data.init();
-		FB.api("/me", function (res) {
-			data.userid = res.id;
-			let url = '';
-			if (addLink) {
-				url = fbid.format($('.morelink .addurl').val());
-				$('.morelink .addurl').val('');
-			} else {
-				url = fbid.format($('#enterURL .url').val());
-			}
-			if (url.indexOf('.php?') === -1 && url.indexOf('?') > 0) {
-				url = url.substring(0, url.indexOf('?'));
-			}
-			fbid.get(url, type).then((fbid) => {
-				data.start(fbid);
-			})
-			// $('.identity').removeClass('hide').html(`登入身份：<img src="https://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`);
-		});
-	},
-	get: (url, type) => {
-		return new Promise((resolve, reject) => {
-			let regex = /\d{4,}/g;
-			let newurl = url.substr(url.indexOf('/', 28) + 1, 200);
-			// https://www.facebook.com/ 共25字元，因此選28開始找/
-			let result = newurl.match(regex);
-			let urltype = fbid.checkType(url);
-			fbid.checkPageID(url, urltype).then((id) => {
-				if (id === 'personal') {
-					urltype = 'personal';
-					id = data.userid;
-				}
-				let obj = {
-					pageID: id,
-					type: urltype,
-					command: type,
-					data: []
-				};
-				if (addLink) obj.data = data.raw.data; //追加貼文
-				if (urltype === 'personal') {
-					let start = url.indexOf('fbid=');
-					if (start >= 0) {
-						let end = url.indexOf("&", start);
-						obj.pureID = url.substring(start + 5, end);
-					} else {
-						let start = url.indexOf('posts/');
-						obj.pureID = url.substring(start + 6, url.length);
-					}
-					let video = url.indexOf('videos/');
-					if (video >= 0) {
-						obj.pureID = result[0];
-					}
-					obj.fullID = obj.pageID + '_' + obj.pureID;
-					resolve(obj);
-				} else if (urltype === 'pure') {
-					obj.fullID = url.replace(/\"/g, '');
-					resolve(obj);
-				} else {
-					if (urltype === 'group') {
-
-						obj.pureID = result[result.length - 1];
-						obj.pageID = result[0];
-						obj.fullID = obj.pageID + "_" + obj.pureID;
-						resolve(obj);
-
-					} else if (urltype === 'photo') {
-						let regex = /\d{4,}/g;
-						let result = url.match(regex);
-						obj.pureID = result[result.length - 1];
-						obj.fullID = obj.pageID + '_' + obj.pureID;
-						resolve(obj);
-					} else if (urltype === 'video') {
-						obj.pureID = result[result.length - 1];
-						FB.api(`/${obj.pureID}?fields=live_status`, function (res) {
-							if (res.live_status === 'LIVE') {
-								obj.fullID = obj.pureID;
-							} else {
-								obj.fullID = obj.pageID + '_' + obj.pureID;
-							}
-							resolve(obj);
-						});
-					} else {
-						if (result.length == 1 || result.length == 3) {
-							obj.pureID = result[0];
-							obj.fullID = obj.pageID + '_' + obj.pureID;
-							resolve(obj);
-						} else {
-							if (urltype === 'unname') {
-								obj.pureID = result[0];
-								obj.pageID = result[result.length - 1];
-							} else {
-								obj.pureID = result[result.length - 1];
-							}
-							obj.fullID = obj.pageID + '_' + obj.pureID;
-							FB.api(`/${obj.pageID}?fields=access_token`, function (res) {
-								if (res.error) {
-									resolve(obj);
-								} else {
-									if (res.access_token) {
-										config.pageToken = res.access_token;
-									}
-									resolve(obj);
-								}
-							});
-						}
-					}
-				}
-			});
-		});
-	},
-	checkType: (posturl) => {
-		if (posturl.indexOf("fbid=") >= 0) {
-			if (posturl.indexOf('permalink') >= 0) {
-				return 'unname';
-			} else {
-				return 'personal';
-			}
-		};
-		if (posturl.indexOf("/groups/") >= 0) {
-			return 'group';
-		};
-		if (posturl.indexOf("events") >= 0) {
-			return 'event';
-		};
-		if (posturl.indexOf("/photos/") >= 0) {
-			return 'photo';
-		};
-		if (posturl.indexOf("/videos/") >= 0) {
-			return 'video';
-		}
-		if (posturl.indexOf('"') >= 0) {
-			return 'pure';
-		};
-		return 'normal';
-	},
-	checkPageID: (posturl, type) => {
-		return new Promise((resolve, reject) => {
-			let start = posturl.indexOf("facebook.com") + 13;
-			let end = posturl.indexOf("/", start);
-			let regex = /\d{4,}/g;
-			if (end < 0) {
-				if (posturl.indexOf('fbid=') >= 0) {
-					if (type === 'unname') {
-						resolve('unname');
-					} else {
-						resolve('personal');
-					}
-				} else {
-					resolve(posturl.match(regex)[1]);
-				}
-			} else {
-				let group = posturl.indexOf('/groups/');
-				let event = posturl.indexOf('/events/')
-				if (group >= 0) {
-					start = group + 8;
-					end = posturl.indexOf("/", start);
-					let regex2 = /\d{6,}/g;
-					let temp = posturl.substring(start, end);
-					if (regex2.test(temp)) {
-						resolve(temp);
-					} else {
-						resolve('group');
-					}
-				} else if (event >= 0) {
-					resolve('event');
-				} else {
-					var pagename = posturl.substring(start, end);
-					FB.api(`/${pagename}?fields=access_token`, function (res) {
-						if (res.error) {
-							fberror = res.error.message;
-							resolve('personal');
-						} else {
-							if (res.access_token) {
-								config.pageToken = res.access_token;
-							}
-							resolve(res.id);
-						}
-					});
-				}
-			}
-		});
-	},
-	format: (url) => {
-		if (url.indexOf('business.facebook.com/') >= 0) {
-			url = url.substring(0, url.indexOf("?"));
-			return url;
-		} else {
-			return url;
-		}
-	}
-}
-
 let filter = {
-	totalFilter: (rawdata, isDuplicate, isTag, word, react, startTime, endTime) => {
-		let data = rawdata.data;
+	totalFilter: (isDuplicate, isTag, word, react, startTime, endTime) => {
+		let datas = data.raw;
 		if (word !== '') {
-			data = filter.word(data, word);
+			datas = filter.word(datas, word);
 		}
 		if (isTag) {
-			data = filter.tag(data);
+			datas = filter.tag(datas);
 		}
-		if ((rawdata.command == 'reactions' || rawdata.command == 'likes') || config.likes) {
-			data = filter.react(data, react);
-		} else if (rawdata.command === 'ranker') {
-
+		if ((config.command == 'reactions' || config.command == 'likes') || config.likes) {
+			datas = filter.react(datas, react);
 		} else {
-			data = filter.time(data, startTime, endTime);
+			datas = filter.time(datas, startTime, endTime);
 		}
 		if (isDuplicate) {
-			data = filter.unique(data);
+			datas = filter.unique(datas);
 		}
 
-		return data;
+		return datas;
 	},
 	unique: (data) => {
 		let output = [];
@@ -1062,16 +683,8 @@ let ui = {
 	init: () => {
 
 	},
-	addLink: () => {
-		let tar = $('.inputarea .morelink');
-		if (tar.hasClass('show')) {
-			tar.removeClass('show');
-		} else {
-			tar.addClass('show');
-		}
-	},
 	reset: () => {
-		let command = data.raw.command;
+		let command = config.command;
 		if ((command == 'reactions' || command == 'likes') || config.likes) {
 			$('.limitTime, #searchComment').addClass('hide');
 			$('.uipanel .react').removeClass('hide');
@@ -1094,7 +707,9 @@ let page_selector = {
 	groups: [],
 	show: () => {
 		$('.page_selector').removeClass('hide');
-		page_selector.getAdmin();
+		if (config.signin === false) {
+			page_selector.getAdmin();
+		}
 	},
 	getAdmin: () => {
 		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res) => {
@@ -1103,14 +718,14 @@ let page_selector = {
 	},
 	getPage: () => {
 		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res) => {
+			FB.api(`${config.apiVersion}/me/accounts?limit=100`, (res) => {
 				resolve(res.data);
 			});
 		});
 	},
 	getGroup: () => {
 		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
+			FB.api(`${config.apiVersion}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
 				resolve(res.data.filter(item => { return item.administrator === true }));
 			});
 		});
@@ -1121,16 +736,22 @@ let page_selector = {
 		for (let i of res[0]) {
 			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
 		}
-		if (config.auth_user === true){
+		if (config.auth_user === true) {
 			for (let i of res[1]) {
 				groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
 			}
 		}
 		$('.select_page').html(pages);
 		$('.select_group').html(groups);
+		config.signin = true;
 	},
 	selectPage: (target) => {
 		let page_id = $(target).data('value');
+		if ($(target).data('type') == '2') {
+			config.target = 'group';
+		} else {
+			config.target = 'fanpage';
+		}
 		$('#post_table tbody').html('');
 		$('.fb_loading').removeClass('hide');
 		FB.api(`/${page_id}?fields=access_token`, function (res) {
@@ -1140,18 +761,7 @@ let page_selector = {
 				config.pageToken = '';
 			}
 		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url,title,creation_time`, (res) => {
-			let thead = '';
-			for (let tr of res.data) {
-				if (tr.status === 'LIVE') {
-					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
-				} else {
-					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
-				}
-			}
-			$('#post_table thead').html(thead);
-		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res) => {
+		FB.api(`${config.apiVersion}/${page_id}/feed?limit=100`, (res) => {
 			$('.fb_loading').addClass('hide');
 			let tbody = '';
 			for (let tr of res.data) {
@@ -1160,13 +770,19 @@ let page_selector = {
 			$('#post_table tbody').html(tbody);
 		});
 	},
+	golive() {
+		if (config.pageToken === false) {
+			alert('請先選擇對應直播的粉絲專頁');
+		} else {
+			$('.page_selector').addClass('hide');
+			$('#post_table tbody').html('');
+			$('#enterURL .url').val($('#live_id').val());
+		}
+	},
 	selectPost: (fbid) => {
 		$('.page_selector').addClass('hide');
-		$('.select_page').html('');
-		$('.select_group').html('');
 		$('#post_table tbody').html('');
-		let id = '"' + fbid + '"';
-		$('#enterURL .url').val(id);
+		$('#enterURL .url').val(fbid);
 	}
 }
 

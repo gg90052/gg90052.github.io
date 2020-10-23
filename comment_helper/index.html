@@ -12,16 +12,12 @@
 
 	<title>Facebook Lottery 粉絲團留言抽籤小助手 - 粉絲團抽獎最佳夥伴</title>
 
-	<script src="//j.wovn.io/1" data-wovnio="key=rsMFb" async></script>
-
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/4.2.4/sweetalert2.min.css">
 	<link rel="stylesheet" href="css/new.css">
-	<!-- <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/jhgjhncplhbjpdlgpenfmojcicihhcoe"> -->
 
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	<!-- <script src="//connect.facebook.net/zh_TW/all.js"></script> -->
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/bootbox.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
@@ -34,8 +30,6 @@
 	<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 
-	<!-- <script src="https://cdn.logrocket.com/LogRocket.min.js"></script>
-<script>window.LogRocket && window.LogRocket.init('1gzxfh/comment_helper');</script> -->
 
 	<script type="text/javascript">
 		window.fbAsyncInit = function() {
@@ -98,20 +92,14 @@
 		<div class="main_area">
 			<div class="left">
 				<div class="ci"></div>
-				<!-- <a href="pay.html" target="blank" class="btn payRead">付費說明</a> -->
+				<input type="text" id="pay_token" placeholder="1023">
 				<button id="btn_pay" type="button" class="btn">驗證帳號</button>
-				<!-- <button id="btn_login" type="button" class="btn" style="background: #5890FF; font-size: 16px; font-weight: bold; width: 200px;">Login with Facebook</button> -->
 			</div>
 			<div class="inputarea">
-				<div class="morelink">
-					<p>追加貼文</p>
-					<input type="text" class="addurl" placeholder="請輸入 Facebook 文章網址" />
-					<button id="addnew" type="button" class="btn" onclick="fb.getAuth();">追加貼文</button>
-				</div>
 				<div id="enterURL">
 					<div class="source">
-						<input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" />
-						<a class="btn readme" href="https://www.facebook.com/commenthelper/posts/1011679872198180" target="_blank">使用說明</a>
+						<!-- <input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" /> -->
+						<input type="text" class="url" placeholder="請按下方按鈕選擇貼文" />
 						<br>
 						<button id="btn_page_selector" type="button" class="btn">從粉絲專頁/社團選擇貼文</button>
 						<br><br>
@@ -120,24 +108,16 @@
 						<input type="file" id="inputJSON" class="hide">
 						<button id="btn_comments" type="button" class="btn">抓留言</button>
 						<button id="btn_like" type="button" class="btn">抓按讚</button>
-						<!-- <button id="btn_url" type="button" class="btn">URL留言</button> -->
 					</div>
 					<p class="message">
 						<span style="color: red">付款後請到粉絲團私訊付款證明給管理員，待管理員開通後方可授權<br>然後不要再問為什麼你付錢了還是看到這行字，因為它就是永遠都在這</span>
+						<a href="pay.html" target="blank" class="btn payRead" style="margin-top: 15px">付費說明</a>
 					</p>
-					
-					<!-- <br><br><br>
-				<p>Access Token:</p>
-				<input type="text" style="width:300px;" class="token"> -->
-
-					<div class="identity hide"></div>
 				</div>
 			</div>
 			<div class="right" style="width: 450px">
 				<div class="title">廣告合作 Advertising</div>
-				<!-- <a href="https://risu.io/3zx" target="_blank">
-					<img src="images/jambo.jpg" alt="">
-				</a> -->
+
 			</div>
 		</div>
 		<div class="section">
@@ -303,38 +283,12 @@
 				<div class="sk-cube4 sk-cube"></div>
 				<div class="sk-cube3 sk-cube"></div>
 			</div>
-			<!-- <iframe src="ad.html" width="640" height="450" frameborder="0"></iframe> -->
 		</div>
 	</div>
 
 	<div class="loading checkAuth hide">
 		<div class="console">
 			<button type="button" class="btn btn-success auth">檢查抓分享權限</button>
-		</div>
-	</div>
-
-	<div class="loading bigExcel hide">
-		<div class="console">
-			<div class="title">
-				<a href="https://www.facebook.com/commenthelper/photos/a.1100170563349110.1073741830.1009468269086007/1100170613349105/?type=3&theater"
-				 target="_blank">使用說明</a>
-			</div>
-			<div class="steps">
-				<div class="step step1">
-					<span>Step 1：</span>
-					<button class="btn btn-success" id="genExcel">產生EXCEL資料</button>
-				</div>
-				<textarea name="exceldata" id="exceldata" cols="25" rows="5"></textarea>
-				<div class="step step2">
-					<span>Step 2：</span>
-					<p>將上方輸入框內的全選(Ctrl+A)，然後複製(Ctrl+C)</p>
-				</div>
-				<div class="step step3">
-					<p>Step 3：</p>
-					到
-					<a href="http://www.convertcsv.com/json-to-csv.htm" target="blank">JSON To CSV Converter</a> 進行轉換
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -353,6 +307,10 @@
 					<div class="sk-cube2 sk-cube"></div>
 					<div class="sk-cube4 sk-cube"></div>
 					<div class="sk-cube3 sk-cube"></div>
+				</div>
+				<div class="live_post" style="margin-top:20px">
+					<input type="text" id="live_id" placeholder="輸入直播ID">
+					<button onclick="page_selector.golive()">選擇直播貼文</button>
 				</div>
 				<table id="post_table">
 					<thead></thead>

@@ -57,15 +57,6 @@ $(document).ready(function () {
     });
   }
 
-  if (hash.indexOf("ranker") >= 0) {
-    var datas = {
-      command: 'ranker',
-      data: JSON.parse(localStorage.ranker)
-    };
-    data.raw = datas;
-    data.finish(data.raw);
-  }
-
   $("#btn_page_selector").click(function (e) {
     fb.getAuth('signin');
   });
@@ -74,8 +65,9 @@ $(document).ready(function () {
       config.order = 'chronological';
     }
 
-    fb.user_posts = true;
-    fbid.init('comments');
+    fb.user_posts = true; // fbid.init('comments');
+
+    data.start('comments');
   });
   $("#btn_like").click(function (e) {
     if (e.ctrlKey || e.altKey) {
@@ -83,19 +75,13 @@ $(document).ready(function () {
     }
 
     fb.user_posts = true;
-    fbid.init('reactions');
-  });
-  $("#btn_url").click(function () {
-    fb.getAuth('url_comments');
+    data.start('likes');
   });
   $("#btn_pay").click(function () {
     fb.getAuth('signup');
   });
   $("#btn_choose").click(function () {
     choose.init();
-  });
-  $("#morepost").click(function () {
-    ui.addLink();
   });
   $("#moreprize").click(function () {
     if ($(this).hasClass("active")) {
@@ -117,11 +103,6 @@ $(document).ready(function () {
   });
   $("#btn_addPrize").click(function () {
     $(".prizeDetail").append("<div class=\"prize\"><div class=\"input_group\">\u54C1\u540D\uFF1A<input type=\"text\"></div><div class=\"input_group\">\u62BD\u734E\u4EBA\u6578\uFF1A<input type=\"number\"></div></div>");
-  });
-  $(window).keydown(function (e) {
-    if (e.ctrlKey || e.altKey) {
-      $("#btn_excel").text("輸出JSON");
-    }
   });
   $(window).keyup(function (e) {
     if (!e.ctrlKey || e.altKey) {
@@ -156,23 +137,6 @@ $(document).ready(function () {
     table.redo();
   });
   $('.rangeDate').data('daterangepicker').setStartDate(config.filter.startTime);
-  $("#btn_excel").click(function (e) {
-    var filterData = data.filter(data.raw);
-
-    if (e.ctrlKey || e.altKey) {
-      exportToJsonFile(filterData);
-    } else {// if (filterData.length > 7000) {
-      // 	$(".bigExcel").removeClass("hide");
-      // } else {
-      // 	JSONToCSVConvertor(data.excel(filterData), "Comment_helper", true);
-      // }
-    }
-  });
-  $("#genExcel").click(function () {
-    var filterData = data.filter(data.raw);
-    var excelString = data.excel(filterData);
-    $("#exceldata").val(JSON.stringify(excelString));
-  });
   var ci_counter = 0;
   $(".ci").click(function (e) {
     ci_counter++;
@@ -191,69 +155,42 @@ $(document).ready(function () {
     data["import"](this.files[0]);
   });
 });
-
-function exportToJsonFile(jsonData) {
-  var dataStr = JSON.stringify(jsonData);
-  var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-  var exportFileDefaultName = 'data.json';
-  var linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', exportFileDefaultName);
-  linkElement.click();
-}
-
 var config = {
   field: {
     comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
     reactions: [],
-    sharedposts: ['story', 'from', 'created_time'],
-    url_comments: [],
+    sharedposts: [],
     feed: ['created_time', 'from', 'message', 'story'],
     likes: ['name']
   },
-  limit: {
-    comments: '15',
-    reactions: '500',
-    sharedposts: '500',
-    url_comments: '500',
-    feed: '500',
-    likes: '500'
-  },
-  apiVersion: {
-    comments: 'v7.0',
-    reactions: 'v7.0',
-    sharedposts: 'v7.0',
-    url_comments: 'v7.0',
-    feed: 'v7.0',
-    group: 'v7.0',
-    newest: 'v7.0'
-  },
+  limit: '30',
+  apiVersion: 'v8.0',
   filter: {
     word: '',
     react: 'all',
     startTime: '2000-12-31-00-00-00',
     endTime: nowDate()
   },
+  target: '',
+  command: '',
   order: 'chronological',
   auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
   likes: false,
-  pageToken: '',
+  pageToken: false,
   userToken: '',
   me: '',
   from_extension: false,
-  auth_user: false
+  auth_user: false,
+  signin: false
 };
 var fb = {
   user_posts: false,
   getAuth: function getAuth() {
     var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-    if (type === '') {
-      addLink = true;
-      type = lastCommand;
-    } else {
-      addLink = false;
-      lastCommand = type;
+    if (config.signin === true) {
+      page_selector.show();
+      return false;
     }
 
     FB.login(function (response) {
@@ -273,7 +210,7 @@ var fb = {
 
       if (type == 'signup') {
         // 註冊
-        var token = prompt("請輸入小助手提供給您的序號，若無序號請輸入-1", '-1');
+        var token = $('#pay_token').val() == '' ? '-1' : $('#pay_token').val();
         FB.api("/me?fields=id,name", function (res) {
           var obj = {
             token: token,
@@ -281,14 +218,14 @@ var fb = {
             app_scope_id: res.id
           };
           $('.waiting').removeClass('hide');
-          $.post('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec', obj, function (res) {
+          $.post('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec', obj, function (res2) {
             $('.waiting').addClass('hide');
 
-            if (res.code == 1) {
-              alert(res.message);
+            if (res2.code == 1) {
+              alert(res2.message);
               fb.callback(response, 'signin');
             } else {
-              alert(res.message); // fb.callback(response, 'signin');
+              alert(res2.message + '\n' + JSON.stringify(obj));
             }
           });
         });
@@ -322,13 +259,13 @@ var fb = {
     }
   },
   extensionAuth: function extensionAuth() {
-    fb.authOK();
-    config.from_extension = true; // FB.login(function (response) {
-    // 	fb.extensionCallback(response);
-    // }, {
-    // 	scope: config.auth,
-    // 	return_scopes: true
-    // });
+    config.from_extension = true;
+    FB.login(function (response) {
+      fb.extensionCallback(response);
+    }, {
+      scope: config.auth,
+      return_scopes: true
+    });
   },
   extensionCallback: function extensionCallback(response) {
     if (response.status === 'connected') {
@@ -358,17 +295,13 @@ var fb = {
   },
   authOK: function authOK() {
     $(".loading.checkAuth").addClass("hide");
-    var postdata = JSON.parse(localStorage.postdata);
-    var datas = {
-      command: postdata.command,
-      data: JSON.parse($(".chrome").val())
-    };
-    data.raw = datas;
-    data.finish(data.raw);
+    config.command = JSON.parse(localStorage.postdata).command;
+    data.finish(JSON.parse($(".chrome").val()));
   }
 };
 var data = {
   raw: [],
+  filtered: [],
   userid: '',
   nowLength: 0,
   extension: false,
@@ -377,14 +310,13 @@ var data = {
     $("#awardList").hide();
     $(".console .message").text('截取資料中...');
     data.nowLength = 0;
-
-    if (!addLink) {
-      data.raw = [];
-    }
   },
-  start: function start(fbid) {
+  start: function start(command) {
     $(".waiting").removeClass("hide");
-    $('.pure_fbid').text(fbid.fullID);
+    var fbid = $('input.url').val();
+    config.command = command;
+    $('.pure_fbid').text(fbid);
+    var rawdata = [];
     data.get(fbid).then(function (res) {
       // fbid.data = res;
       var _iterator = _createForOfIteratorHelper(res),
@@ -393,7 +325,7 @@ var data = {
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var i = _step.value;
-          fbid.data.push(i);
+          rawdata.push(i);
         }
       } catch (err) {
         _iterator.e(err);
@@ -401,32 +333,27 @@ var data = {
         _iterator.f();
       }
 
-      data.finish(fbid);
+      data.finish(rawdata);
     });
   },
   get: function get(fbid) {
     return new Promise(function (resolve, reject) {
       var datas = [];
-      var promise_array = [];
-      var command = fbid.command;
-
-      if (fbid.type === 'group') {
-        fbid.fullID = fbid.pureID;
-        command = 'group';
-      }
-
-      if (fbid.type === 'group' && fbid.command == 'reactions') {
-        fbid.fullID = fbid.pureID;
-        fbid.command = 'likes';
-      }
-
-      if (config.likes) fbid.command = 'likes';
-      console.log("".concat(config.apiVersion[command], "/").concat(fbid.fullID, "/").concat(fbid.command, "?limit=").concat(config.limit[fbid.command], "&fields=").concat(config.field[fbid.command].toString(), "&debug=all"));
       var token = config.pageToken == '' ? "&access_token=".concat(config.userToken) : "&access_token=".concat(config.pageToken);
-      FB.api("".concat(config.apiVersion[command], "/").concat(fbid.fullID, "/").concat(fbid.command, "?limit=").concat(config.limit[fbid.command], "&order=").concat(config.order, "&fields=").concat(config.field[fbid.command].toString()).concat(token, "&debug=all"), function (res) {
+      FB.api("".concat(config.apiVersion, "/").concat(fbid, "/").concat(config.command, "?limit=").concat(config.limit, "&order=").concat(config.order, "&fields=").concat(config.field[config.command].toString()).concat(token, "&debug=all"), function (res) {
         data.nowLength += res.data.length;
         $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
+        groupData(res);
 
+        if (res.data.length > 0 && res.paging.next) {
+          getNext(res.paging.next);
+        } else {
+          $(".console .message").text('');
+          resolve(datas);
+        }
+      });
+
+      function groupData(res) {
         var _iterator2 = _createForOfIteratorHelper(res.data),
             _step2;
 
@@ -434,7 +361,7 @@ var data = {
           for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
             var d = _step2.value;
 
-            if (fbid.command == 'reactions' || fbid.command == 'likes' || config.likes) {
+            if (config.command == 'reactions' || config.command == 'likes' || config.likes) {
               d.from = {
                 id: d.id,
                 name: d.name
@@ -464,14 +391,7 @@ var data = {
         } finally {
           _iterator2.f();
         }
-
-        if (res.data.length > 0 && res.paging.next) {
-          getNext(res.paging.next);
-        } else {
-          $(".console .message").text('');
-          resolve(datas);
-        }
-      });
+      }
 
       function getNext(url) {
         var limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -481,46 +401,7 @@ var data = {
         }
 
         $.getJSON(url, function (res) {
-          data.nowLength += res.data.length;
-          $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
-
-          var _iterator3 = _createForOfIteratorHelper(res.data),
-              _step3;
-
-          try {
-            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-              var d = _step3.value;
-
-              if (d.id) {
-                if (fbid.command == 'reactions' || fbid.command == 'likes' || config.likes) {
-                  d.from = {
-                    id: d.id,
-                    name: d.name
-                  };
-                }
-
-                if (d.from) {
-                  datas.push(d);
-                } else {
-                  //event
-                  d.from = {
-                    id: d.id,
-                    name: d.id
-                  };
-
-                  if (d.updated_time) {
-                    d.created_time = d.updated_time;
-                  }
-
-                  datas.push(d);
-                }
-              }
-            }
-          } catch (err) {
-            _iterator3.e(err);
-          } finally {
-            _iterator3.f();
-          }
+          groupData(res);
 
           if (res.data.length > 0 && res.paging.next) {
             // if (data.nowLength < 180) {
@@ -535,97 +416,21 @@ var data = {
       }
     });
   },
-  finish: function finish(fbid) {
+  finish: function finish(rawdata) {
     $(".waiting").addClass("hide");
     $(".main_table").removeClass("hide");
     $(".update_area,.donate_area").slideUp();
-    $(".result_area").slideDown(); // if (data.raw.type == 'group'){
-    // 	if (auth_scope.includes('groups_access_member_info')){
-    // 		swal('完成！', 'Done!', 'success').done();
-    // 		data.raw = fbid;
-    // 		data.filter(data.raw, true);
-    // 		ui.reset();
-    // 	}else{
-    // 		swal(
-    // 			'付費授權檢查錯誤，抓社團貼文需付費',
-    // 			'Authorization Failed! It is a paid feature.',
-    // 			'error'
-    // 		).done();
-    // 	}
-    // }else{
-    // 	swal('完成！', 'Done!', 'success').done();
-    // 	data.raw = fbid;
-    // 	data.filter(data.raw, true);
-    // 	ui.reset();
-    // }
-
+    $(".result_area").slideDown();
     swal('完成！', 'Done!', 'success').done();
-    data.raw = fbid;
-    data.filter(data.raw, true);
+    data.raw = rawdata;
+    data.filter();
     ui.reset();
   },
-  filter: function filter(rawData) {
-    var generate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  filter: function filter() {
     var isDuplicate = $("#unique").prop("checked");
-    var isTag = $("#tag").prop("checked"); // if (config.from_extension === false && rawData.command === 'comments') {
-    // 	rawData.data = rawData.data.filter(item => {
-    // 		return item.is_hidden === false
-    // 	});
-    // }
-
-    var newData = _filter.totalFilter.apply(_filter, [rawData, isDuplicate, isTag].concat(_toConsumableArray(obj2Array(config.filter))));
-
-    rawData.filtered = newData;
-
-    if (generate === true) {
-      table.generate(rawData);
-    } else {
-      return rawData;
-    }
-  },
-  excel: function excel(raw) {
-    var newObj = [];
-    console.log(raw);
-
-    if (data.extension) {
-      if (raw.command == 'comments') {
-        $.each(raw.filtered, function (i) {
-          var tmp = {
-            "序號": i + 1,
-            "臉書連結": 'https://www.facebook.com/' + this.from.id,
-            "姓名": this.from.name,
-            "留言連結": 'https://www.facebook.com/' + this.postlink,
-            "留言內容": this.message
-          };
-          newObj.push(tmp);
-        });
-      } else {
-        $.each(raw.filtered, function (i) {
-          var tmp = {
-            "序號": i + 1,
-            "臉書連結": 'https://www.facebook.com/' + this.from.id,
-            "姓名": this.from.name,
-            "分享連結": this.postlink,
-            "留言內容": this.story
-          };
-          newObj.push(tmp);
-        });
-      }
-    } else {
-      $.each(raw.filtered, function (i) {
-        var tmp = {
-          "序號": i + 1,
-          "臉書連結": 'https://www.facebook.com/' + this.from.id,
-          "姓名": this.from.name,
-          "表情": this.type || '',
-          "留言內容": this.message || this.story,
-          "留言時間": timeConverter(this.created_time)
-        };
-        newObj.push(tmp);
-      });
-    }
-
-    return newObj;
+    var isTag = $("#tag").prop("checked");
+    data.filtered = _filter.totalFilter.apply(_filter, [isDuplicate, isTag].concat(_toConsumableArray(obj2Array(config.filter))));
+    table.generate();
   },
   "import": function _import(file) {
     var reader = new FileReader();
@@ -640,34 +445,31 @@ var data = {
   }
 };
 var table = {
-  generate: function generate(rawdata) {
+  generate: function generate() {
     $(".main_table").DataTable().destroy();
-    var filterdata = rawdata.filtered;
+    var filterdata = data.filtered;
     var thead = '';
     var tbody = '';
     var pic = $("#picture").prop("checked");
 
-    if (rawdata.command == 'reactions' || rawdata.command == 'likes' || config.likes) {
+    if (config.command == 'reactions' || config.command == 'likes' || config.likes) {
       thead = "<td>\u5E8F\u865F</td>\n\t\t\t<td>\u540D\u5B57</td>\n\t\t\t<td>\u8868\u60C5</td>";
-    } else if (rawdata.command === 'sharedposts') {
+    } else if (config.command === 'sharedposts') {
       thead = "<td>\u5E8F\u865F</td>\n\t\t\t<td>\u540D\u5B57</td>\n\t\t\t<td class=\"force-break\">\u7559\u8A00\u5167\u5BB9</td>\n\t\t\t<td width=\"110\">\u7559\u8A00\u6642\u9593</td>";
-    } else if (rawdata.command === 'ranker') {
-      thead = "<td>\u6392\u540D</td>\n\t\t\t<td>\u540D\u5B57</td>\n\t\t\t<td>\u5206\u6578</td>";
     } else {
       thead = "<td>\u5E8F\u865F</td>\n\t\t\t<td width=\"200\">\u540D\u5B57</td>\n\t\t\t<td class=\"force-break\">\u7559\u8A00\u5167\u5BB9</td>\n\t\t\t<td>\u8B9A</td>\n\t\t\t<td class=\"nowrap\">\u7559\u8A00\u6642\u9593</td>";
     }
 
     var host = 'https://www.facebook.com/';
-    if (data.raw.type === 'url_comments') host = $('#enterURL .url').val() + '?fb_comment_id=';
 
-    var _iterator4 = _createForOfIteratorHelper(filterdata.entries()),
-        _step4;
+    var _iterator3 = _createForOfIteratorHelper(filterdata.entries()),
+        _step3;
 
     try {
-      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-        var _step4$value = _slicedToArray(_step4.value, 2),
-            j = _step4$value[0],
-            val = _step4$value[1];
+      for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+        var _step3$value = _slicedToArray(_step3.value, 2),
+            j = _step3$value[0],
+            val = _step3$value[1];
 
         var picture = '';
 
@@ -677,12 +479,10 @@ var table = {
 
         var td = "<td>".concat(j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' target=\"_blank\">").concat(picture).concat(val.from.name, "</a></td>");
 
-        if (rawdata.command == 'reactions' || rawdata.command == 'likes' || config.likes) {
+        if (config.command == 'reactions' || config.command == 'likes' || config.likes) {
           td += "<td class=\"center\"><span class=\"react ".concat(val.type, "\"></span>").concat(val.type, "</td>");
-        } else if (rawdata.command === 'sharedposts') {
+        } else if (config.command === 'sharedposts') {
           td += "<td class=\"force-break\"><a href=\"https://www.facebook.com/".concat(val.id, "\" target=\"_blank\">").concat(val.story, "</a></td>\n\t\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time), "</td>");
-        } else if (rawdata.command === 'ranker') {
-          td = "<td>".concat(j + 1, "</td>\n\t\t\t\t\t  <td><a href='https://www.facebook.com/").concat(val.from.id, "' target=\"_blank\">").concat(val.from.name, "</a></td>\n\t\t\t\t\t  <td>").concat(val.score, "</td>");
         } else {
           var postlink = host + val.id;
 
@@ -697,9 +497,9 @@ var table = {
         tbody += tr;
       }
     } catch (err) {
-      _iterator4.e(err);
+      _iterator3.e(err);
     } finally {
-      _iterator4.f();
+      _iterator3.f();
     }
 
     var insert = "<thead><tr align=\"center\">".concat(thead, "</tr></thead><tbody>").concat(tbody, "</tbody>");
@@ -722,7 +522,7 @@ var table = {
     }
   },
   redo: function redo() {
-    data.filter(data.raw, true);
+    data.filter();
   }
 };
 var choose = {
@@ -735,7 +535,6 @@ var choose = {
     var thead = $('.main_table thead').html();
     $('#awardList table thead').html(thead);
     $('#awardList table tbody').html('');
-    choose.data = data.filter(data.raw);
     choose.award = [];
     choose.list = [];
     choose.num = 0;
@@ -765,7 +564,7 @@ var choose = {
     choose.go();
   },
   go: function go() {
-    choose.award = genRandomArray(choose.data.filtered.length).splice(0, choose.num);
+    choose.award = genRandomArray(data.filtered.length).splice(0, choose.num);
     var insert = '';
     choose.award.map(function (val, index) {
       insert += '<tr title="第' + (index + 1) + '名">' + $('.main_table').DataTable().rows({
@@ -830,254 +629,29 @@ var choose = {
     $('.big_award ul').empty();
   }
 };
-var fbid = {
-  fbid: [],
-  init: function init(type) {
-    fbid.fbid = [];
-    data.init();
-    FB.api("/me", function (res) {
-      data.userid = res.id;
-      var url = '';
-
-      if (addLink) {
-        url = fbid.format($('.morelink .addurl').val());
-        $('.morelink .addurl').val('');
-      } else {
-        url = fbid.format($('#enterURL .url').val());
-      }
-
-      if (url.indexOf('.php?') === -1 && url.indexOf('?') > 0) {
-        url = url.substring(0, url.indexOf('?'));
-      }
-
-      fbid.get(url, type).then(function (fbid) {
-        data.start(fbid);
-      }); // $('.identity').removeClass('hide').html(`登入身份：<img src="https://graph.facebook.com/${res.id}/picture?type=small"><span>${res.name}</span>`);
-    });
-  },
-  get: function get(url, type) {
-    return new Promise(function (resolve, reject) {
-      var regex = /\d{4,}/g;
-      var newurl = url.substr(url.indexOf('/', 28) + 1, 200); // https://www.facebook.com/ 共25字元，因此選28開始找/
-
-      var result = newurl.match(regex);
-      var urltype = fbid.checkType(url);
-      fbid.checkPageID(url, urltype).then(function (id) {
-        if (id === 'personal') {
-          urltype = 'personal';
-          id = data.userid;
-        }
-
-        var obj = {
-          pageID: id,
-          type: urltype,
-          command: type,
-          data: []
-        };
-        if (addLink) obj.data = data.raw.data; //追加貼文
-
-        if (urltype === 'personal') {
-          var start = url.indexOf('fbid=');
-
-          if (start >= 0) {
-            var end = url.indexOf("&", start);
-            obj.pureID = url.substring(start + 5, end);
-          } else {
-            var _start = url.indexOf('posts/');
-
-            obj.pureID = url.substring(_start + 6, url.length);
-          }
-
-          var video = url.indexOf('videos/');
-
-          if (video >= 0) {
-            obj.pureID = result[0];
-          }
-
-          obj.fullID = obj.pageID + '_' + obj.pureID;
-          resolve(obj);
-        } else if (urltype === 'pure') {
-          obj.fullID = url.replace(/\"/g, '');
-          resolve(obj);
-        } else {
-          if (urltype === 'group') {
-            obj.pureID = result[result.length - 1];
-            obj.pageID = result[0];
-            obj.fullID = obj.pageID + "_" + obj.pureID;
-            resolve(obj);
-          } else if (urltype === 'photo') {
-            var _regex = /\d{4,}/g;
-
-            var _result = url.match(_regex);
-
-            obj.pureID = _result[_result.length - 1];
-            obj.fullID = obj.pageID + '_' + obj.pureID;
-            resolve(obj);
-          } else if (urltype === 'video') {
-            obj.pureID = result[result.length - 1];
-            FB.api("/".concat(obj.pureID, "?fields=live_status"), function (res) {
-              if (res.live_status === 'LIVE') {
-                obj.fullID = obj.pureID;
-              } else {
-                obj.fullID = obj.pageID + '_' + obj.pureID;
-              }
-
-              resolve(obj);
-            });
-          } else {
-            if (result.length == 1 || result.length == 3) {
-              obj.pureID = result[0];
-              obj.fullID = obj.pageID + '_' + obj.pureID;
-              resolve(obj);
-            } else {
-              if (urltype === 'unname') {
-                obj.pureID = result[0];
-                obj.pageID = result[result.length - 1];
-              } else {
-                obj.pureID = result[result.length - 1];
-              }
-
-              obj.fullID = obj.pageID + '_' + obj.pureID;
-              FB.api("/".concat(obj.pageID, "?fields=access_token"), function (res) {
-                if (res.error) {
-                  resolve(obj);
-                } else {
-                  if (res.access_token) {
-                    config.pageToken = res.access_token;
-                  }
-
-                  resolve(obj);
-                }
-              });
-            }
-          }
-        }
-      });
-    });
-  },
-  checkType: function checkType(posturl) {
-    if (posturl.indexOf("fbid=") >= 0) {
-      if (posturl.indexOf('permalink') >= 0) {
-        return 'unname';
-      } else {
-        return 'personal';
-      }
-    }
-
-    ;
-
-    if (posturl.indexOf("/groups/") >= 0) {
-      return 'group';
-    }
-
-    ;
-
-    if (posturl.indexOf("events") >= 0) {
-      return 'event';
-    }
-
-    ;
-
-    if (posturl.indexOf("/photos/") >= 0) {
-      return 'photo';
-    }
-
-    ;
-
-    if (posturl.indexOf("/videos/") >= 0) {
-      return 'video';
-    }
-
-    if (posturl.indexOf('"') >= 0) {
-      return 'pure';
-    }
-
-    ;
-    return 'normal';
-  },
-  checkPageID: function checkPageID(posturl, type) {
-    return new Promise(function (resolve, reject) {
-      var start = posturl.indexOf("facebook.com") + 13;
-      var end = posturl.indexOf("/", start);
-      var regex = /\d{4,}/g;
-
-      if (end < 0) {
-        if (posturl.indexOf('fbid=') >= 0) {
-          if (type === 'unname') {
-            resolve('unname');
-          } else {
-            resolve('personal');
-          }
-        } else {
-          resolve(posturl.match(regex)[1]);
-        }
-      } else {
-        var group = posturl.indexOf('/groups/');
-        var event = posturl.indexOf('/events/');
-
-        if (group >= 0) {
-          start = group + 8;
-          end = posturl.indexOf("/", start);
-          var regex2 = /\d{6,}/g;
-          var temp = posturl.substring(start, end);
-
-          if (regex2.test(temp)) {
-            resolve(temp);
-          } else {
-            resolve('group');
-          }
-        } else if (event >= 0) {
-          resolve('event');
-        } else {
-          var pagename = posturl.substring(start, end);
-          FB.api("/".concat(pagename, "?fields=access_token"), function (res) {
-            if (res.error) {
-              fberror = res.error.message;
-              resolve('personal');
-            } else {
-              if (res.access_token) {
-                config.pageToken = res.access_token;
-              }
-
-              resolve(res.id);
-            }
-          });
-        }
-      }
-    });
-  },
-  format: function format(url) {
-    if (url.indexOf('business.facebook.com/') >= 0) {
-      url = url.substring(0, url.indexOf("?"));
-      return url;
-    } else {
-      return url;
-    }
-  }
-};
 var _filter = {
-  totalFilter: function totalFilter(rawdata, isDuplicate, isTag, word, react, startTime, endTime) {
-    var data = rawdata.data;
+  totalFilter: function totalFilter(isDuplicate, isTag, word, react, startTime, endTime) {
+    var datas = data.raw;
 
     if (word !== '') {
-      data = _filter.word(data, word);
+      datas = _filter.word(datas, word);
     }
 
     if (isTag) {
-      data = _filter.tag(data);
+      datas = _filter.tag(datas);
     }
 
-    if (rawdata.command == 'reactions' || rawdata.command == 'likes' || config.likes) {
-      data = _filter.react(data, react);
-    } else if (rawdata.command === 'ranker') {} else {
-      data = _filter.time(data, startTime, endTime);
+    if (config.command == 'reactions' || config.command == 'likes' || config.likes) {
+      datas = _filter.react(datas, react);
+    } else {
+      datas = _filter.time(datas, startTime, endTime);
     }
 
     if (isDuplicate) {
-      data = _filter.unique(data);
+      datas = _filter.unique(datas);
     }
 
-    return data;
+    return datas;
   },
   unique: function unique(data) {
     var output = [];
@@ -1146,17 +720,8 @@ var _filter = {
 };
 var ui = {
   init: function init() {},
-  addLink: function addLink() {
-    var tar = $('.inputarea .morelink');
-
-    if (tar.hasClass('show')) {
-      tar.removeClass('show');
-    } else {
-      tar.addClass('show');
-    }
-  },
   reset: function reset() {
-    var command = data.raw.command;
+    var command = config.command;
 
     if (command == 'reactions' || command == 'likes' || config.likes) {
       $('.limitTime, #searchComment').addClass('hide');
@@ -1182,7 +747,10 @@ var page_selector = {
   groups: [],
   show: function show() {
     $('.page_selector').removeClass('hide');
-    page_selector.getAdmin();
+
+    if (config.signin === false) {
+      page_selector.getAdmin();
+    }
   },
   getAdmin: function getAdmin() {
     Promise.all([page_selector.getPage(), page_selector.getGroup()]).then(function (res) {
@@ -1191,14 +759,14 @@ var page_selector = {
   },
   getPage: function getPage() {
     return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me/accounts?limit=100"), function (res) {
+      FB.api("".concat(config.apiVersion, "/me/accounts?limit=100"), function (res) {
         resolve(res.data);
       });
     });
   },
   getGroup: function getGroup() {
     return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me/groups?fields=name,id,administrator&limit=100"), function (res) {
+      FB.api("".concat(config.apiVersion, "/me/groups?fields=name,id,administrator&limit=100"), function (res) {
         resolve(res.data.filter(function (item) {
           return item.administrator === true;
         }));
@@ -1209,41 +777,49 @@ var page_selector = {
     var pages = '';
     var groups = '';
 
-    var _iterator5 = _createForOfIteratorHelper(res[0]),
-        _step5;
+    var _iterator4 = _createForOfIteratorHelper(res[0]),
+        _step4;
 
     try {
-      for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-        var _i3 = _step5.value;
+      for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+        var _i3 = _step4.value;
         pages += "<div class=\"page_btn\" data-type=\"1\" data-value=\"".concat(_i3.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(_i3.name, "</div>");
       }
     } catch (err) {
-      _iterator5.e(err);
+      _iterator4.e(err);
     } finally {
-      _iterator5.f();
+      _iterator4.f();
     }
 
     if (config.auth_user === true) {
-      var _iterator6 = _createForOfIteratorHelper(res[1]),
-          _step6;
+      var _iterator5 = _createForOfIteratorHelper(res[1]),
+          _step5;
 
       try {
-        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-          var i = _step6.value;
+        for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+          var i = _step5.value;
           groups += "<div class=\"page_btn\" data-type=\"2\" data-value=\"".concat(i.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(i.name, "</div>");
         }
       } catch (err) {
-        _iterator6.e(err);
+        _iterator5.e(err);
       } finally {
-        _iterator6.f();
+        _iterator5.f();
       }
     }
 
     $('.select_page').html(pages);
     $('.select_group').html(groups);
+    config.signin = true;
   },
   selectPage: function selectPage(target) {
     var page_id = $(target).data('value');
+
+    if ($(target).data('type') == '2') {
+      config.target = 'group';
+    } else {
+      config.target = 'fanpage';
+    }
+
     $('#post_table tbody').html('');
     $('.fb_loading').removeClass('hide');
     FB.api("/".concat(page_id, "?fields=access_token"), function (res) {
@@ -1253,58 +829,40 @@ var page_selector = {
         config.pageToken = '';
       }
     });
-    FB.api("".concat(config.apiVersion.newest, "/").concat(page_id, "/live_videos?fields=status,permalink_url,title,creation_time"), function (res) {
-      var thead = '';
-
-      var _iterator7 = _createForOfIteratorHelper(res.data),
-          _step7;
-
-      try {
-        for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-          var tr = _step7.value;
-
-          if (tr.status === 'LIVE') {
-            thead += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button>(LIVE)</td><td><a href=\"https://www.facebook.com").concat(tr.permalink_url, "\" target=\"_blank\">").concat(tr.title, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
-          } else {
-            thead += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com").concat(tr.permalink_url, "\" target=\"_blank\">").concat(tr.title, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
-          }
-        }
-      } catch (err) {
-        _iterator7.e(err);
-      } finally {
-        _iterator7.f();
-      }
-
-      $('#post_table thead').html(thead);
-    });
-    FB.api("".concat(config.apiVersion.newest, "/").concat(page_id, "/feed?limit=100"), function (res) {
+    FB.api("".concat(config.apiVersion, "/").concat(page_id, "/feed?limit=100"), function (res) {
       $('.fb_loading').addClass('hide');
       var tbody = '';
 
-      var _iterator8 = _createForOfIteratorHelper(res.data),
-          _step8;
+      var _iterator6 = _createForOfIteratorHelper(res.data),
+          _step6;
 
       try {
-        for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-          var tr = _step8.value;
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var tr = _step6.value;
           tbody += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com/").concat(tr.id, "\" target=\"_blank\">").concat(tr.message, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
         }
       } catch (err) {
-        _iterator8.e(err);
+        _iterator6.e(err);
       } finally {
-        _iterator8.f();
+        _iterator6.f();
       }
 
       $('#post_table tbody').html(tbody);
     });
   },
+  golive: function golive() {
+    if (config.pageToken === false) {
+      alert('請先選擇對應直播的粉絲專頁');
+    } else {
+      $('.page_selector').addClass('hide');
+      $('#post_table tbody').html('');
+      $('#enterURL .url').val($('#live_id').val());
+    }
+  },
   selectPost: function selectPost(fbid) {
     $('.page_selector').addClass('hide');
-    $('.select_page').html('');
-    $('.select_group').html('');
     $('#post_table tbody').html('');
-    var id = '"' + fbid + '"';
-    $('#enterURL .url').val(id);
+    $('#enterURL .url').val(fbid);
   }
 };
 

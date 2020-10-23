@@ -221,13 +221,22 @@ table td span.react.THANKFUL {
   line-height: 1.5em;
 }
 
-.wrapper .main_area .left .payRead {
-  display: inline-block;
+.wrapper .main_area .left #pay_token {
+  width: 100px;
   vertical-align: middle;
-  font-size: 12px;
-  margin-right: 10px;
-  cursor: pointer;
-  text-decoration: none;
+  margin-left: 20px;
+}
+
+.wrapper .main_area .left #pay_token:-ms-input-placeholder {
+  color: #ddd;
+}
+
+.wrapper .main_area .left #pay_token::placeholder {
+  color: #ddd;
+}
+
+.wrapper .main_area .left #btn_pay {
+  margin-top: 0;
 }
 
 .wrapper .main_area .inputarea {

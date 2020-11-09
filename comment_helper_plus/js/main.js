@@ -38,15 +38,6 @@ function handleErr(msg, url, l) {
 }
 
 $(document).ready(function () {
-  var hidearea = 0;
-  $('header').click(function () {
-    hidearea++;
-
-    if (hidearea >= 5) {
-      $('header').off('click');
-      $('#fbid_button, #pure_fbid').removeClass('hide');
-    }
-  });
   var hash = location.hash;
 
   if (hash.indexOf("clear") >= 0) {
@@ -59,7 +50,7 @@ $(document).ready(function () {
   var lastData = JSON.parse(localStorage.getItem("raw"));
 
   if (lastData) {
-    data.finish(lastData);
+    data.finish(lastData, true);
   } // if (sessionStorage.login){
   // 	fb.genOption(JSON.parse(sessionStorage.login));
   // }
@@ -72,9 +63,6 @@ $(document).ready(function () {
   // });
 
 
-  $("#btn_comments").click(function (e) {
-    fb.getAuth('comments');
-  });
   $("#btn_start").click(function () {
     fb.getAuth('signin');
   });
@@ -171,21 +159,7 @@ $(document).ready(function () {
       var url = 'data:text/json;charset=utf8,' + dd;
       window.open(url, '_blank');
       window.focus();
-    } else {// if (filterData.length > 7000){
-      // 	$(".bigExcel").removeClass("hide");
-      // }else{
-      // 	if (tab.now === 'compare'){
-      // 		JSONToCSVConvertor(data.excel(compare[$('.compare_condition').val()]), "Comment_helper", true);
-      // 	}else{
-      // 		JSONToCSVConvertor(data.excel(filterData[tab.now]), "Comment_helper", true);
-      // 	}
-      // }
     }
-  });
-  $("#genExcel").click(function () {
-    var filterData = data.filter(data.raw);
-    var excelString = data.excel(filterData);
-    $("#exceldata").val(JSON.stringify(excelString));
   });
   var ci_counter = 0;
   $(".ci").click(function (e) {
@@ -210,43 +184,37 @@ var config = {
   field: {
     comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
     reactions: [],
-    sharedposts: ['story', 'from', 'created_time'],
     url_comments: [],
     feed: ['created_time', 'from', 'message', 'story'],
     likes: ['name']
   },
-  limit: {
-    comments: '500',
-    reactions: '500',
-    sharedposts: '500',
-    url_comments: '500',
-    feed: '500',
-    likes: '500'
-  },
-  apiVersion: {
-    comments: 'v7.0',
-    reactions: 'v7.0',
-    sharedposts: 'v7.0',
-    url_comments: 'v7.0',
-    feed: 'v7.0',
-    group: 'v7.0',
-    newest: 'v7.0'
-  },
+  limit: '30',
+  apiVersion: 'v8.0',
   filter: {
     word: '',
     react: 'all',
+    startTime: '2000-12-31-00-00-00',
     endTime: nowDate()
   },
-  order: '',
+  target: '',
+  command: '',
+  order: 'chronological',
   auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
-  extension: false,
-  pageToken: '',
+  likes: false,
+  pageToken: false,
   userToken: '',
-  me: ''
+  from_extension: false,
+  auth_user: false,
+  signin: false
 };
 var fb = {
   next: '',
   getAuth: function getAuth(type) {
+    if (config.signin === true) {
+      page_selector.show();
+      return false;
+    }
+
     FB.login(function (response) {
       fb.callback(response, type);
     }, {
@@ -257,28 +225,28 @@ var fb = {
   },
   callback: function callback(response, type) {
     if (response.status === 'connected') {
-      console.log(response);
       config.userToken = response.authResponse.accessToken;
       config.me = response.authResponse.userID;
       config.from_extension = false;
 
       if (type == 'signup') {
         // 註冊
+        var token = $('#pay_token').val() == '' ? '-1' : $('#pay_token').val();
         FB.api("/me?fields=id,name", function (res) {
           var obj = {
-            token: $('#import').val() || -1,
+            token: token,
             username: res.name,
             app_scope_id: res.id
           };
           $('.waiting').removeClass('hide');
-          $.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function (res) {
+          $.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function (res2) {
             $('.waiting').addClass('hide');
 
-            if (res.code == 1) {
-              alert(res.message);
+            if (res2.code == 1) {
+              alert(res2.message);
               fb.callback(response, 'signin');
             } else {
-              alert(res.message); // fb.callback(response, 'signin');
+              alert(res2.message + '\n' + JSON.stringify(obj)); // fb.callback(response, 'signin');
             }
           });
         });
@@ -290,8 +258,10 @@ var fb = {
           $('.waiting').addClass('hide');
 
           if (res2 === 'true') {
+            config.auth_user = true;
             fb.start();
           } else {
+            config.auth_user = false;
             swal({
               title: 'PLUS為付費產品，詳情請見粉絲專頁',
               html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + config.me,
@@ -299,6 +269,10 @@ var fb = {
             }).done();
           }
         });
+      }
+
+      if (type == "page_selector") {
+        page_selector.show();
       }
     } else {
       FB.login(function (response) {
@@ -316,152 +290,6 @@ var fb = {
     var type = -1;
     $('#btn_start').addClass('hide');
     $('#enterURL').html(options).removeClass('hide');
-  },
-  selectPage: function selectPage(e) {
-    $('#enterURL .page_btn').removeClass('active');
-    fb.next = '';
-    var tar = $(e);
-    tar.addClass('active');
-
-    if (tar.attr('attr-type') == 1) {
-      fb.setToken(tar.attr('attr-value'));
-    }
-
-    fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
-    $('.forfb').addClass('hide');
-    $('.step1').removeClass('hide');
-    step.step1();
-  },
-  setToken: function setToken(pageid) {
-    var pages = JSON.parse(sessionStorage.login)[1];
-
-    var _iterator = _createForOfIteratorHelper(pages),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var i = _step.value;
-
-        if (i.id == pageid) {
-          config.pageToken = i.access_token;
-        }
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-  },
-  hiddenStart: function hiddenStart(e) {
-    var fbid = $('#pure_fbid').val();
-    var pageID = fbid.split('_')[0];
-    FB.api("/".concat(pageID, "?fields=access_token"), function (res) {
-      if (res.error) {
-        data.start(fbid);
-      } else {
-        if (res.access_token) {
-          config.pageToken = res.access_token;
-        }
-
-        if (e.ctrlKey || e.altKey) {
-          data.start(fbid, 'live');
-        } else {
-          data.start(fbid);
-        }
-      }
-    });
-  },
-  feed: function feed(pageID, type) {
-    var url = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
-    var clear = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-
-    if (clear) {
-      $('.recommands, .feeds tbody').empty();
-      $('.feeds .btn').removeClass('hide');
-      $('.feeds .btn').off('click').click(function () {
-        var tar = $('#enterURL select').find('option:selected');
-        fb.feed(tar.val(), tar.attr('attr-type'), fb.next, false);
-      });
-    }
-
-    var command = 'feed';
-    var api;
-
-    if (url == '') {
-      api = "".concat(config.apiVersion.newest, "/").concat(pageID, "/").concat(command, "?fields=full_picture,created_time,message&limit=25");
-    } else {
-      api = url;
-    }
-
-    FB.api(api, function (res) {
-      if (res.data.length == 0) {
-        $('.feeds .btn').addClass('hide');
-      }
-
-      fb.next = res.paging.next;
-
-      var _iterator2 = _createForOfIteratorHelper(res.data),
-          _step2;
-
-      try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var i = _step2.value;
-          var str = genData(i);
-          $('.section .feeds tbody').append(str);
-
-          if (i.message && i.message.indexOf('抽') >= 0) {
-            var recommand = genCard(i);
-            $('.donate_area .recommands').append(recommand);
-          }
-        }
-      } catch (err) {
-        _iterator2.e(err);
-      } finally {
-        _iterator2.f();
-      }
-    });
-
-    function genData(obj) {
-      console.log(obj);
-      var ids = obj.id.split("_");
-      var link = 'https://www.facebook.com/' + ids[0] + '/posts/' + ids[1];
-      var mess = obj.message ? obj.message.replace(/\n/g, "<br />") : "";
-      var str = "<tr>\n\t\t\t\t\t\t<td><div class=\"pick\" attr-val=\"".concat(obj.id, "\"  onclick=\"data.start('").concat(obj.id, "')\">\u958B\u59CB</div></td>\n\t\t\t\t\t\t<td><a href=\"").concat(link, "\" target=\"_blank\">").concat(mess, "</a></td>\n\t\t\t\t\t\t<td class=\"nowrap\">").concat(timeConverter(obj.created_time), "</td>\n\t\t\t\t\t\t</tr>");
-      return str;
-    }
-
-    function genCard(obj) {
-      var src = obj.full_picture || 'http://placehold.it/300x225';
-      var ids = obj.id.split("_");
-      var link = 'https://www.facebook.com/' + ids[0] + '/posts/' + ids[1];
-      var mess = obj.message ? obj.message.replace(/\n/g, "<br />") : "";
-      var str = "<div class=\"card\">\n\t\t\t<a href=\"".concat(link, "\" target=\"_blank\">\n\t\t\t<div class=\"card-image\">\n\t\t\t<figure class=\"image is-4by3\">\n\t\t\t<img src=\"").concat(src, "\" alt=\"\">\n\t\t\t</figure>\n\t\t\t</div>\n\t\t\t</a>\n\t\t\t<div class=\"card-content\">\n\t\t\t<div class=\"content\">\n\t\t\t").concat(mess, "\n\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"pick\" attr-val=\"").concat(obj.id, "\" onclick=\"data.start('").concat(obj.id, "')\">\u958B\u59CB</div>\n\t\t\t</div>");
-      return str;
-    }
-  },
-  getMe: function getMe() {
-    return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me"), function (res) {
-        var arr = [res];
-        resolve(arr);
-      });
-    });
-  },
-  getPage: function getPage() {
-    return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me/accounts?limit=100"), function (res) {
-        resolve(res.data);
-      });
-    });
-  },
-  getGroup: function getGroup() {
-    return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me/groups?fields=name,id,administrator&limit=100"), function (res) {
-        resolve(res.data.filter(function (item) {
-          return item.administrator === true;
-        }));
-      });
-    });
   },
   extensionAuth: function extensionAuth() {
     var command = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -487,12 +315,12 @@ var fb = {
         var fid = [];
         var ids = [];
 
-        var _iterator3 = _createForOfIteratorHelper(extend),
-            _step3;
+        var _iterator = _createForOfIteratorHelper(extend),
+            _step;
 
         try {
-          for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-            var _i11 = _step3.value;
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _i11 = _step.value;
             fid.push(_i11.from.id);
 
             if (fid.length >= 45) {
@@ -501,9 +329,9 @@ var fb = {
             }
           }
         } catch (err) {
-          _iterator3.e(err);
+          _iterator.e(err);
         } finally {
-          _iterator3.f();
+          _iterator.f();
         }
 
         ids.push(fid);
@@ -541,52 +369,52 @@ var fb = {
             // 		}).done();
             // 	}
             // });
-            var _iterator4 = _createForOfIteratorHelper(extend),
-                _step4;
+            var _iterator2 = _createForOfIteratorHelper(extend),
+                _step2;
 
             try {
-              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                var _i4 = _step4.value;
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                var _i4 = _step2.value;
                 delete _i4.story;
                 delete _i4.postlink;
                 _i4.like_count = 'N/A';
               }
             } catch (err) {
-              _iterator4.e(err);
+              _iterator2.e(err);
             } finally {
-              _iterator4.f();
+              _iterator2.f();
             }
           } else if (postdata.type === 'group') {
-            var _iterator5 = _createForOfIteratorHelper(extend),
-                _step5;
+            var _iterator3 = _createForOfIteratorHelper(extend),
+                _step3;
 
             try {
-              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-                var _i5 = _step5.value;
+              for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                var _i5 = _step3.value;
                 delete _i5.story;
                 delete _i5.postlink;
                 _i5.like_count = 'N/A';
               }
             } catch (err) {
-              _iterator5.e(err);
+              _iterator3.e(err);
             } finally {
-              _iterator5.f();
+              _iterator3.f();
             }
           } else {
-            var _iterator6 = _createForOfIteratorHelper(extend),
-                _step6;
+            var _iterator4 = _createForOfIteratorHelper(extend),
+                _step4;
 
             try {
-              for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-                var _i6 = _step6.value;
+              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+                var _i6 = _step4.value;
                 delete _i6.story;
                 delete _i6.postlink;
                 _i6.like_count = 'N/A';
               }
             } catch (err) {
-              _iterator6.e(err);
+              _iterator4.e(err);
             } finally {
-              _iterator6.f();
+              _iterator4.f();
             }
           }
         }
@@ -610,72 +438,72 @@ var fb = {
             // 		}).done();
             // 	}
             // });
-            var _iterator7 = _createForOfIteratorHelper(extend),
-                _step7;
+            var _iterator5 = _createForOfIteratorHelper(extend),
+                _step5;
 
             try {
-              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-                var _i7 = _step7.value;
+              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+                var _i7 = _step5.value;
                 delete _i7.story;
                 delete _i7.created_time;
                 delete _i7.postlink;
                 delete _i7.like_count;
               }
             } catch (err) {
-              _iterator7.e(err);
+              _iterator5.e(err);
             } finally {
-              _iterator7.f();
+              _iterator5.f();
             }
           } else if (postdata.type === 'group') {
-            var _iterator8 = _createForOfIteratorHelper(extend),
-                _step8;
+            var _iterator6 = _createForOfIteratorHelper(extend),
+                _step6;
 
             try {
-              for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-                var _i8 = _step8.value;
+              for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+                var _i8 = _step6.value;
                 delete _i8.story;
                 delete _i8.created_time;
                 delete _i8.postlink;
                 delete _i8.like_count;
               }
             } catch (err) {
-              _iterator8.e(err);
+              _iterator6.e(err);
             } finally {
-              _iterator8.f();
+              _iterator6.f();
             }
           } else {
-            var _iterator9 = _createForOfIteratorHelper(extend),
-                _step9;
+            var _iterator7 = _createForOfIteratorHelper(extend),
+                _step7;
 
             try {
-              for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-                var _i9 = _step9.value;
+              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+                var _i9 = _step7.value;
                 delete _i9.story;
                 delete _i9.created_time;
                 delete _i9.postlink;
                 delete _i9.like_count;
               }
             } catch (err) {
-              _iterator9.e(err);
+              _iterator7.e(err);
             } finally {
-              _iterator9.f();
+              _iterator7.f();
             }
           }
         }
 
         Promise.all(promise_array).then(function () {
-          var _iterator10 = _createForOfIteratorHelper(extend),
-              _step10;
+          var _iterator8 = _createForOfIteratorHelper(extend),
+              _step8;
 
           try {
-            for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-              var _i10 = _step10.value;
+            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+              var _i10 = _step8.value;
               _i10.from.name = names[_i10.from.id] ? names[_i10.from.id].name : _i10.from.name;
             }
           } catch (err) {
-            _iterator10.e(err);
+            _iterator8.e(err);
           } finally {
-            _iterator10.f();
+            _iterator8.f();
           }
 
           data.raw.data[command] = extend;
@@ -683,6 +511,8 @@ var fb = {
         });
       };
 
+      config.from_extension = true;
+      auth_scope = response.authResponse.grantedScopes;
       var me = response.authResponse.userID;
       $('.waiting').removeClass('hide');
       $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + me, function (res2) {
@@ -709,7 +539,7 @@ var fb = {
   },
   getName: function getName(ids) {
     return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/?ids=").concat(ids.toString()), function (res) {
+      FB.api("".concat(config.apiVersion, "/?ids=").concat(ids.toString()), function (res) {
         resolve(res);
       });
     });
@@ -729,83 +559,78 @@ var step = {
 };
 var data = {
   raw: {
-    data: {
-      fullID: '',
-      comments: [],
-      reactions: [],
-      sharedposts: []
-    }
+    comments: [],
+    reactions: [],
+    sharedposts: []
   },
+  fullID: '',
   filtered: {},
   userid: '',
   nowLength: 0,
-  extension: false,
   promise_array: [],
-  test: function test(id) {
-    console.log(id);
-  },
   init: function init() {
     $(".main_table").DataTable().destroy();
     $("#awardList").hide();
     $(".console .message").text('');
+    data.raw = {
+      comments: [],
+      reactions: [],
+      sharedposts: []
+    };
+    data.fullID = '';
     data.nowLength = 0;
     data.promise_array = [];
-    data.raw = [];
   },
   start: function start(fbid) {
     data.init();
-    var obj = {
-      fullID: fbid
-    };
+    data.fullID = fbid;
     $(".waiting").removeClass("hide");
     var commands = ['comments', 'reactions'];
-    var temp_data = obj;
-
-    var _loop = function _loop() {
-      var i = _commands[_i12];
-      temp_data.data = {};
-      var promise = data.get(temp_data, i).then(function (res) {
-        temp_data.data[i] = res;
-      });
-      data.promise_array.push(promise);
-    };
 
     for (var _i12 = 0, _commands = commands; _i12 < _commands.length; _i12++) {
-      _loop();
+      var i = _commands[_i12];
+      data.promise_array.push(data.get(fbid, i));
     }
 
-    Promise.all(data.promise_array).then(function () {
-      data.finish(temp_data);
+    Promise.all(data.promise_array).then(function (res) {
+      data.finish(res);
     });
   },
   get: function get(fbid, command) {
     return new Promise(function (resolve, reject) {
-      var datas = [];
-      var promise_array = [];
-      var shareError = 0;
-      var api_fbid = fbid.fullID; // if ($('.page_btn.active').attr('attr-type') == 2){
+      var datas = []; // if ($('.page_btn.active').attr('attr-type') == 2){
       // 	api_fbid = fbid.fullID.split('_')[1];
       // 	if (command === 'reactions') command = 'likes';
       // }
 
-      if (fbid.type === 'group') command = 'group';
-      FB.api("".concat(api_fbid, "/").concat(command, "?limit=").concat(config.limit[command], "&order=chronological&access_token=").concat(config.pageToken, "&fields=").concat(config.field[command].toString()), function (res) {
+      FB.api("".concat(fbid, "/").concat(command, "?limit=").concat(config.limit, "&order=").concat(config.order, "&access_token=").concat(config.pageToken, "&fields=").concat(config.field[command].toString()), function (res) {
         data.nowLength += res.data.length;
         $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
+        groupData(res);
 
-        var _iterator11 = _createForOfIteratorHelper(res.data),
-            _step11;
+        if (res.data.length > 0 && res.paging.next) {
+          getNext(res.paging.next);
+        } else {
+          resolve(datas);
+        }
+      });
+
+      function groupData(res) {
+        var _iterator9 = _createForOfIteratorHelper(res.data),
+            _step9;
 
         try {
-          for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-            var d = _step11.value;
+          for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+            var d = _step9.value;
 
-            if (command == 'reactions') {
+            if (config.command == 'reactions' || config.command == 'likes' || config.likes) {
               d.from = {
                 id: d.id,
                 name: d.name
               };
             }
+
+            if (config.likes) d.type = "LIKE";
 
             if (d.from) {
               datas.push(d);
@@ -824,17 +649,11 @@ var data = {
             }
           }
         } catch (err) {
-          _iterator11.e(err);
+          _iterator9.e(err);
         } finally {
-          _iterator11.f();
+          _iterator9.f();
         }
-
-        if (res.data.length > 0 && res.paging.next) {
-          getNext(res.paging.next);
-        } else {
-          resolve(datas);
-        }
-      });
+      }
 
       function getNext(url) {
         var limit = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
@@ -846,42 +665,7 @@ var data = {
         $.getJSON(url, function (res) {
           data.nowLength += res.data.length;
           $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
-
-          var _iterator12 = _createForOfIteratorHelper(res.data),
-              _step12;
-
-          try {
-            for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-              var d = _step12.value;
-
-              if (command == 'reactions') {
-                d.from = {
-                  id: d.id,
-                  name: d.name
-                };
-              }
-
-              if (d.from) {
-                datas.push(d);
-              } else {
-                //event
-                d.from = {
-                  id: d.id,
-                  name: d.id
-                };
-
-                if (d.updated_time) {
-                  d.created_time = d.updated_time;
-                }
-
-                datas.push(d);
-              }
-            }
-          } catch (err) {
-            _iterator12.e(err);
-          } finally {
-            _iterator12.f();
-          }
+          groupData(res);
 
           if (res.data.length > 0 && res.paging.next) {
             getNext(res.paging.next);
@@ -894,14 +678,22 @@ var data = {
       }
     });
   },
-  finish: function finish(fbid) {
+  finish: function finish(rawdata) {
+    var lastData = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
     $(".waiting").addClass("hide");
     $(".main_table").removeClass("hide");
     step.step2();
     swal('完成！', 'Done!', 'success').done();
-    $('.result_area > .title span').text(fbid.fullID);
-    data.raw = fbid;
-    localStorage.setItem("raw", JSON.stringify(fbid));
+    $('.result_area > .title span').text(data.fullID);
+
+    if (lastData === false) {
+      data.raw.comments = rawdata[0];
+      data.raw.reactions = rawdata[1];
+      localStorage.setItem("raw", JSON.stringify(data.raw));
+    } else {
+      data.raw = JSON.parse(localStorage.raw);
+    }
+
     data.filter(data.raw, true);
   },
   filter: function filter(rawData) {
@@ -909,12 +701,12 @@ var data = {
     data.filtered = {};
     var isDuplicate = $("#unique").prop("checked");
 
-    for (var _i13 = 0, _Object$keys2 = Object.keys(rawData.data); _i13 < _Object$keys2.length; _i13++) {
+    for (var _i13 = 0, _Object$keys2 = Object.keys(rawData); _i13 < _Object$keys2.length; _i13++) {
       var key = _Object$keys2[_i13];
       var isTag = $("#tag").prop("checked");
       if (key === 'reactions') isTag = false;
 
-      var newData = _filter.totalFilter.apply(_filter, [rawData.data[key], key, isDuplicate, isTag].concat(_toConsumableArray(obj2Array(config.filter))));
+      var newData = _filter.totalFilter.apply(_filter, [rawData[key], key, isDuplicate, isTag].concat(_toConsumableArray(obj2Array(config.filter))));
 
       data.filtered[key] = newData;
     }
@@ -924,37 +716,6 @@ var data = {
     } else {
       return data.filtered;
     }
-  },
-  excel: function excel(raw) {
-    var newObj = [];
-
-    if (data.extension) {
-      $.each(raw, function (i) {
-        var tmp = {
-          "序號": i + 1,
-          "臉書連結": 'https://www.facebook.com/' + this.from.id,
-          "姓名": this.from.name,
-          "分享連結": this.postlink,
-          "留言內容": this.story,
-          "該分享讚數": this.like_count
-        };
-        newObj.push(tmp);
-      });
-    } else {
-      $.each(raw, function (i) {
-        var tmp = {
-          "序號": i + 1,
-          "臉書連結": 'https://www.facebook.com/' + this.from.id,
-          "姓名": this.from.name,
-          "心情": this.type || '',
-          "留言內容": this.message || this.story,
-          "留言時間": timeConverter(this.created_time)
-        };
-        newObj.push(tmp);
-      });
-    }
-
-    return newObj;
   },
   "import": function _import(file) {
     var reader = new FileReader();
@@ -969,9 +730,9 @@ var data = {
   }
 };
 var table = {
-  generate: function generate(rawdata) {
+  generate: function generate(filterData) {
     $(".tables table").DataTable().destroy();
-    var filtered = rawdata;
+    var filtered = filterData;
     var pic = $("#picture").prop("checked");
 
     for (var _i14 = 0, _Object$keys3 = Object.keys(filtered); _i14 < _Object$keys3.length; _i14++) {
@@ -987,18 +748,18 @@ var table = {
         thead = "<td>\u5E8F\u865F</td>\n\t\t\t\t<td width=\"200\">\u540D\u5B57</td>\n\t\t\t\t<td class=\"force-break\">\u7559\u8A00\u5167\u5BB9</td>\n\t\t\t\t<td>\u8B9A</td>\n\t\t\t\t<td class=\"nowrap\">\u7559\u8A00\u6642\u9593</td>";
       }
 
-      var _iterator13 = _createForOfIteratorHelper(filtered[key].entries()),
-          _step13;
+      var _iterator10 = _createForOfIteratorHelper(filtered[key].entries()),
+          _step10;
 
       try {
-        for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
-          var _step13$value = _slicedToArray(_step13.value, 2),
-              j = _step13$value[0],
-              val = _step13$value[1];
+        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+          var _step10$value = _slicedToArray(_step10.value, 2),
+              j = _step10$value[0],
+              val = _step10$value[1];
 
           var picture = '';
 
-          if (pic) {// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
+          if (pic) {// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
           }
 
           var td = "<td>".concat(j + 1, "</td>\n\t\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' attr-fbid=\"").concat(val.from.id, "\" target=\"_blank\">").concat(picture).concat(val.from.name, "</a></td>");
@@ -1015,9 +776,9 @@ var table = {
           tbody += tr;
         }
       } catch (err) {
-        _iterator13.e(err);
+        _iterator10.e(err);
       } finally {
-        _iterator13.f();
+        _iterator10.f();
       }
 
       var insert = "<thead><tr align=\"center\">".concat(thead, "</tr></thead><tbody>").concat(tbody, "</tbody>");
@@ -1036,7 +797,7 @@ var table = {
       });
       var arr = ['comments', 'reactions', 'sharedposts'];
 
-      var _loop2 = function _loop2() {
+      var _loop = function _loop() {
         var i = _arr2[_i15];
         var table = $('.tables .' + i + ' table').DataTable();
         $(".tables ." + i + " .searchName").on('blur change keyup', function () {
@@ -1049,7 +810,7 @@ var table = {
       };
 
       for (var _i15 = 0, _arr2 = arr; _i15 < _arr2.length; _i15++) {
-        _loop2();
+        _loop();
       }
     }
   },
@@ -1075,18 +836,18 @@ var compare = {
       var key = _Object$keys4[_i16];
 
       if (key !== ignore) {
-        var _iterator14 = _createForOfIteratorHelper(compare.raw[key]),
-            _step14;
+        var _iterator11 = _createForOfIteratorHelper(compare.raw[key]),
+            _step11;
 
         try {
-          for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
-            var i = _step14.value;
+          for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+            var i = _step11.value;
             base.push(i);
           }
         } catch (err) {
-          _iterator14.e(err);
+          _iterator11.e(err);
         } finally {
-          _iterator14.f();
+          _iterator11.f();
         }
       }
     }
@@ -1096,18 +857,18 @@ var compare = {
       return a.from[sort] > b.from[sort] ? 1 : -1;
     });
 
-    var _iterator15 = _createForOfIteratorHelper(base),
-        _step15;
+    var _iterator12 = _createForOfIteratorHelper(base),
+        _step12;
 
     try {
-      for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
-        var _i19 = _step15.value;
+      for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+        var _i19 = _step12.value;
         _i19.match = 0;
       }
     } catch (err) {
-      _iterator15.e(err);
+      _iterator12.e(err);
     } finally {
-      _iterator15.f();
+      _iterator12.f();
     }
 
     var temp = '';
@@ -1148,37 +909,37 @@ var compare = {
     var data_and = compare.and;
     var tbody = '';
 
-    var _iterator16 = _createForOfIteratorHelper(data_and.entries()),
-        _step16;
+    var _iterator13 = _createForOfIteratorHelper(data_and.entries()),
+        _step13;
 
     try {
-      for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
-        var _step16$value = _slicedToArray(_step16.value, 2),
-            j = _step16$value[0],
-            val = _step16$value[1];
+      for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+        var _step13$value = _slicedToArray(_step13.value, 2),
+            j = _step13$value[0],
+            val = _step13$value[1];
 
         var td = "<td>".concat(j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' attr-fbid=\"").concat(val.from.id, "\" target=\"_blank\">").concat(val.from.name, "</a></td>\n\t\t\t<td class=\"center\"><span class=\"react ").concat(val.type || '', "\"></span>").concat(val.type || '', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(val.id, "\" target=\"_blank\">").concat(val.message || '', "</a></td>\n\t\t\t<td>").concat(val.like_count || '0', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(val.id, "\" target=\"_blank\">").concat(val.story || '', "</a></td>\n\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time) || '', "</td>");
         var tr = "<tr>".concat(td, "</tr>");
         tbody += tr;
       }
     } catch (err) {
-      _iterator16.e(err);
+      _iterator13.e(err);
     } finally {
-      _iterator16.f();
+      _iterator13.f();
     }
 
     $(".tables .total .table_compare.and tbody").html('').append(tbody);
     var data_or = compare.or;
     var tbody2 = '';
 
-    var _iterator17 = _createForOfIteratorHelper(data_or.entries()),
-        _step17;
+    var _iterator14 = _createForOfIteratorHelper(data_or.entries()),
+        _step14;
 
     try {
-      for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
-        var _step17$value = _slicedToArray(_step17.value, 2),
-            _j = _step17$value[0],
-            _val = _step17$value[1];
+      for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+        var _step14$value = _slicedToArray(_step14.value, 2),
+            _j = _step14$value[0],
+            _val = _step14$value[1];
 
         var _td = "<td>".concat(_j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(_val.from.id, "' attr-fbid=\"").concat(_val.from.id, "\" target=\"_blank\">").concat(_val.from.name, "</a></td>\n\t\t\t<td class=\"center\"><span class=\"react ").concat(_val.type || '', "\"></span>").concat(_val.type || '', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(_val.id, "\" target=\"_blank\">").concat(_val.message || '', "</a></td>\n\t\t\t<td>").concat(_val.like_count || '', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(_val.id, "\" target=\"_blank\">").concat(_val.story || '', "</a></td>\n\t\t\t<td class=\"nowrap\">").concat(timeConverter(_val.created_time) || '', "</td>");
 
@@ -1187,9 +948,9 @@ var compare = {
         tbody2 += _tr;
       }
     } catch (err) {
-      _iterator17.e(err);
+      _iterator14.e(err);
     } finally {
-      _iterator17.f();
+      _iterator14.f();
     }
 
     $(".tables .total .table_compare.or tbody").html('').append(tbody2);
@@ -1203,7 +964,7 @@ var compare = {
       });
       var arr = ['and', 'or'];
 
-      var _loop3 = function _loop3() {
+      var _loop2 = function _loop2() {
         var i = _arr3[_i20];
         var table = $('.tables .' + i + ' table').DataTable();
         $(".tables ." + i + " .searchName").on('blur change keyup', function () {
@@ -1216,7 +977,7 @@ var compare = {
       };
 
       for (var _i20 = 0, _arr3 = arr; _i20 < _arr3.length; _i20++) {
-        _loop3();
+        _loop2();
       }
     }
   }
@@ -1276,20 +1037,20 @@ var choose = {
       });
     }
 
-    var _iterator18 = _createForOfIteratorHelper(choose.award),
-        _step18;
+    var _iterator15 = _createForOfIteratorHelper(choose.award),
+        _step15;
 
     try {
-      for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
-        var i = _step18.value;
+      for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
+        var i = _step15.value;
         var row = tempArr.length == 0 ? i : tempArr[i];
         var _tar = $('.tables > div.active table').DataTable().row(row).node().innerHTML;
         insert += '<tr>' + _tar + '</tr>';
       }
     } catch (err) {
-      _iterator18.e(err);
+      _iterator15.e(err);
     } finally {
-      _iterator18.f();
+      _iterator15.f();
     }
 
     $('#awardList table tbody').html(insert);
@@ -1323,9 +1084,15 @@ var choose = {
 var page_selector = {
   pages: [],
   groups: [],
+  page_id: false,
   show: function show() {
     $('.page_selector').removeClass('hide');
-    page_selector.getAdmin();
+    config.pageToken = false;
+    $('#live_id').val('');
+
+    if (config.signin === false) {
+      page_selector.getAdmin();
+    }
   },
   hide: function hide() {
     $('.page_selector').addClass('hide');
@@ -1337,14 +1104,14 @@ var page_selector = {
   },
   getPage: function getPage() {
     return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me/accounts?limit=100"), function (res) {
+      FB.api("".concat(config.apiVersion, "/me/accounts?limit=100"), function (res) {
         resolve(res.data);
       });
     });
   },
   getGroup: function getGroup() {
     return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion.newest, "/me/groups?fields=name,id,administrator&limit=100"), function (res) {
+      FB.api("".concat(config.apiVersion, "/me/groups?fields=name,id,administrator&limit=100"), function (res) {
         resolve(res.data.filter(function (item) {
           return item.administrator === true;
         }));
@@ -1355,124 +1122,117 @@ var page_selector = {
     var pages = '';
     var groups = '';
 
-    var _iterator19 = _createForOfIteratorHelper(res[0]),
-        _step19;
+    var _iterator16 = _createForOfIteratorHelper(res[0]),
+        _step16;
 
     try {
-      for (_iterator19.s(); !(_step19 = _iterator19.n()).done;) {
-        var i = _step19.value;
-        pages += "<div class=\"page_btn\" data-type=\"1\" data-value=\"".concat(i.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(i.name, "</div>");
+      for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
+        var _i21 = _step16.value;
+        pages += "<div class=\"page_btn\" data-type=\"1\" data-value=\"".concat(_i21.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(_i21.name, "</div>");
       }
     } catch (err) {
-      _iterator19.e(err);
+      _iterator16.e(err);
     } finally {
-      _iterator19.f();
+      _iterator16.f();
     }
 
-    var _iterator20 = _createForOfIteratorHelper(res[1]),
-        _step20;
+    if (config.auth_user === true) {
+      var _iterator17 = _createForOfIteratorHelper(res[1]),
+          _step17;
 
-    try {
-      for (_iterator20.s(); !(_step20 = _iterator20.n()).done;) {
-        var _i21 = _step20.value;
-        groups += "<div class=\"page_btn\" data-type=\"2\" data-value=\"".concat(_i21.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(_i21.name, "</div>");
+      try {
+        for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
+          var i = _step17.value;
+          groups += "<div class=\"page_btn\" data-type=\"2\" data-value=\"".concat(i.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(i.name, "</div>");
+        }
+      } catch (err) {
+        _iterator17.e(err);
+      } finally {
+        _iterator17.f();
       }
-    } catch (err) {
-      _iterator20.e(err);
-    } finally {
-      _iterator20.f();
     }
 
     $('.select_page').html(pages);
     $('.select_group').html(groups);
+    config.signin = true;
   },
   selectPage: function selectPage(target) {
-    var page_id = $(target).data('value');
+    page_selector.page_id = $(target).data('value');
+
+    if ($(target).data('type') == '2') {
+      config.target = 'group';
+    } else {
+      config.target = 'fanpage';
+    }
+
     $('#post_table tbody').html('');
     $('.fb_loading').removeClass('hide');
-    FB.api("/".concat(page_id, "?fields=access_token"), function (res) {
+    FB.api("/".concat(page_selector.page_id, "?fields=access_token"), function (res) {
       if (res.access_token) {
         config.pageToken = res.access_token;
       } else {
         config.pageToken = '';
       }
     });
-    FB.api("".concat(config.apiVersion.newest, "/").concat(page_id, "/live_videos?fields=status,permalink_url,title,creation_time"), function (res) {
-      var thead = '';
-
-      var _iterator21 = _createForOfIteratorHelper(res.data),
-          _step21;
-
-      try {
-        for (_iterator21.s(); !(_step21 = _iterator21.n()).done;) {
-          var tr = _step21.value;
-
-          if (tr.status === 'LIVE') {
-            thead += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button>(LIVE)</td><td><a href=\"https://www.facebook.com").concat(tr.permalink_url, "\" target=\"_blank\">").concat(tr.title, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
-          } else {
-            thead += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com").concat(tr.permalink_url, "\" target=\"_blank\">").concat(tr.title, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
-          }
-        }
-      } catch (err) {
-        _iterator21.e(err);
-      } finally {
-        _iterator21.f();
-      }
-
-      $('#post_table thead').html(thead);
-    });
-    FB.api("".concat(config.apiVersion.newest, "/").concat(page_id, "/feed?limit=100"), function (res) {
+    FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100"), function (res) {
       $('.fb_loading').addClass('hide');
       var tbody = '';
 
-      var _iterator22 = _createForOfIteratorHelper(res.data),
-          _step22;
+      var _iterator18 = _createForOfIteratorHelper(res.data),
+          _step18;
 
       try {
-        for (_iterator22.s(); !(_step22 = _iterator22.n()).done;) {
-          var tr = _step22.value;
+        for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
+          var tr = _step18.value;
           tbody += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com/").concat(tr.id, "\" target=\"_blank\">").concat(tr.message, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
         }
       } catch (err) {
-        _iterator22.e(err);
+        _iterator18.e(err);
       } finally {
-        _iterator22.f();
+        _iterator18.f();
       }
 
       $('#post_table tbody').html(tbody);
     });
   },
+  golive: function golive() {
+    if (config.pageToken === false) {
+      alert('請先選擇對應直播的粉絲專頁');
+    } else {
+      $('.page_selector').addClass('hide');
+      $('#post_table tbody').html('');
+      $('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
+    }
+  },
   selectPost: function selectPost(fbid) {
     $('.page_selector').addClass('hide');
-    $('.select_page').html('');
-    $('.select_group').html('');
     $('#post_table tbody').html('');
-    data.start(fbid);
+    $('#enterURL .url').val(fbid);
   }
 };
 var _filter = {
-  totalFilter: function totalFilter(raw, command, isDuplicate, isTag, word, react, endTime) {
-    var data = raw;
+  totalFilter: function totalFilter(raw, command, isDuplicate, isTag, word, react, startTime, endTime) {
+    var datas = raw;
 
     if (word !== '' && command == 'comments') {
-      data = _filter.word(data, word);
+      datas = _filter.word(datas, word);
     }
 
     if (isTag && command == 'comments') {
-      data = _filter.tag(data);
+      datas = _filter.tag(datas);
     }
 
     if (command !== 'reactions') {
-      data = _filter.time(data, endTime);
+      datas = _filter.time(datas, endTime);
     } else {
-      data = _filter.react(data, react);
+      datas = _filter.react(datas, react);
     }
 
     if (isDuplicate) {
-      data = _filter.unique(data);
+      datas = _filter.unique(datas);
     }
 
-    return data;
+    return datas;
   },
   unique: function unique(data) {
     var output = [];
@@ -1488,31 +1248,25 @@ var _filter = {
     return output;
   },
   word: function word(data, _word) {
-    var newAry = $.grep(data, function (n, i) {
-      if (n.message.indexOf(_word) > -1) {
-        return true;
-      }
+    var newAry = data.filter(function (item) {
+      return item.message.indexOf(_word) > -1;
     });
     return newAry;
   },
   tag: function tag(data) {
-    var newAry = $.grep(data, function (n, i) {
-      if (n.message_tags) {
-        return true;
-      }
+    var newAry = data.filter(function (item) {
+      return item.message_tags;
     });
     return newAry;
   },
   time: function time(data, t) {
     var time_ary = t.split("-");
-
-    var time = moment(new Date(time_ary[0], parseInt(time_ary[1]) - 1, time_ary[2], time_ary[3], time_ary[4], time_ary[5]))._d;
-
-    var newAry = $.grep(data, function (n, i) {
-      var created_time = moment(n.created_time)._d;
-
-      if (created_time < time || n.created_time == "") {
+    var time = moment(new Date(time_ary[0], parseInt(time_ary[1]) - 1, time_ary[2], time_ary[3], time_ary[4], time_ary[5]));
+    var newAry = data.filter(function (item) {
+      if (item.created_time == '') {
         return true;
+      } else {
+        return moment(item.created_time) < time;
       }
     });
     return newAry;
@@ -1521,10 +1275,8 @@ var _filter = {
     if (tar == 'all') {
       return data;
     } else {
-      var newAry = $.grep(data, function (n, i) {
-        if (n.type == tar) {
-          return true;
-        }
+      var newAry = data.filter(function (item) {
+        return item.type == tar;
       });
       return newAry;
     }

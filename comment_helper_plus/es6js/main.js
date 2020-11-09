@@ -10,15 +10,6 @@ function handleErr(msg, url, l) {
 	return false;
 }
 $(document).ready(function () {
-	let hidearea = 0;
-	$('header').click(function () {
-		hidearea++;
-		if (hidearea >= 5) {
-			$('header').off('click');
-			$('#fbid_button, #pure_fbid').removeClass('hide');
-		}
-	});
-
 	let hash = location.hash;
 	if (hash.indexOf("clear") >= 0) {
 		localStorage.removeItem('raw');
@@ -29,7 +20,7 @@ $(document).ready(function () {
 	let lastData = JSON.parse(localStorage.getItem("raw"));
 
 	if (lastData) {
-		data.finish(lastData);
+		data.finish(lastData, true);
 	}
 	// if (sessionStorage.login){
 	// 	fb.genOption(JSON.parse(sessionStorage.login));
@@ -42,10 +33,6 @@ $(document).ready(function () {
 	// 		fb.extensionAuth();
 	// 	}
 	// });
-
-	$("#btn_comments").click(function (e) {
-		fb.getAuth('comments');
-	});
 
 	$("#btn_start").click(function () {
 		fb.getAuth('signin');
@@ -172,23 +159,7 @@ $(document).ready(function () {
 			var url = 'data:text/json;charset=utf8,' + dd;
 			window.open(url, '_blank');
 			window.focus();
-		} else {
-			// if (filterData.length > 7000){
-			// 	$(".bigExcel").removeClass("hide");
-			// }else{
-			// 	if (tab.now === 'compare'){
-			// 		JSONToCSVConvertor(data.excel(compare[$('.compare_condition').val()]), "Comment_helper", true);
-			// 	}else{
-			// 		JSONToCSVConvertor(data.excel(filterData[tab.now]), "Comment_helper", true);
-			// 	}
-			// }
 		}
-	});
-
-	$("#genExcel").click(function () {
-		var filterData = data.filter(data.raw);
-		var excelString = data.excel(filterData)
-		$("#exceldata").val(JSON.stringify(excelString));
 	});
 
 	let ci_counter = 0;
@@ -213,44 +184,37 @@ let config = {
 	field: {
 		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
 		reactions: [],
-		sharedposts: ['story', 'from', 'created_time'],
 		url_comments: [],
 		feed: ['created_time', 'from', 'message', 'story'],
 		likes: ['name']
 	},
-	limit: {
-		comments: '500',
-		reactions: '500',
-		sharedposts: '500',
-		url_comments: '500',
-		feed: '500',
-		likes: '500'
-	},
-	apiVersion: {
-		comments: 'v7.0',
-		reactions: 'v7.0',
-		sharedposts: 'v7.0',
-		url_comments: 'v7.0',
-		feed: 'v7.0',
-		group: 'v7.0',
-		newest: 'v7.0'
-	},
+	limit: '30',
+	apiVersion: 'v8.0',
 	filter: {
 		word: '',
 		react: 'all',
+		startTime: '2000-12-31-00-00-00',
 		endTime: nowDate()
 	},
-	order: '',
+	target: '',
+	command: '',
+	order: 'chronological',
 	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
-	extension: false,
-	pageToken: '',
+	likes: false,
+	pageToken: false,
 	userToken: '',
-	me: '',
+	from_extension: false,
+	auth_user: false,
+	signin: false,
 }
 
 let fb = {
 	next: '',
 	getAuth: (type) => {
+		if (config.signin === true) {
+			page_selector.show();
+			return false;
+		}
 		FB.login(function (response) {
 			fb.callback(response, type);
 		}, {
@@ -261,7 +225,6 @@ let fb = {
 	},
 	callback: (response, type) => {
 		if (response.status === 'connected') {
-			console.log(response);
 			config.userToken = response.authResponse.accessToken;
 			config.me = response.authResponse.userID;
 			config.from_extension = false;
@@ -269,20 +232,21 @@ let fb = {
 			if (type == 'signup') {
 				// 註冊
 
+				let token = $('#pay_token').val() == '' ? '-1':$('#pay_token').val();
 				FB.api(`/me?fields=id,name`, (res) => {
 					let obj = {
-						token: $('#import').val() || -1,
+						token,
 						username: res.name,
 						app_scope_id: res.id
 					}
 					$('.waiting').removeClass('hide');
-					$.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function (res) {
+					$.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function (res2) {
 						$('.waiting').addClass('hide');
-						if (res.code == 1) {
-							alert(res.message);
+						if (res2.code == 1) {
+							alert(res2.message);
 							fb.callback(response, 'signin');
 						} else {
-							alert(res.message);
+							alert(res2.message + '\n' + JSON.stringify(obj));
 							// fb.callback(response, 'signin');
 						}
 					});
@@ -294,8 +258,10 @@ let fb = {
 				$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + config.me, function (res2) {
 					$('.waiting').addClass('hide');
 					if (res2 === 'true') {
+						config.auth_user = true;
 						fb.start();
 					} else {
+						config.auth_user = false;
 						swal({
 							title: 'PLUS為付費產品，詳情請見粉絲專頁',
 							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + config.me,
@@ -303,6 +269,10 @@ let fb = {
 						}).done();
 					}
 				});
+			}
+
+			if (type == "page_selector") {
+				page_selector.show();
 			}
 		} else {
 			FB.login(function (response) {
@@ -322,135 +292,6 @@ let fb = {
 		$('#btn_start').addClass('hide');
 		$('#enterURL').html(options).removeClass('hide');
 	},
-	selectPage: (e) => {
-		$('#enterURL .page_btn').removeClass('active');
-		fb.next = '';
-		let tar = $(e);
-		tar.addClass('active');
-		if (tar.attr('attr-type') == 1) {
-			fb.setToken(tar.attr('attr-value'));
-		}
-		fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
-		$('.forfb').addClass('hide');
-		$('.step1').removeClass('hide');
-		step.step1();
-	},
-	setToken: (pageid) => {
-		let pages = JSON.parse(sessionStorage.login)[1];
-		for (let i of pages) {
-			if (i.id == pageid) {
-				config.pageToken = i.access_token;
-			}
-		}
-	},
-	hiddenStart: (e) => {
-		let fbid = $('#pure_fbid').val();
-		let pageID = fbid.split('_')[0];
-		FB.api(`/${pageID}?fields=access_token`, function (res) {
-			if (res.error) {
-				data.start(fbid);
-			} else {
-				if (res.access_token) {
-					config.pageToken = res.access_token;
-				}
-				if (e.ctrlKey || e.altKey) {
-					data.start(fbid, 'live');
-				} else {
-					data.start(fbid);
-				}
-			}
-		});
-	},
-	feed: (pageID, type, url = '', clear = true) => {
-		if (clear) {
-			$('.recommands, .feeds tbody').empty();
-			$('.feeds .btn').removeClass('hide');
-			$('.feeds .btn').off('click').click(() => {
-				let tar = $('#enterURL select').find('option:selected');
-				fb.feed(tar.val(), tar.attr('attr-type'), fb.next, false);
-			});
-		}
-		let command = 'feed';
-		let api;
-		if (url == '') {
-			api = `${config.apiVersion.newest}/${pageID}/${command}?fields=full_picture,created_time,message&limit=25`;
-		} else {
-			api = url;
-		}
-		FB.api(api, (res) => {
-			if (res.data.length == 0) {
-				$('.feeds .btn').addClass('hide');
-			}
-			fb.next = res.paging.next;
-			for (let i of res.data) {
-				let str = genData(i);
-				$('.section .feeds tbody').append(str);
-				if (i.message && i.message.indexOf('抽') >= 0) {
-					let recommand = genCard(i);
-					$('.donate_area .recommands').append(recommand);
-				}
-			}
-		});
-
-		function genData(obj) {
-			console.log(obj);
-			let ids = obj.id.split("_");
-			let link = 'https://www.facebook.com/' + ids[0] + '/posts/' + ids[1];
-
-			let mess = obj.message ? obj.message.replace(/\n/g, "<br />") : "";
-			let str = `<tr>
-						<td><div class="pick" attr-val="${obj.id}"  onclick="data.start('${obj.id}')">開始</div></td>
-						<td><a href="${link}" target="_blank">${mess}</a></td>
-						<td class="nowrap">${timeConverter(obj.created_time)}</td>
-						</tr>`;
-			return str;
-		}
-		function genCard(obj) {
-			let src = obj.full_picture || 'http://placehold.it/300x225';
-			let ids = obj.id.split("_");
-			let link = 'https://www.facebook.com/' + ids[0] + '/posts/' + ids[1];
-
-			let mess = obj.message ? obj.message.replace(/\n/g, "<br />") : "";
-			let str = `<div class="card">
-			<a href="${link}" target="_blank">
-			<div class="card-image">
-			<figure class="image is-4by3">
-			<img src="${src}" alt="">
-			</figure>
-			</div>
-			</a>
-			<div class="card-content">
-			<div class="content">
-			${mess}
-			</div>
-			</div>
-			<div class="pick" attr-val="${obj.id}" onclick="data.start('${obj.id}')">開始</div>
-			</div>`;
-			return str;
-		}
-	},
-	getMe: () => {
-		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me`, (res) => {
-				let arr = [res];
-				resolve(arr);
-			});
-		});
-	},
-	getPage: () => {
-		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res) => {
-				resolve(res.data);
-			});
-		});
-	},
-	getGroup: () => {
-		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
-				resolve(res.data.filter(item => { return item.administrator === true }));
-			});
-		});
-	},
 	extensionAuth: (command = '') => {
 		FB.login(function (response) {
 			fb.extensionCallback(response, command);
@@ -458,6 +299,8 @@ let fb = {
 	},
 	extensionCallback: (response, command = '') => {
 		if (response.status === 'connected') {
+			config.from_extension = true;
+			auth_scope = response.authResponse.grantedScopes;
 			let me = response.authResponse.userID;
 			$('.waiting').removeClass('hide');
 			$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + me, function (res2) {
@@ -594,7 +437,7 @@ let fb = {
 	},
 	getName: (ids) => {
 		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/?ids=${ids.toString()}`, (res) => {
+			FB.api(`${config.apiVersion}/?ids=${ids.toString()}`, (res) => {
 				resolve(res);
 			});
 		});
@@ -615,84 +458,82 @@ let step = {
 
 let data = {
 	raw: {
-		data: {
-			fullID: '',
-			comments: [],
-			reactions: [],
-			sharedposts: [],
-		}
+		comments: [],
+		reactions: [],
+		sharedposts: [],
 	},
+	fullID: '',
 	filtered: {},
 	userid: '',
 	nowLength: 0,
-	extension: false,
 	promise_array: [],
-	test: (id) => {
-		console.log(id);
-	},
 	init: () => {
 		$(".main_table").DataTable().destroy();
 		$("#awardList").hide();
 		$(".console .message").text('');
+		data.raw = {
+			comments: [],
+			reactions: [],
+			sharedposts: [],
+		};
+		data.fullID = '';
 		data.nowLength = 0;
 		data.promise_array = [];
-		data.raw = [];
 	},
 	start: (fbid) => {
 		data.init();
-		let obj = {
-			fullID: fbid
-		}
+		data.fullID = fbid;
 		$(".waiting").removeClass("hide");
 		let commands = ['comments', 'reactions'];
-		let temp_data = obj;
 		for (let i of commands) {
-			temp_data.data = {};
-			let promise = data.get(temp_data, i).then((res) => {
-				temp_data.data[i] = res;
-			});
-			data.promise_array.push(promise);
+			data.promise_array.push(data.get(fbid, i));
 		}
 
-		Promise.all(data.promise_array).then(() => {
-			data.finish(temp_data);
+		Promise.all(data.promise_array).then((res) => {
+			data.finish(res);
 		});
 	},
 	get: (fbid, command) => {
 		return new Promise((resolve, reject) => {
 			let datas = [];
-			let promise_array = [];
-			let shareError = 0;
-			let api_fbid = fbid.fullID;
 			// if ($('.page_btn.active').attr('attr-type') == 2){
 			// 	api_fbid = fbid.fullID.split('_')[1];
 			// 	if (command === 'reactions') command = 'likes';
 			// }
-			if (fbid.type === 'group') command = 'group';
-			FB.api(`${api_fbid}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`, (res) => {
+			FB.api(`${fbid}/${command}?limit=${config.limit}&order=${config.order}&access_token=${config.pageToken}&fields=${config.field[command].toString()}`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
-				for (let d of res.data) {
-					if (command == 'reactions') {
-						d.from = { id: d.id, name: d.name };
-					}
-					if (d.from) {
-						datas.push(d);
-					} else {
-						//event
-						d.from = { id: d.id, name: d.id };
-						if (d.updated_time) {
-							d.created_time = d.updated_time;
-						}
-						datas.push(d);
-					}
-				}
+				groupData(res);
 				if (res.data.length > 0 && res.paging.next) {
 					getNext(res.paging.next);
 				} else {
 					resolve(datas);
 				}
 			});
+			function groupData(res) {
+				for (let d of res.data) {
+					if ((config.command == 'reactions' || config.command == 'likes') || config.likes) {
+						d.from = {
+							id: d.id,
+							name: d.name
+						};
+					}
+					if (config.likes) d.type = "LIKE";
+					if (d.from) {
+						datas.push(d);
+					} else {
+						//event
+						d.from = {
+							id: d.id,
+							name: d.id
+						};
+						if (d.updated_time) {
+							d.created_time = d.updated_time;
+						}
+						datas.push(d);
+					}
+				}
+			}
 
 			function getNext(url, limit = 0) {
 				if (limit !== 0) {
@@ -701,21 +542,7 @@ let data = {
 				$.getJSON(url, function (res) {
 					data.nowLength += res.data.length;
 					$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
-					for (let d of res.data) {
-						if (command == 'reactions') {
-							d.from = { id: d.id, name: d.name };
-						}
-						if (d.from) {
-							datas.push(d);
-						} else {
-							//event
-							d.from = { id: d.id, name: d.id };
-							if (d.updated_time) {
-								d.created_time = d.updated_time;
-							}
-							datas.push(d);
-						}
-					}
+					groupData(res);
 					if (res.data.length > 0 && res.paging.next) {
 						getNext(res.paging.next);
 					} else {
@@ -728,23 +555,28 @@ let data = {
 
 		});
 	},
-	finish: (fbid) => {
+	finish: (rawdata, lastData = false) => {
 		$(".waiting").addClass("hide");
 		$(".main_table").removeClass("hide");
 		step.step2();
 		swal('完成！', 'Done!', 'success').done();
-		$('.result_area > .title span').text(fbid.fullID);
-		data.raw = fbid;
-		localStorage.setItem("raw", JSON.stringify(fbid));
+		$('.result_area > .title span').text(data.fullID);
+		if (lastData === false){
+			data.raw.comments = rawdata[0];
+			data.raw.reactions = rawdata[1];
+			localStorage.setItem("raw", JSON.stringify(data.raw));
+		}else{
+			data.raw = JSON.parse(localStorage.raw);
+		}
 		data.filter(data.raw, true);
 	},
 	filter: (rawData, generate = false) => {
 		data.filtered = {};
 		let isDuplicate = $("#unique").prop("checked");
-		for (let key of Object.keys(rawData.data)) {
+		for (let key of Object.keys(rawData)) {
 			let isTag = $("#tag").prop("checked");
 			if (key === 'reactions') isTag = false;
-			let newData = filter.totalFilter(rawData.data[key], key, isDuplicate, isTag, ...obj2Array(config.filter));
+			let newData = filter.totalFilter(rawData[key], key, isDuplicate, isTag, ...obj2Array(config.filter));
 			data.filtered[key] = newData;
 		}
 		if (generate === true) {
@@ -752,35 +584,6 @@ let data = {
 		} else {
 			return data.filtered;
 		}
-	},
-	excel: (raw) => {
-		var newObj = [];
-		if (data.extension) {
-			$.each(raw, function (i) {
-				var tmp = {
-					"序號": i + 1,
-					"臉書連結": 'https://www.facebook.com/' + this.from.id,
-					"姓名": this.from.name,
-					"分享連結": this.postlink,
-					"留言內容": this.story,
-					"該分享讚數": this.like_count
-				}
-				newObj.push(tmp);
-			});
-		} else {
-			$.each(raw, function (i) {
-				var tmp = {
-					"序號": i + 1,
-					"臉書連結": 'https://www.facebook.com/' + this.from.id,
-					"姓名": this.from.name,
-					"心情": this.type || '',
-					"留言內容": this.message || this.story,
-					"留言時間": timeConverter(this.created_time)
-				}
-				newObj.push(tmp);
-			});
-		}
-		return newObj;
 	},
 	import: (file) => {
 		let reader = new FileReader();
@@ -796,9 +599,9 @@ let data = {
 }
 
 let table = {
-	generate: (rawdata) => {
+	generate: (filterData) => {
 		$(".tables table").DataTable().destroy();
-		let filtered = rawdata;
+		let filtered = filterData;
 		let pic = $("#picture").prop("checked");
 		for (let key of Object.keys(filtered)) {
 			let thead = '';
@@ -822,7 +625,7 @@ let table = {
 			for (let [j, val] of filtered[key].entries()) {
 				let picture = '';
 				if (pic) {
-					// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
+					// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
 				}
 				let td = `<td>${j + 1}</td>
 				<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
@@ -1076,11 +879,16 @@ let choose = {
 let page_selector = {
 	pages: [],
 	groups: [],
+	page_id: false,
 	show: () => {
 		$('.page_selector').removeClass('hide');
-		page_selector.getAdmin();
+		config.pageToken = false;
+		$('#live_id').val('');
+		if (config.signin === false) {
+			page_selector.getAdmin();
+		}
 	},
-	hide: () => {
+	hide: ()=>{
 		$('.page_selector').addClass('hide');
 	},
 	getAdmin: () => {
@@ -1090,14 +898,14 @@ let page_selector = {
 	},
 	getPage: () => {
 		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res) => {
+			FB.api(`${config.apiVersion}/me/accounts?limit=100`, (res) => {
 				resolve(res.data);
 			});
 		});
 	},
 	getGroup: () => {
 		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
+			FB.api(`${config.apiVersion}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
 				resolve(res.data.filter(item => { return item.administrator === true }));
 			});
 		});
@@ -1108,35 +916,32 @@ let page_selector = {
 		for (let i of res[0]) {
 			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
 		}
-		for (let i of res[1]) {
-			groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		if (config.auth_user === true) {
+			for (let i of res[1]) {
+				groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+			}
 		}
 		$('.select_page').html(pages);
 		$('.select_group').html(groups);
+		config.signin = true;
 	},
 	selectPage: (target) => {
-		let page_id = $(target).data('value');
+		page_selector.page_id = $(target).data('value');
+		if ($(target).data('type') == '2') {
+			config.target = 'group';
+		} else {
+			config.target = 'fanpage';
+		}
 		$('#post_table tbody').html('');
 		$('.fb_loading').removeClass('hide');
-		FB.api(`/${page_id}?fields=access_token`, function (res) {
+		FB.api(`/${page_selector.page_id}?fields=access_token`, function (res) {
 			if (res.access_token) {
 				config.pageToken = res.access_token;
 			} else {
 				config.pageToken = '';
 			}
 		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/live_videos?fields=status,permalink_url,title,creation_time`, (res) => {
-			let thead = '';
-			for (let tr of res.data) {
-				if (tr.status === 'LIVE') {
-					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button>(LIVE)</td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
-				} else {
-					thead += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com${tr.permalink_url}" target="_blank">${tr.title}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
-				}
-			}
-			$('#post_table thead').html(thead);
-		});
-		FB.api(`${config.apiVersion.newest}/${page_id}/feed?limit=100`, (res) => {
+		FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
 			$('.fb_loading').addClass('hide');
 			let tbody = '';
 			for (let tr of res.data) {
@@ -1145,34 +950,41 @@ let page_selector = {
 			$('#post_table tbody').html(tbody);
 		});
 	},
+	golive() {
+		if (config.pageToken === false) {
+			alert('請先選擇對應直播的粉絲專頁');
+		} else {
+			$('.page_selector').addClass('hide');
+			$('#post_table tbody').html('');
+			$('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
+		}
+	},
 	selectPost: (fbid) => {
 		$('.page_selector').addClass('hide');
-		$('.select_page').html('');
-		$('.select_group').html('');
 		$('#post_table tbody').html('');
-		data.start(fbid);
+		$('#enterURL .url').val(fbid);
 	}
 }
 
 let filter = {
-	totalFilter: (raw, command, isDuplicate, isTag, word, react, endTime) => {
-		let data = raw;
+	totalFilter: (raw, command, isDuplicate, isTag, word, react, startTime, endTime) => {
+		let datas = raw;
 		if (word !== '' && command == 'comments') {
-			data = filter.word(data, word);
+			datas = filter.word(datas, word);
 		}
 		if (isTag && command == 'comments') {
-			data = filter.tag(data);
+			datas = filter.tag(datas);
 		}
 		if (command !== 'reactions') {
-			data = filter.time(data, endTime);
+			datas = filter.time(datas, endTime);
 		} else {
-			data = filter.react(data, react);
+			datas = filter.react(datas, react);
 		}
 		if (isDuplicate) {
-			data = filter.unique(data);
+			datas = filter.unique(datas);
 		}
 
-		return data;
+		return datas;
 	},
 	unique: (data) => {
 		let output = [];
@@ -1187,28 +999,25 @@ let filter = {
 		return output;
 	},
 	word: (data, word) => {
-		let newAry = $.grep(data, function (n, i) {
-			if (n.message.indexOf(word) > -1) {
-				return true;
-			}
+		let newAry = data.filter(item=>{
+			return item.message.indexOf(word) > -1;
 		});
 		return newAry;
 	},
 	tag: (data) => {
-		let newAry = $.grep(data, function (n, i) {
-			if (n.message_tags) {
-				return true;
-			}
+		let newAry = data.filter(item=>{
+			return item.message_tags
 		});
 		return newAry;
 	},
 	time: (data, t) => {
 		let time_ary = t.split("-");
-		let time = moment(new Date(time_ary[0], (parseInt(time_ary[1]) - 1), time_ary[2], time_ary[3], time_ary[4], time_ary[5]))._d;
-		let newAry = $.grep(data, function (n, i) {
-			let created_time = moment(n.created_time)._d;
-			if (created_time < time || n.created_time == "") {
+		let time = moment(new Date(time_ary[0], (parseInt(time_ary[1]) - 1), time_ary[2], time_ary[3], time_ary[4], time_ary[5]));
+		let newAry = data.filter(item=>{
+			if (item.created_time == ''){
 				return true;
+			}else{
+				return moment(item.created_time) < time;
 			}
 		});
 		return newAry;
@@ -1217,10 +1026,8 @@ let filter = {
 		if (tar == 'all') {
 			return data;
 		} else {
-			let newAry = $.grep(data, function (n, i) {
-				if (n.type == tar) {
-					return true;
-				}
+			let newAry = data.filter(item=>{
+				return item.type == tar
 			});
 			return newAry;
 		}

@@ -63,7 +63,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 	// 160833824415744 pro
 	// 1390069707889707 dev
-	// 193165111321405 test
+	// 2261878374068468 test
 
 if (location.protocol == 'http:') location.href = location.href.replace('http:','https:');
 
@@ -87,7 +87,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 		<div class="inputarea">
 			<div id="enterURL">
 				<button id="btn_start" type="button" class="btn">使用 Facebook 帳號登入</button>
-				<textarea id="import" cols="40" rows="2" placeholder="v1013"></textarea>
+				<textarea id="pay_token" cols="40" rows="2" placeholder="v1013"></textarea>
 				<button id="btn_auth" type="button" class="btn">驗證帳號</button>
 				<a href="index.html#clear" id="btn_cache" type="button" class="btn">清除暫存資料</a>
 				<br>
@@ -365,6 +365,10 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 				<div class="sk-cube2 sk-cube"></div>
 				<div class="sk-cube4 sk-cube"></div>
 				<div class="sk-cube3 sk-cube"></div>
+			</div>
+			<div class="live_post" style="margin-top:20px">
+				<input type="text" id="live_id" placeholder="輸入直播ID">
+				<button onclick="page_selector.golive()">選擇直播貼文</button>
 			</div>
 			<table id="post_table">
 				<thead></thead>

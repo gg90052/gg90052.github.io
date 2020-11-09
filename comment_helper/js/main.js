@@ -159,7 +159,6 @@ var config = {
   field: {
     comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
     reactions: [],
-    sharedposts: [],
     feed: ['created_time', 'from', 'message', 'story'],
     likes: ['name']
   },
@@ -745,12 +744,18 @@ var ui = {
 var page_selector = {
   pages: [],
   groups: [],
+  page_id: false,
   show: function show() {
     $('.page_selector').removeClass('hide');
+    config.pageToken = false;
+    $('#live_id').val('');
 
     if (config.signin === false) {
       page_selector.getAdmin();
     }
+  },
+  hide: function hide() {
+    $('.page_selector').addClass('hide');
   },
   getAdmin: function getAdmin() {
     Promise.all([page_selector.getPage(), page_selector.getGroup()]).then(function (res) {
@@ -812,7 +817,7 @@ var page_selector = {
     config.signin = true;
   },
   selectPage: function selectPage(target) {
-    var page_id = $(target).data('value');
+    page_selector.page_id = $(target).data('value');
 
     if ($(target).data('type') == '2') {
       config.target = 'group';
@@ -822,14 +827,14 @@ var page_selector = {
 
     $('#post_table tbody').html('');
     $('.fb_loading').removeClass('hide');
-    FB.api("/".concat(page_id, "?fields=access_token"), function (res) {
+    FB.api("/".concat(page_selector.page_id, "?fields=access_token"), function (res) {
       if (res.access_token) {
         config.pageToken = res.access_token;
       } else {
         config.pageToken = '';
       }
     });
-    FB.api("".concat(config.apiVersion, "/").concat(page_id, "/feed?limit=100"), function (res) {
+    FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100"), function (res) {
       $('.fb_loading').addClass('hide');
       var tbody = '';
 
@@ -856,7 +861,7 @@ var page_selector = {
     } else {
       $('.page_selector').addClass('hide');
       $('#post_table tbody').html('');
-      $('#enterURL .url').val($('#live_id').val());
+      $('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
     }
   },
   selectPost: function selectPost(fbid) {

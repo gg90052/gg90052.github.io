@@ -99,7 +99,7 @@
 				<div id="enterURL">
 					<div class="source">
 						<!-- <input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" /> -->
-						<input type="text" class="url" placeholder="請按下方按鈕選擇貼文" />
+						<input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" />
 						<br>
 						<button id="btn_page_selector" type="button" class="btn">從粉絲專頁/社團選擇貼文</button>
 						<br><br>
@@ -294,6 +294,7 @@
 
 	<div class="loading page_selector hide">
 		<div class="console superbig">
+			<div class="close" onclick="page_selector.hide();">X</div>
 			<div class="left">
 				<p>粉絲專頁</p>
 				<div class="select_page"></div>

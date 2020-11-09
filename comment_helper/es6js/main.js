@@ -162,7 +162,6 @@ let config = {
 	field: {
 		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
 		reactions: [],
-		sharedposts: [],
 		feed: ['created_time', 'from', 'message', 'story'],
 		likes: ['name']
 	},
@@ -705,11 +704,17 @@ let ui = {
 let page_selector = {
 	pages: [],
 	groups: [],
+	page_id: false,
 	show: () => {
 		$('.page_selector').removeClass('hide');
+		config.pageToken = false;
+		$('#live_id').val('');
 		if (config.signin === false) {
 			page_selector.getAdmin();
 		}
+	},
+	hide: ()=>{
+		$('.page_selector').addClass('hide');
 	},
 	getAdmin: () => {
 		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res) => {
@@ -746,7 +751,7 @@ let page_selector = {
 		config.signin = true;
 	},
 	selectPage: (target) => {
-		let page_id = $(target).data('value');
+		page_selector.page_id = $(target).data('value');
 		if ($(target).data('type') == '2') {
 			config.target = 'group';
 		} else {
@@ -754,14 +759,14 @@ let page_selector = {
 		}
 		$('#post_table tbody').html('');
 		$('.fb_loading').removeClass('hide');
-		FB.api(`/${page_id}?fields=access_token`, function (res) {
+		FB.api(`/${page_selector.page_id}?fields=access_token`, function (res) {
 			if (res.access_token) {
 				config.pageToken = res.access_token;
 			} else {
 				config.pageToken = '';
 			}
 		});
-		FB.api(`${config.apiVersion}/${page_id}/feed?limit=100`, (res) => {
+		FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
 			$('.fb_loading').addClass('hide');
 			let tbody = '';
 			for (let tr of res.data) {
@@ -776,7 +781,7 @@ let page_selector = {
 		} else {
 			$('.page_selector').addClass('hide');
 			$('#post_table tbody').html('');
-			$('#enterURL .url').val($('#live_id').val());
+			$('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
 		}
 	},
 	selectPost: (fbid) => {

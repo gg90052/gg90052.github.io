@@ -857,6 +857,7 @@ var page_selector = {
   },
   selectPost: function selectPost(fbid) {
     $('.page_selector').addClass('hide');
+    $('.waiting').addClass('hide');
     $('#post_table tbody').html('');
     $('#enterURL .url').val(fbid);
   }

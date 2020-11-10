@@ -70,7 +70,10 @@ window.fbAsyncInit = function() {
 $("#btn_login").click(function(){
 	FB.login(function(response) {
 		callback(response);
-	}, {return_scopes: true});
+	}, {
+		scope: 'groups_access_member_info',
+		return_scopes: true
+	});
 });
 
 function callback(response){

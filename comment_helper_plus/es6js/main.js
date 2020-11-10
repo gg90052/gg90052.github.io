@@ -961,8 +961,10 @@ let page_selector = {
 	},
 	selectPost: (fbid) => {
 		$('.page_selector').addClass('hide');
+		$('.select_page').html('');
+		$('.select_group').html('');
 		$('#post_table tbody').html('');
-		$('#enterURL .url').val(fbid);
+		data.start(fbid);
 	}
 }
 

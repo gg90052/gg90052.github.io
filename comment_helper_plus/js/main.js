@@ -1206,8 +1206,10 @@ var page_selector = {
   },
   selectPost: function selectPost(fbid) {
     $('.page_selector').addClass('hide');
+    $('.select_page').html('');
+    $('.select_group').html('');
     $('#post_table tbody').html('');
-    $('#enterURL .url').val(fbid);
+    data.start(fbid);
   }
 };
 var _filter = {

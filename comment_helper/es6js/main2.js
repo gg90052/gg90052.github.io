@@ -233,6 +233,7 @@ let fb = {
 
 			if (type == 'signin') {
 				$('.waiting').removeClass('hide');
+				config.auth_user = true;
 				page_selector.show();
 			}
 

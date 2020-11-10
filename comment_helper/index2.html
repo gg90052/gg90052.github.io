@@ -84,6 +84,8 @@
 		})(window, document, 'script', 'dataLayer', 'GTM-5C9K9S');
 	</script>
 	<!-- End Google Tag Manager -->
+	<div id="fb-root"></div>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v8.0&appId=424626245208432&autoLogAppEvents=1" nonce="nUMbCO2s"></script>
 	<div class="wrapper">
 		<header>
 			Facebook粉絲團留言抽籤小助手
@@ -101,7 +103,8 @@
 						<!-- <input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" /> -->
 						<input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" />
 						<br>
-						<button id="btn_page_selector" type="button" class="btn">Use Facebook Login</button>
+						<!-- <button id="btn_page_selector" type="button" class="btn">Use Facebook Login</button> -->
+						<div class="fb-login-button" data-onlogin="fb.getAuth('signin')" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
 						<br><br>
 					</div>
 					<div class="page_target">

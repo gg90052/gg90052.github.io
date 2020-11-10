@@ -232,17 +232,7 @@ var fb = {
 
       if (type == 'signin') {
         $('.waiting').removeClass('hide');
-        $.get('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec?id=' + config.me, function (res2) {
-          $('.waiting').addClass('hide');
-
-          if (res2 === 'true') {
-            config.auth_user = true;
-          } else {
-            config.auth_user = false;
-          }
-
-          page_selector.show();
-        });
+        page_selector.show();
       }
 
       if (type == "page_selector") {

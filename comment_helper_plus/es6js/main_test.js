@@ -1,27 +1,17 @@
 var errorMessage = false;
-window.onerror=handleErr
+window.onerror = handleErr
 
-function handleErr(msg,url,l)
-{
-	if (!errorMessage){
-		console.log("%c發生錯誤，請將完整錯誤訊息截圖傳送給管理員，並附上你輸入的網址","font-size:30px; color:#F00");
+function handleErr(msg, url, l) {
+	if (!errorMessage) {
+		console.log("%c發生錯誤，請將完整錯誤訊息截圖傳送給管理員，並附上你輸入的網址", "font-size:30px; color:#F00");
 		$(".console .error").fadeIn();
 		errorMessage = true;
 	}
 	return false;
 }
-$(document).ready(function(){
-	let hidearea = 0;
-	$('header').click(function(){
-		hidearea++;
-		if (hidearea >= 5){
-			$('header').off('click');
-			$('#fbid_button, #pure_fbid').removeClass('hide');
-		}
-	});
-
+$(document).ready(function () {
 	let hash = location.hash;
-	if (hash.indexOf("clear") >= 0){
+	if (hash.indexOf("clear") >= 0) {
 		localStorage.removeItem('raw');
 		sessionStorage.removeItem('login');
 		alert('已清除暫存，請重新進行登入');
@@ -29,12 +19,12 @@ $(document).ready(function(){
 	}
 	let lastData = JSON.parse(localStorage.getItem("raw"));
 
-	if (lastData){
-		data.finish(lastData);
+	if (lastData) {
+		data.finish(lastData, true);
 	}
-	if (sessionStorage.login){
-		fb.genOption(JSON.parse(sessionStorage.login));
-	}
+	// if (sessionStorage.login){
+	// 	fb.genOption(JSON.parse(sessionStorage.login));
+	// }
 
 	// $(".tables > .sharedposts button").click(function(e){
 	// 	if (e.ctrlKey || e.altKey){
@@ -43,73 +33,74 @@ $(document).ready(function(){
 	// 		fb.extensionAuth();
 	// 	}
 	// });
-	
-	$("#btn_comments").click(function(e){
-		fb.getAuth('comments');
-	});
 
-	$("#btn_start").click(function(){
-		fb.getAuth('addScope');
+	$("#btn_start").click(function () {
+		fb.getAuth('signin');
 	});
-	$("#btn_choose").click(function(e){
-		if (e.ctrlKey || e.altKey){
+	$("#btn_auth").click(function () {
+		fb.getAuth('signup');
+	});
+	$("#btn_choose").click(function (e) {
+		if (e.ctrlKey || e.altKey) {
 			choose.init(true);
-		}else{
+		} else {
 			choose.init();
 		}
 	});
-	
-	$("#moreprize").click(function(){
-		if($(this).hasClass("active")){
+
+	$("#moreprize").click(function () {
+		if ($(this).hasClass("active")) {
 			$(this).removeClass("active");
 			$(".gettotal").removeClass("fadeout");
 			$('.prizeDetail').removeClass("fadein");
-		}else{
+		} else {
 			$(this).addClass("active");
 			$(".gettotal").addClass("fadeout");
 			$('.prizeDetail').addClass("fadein");
 		}
 	});
 
-	$("#endTime").click(function(){
-		if($(this).hasClass("active")){
+	$("#endTime").click(function () {
+		if ($(this).hasClass("active")) {
 			$(this).removeClass("active");
-		}else{
+		} else {
 			$(this).addClass("active");
 		}
 	});
 
-	$("#btn_addPrize").click(function(){
+	$("#btn_addPrize").click(function () {
 		$(".prizeDetail").append(`<div class="prize"><div class="input_group">品名：<input type="text"></div><div class="input_group">抽獎人數：<input type="number"></div></div>`);
 	});
 
-	$(window).keydown(function(e){
-		if (e.ctrlKey || e.altKey){
+	$(window).keydown(function (e) {
+		if (e.ctrlKey || e.altKey) {
 			$("#btn_excel").text("輸出JSON");
 		}
 	});
-	$(window).keyup(function(e){
-		if (!e.ctrlKey || !e.altKey){
-			$("#btn_excel").text("輸出EXCEL");
+	$(window).keyup(function (e) {
+		if (!e.ctrlKey || !e.altKey) {
+			$("#btn_excel").text("複製表格內容");
 		}
 	});
 
-	$("#unique, #tag").on('change',function(){
+	$("#unique, #tag").on('change', function () {
 		table.redo();
 	});
 
-	$(".tables .filters .react").change(function(){
+	$(".tables .filters .react").change(function () {
 		config.filter.react = $(this).val();
 		table.redo();
 	});
 
-	$('.tables .total .filters select').change(function(){
+	$('.tables .total .filters select').change(function () {
 		compare.init();
 	});
 
-	$('.compare_condition').change(function(){
+	$('.compare_condition').change(function () {
 		$('.tables .total .table_compare').addClass('hide');
-		$('.tables .total .table_compare.'+ $(this).val()).removeClass('hide');
+		$('.tables .total .table_compare table').removeClass('table-active');
+		$('.tables .total .table_compare.' + $(this).val()).removeClass('hide');
+		$('.tables .total .table_compare.' + $(this).val() + ' table').addClass('table-active');
 	});
 
 	$('.rangeDate').daterangepicker({
@@ -125,80 +116,64 @@ $(document).ready(function(){
 			"toLabel": "To",
 			"customRangeLabel": "Custom",
 			"daysOfWeek": [
-			"日",
-			"一",
-			"二",
-			"三",
-			"四",
-			"五",
-			"六"
+				"日",
+				"一",
+				"二",
+				"三",
+				"四",
+				"五",
+				"六"
 			],
 			"monthNames": [
-			"一月",
-			"二月",
-			"三月",
-			"四月",
-			"五月",
-			"六月",
-			"七月",
-			"八月",
-			"九月",
-			"十月",
-			"十一月",
-			"十二月"
+				"一月",
+				"二月",
+				"三月",
+				"四月",
+				"五月",
+				"六月",
+				"七月",
+				"八月",
+				"九月",
+				"十月",
+				"十一月",
+				"十二月"
 			],
 			"firstDay": 1
 		},
-	},function(start, end, label) {
+	}, function (start, end, label) {
 		config.filter.endTime = start.format('YYYY-MM-DD-HH-mm-ss');
 		table.redo();
 	});
 	$('.rangeDate').data('daterangepicker').setStartDate(nowDate());
 
 
-	$("#btn_excel").click(function(e){
+	$("#btn_excel").click(function (e) {
 		let filterData = data.filter(data.raw);
-		if (e.ctrlKey){
+		if (e.ctrlKey) {
 			let dd;
-			if (tab.now === 'compare'){
+			if (tab.now === 'compare') {
 				dd = JSON.stringify(compare[$('.compare_condition').val()]);
-			}else{
+			} else {
 				dd = JSON.stringify(filterData[tab.now]);
 			}
 			var url = 'data:text/json;charset=utf8,' + dd;
 			window.open(url, '_blank');
 			window.focus();
-		}else{
-			if (filterData.length > 7000){
-				$(".bigExcel").removeClass("hide");
-			}else{
-				if (tab.now === 'compare'){
-					JSONToCSVConvertor(data.excel(compare[$('.compare_condition').val()]), "Comment_helper", true);
-				}else{
-					JSONToCSVConvertor(data.excel(filterData[tab.now]), "Comment_helper", true);
-				}
-			}
 		}
-	});
-
-	$("#genExcel").click(function(){
-		var filterData = data.filter(data.raw);
-		var excelString = data.excel(filterData)
-		$("#exceldata").val(JSON.stringify(excelString));
 	});
 
 	let ci_counter = 0;
-	$(".ci").click(function(e){
+	$(".ci").click(function (e) {
 		ci_counter++;
-		if (ci_counter >= 5){
+		if (ci_counter >= 5) {
 			$(".source .url, .source .btn").addClass("hide");
 			$("#inputJSON").removeClass("hide");
 		}
-		if(e.ctrlKey){
+		if (e.ctrlKey) {
 			fb.getAuth('sharedposts');
 		}
 	});
-	$("#inputJSON").change(function() {
+	$("#inputJSON").change(function () {
 		$(".waiting").removeClass("hide");
 		$(".console .message").text('截取完成，產生表格中....筆數較多時會需要花較多時間，請稍候');
 		data.import(this.files[0]);
@@ -207,45 +182,40 @@ $(document).ready(function(){
 
 let config = {
 	field: {
-		comments: ['like_count','message_tags','message','from','created_time'],
+		comments: ['like_count', 'message_tags', 'message', 'from', 'created_time'],
 		reactions: [],
-		sharedposts: ['story','from', 'created_time'],
 		url_comments: [],
-		feed: ['created_time','from','message','story'],
+		feed: ['created_time', 'from', 'message', 'story'],
 		likes: ['name']
 	},
-	limit: {
-		comments: '500',
-		reactions: '500',
-		sharedposts: '500',
-		url_comments: '500',
-		feed: '500',
-		likes: '500'
-	},
-	apiVersion: {
-		comments: 'v3.2',
-		reactions: 'v3.2',
-		sharedposts: 'v3.2',
-		url_comments: 'v3.2',
-		feed: 'v3.2',
-		group: 'v3.2',
-		newest: 'v3.2'
-	},
+	limit: '30',
+	apiVersion: 'v8.0',
 	filter: {
 		word: '',
 		react: 'all',
+		startTime: '2000-12-31-00-00-00',
 		endTime: nowDate()
 	},
-	order: '',
-	auth: 'manage_pages,groups_access_member_info',
-	extension: false,
-	pageToken: '',
+	target: '',
+	command: '',
+	order: 'chronological',
+	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
+	likes: false,
+	pageToken: false,
+	userToken: '',
+	from_extension: false,
+	auth_user: false,
+	signin: false,
 }
 
 let fb = {
 	next: '',
-	getAuth: (type)=>{
-		FB.login(function(response) {
+	getAuth: (type) => {
+		if (config.signin === true) {
+			page_selector.show();
+			return false;
+		}
+		FB.login(function (response) {
 			fb.callback(response, type);
 		}, {
 			auth_type: 'rerequest',
@@ -253,225 +223,113 @@ let fb = {
 			return_scopes: true
 		});
 	},
-	callback: (response, type)=>{
+	callback: (response, type) => {
 		if (response.status === 'connected') {
-			console.log(response);
-			if (type == "addScope"){
-				let authStr = response.authResponse.grantedScopes;
-				if (authStr.indexOf('manage_pages') >= 0){
-					fb.start();
-				}else{
-					swal(
-						'授權失敗，請給予所有權限',
-						'Authorization Failed! Please contact the admin.',
-						'error'
-						).done();
-				}
-			}else{
-				fbid.init(type);			
+			config.userToken = response.authResponse.accessToken;
+			config.me = response.authResponse.userID;
+			config.from_extension = false;
+
+			if (type == 'signup') {
+				// 註冊
+
+				let token = $('#pay_token').val() == '' ? '-1':$('#pay_token').val();
+				FB.api(`/me?fields=id,name`, (res) => {
+					let obj = {
+						token,
+						username: res.name,
+						app_scope_id: res.id
+					}
+					$('.waiting').removeClass('hide');
+					$.post('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec', obj, function (res2) {
+						$('.waiting').addClass('hide');
+						if (res2.code == 1) {
+							alert(res2.message);
+							fb.callback(response, 'signin');
+						} else {
+							alert(res2.message + '\n' + JSON.stringify(obj));
+							// fb.callback(response, 'signin');
+						}
+					});
+				});
 			}
-		}else{
-			FB.login(function(response) {
+
+			if (type == 'signin') {
+				$('.waiting').addClass('hide');
+				config.auth_user = true;
+				fb.start();
+			}
+
+			if (type == "page_selector") {
+				page_selector.show();
+			}
+		} else {
+			FB.login(function (response) {
 				fb.callback(response, type);
-			}, {scope: config.auth ,return_scopes: true});
+			}, { scope: config.auth, return_scopes: true });
 		}
 	},
-	start: ()=>{
-		Promise.all([fb.getMe(),fb.getPage(), fb.getGroup()]).then((res)=>{
-			sessionStorage.login = JSON.stringify(res);
-			fb.genOption(res);
-		});
-	},
-	genOption: (res)=>{
+	start: () => {
+		page_selector.show();
 		fb.next = '';
-		let options = `<input id="pure_fbid" class="hide"><button id="fbid_button" class="btn hide" onclick="fb.hiddenStart()">由FBID擷取</button><label><input type="checkbox" onchange="fb.optionDisplay(this)">隱藏列表</label><br>`;
+		let options = `
+		<button class="btn" onclick="page_selector.show()">從粉絲專頁/社團選擇貼文</button><br>
+		<input id="pure_fbid">
+		<button id="fbid_button" class="btn" onclick="fb.hiddenStart(this)">由FBID擷取</button>
+		<a href="javascript:;" onclick="data.finish(data.raw)" style="margin-left:20px;">強制跳轉到表格</a><br>`;
 		let type = -1;
 		$('#btn_start').addClass('hide');
-		for(let i of res){
-			type++;
-			for(let j of i){
-				options += `<div class="page_btn" attr-type="${type}" attr-value="${j.id}" onclick="fb.selectPage(this)">${j.name}</div>`;
-			}
-		}
 		$('#enterURL').html(options).removeClass('hide');
 	},
-	optionDisplay: (checkbox)=>{
-		if ($(checkbox).prop('checked')){
-			$('.page_btn').addClass('hide');
-		}else{
-			$('.page_btn').removeClass('hide');
-		}
+	extensionAuth: (command = '') => {
+		FB.login(function (response) {
+			fb.extensionCallback(response, command);
+		}, { scope: config.auth, return_scopes: true });
 	},
-	selectPage: (e)=>{
-		$('#enterURL .page_btn').removeClass('active');
-		fb.next = '';
-		let tar = $(e);
-		tar.addClass('active');
-		if (tar.attr('attr-type') == 1){
-			fb.setToken(tar.attr('attr-value'));
-		}
-		fb.feed(tar.attr('attr-value'), tar.attr('attr-type'), fb.next);
-		$('.forfb').addClass('hide');
-		$('.step1').removeClass('hide');
-		step.step1();
-	},
-	setToken: (pageid)=>{
-		let pages = JSON.parse(sessionStorage.login)[1];
-		for(let i of pages){
-			if (i.id == pageid){
-				config.pageToken = i.access_token;
-			}
-		}
-	},
-	hiddenStart: (e)=>{
-		let fbid = $('#pure_fbid').val();
-		let pageID = fbid.split('_')[0];
-		FB.api(`/${pageID}?fields=access_token`,function(res){
-			if (res.error){
-				data.start(fbid);
-			}else{
-				if (res.access_token){
-					config.pageToken = res.access_token;
-				}
-				if (e.ctrlKey || e.altKey) {
-					data.start(fbid, 'live');
-				}else{
-					data.start(fbid);
-				}
-			}
-		});
-	},
-	feed: (pageID, type, url = '', clear = true)=>{
-		if (clear){
-			$('.recommands, .feeds tbody').empty();
-			$('.feeds .btn').removeClass('hide');
-			$('.feeds .btn').off('click').click(()=>{
-				let tar = $('#enterURL select').find('option:selected');
-				fb.feed(tar.val(), tar.attr('attr-type'), fb.next, false);
-			});
-		}
-		let command = (type == '2') ? 'feed':'posts';
-		let api;
-		if (url == ''){
-			api = `${config.apiVersion.newest}/${pageID}/${command}?fields=link,full_picture,created_time,message&limit=25`;
-		}else{
-			api = url;
-		}
-		FB.api(api, (res)=>{
-			if (res.data.length == 0){
-				$('.feeds .btn').addClass('hide');
-			}
-			fb.next = res.paging.next;
-			for(let i of res.data){
-				let str = genData(i);
-				$('.section .feeds tbody').append(str);
-				if (i.message && i.message.indexOf('抽') >= 0){
-					let recommand = genCard(i);
-					$('.donate_area .recommands').append(recommand);
-				}
-			}
-		});
-
-		function genData(obj){
-			let ids = obj.id.split("_");
-			let link = 'https://www.facebook.com/'+ids[0]+'/posts/'+ids[1];
-
-			let mess = obj.message ? obj.message.replace(/\n/g,"<br />") : "";
-			let str = `<tr>
-						<td><div class="pick" attr-val="${obj.id}"  onclick="data.start('${obj.id}')">開始</div></td>
-						<td><a href="${link}" target="_blank">${mess}</a></td>
-						<td class="nowrap">${timeConverter(obj.created_time)}</td>
-						</tr>`;
-			return str;
-		}
-		function genCard(obj){
-			let src = obj.full_picture || 'http://placehold.it/300x225';
-			let ids = obj.id.split("_");
-			let link = 'https://www.facebook.com/'+ids[0]+'/posts/'+ids[1];
-			
-			let mess = obj.message ? obj.message.replace(/\n/g,"<br />") : "";
-			let	str = `<div class="card">
-			<a href="${link}" target="_blank">
-			<div class="card-image">
-			<figure class="image is-4by3">
-			<img src="${src}" alt="">
-			</figure>
-			</div>
-			</a>
-			<div class="card-content">
-			<div class="content">
-			${mess}
-			</div>
-			</div>
-			<div class="pick" attr-val="${obj.id}" onclick="data.start('${obj.id}')">開始</div>
-			</div>`;
-			return str;
-		}
-	},
-	getMe: ()=>{
-		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me`, (res)=>{
-				let arr = [res];
-				resolve(arr);
-			});
-		});
-	},
-	getPage: ()=>{
-		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/accounts?limit=100`, (res)=>{
-				resolve(res.data);
-			});
-		});
-	},
-	getGroup: ()=>{
-		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/me/groups?fields=name,id,administrator&limit=100`, (res)=>{
-				resolve (res.data.filter(item=>{return item.administrator === true}));
-			});
-		});
-	},
-	extensionAuth: (command = '')=>{
-		let response = {
-			status: 'connected',
-			authResponse:{
-				grantedScopes: 'groups_access_member_info',
-			}
-		}
-		fb.extensionCallback(response, command);
-		// FB.login(function(response) {
-		// 	fb.extensionCallback(response, command);
-		// }, {scope: config.auth ,return_scopes: true});
-	},
-	extensionCallback: (response, command = '')=>{
+	extensionCallback: (response, command = '') => {
 		if (response.status === 'connected') {
-			let authStr = response.authResponse.grantedScopes;
-			if (authStr.indexOf('groups_access_member_info') >= 0){
+			config.from_extension = true;
+			auth_scope = response.authResponse.grantedScopes;
+			let me = response.authResponse.userID;
+			$('.waiting').removeClass('hide');
+			$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + me, function (res2) {
+				$('.waiting').addClass('hide');
+				if (res2 === 'true') {
+					extension_start();
+				} else {
+					swal({
+						title: 'PLUS為付費產品，詳情請見粉絲專頁',
+						html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + me,
+						type: 'warning'
+					}).done();
+				}
+			});
+			function extension_start() {
 				data.raw.extension = true;
-				if (command == 'import'){
+				if (command == 'import') {
 					localStorage.setItem("sharedposts", $('#import').val());
 				}
 				let extend = JSON.parse(localStorage.getItem("sharedposts"));
 				let fid = [];
 				let ids = [];
-				for(let i of extend){
+				for (let i of extend) {
 					fid.push(i.from.id);
-					if (fid.length >=45){
+					if (fid.length >= 45) {
 						ids.push(fid);
 						fid = [];
 					}
 				}
 				ids.push(fid);
 				let promise_array = [], names = {};
-				for(let i of ids){
-					let promise = fb.getName(i).then((res)=>{
-						for(let i of Object.keys(res)){
+				for (let i of ids) {
+					let promise = fb.getName(i).then((res) => {
+						for (let i of Object.keys(res)) {
 							names[i] = res[i];
 						}
 					});
 					promise_array.push(promise);
 				}
 				let postdata = JSON.parse(localStorage.postdata);
-				if (command == 'comments'){
+				if (command == 'comments') {
 					if (postdata.type === 'personal') {
 						// FB.api("/me", function (res) {
 						// 	if (res.name === postdata.owner) {
@@ -489,19 +347,19 @@ let fb = {
 						// 		}).done();
 						// 	}
 						// });
-						for(let i of extend){
+						for (let i of extend) {
 							delete i.story;
 							delete i.postlink;
 							i.like_count = 'N/A';
 						}
-					}else if(postdata.type === 'group'){
-						for(let i of extend){
+					} else if (postdata.type === 'group') {
+						for (let i of extend) {
 							delete i.story;
 							delete i.postlink;
 							i.like_count = 'N/A';
 						}
-					}else{
-						for(let i of extend){
+					} else {
+						for (let i of extend) {
 							delete i.story;
 							delete i.postlink;
 							i.like_count = 'N/A';
@@ -509,7 +367,7 @@ let fb = {
 					}
 				}
 
-				if (command == 'reactions'){
+				if (command == 'reactions') {
 					if (postdata.type === 'personal') {
 						// FB.api("/me", function (res) {
 						// 	if (res.name === postdata.owner) {
@@ -528,21 +386,21 @@ let fb = {
 						// 		}).done();
 						// 	}
 						// });
-						for(let i of extend){
+						for (let i of extend) {
 							delete i.story;
 							delete i.created_time;
 							delete i.postlink;
 							delete i.like_count;
 						}
-					}else if(postdata.type === 'group'){
-						for(let i of extend){
+					} else if (postdata.type === 'group') {
+						for (let i of extend) {
 							delete i.story;
 							delete i.created_time;
 							delete i.postlink;
 							delete i.like_count;
 						}
-					}else{
-						for(let i of extend){
+					} else {
+						for (let i of extend) {
 							delete i.story;
 							delete i.created_time;
 							delete i.postlink;
@@ -551,40 +409,34 @@ let fb = {
 					}
 				}
 
-				Promise.all(promise_array).then(()=>{
-					for(let i of extend){
+				Promise.all(promise_array).then(() => {
+					for (let i of extend) {
 						i.from.name = names[i.from.id] ? names[i.from.id].name : i.from.name;
 					}
 					data.raw.data[command] = extend;
 					data.finish(data.raw);
 				});
-			}else{
-				swal({
-					title: '抓分享需付費，詳情請見粉絲專頁',
-					html:'<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a>',
-					type: 'warning'
-				}).done();
 			}
-		}else{
-			FB.login(function(response) {
+		} else {
+			FB.login(function (response) {
 				fb.extensionCallback(response);
-			}, {scope: config.auth ,return_scopes: true});
+			}, { scope: config.auth, return_scopes: true });
 		}
 	},
-	getName: (ids)=>{
-		return new Promise((resolve, reject)=>{
-			FB.api(`${config.apiVersion.newest}/?ids=${ids.toString()}`, (res)=>{
+	getName: (ids) => {
+		return new Promise((resolve, reject) => {
+			FB.api(`${config.apiVersion}/?ids=${ids.toString()}`, (res) => {
 				resolve(res);
 			});
 		});
 	}
 }
 let step = {
-	step1: ()=>{
+	step1: () => {
 		$('.section').removeClass('step2');
 		$("html, body").scrollTop(0);
 	},
-	step2: ()=>{
+	step2: () => {
 		$('.forfb').addClass('hide');
 		$('.recommands, .feeds tbody').empty();
 		$('.section').addClass('step2');
@@ -593,198 +445,138 @@ let step = {
 }
 
 let data = {
-	raw: {data:{}},
+	raw: {
+		comments: [],
+		reactions: [],
+		sharedposts: [],
+	},
+	fullID: '',
 	filtered: {},
 	userid: '',
 	nowLength: 0,
-	extension: false,
 	promise_array: [],
-	test: (id)=>{
-		console.log(id);
-	},
-	init: ()=>{
+	init: () => {
 		$(".main_table").DataTable().destroy();
 		$("#awardList").hide();
 		$(".console .message").text('');
+		data.raw = {
+			comments: [],
+			reactions: [],
+			sharedposts: [],
+		};
+		data.fullID = '';
 		data.nowLength = 0;
 		data.promise_array = [];
-		data.raw = [];
 	},
-	start: (fbid)=>{
+	start: (fbid) => {
 		data.init();
-		let obj = {
-			fullID: fbid
-		}
+		data.fullID = fbid;
 		$(".waiting").removeClass("hide");
-		let commands = ['comments','reactions','sharedposts'];
-		let temp_data = obj;
-		for(let i of commands){
-			temp_data.data = {};
-			let promise = data.get(temp_data, i).then((res)=>{
-				temp_data.data[i] = res;
-			});
-			data.promise_array.push(promise);
+		let commands = ['comments', 'reactions'];
+		for (let i of commands) {
+			data.promise_array.push(data.get(fbid, i));
 		}
 
-		Promise.all(data.promise_array).then(()=>{
-			data.finish(temp_data);
+		Promise.all(data.promise_array).then((res) => {
+			data.finish(res);
 		});
 	},
-	get: (fbid, command)=>{
-		return new Promise((resolve, reject)=>{
+	get: (fbid, command) => {
+		return new Promise((resolve, reject) => {
 			let datas = [];
-			let promise_array = [];
-			let shareError = 0;
-			if (fbid.type === 'group') command = 'group';
-			if (command === 'sharedposts'){
-				getShare();
-			}else{
-				FB.api(`${config.apiVersion[command]}/${fbid.fullID}/${command}?limit=${config.limit[command]}&order=chronological&access_token=${config.pageToken}&fields=${config.field[command].toString()}`,(res)=>{
-					data.nowLength += res.data.length;
-					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
-					for(let d of res.data){
-						if (command == 'reactions'){
-							d.from = {id: d.id, name: d.name};
-						}
-						if (d.from){
-							datas.push(d);
-						}else{
-							//event
-							d.from = {id: d.id, name: d.id};
-							if (d.updated_time){
-								d.created_time = d.updated_time;
-							}
-							datas.push(d);
-						}
+			// if ($('.page_btn.active').attr('attr-type') == 2){
+			// 	api_fbid = fbid.fullID.split('_')[1];
+			// 	if (command === 'reactions') command = 'likes';
+			// }
+			FB.api(`${fbid}/${command}?limit=${config.limit}&order=${config.order}&access_token=${config.pageToken}&fields=${config.field[command].toString()}`, (res) => {
+				data.nowLength += res.data.length;
+				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
+				groupData(res);
+				if (res.data.length > 0 && res.paging.next) {
+					getNext(res.paging.next);
+				} else {
+					resolve(datas);
+				}
+			});
+			function groupData(res) {
+				for (let d of res.data) {
+					if ((config.command == 'reactions' || config.command == 'likes') || config.likes) {
+						d.from = {
+							id: d.id,
+							name: d.name
+						};
 					}
-					if (res.data.length > 0 && res.paging.next){
-						getNext(res.paging.next);
-					}else{
-						resolve(datas);
+					if (config.likes) d.type = "LIKE";
+					if (d.from) {
+						datas.push(d);
+					} else {
+						//event
+						d.from = {
+							id: d.id,
+							name: d.id
+						};
+						if (d.updated_time) {
+							d.created_time = d.updated_time;
+						}
+						datas.push(d);
 					}
-				});
+				}
 			}
 
-			function getNext(url, limit=0){
-				if (limit !== 0){
-					url = url.replace('limit=500','limit='+limit);
+			function getNext(url, limit = 0) {
+				if (limit !== 0) {
+					url = url.replace('limit=500', 'limit=' + limit);
 				}
-				$.getJSON(url, function(res){
+				$.getJSON(url, function (res) {
 					data.nowLength += res.data.length;
-					$(".console .message").text('已截取  '+ data.nowLength +' 筆資料...');
-					for(let d of res.data){
-						if (command == 'reactions'){
-							d.from = {id: d.id, name: d.name};
-						}
-						if (d.from){
-							datas.push(d);
-						}else{
-							//event
-							d.from = {id: d.id, name: d.id};
-							if (d.updated_time){
-								d.created_time = d.updated_time;
-							}
-							datas.push(d);
-						}
-					}
-					if (res.data.length > 0 && res.paging.next){
+					$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
+					groupData(res);
+					if (res.data.length > 0 && res.paging.next) {
 						getNext(res.paging.next);
-					}else{
+					} else {
 						resolve(datas);
 					}
-				}).fail(()=>{
+				}).fail(() => {
 					getNext(url, 200);
 				});
 			}
 
-			function getShare(after=''){
-				let url = `https://am66ahgtp8.execute-api.ap-northeast-1.amazonaws.com/share?fbid=${fbid.fullID}&after=${after}`;
-				$.getJSON(url, function(res){
-					if (res === 'end'){
-						resolve(datas);
-					}else{
-						if (res.errorMessage){
-							resolve(datas);
-						}else if(res.data){
-							// shareError = 0;
-							for(let i of res.data){
-								let name = '';
-								if(i.story){
-									name = i.story.substring(0, i.story.indexOf(' shared'));
-								}else{
-									name = i.id.substring(0, i.id.indexOf("_"));
-								}
-								let id = i.id.substring(0, i.id.indexOf("_"));
-								i.from = {id, name};
-								datas.push(i);
-							}
-							getShare(res.after);
-						}else{
-							resolve(datas);
-						}
-					}
-				})
-			}
 		});
 	},
-	finish: (fbid)=>{
+	finish: (rawdata, lastData = false) => {
 		$(".waiting").addClass("hide");
 		$(".main_table").removeClass("hide");
 		step.step2();
 		swal('完成！', 'Done!', 'success').done();
-		$('.result_area > .title span').text(fbid.fullID);
-		data.raw = fbid;
-		localStorage.setItem("raw", JSON.stringify(fbid));
+		$('.result_area > .title span').text(data.fullID);
+		if (lastData === false){
+			data.raw.comments = rawdata[0];
+			data.raw.reactions = rawdata[1];
+			localStorage.setItem("raw", JSON.stringify(data.raw));
+		}else{
+			data.raw = JSON.parse(localStorage.raw);
+		}
 		data.filter(data.raw, true);
 	},
-	filter: (rawData, generate = false)=>{
+	filter: (rawData, generate = false) => {
 		data.filtered = {};
 		let isDuplicate = $("#unique").prop("checked");
-		for(let key of Object.keys(rawData.data)){
+		for (let key of Object.keys(rawData)) {
 			let isTag = $("#tag").prop("checked");
 			if (key === 'reactions') isTag = false;
-			let newData = filter.totalFilter(rawData.data[key], key, isDuplicate, isTag, ...obj2Array(config.filter));	
+			let newData = filter.totalFilter(rawData[key], key, isDuplicate, isTag, ...obj2Array(config.filter));
 			data.filtered[key] = newData;
 		}
-		if (generate === true){
+		if (generate === true) {
 			table.generate(data.filtered);
-		}else{
+		} else {
 			return data.filtered;
 		}
 	},
-	excel: (raw)=>{
-		var newObj = [];
-		if (data.extension){
-			$.each(raw,function(i){
-				var tmp = {
-					"序號": i+1,
-					"臉書連結" : 'https://www.facebook.com/' + this.from.id,
-					"姓名" : this.from.name,
-					"分享連結" : this.postlink,
-					"留言內容" : this.story,
-					"該分享讚數" : this.like_count
-				}
-				newObj.push(tmp);
-			});
-		}else{
-			$.each(raw,function(i){
-				var tmp = {
-					"序號": i+1,
-					"臉書連結" : 'https://www.facebook.com/' + this.from.id,
-					"姓名" : this.from.name,
-					"心情" : this.type || '',
-					"留言內容" : this.message || this.story,
-					"留言時間" : timeConverter(this.created_time)
-				}
-				newObj.push(tmp);
-			});
-		}
-		return newObj;
-	},
-	import: (file)=>{
+	import: (file) => {
 		let reader = new FileReader();
 
-		reader.onload = function(event) {
+		reader.onload = function (event) {
 			let str = event.target.result;
 			data.raw = JSON.parse(str);
 			data.finish(data.raw);
@@ -795,42 +587,42 @@ let data = {
 }
 
 let table = {
-	generate: (rawdata)=>{
+	generate: (filterData) => {
 		$(".tables table").DataTable().destroy();
-		let filtered = rawdata;
+		let filtered = filterData;
 		let pic = $("#picture").prop("checked");
-		for(let key of Object.keys(filtered)){
+		for (let key of Object.keys(filtered)) {
 			let thead = '';
 			let tbody = '';
-			if(key === 'reactions'){
+			if (key === 'reactions') {
 				thead = `<td>序號</td>
 				<td>名字</td>
 				<td>心情</td>`;
-			}else if(key === 'sharedposts'){
+			} else if (key === 'sharedposts') {
 				thead = `<td>序號</td>
 				<td>名字</td>
 				<td class="force-break">留言內容</td>
 				<td width="110">留言時間</td>`;
-			}else{
+			} else {
 				thead = `<td>序號</td>
 				<td width="200">名字</td>
 				<td class="force-break">留言內容</td>
 				<td>讚</td>
 				<td class="nowrap">留言時間</td>`;
 			}
-			for(let [j, val] of filtered[key].entries()){
+			for (let [j, val] of filtered[key].entries()) {
 				let picture = '';
-				if (pic){
-					// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small"><br>`;
+				if (pic) {
+					// picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
 				}
-				let td = `<td>${j+1}</td>
+				let td = `<td>${j + 1}</td>
 				<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${picture}${val.from.name}</a></td>`;
-				if(key === 'reactions'){
+				if (key === 'reactions') {
 					td += `<td class="center"><span class="react ${val.type}"></span>${val.type}</td>`;
-				}else if(key === 'sharedposts'){
+				} else if (key === 'sharedposts') {
 					td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || val.story}</a></td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
-				}else{
+				} else {
 					td += `<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message}</a></td>
 					<td>${val.like_count}</td>
 					<td class="nowrap">${timeConverter(val.created_time)}</td>`;
@@ -839,39 +631,39 @@ let table = {
 				tbody += tr;
 			}
 			let insert = `<thead><tr align="center">${thead}</tr></thead><tbody>${tbody}</tbody>`;
-			$(".tables ."+key+" table").html('').append(insert);
+			$(".tables ." + key + " table").html('').append(insert);
 		}
-		
+
 		active();
 		tab.init();
 		compare.init();
 
-		function active(){
+		function active() {
 			let table = $(".tables table").DataTable({
 				"pageLength": 1000,
 				"searching": true,
 				"lengthChange": false
 			});
-			let arr = ['comments','reactions','sharedposts'];
-			for(let i of arr){
-				let table = $('.tables .'+i+' table').DataTable();
-				$(".tables ."+i+" .searchName").on( 'blur change keyup', function () {
+			let arr = ['comments', 'reactions', 'sharedposts'];
+			for (let i of arr) {
+				let table = $('.tables .' + i + ' table').DataTable();
+				$(".tables ." + i + " .searchName").on('blur change keyup', function () {
 					table
-					.columns(1)
-					.search(this.value)
-					.draw();
+						.columns(1)
+						.search(this.value)
+						.draw();
 				});
-				$(".tables ."+i+" .searchComment").on( 'blur change keyup', function () {
+				$(".tables ." + i + " .searchComment").on('blur change keyup', function () {
 					table
-					.columns(2)
-					.search(this.value)
-					.draw();
+						.columns(2)
+						.search(this.value)
+						.draw();
 					config.filter.word = this.value;
 				});
 			}
 		}
 	},
-	redo: ()=>{
+	redo: () => {
 		data.filter(data.raw, true);
 	}
 }
@@ -880,7 +672,7 @@ let compare = {
 	and: [],
 	or: [],
 	raw: [],
-	init: ()=>{
+	init: () => {
 		compare.and = [];
 		compare.or = [];
 		compare.raw = data.filter(data.raw);
@@ -890,58 +682,58 @@ let compare = {
 		let compare_num = 1;
 		if (ignore === 'ignore') compare_num = 2;
 
-		for(let key of Object.keys(compare.raw)){
-			if (key !== ignore){
-				for(let i of compare.raw[key]){
+		for (let key of Object.keys(compare.raw)) {
+			if (key !== ignore) {
+				for (let i of compare.raw[key]) {
 					base.push(i);
 				}
 			}
 		}
-		let sort = (data.raw.extension) ? 'name':'id';
-		base = base.sort((a,b)=>{
-			return a.from[sort] > b.from[sort] ? 1:-1;
+		let sort = (data.raw.extension) ? 'name' : 'id';
+		base = base.sort((a, b) => {
+			return a.from[sort] > b.from[sort] ? 1 : -1;
 		});
 
-		for(let i of base){
+		for (let i of base) {
 			i.match = 0;
 		}
 
 		let temp = '';
 		let temp_name = '';
 		// console.log(base);
-		for(let i in base){
+		for (let i in base) {
 			let obj = base[i];
-			if (obj.from.id == temp || (data.raw.extension && (obj.from.name == temp_name))){
-				let tar = final[final.length-1];
+			if (obj.from.id == temp || (data.raw.extension && (obj.from.name == temp_name))) {
+				let tar = final[final.length - 1];
 				tar.match++;
-				for(let key of Object.keys(obj)){
+				for (let key of Object.keys(obj)) {
 					if (!tar[key]) tar[key] = obj[key]; //合併資料
 				}
-				if (tar.match == compare_num){
+				if (tar.match == compare_num) {
 					temp_name = '';
 					temp = '';
 				}
-			}else{
+			} else {
 				final.push(obj);
 				temp = obj.from.id;
 				temp_name = obj.from.name;
 			}
 		}
 
-		
+
 		compare.or = final;
-		compare.and = compare.or.filter((val)=>{
+		compare.and = compare.or.filter((val) => {
 			return val.match == compare_num;
 		});
 		compare.generate();
 	},
-	generate: ()=>{
+	generate: () => {
 		$(".tables .total table").DataTable().destroy();
 		let data_and = compare.and;
 
 		let tbody = '';
-		for(let [j, val] of data_and.entries()){
-			let td = `<td>${j+1}</td>
+		for (let [j, val] of data_and.entries()) {
+			let td = `<td>${j + 1}</td>
 			<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
 			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
@@ -955,8 +747,8 @@ let compare = {
 
 		let data_or = compare.or;
 		let tbody2 = '';
-		for(let [j, val] of data_or.entries()){
-			let td = `<td>${j+1}</td>
+		for (let [j, val] of data_or.entries()) {
+			let td = `<td>${j + 1}</td>
 			<td><a href='https://www.facebook.com/${val.from.id}' attr-fbid="${val.from.id}" target="_blank">${val.from.name}</a></td>
 			<td class="center"><span class="react ${val.type || ''}"></span>${val.type || ''}</td>
 			<td class="force-break"><a href="https://www.facebook.com/${val.id}" target="_blank">${val.message || ''}</a></td>
@@ -967,29 +759,29 @@ let compare = {
 			tbody2 += tr;
 		}
 		$(".tables .total .table_compare.or tbody").html('').append(tbody2);
-		
+
 		active();
 
-		function active(){
+		function active() {
 			let table = $(".tables .total table").DataTable({
 				"pageLength": 1000,
 				"searching": true,
 				"lengthChange": false
 			});
-			let arr = ['and','or'];
-			for(let i of arr){
-				let table = $('.tables .'+i+' table').DataTable();
-				$(".tables ."+i+" .searchName").on( 'blur change keyup', function () {
+			let arr = ['and', 'or'];
+			for (let i of arr) {
+				let table = $('.tables .' + i + ' table').DataTable();
+				$(".tables ." + i + " .searchName").on('blur change keyup', function () {
 					table
-					.columns(1)
-					.search(this.value)
-					.draw();
+						.columns(1)
+						.search(this.value)
+						.draw();
 				});
-				$(".tables ."+i+" .searchComment").on( 'blur change keyup', function () {
+				$(".tables ." + i + " .searchComment").on('blur change keyup', function () {
 					table
-					.columns(2)
-					.search(this.value)
-					.draw();
+						.columns(2)
+						.search(this.value)
+						.draw();
 					config.filter.word = this.value;
 				});
 			}
@@ -1003,7 +795,7 @@ let choose = {
 	num: 0,
 	detail: false,
 	list: [],
-	init: (ctrl = false)=>{
+	init: (ctrl = false) => {
 		let thead = $('.main_table thead').html();
 		$('#awardList table thead').html(thead);
 		$('#awardList table tbody').html('');
@@ -1011,55 +803,55 @@ let choose = {
 		choose.award = [];
 		choose.list = [];
 		choose.num = 0;
-		if ($("#moreprize").hasClass("active")){
+		if ($("#moreprize").hasClass("active")) {
 			choose.detail = true;
-			$(".prizeDetail .prize").each(function(){
+			$(".prizeDetail .prize").each(function () {
 				var n = parseInt($(this).find("input[type='number']").val());
 				var p = $(this).find("input[type='text']").val();
-				if (n > 0){
+				if (n > 0) {
 					choose.num += parseInt(n);
-					choose.list.push({"name":p, "num": n});
+					choose.list.push({ "name": p, "num": n });
 				}
 			});
-		}else{
+		} else {
 			choose.num = $("#howmany").val();
 		}
 		choose.go(ctrl);
 	},
-	go: (ctrl)=>{
+	go: (ctrl) => {
 		let command = tab.now;
-		if (tab.now === 'compare'){
-			choose.award = genRandomArray(compare[$('.compare_condition').val()].length).splice(0,choose.num);
-		}else{
-			choose.award = genRandomArray(choose.data[command].length).splice(0,choose.num);	
+		if (tab.now === 'compare') {
+			choose.award = genRandomArray(compare[$('.compare_condition').val()].length).splice(0, choose.num);
+		} else {
+			choose.award = genRandomArray(choose.data[command].length).splice(0, choose.num);
 		}
 		let insert = '';
 		let tempArr = [];
-		if (command === 'comments'){
-			$('.tables > div.active table').DataTable().column(2).data().each(function(value, index){
+		if (command === 'comments') {
+			$('.tables > div.active table').DataTable().column(2).data().each(function (value, index) {
 				let word = $('.searchComment').val();
 				if (value.indexOf(word) >= 0) tempArr.push(index);
 			});
 		}
-		for(let i of choose.award){
-			let row = (tempArr.length == 0) ? i:tempArr[i];
+		for (let i of choose.award) {
+			let row = (tempArr.length == 0) ? i : tempArr[i];
 			let tar = $('.tables > div.active table').DataTable().row(row).node().innerHTML;
 			insert += '<tr>' + tar + '</tr>';
 		}
 		$('#awardList table tbody').html(insert);
-		if (!ctrl){
-			$("#awardList tbody tr").each(function(){
+		if (!ctrl) {
+			$("#awardList tbody tr").each(function () {
 				// let tar = $(this).find('td').eq(1);
 				// let id = tar.find('a').attr('attr-fbid');
 				// tar.prepend(`<img src="https://graph.facebook.com/${id}/picture?type=small"><br>`);
 			});
 		}
-		
+
 		$('#awardList table tbody tr').addClass('success');
 
-		if(choose.detail){
+		if (choose.detail) {
 			let now = 0;
-			for(let k in choose.list){
+			for (let k in choose.list) {
 				let tar = $("#awardList tbody tr").eq(now);
 				$(`<tr><td class="prizeName" colspan="7">獎品： ${choose.list[k].name} <span>共 ${choose.list[k].num} 名</span></td></tr>`).insertBefore(tar);
 				now += (choose.list[k].num + 1);
@@ -1069,76 +861,163 @@ let choose = {
 			$('.prizeDetail').removeClass("fadein");
 		}
 		$("#awardList").fadeIn(1000);
+	},
+}
+
+let page_selector = {
+	pages: [],
+	groups: [],
+	page_id: false,
+	show: () => {
+		$('.page_selector').removeClass('hide');
+		config.pageToken = false;
+		$('#live_id').val('');
+		if (config.signin === false) {
+			page_selector.getAdmin();
+		}
+	},
+	hide: ()=>{
+		$('.page_selector').addClass('hide');
+	},
+	getAdmin: () => {
+		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res) => {
+			page_selector.genAdmin(res);
+		});
+	},
+	getPage: () => {
+		return new Promise((resolve, reject) => {
+			FB.api(`${config.apiVersion}/me/accounts?limit=100`, (res) => {
+				resolve(res.data);
+			});
+		});
+	},
+	getGroup: () => {
+		return new Promise((resolve, reject) => {
+			FB.api(`${config.apiVersion}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
+				resolve(res.data.filter(item => { return item.administrator === true }));
+			});
+		});
+	},
+	genAdmin: (res) => {
+		let pages = '';
+		let groups = '';
+		for (let i of res[0]) {
+			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+		}
+		if (config.auth_user === true) {
+			for (let i of res[1]) {
+				groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
+			}
+		}
+		$('.select_page').html(pages);
+		$('.select_group').html(groups);
+		config.signin = true;
+	},
+	selectPage: (target) => {
+		page_selector.page_id = $(target).data('value');
+		if ($(target).data('type') == '2') {
+			config.target = 'group';
+		} else {
+			config.target = 'fanpage';
+		}
+		$('#post_table tbody').html('');
+		$('.fb_loading').removeClass('hide');
+		FB.api(`/${page_selector.page_id}?fields=access_token`, function (res) {
+			if (res.access_token) {
+				config.pageToken = res.access_token;
+			} else {
+				config.pageToken = '';
+			}
+		});
+		FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
+			$('.fb_loading').addClass('hide');
+			let tbody = '';
+			for (let tr of res.data) {
+				tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+			}
+			$('#post_table tbody').html(tbody);
+		});
+	},
+	golive() {
+		if (config.pageToken === false) {
+			alert('請先選擇對應直播的粉絲專頁');
+		} else {
+			$('.page_selector').addClass('hide');
+			$('#post_table tbody').html('');
+			$('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
+		}
+	},
+	selectPost: (fbid) => {
+		$('.page_selector').addClass('hide');
+		$('.select_page').html('');
+		$('.select_group').html('');
+		$('#post_table tbody').html('');
+		data.start(fbid);
 	}
 }
 
 let filter = {
-	totalFilter: (raw, command, isDuplicate, isTag, word, react, endTime)=>{
-		let data = raw;
-		if (word !== '' && command == 'comments'){
-			data = filter.word(data, word);
+	totalFilter: (raw, command, isDuplicate, isTag, word, react, startTime, endTime) => {
+		let datas = raw;
+		if (word !== '' && command == 'comments') {
+			datas = filter.word(datas, word);
 		}
-		if (isTag && command == 'comments'){
-			data = filter.tag(data);
+		if (isTag && command == 'comments') {
+			datas = filter.tag(datas);
 		}
-		if (command !== 'reactions'){
-			data = filter.time(data, endTime);
-		}else{
-			data = filter.react(data, react);
+		if (command !== 'reactions') {
+			datas = filter.time(datas, endTime);
+		} else {
+			datas = filter.react(datas, react);
 		}
-		if (isDuplicate){
-			data = filter.unique(data);
+		if (isDuplicate) {
+			datas = filter.unique(datas);
 		}
 
-		return data;
+		return datas;
 	},
-	unique: (data)=>{
+	unique: (data) => {
 		let output = [];
 		let keys = [];
-		data.forEach(function(item) {
+		data.forEach(function (item) {
 			let key = item.from.id;
-			if(keys.indexOf(key) === -1) {
+			if (keys.indexOf(key) === -1) {
 				keys.push(key);
 				output.push(item);
 			}
 		});
 		return output;
 	},
-	word: (data, word)=>{
-		let newAry = $.grep(data,function(n, i){
-			if (n.message.indexOf(word) > -1){
-				return true;
-			}
+	word: (data, word) => {
+		let newAry = data.filter(item=>{
+			return item.message.indexOf(word) > -1;
 		});
 		return newAry;
 	},
-	tag: (data)=>{
-		let newAry = $.grep(data,function(n, i){
-			if (n.message_tags){
-				return true;
-			}
+	tag: (data) => {
+		let newAry = data.filter(item=>{
+			return item.message_tags
 		});
 		return newAry;
 	},
-	time: (data, t)=>{
+	time: (data, t) => {
 		let time_ary = t.split("-");
-		let time = moment(new Date(time_ary[0],(parseInt(time_ary[1])-1),time_ary[2],time_ary[3],time_ary[4],time_ary[5]))._d;
-		let newAry = $.grep(data,function(n, i){
-			let created_time = moment(n.created_time)._d;
-			if (created_time < time || n.created_time == ""){
+		let time = moment(new Date(time_ary[0], (parseInt(time_ary[1]) - 1), time_ary[2], time_ary[3], time_ary[4], time_ary[5]));
+		let newAry = data.filter(item=>{
+			if (item.created_time == ''){
 				return true;
+			}else{
+				return moment(item.created_time) < time;
 			}
 		});
 		return newAry;
 	},
-	react: (data, tar)=>{
-		if (tar == 'all'){
+	react: (data, tar) => {
+		if (tar == 'all') {
 			return data;
-		}else{
-			let newAry = $.grep(data,function(n, i){
-				if (n.type == tar){
-					return true;
-				}
+		} else {
+			let newAry = data.filter(item=>{
+				return item.type == tar
 			});
 			return newAry;
 		}
@@ -1146,22 +1025,22 @@ let filter = {
 }
 
 let ui = {
-	init: ()=>{
+	init: () => {
 
 	}
 }
 
 let tab = {
 	now: "comments",
-	init: ()=>{
-		$('#comment_table .tabs .tab').click(function(){
+	init: () => {
+		$('#comment_table .tabs .tab').click(function () {
 			$('#comment_table .tabs .tab').removeClass('active');
 			$(this).addClass('active');
 			tab.now = $(this).attr('attr-type');
 			let tar = $(this).index();
 			$('.tables > div').removeClass('active');
 			$('.tables > div').eq(tar).addClass('active');
-			if (tab.now === 'compare'){
+			if (tab.now === 'compare') {
 				compare.init();
 			}
 		});
@@ -1170,133 +1049,133 @@ let tab = {
 
 
 
-function nowDate(){
+function nowDate() {
 	var a = new Date();
 	var year = a.getFullYear();
-	var month = a.getMonth()+1;
+	var month = a.getMonth() + 1;
 	var date = a.getDate();
 	var hour = a.getHours();
 	var min = a.getMinutes();
 	var sec = a.getSeconds();
-	return year+"-"+month+"-"+date+"-"+hour+"-"+min+"-"+sec;
+	return year + "-" + month + "-" + date + "-" + hour + "-" + min + "-" + sec;
 }
 
-function timeConverter(UNIX_timestamp){
-	 var a = moment(UNIX_timestamp)._d;
- 	 var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-     var year = a.getFullYear();
-     var month = months[a.getMonth()];
-     var date = a.getDate();
-     if (date < 10){
-     	date = "0"+date;
-     }
-     var hour = a.getHours();
-     if (hour < 10){
-     	hour = "0"+hour;
-     }
-     var min = a.getMinutes();
-     if (min < 10){
-     	min = "0"+min;
-     }
-     var sec = a.getSeconds();
-     if (sec < 10){
-     	sec = "0"+sec;
-     }
-     var time = year+'-'+month+'-'+date+" "+hour+':'+min+':'+sec ;
-     return time;
- }
+function timeConverter(UNIX_timestamp) {
+	var a = moment(UNIX_timestamp)._d;
+	var months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+	var year = a.getFullYear();
+	var month = months[a.getMonth()];
+	var date = a.getDate();
+	if (date < 10) {
+		date = "0" + date;
+	}
+	var hour = a.getHours();
+	if (hour < 10) {
+		hour = "0" + hour;
+	}
+	var min = a.getMinutes();
+	if (min < 10) {
+		min = "0" + min;
+	}
+	var sec = a.getSeconds();
+	if (sec < 10) {
+		sec = "0" + sec;
+	}
+	var time = year + '-' + month + '-' + date + " " + hour + ':' + min + ':' + sec;
+	return time;
+}
 
- function obj2Array(obj){
- 	let array = $.map(obj, function(value, index) {
- 		return [value];
- 	});
- 	return array;
- }
+function obj2Array(obj) {
+	let array = $.map(obj, function (value, index) {
+		return [value];
+	});
+	return array;
+}
 
- function genRandomArray(n) {
- 	var ary = new Array();
- 	var i, r, t;
- 	for (i = 0 ; i < n ; ++i) {
- 		ary[i] = i;
- 	}
- 	for (i = 0 ; i < n ; ++i) {
- 		r = Math.floor(Math.random() * n);
- 		t = ary[r];
- 		ary[r] = ary[i];
- 		ary[i] = t;
- 	}
- 	return ary;
- }
+function genRandomArray(n) {
+	var ary = new Array();
+	var i, r, t;
+	for (i = 0; i < n; ++i) {
+		ary[i] = i;
+	}
+	for (i = 0; i < n; ++i) {
+		r = Math.floor(Math.random() * n);
+		t = ary[r];
+		ary[r] = ary[i];
+		ary[i] = t;
+	}
+	return ary;
+}
 
- function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
-    //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
-    var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
-    
-    var CSV = '';    
-    //Set Report title in first row or line
-    
-    // CSV += ReportTitle + '\r\n\n';
+function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
+	//If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+	var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
 
-    //This condition will generate the Label/Header
-    if (ShowLabel) {
-        var row = "";
-        
-        //This loop will extract the label from 1st index of on array
-        for (var index in arrData[0]) {
-            
-            //Now convert each value to string and comma-seprated
-            row += index + ',';
-        }
+	var CSV = '';
+	//Set Report title in first row or line
 
-        row = row.slice(0, -1);
-        
-        //append Label row with line break
-        CSV += row + '\r\n';
-    }
-    
-    //1st loop is to extract each row
-    for (var i = 0; i < arrData.length; i++) {
-        var row = "";
-        
-        //2nd loop will extract each column and convert it in string comma-seprated
-        for (var index in arrData[i]) {
-            row += '"' + arrData[i][index] + '",';
-        }
+	// CSV += ReportTitle + '\r\n\n';
 
-        row.slice(0, row.length - 1);
-        
-        //add a line break after each row
-        CSV += row + '\r\n';
-    }
+	//This condition will generate the Label/Header
+	if (ShowLabel) {
+		var row = "";
 
-    if (CSV == '') {        
-        alert("Invalid data");
-        return;
-    }   
-    
-    //Generate a file name
-    var fileName = "";
-    //this will remove the blank-spaces from the title and replace it with an underscore
-    fileName += ReportTitle.replace(/ /g,"_");   
-    
-    //Initialize file format you want csv or xls
-    var uri = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURI(CSV);
-    
-    // Now the little tricky part.
-    // you can use either>> window.open(uri);
-    // but this will not work in some browsers
-    // or you will not get the correct file extension    
-    
-    //this trick will generate a temp <a /> tag
-    var link = document.createElement("a");    
-    link.href = uri;
-    
-    //set the visibility hidden so it will not effect on your web-layout
-    link.style = "visibility:hidden";
-    link.download = fileName + ".csv";
-    
-    //this part will append the anchor tag and remove it after automatic click
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+		//This loop will extract the label from 1st index of on array
+		for (var index in arrData[0]) {
+
+			//Now convert each value to string and comma-seprated
+			row += index + ',';
+		}
+
+		row = row.slice(0, -1);
+
+		//append Label row with line break
+		CSV += row + '\r\n';
+	}
+
+	//1st loop is to extract each row
+	for (var i = 0; i < arrData.length; i++) {
+		var row = "";
+
+		//2nd loop will extract each column and convert it in string comma-seprated
+		for (var index in arrData[i]) {
+			row += '"' + arrData[i][index] + '",';
+		}
+
+		row.slice(0, row.length - 1);
+
+		//add a line break after each row
+		CSV += row + '\r\n';
+	}
+
+	if (CSV == '') {
+		alert("Invalid data");
+		return;
+	}
+
+	//Generate a file name
+	var fileName = "";
+	//this will remove the blank-spaces from the title and replace it with an underscore
+	fileName += ReportTitle.replace(/ /g, "_");
+
+	//Initialize file format you want csv or xls
+	var uri = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURI(CSV);
+
+	// Now the little tricky part.
+	// you can use either>> window.open(uri);
+	// but this will not work in some browsers
+	// or you will not get the correct file extension    
+
+	//this trick will generate a temp <a /> tag
+	var link = document.createElement("a");
+	link.href = uri;
+
+	//set the visibility hidden so it will not effect on your web-layout
+	link.style = "visibility:hidden";
+	link.download = fileName + ".csv";
+
+	//this part will append the anchor tag and remove it after automatic click
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
 }

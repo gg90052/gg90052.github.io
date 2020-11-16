@@ -956,7 +956,9 @@ let page_selector = {
 		} else {
 			$('.page_selector').addClass('hide');
 			$('#post_table tbody').html('');
-			$('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
+			$('.select_page').html('');
+			$('.select_group').html('');
+			data.start(page_selector.page_id + '_' + $('#live_id').val());
 		}
 	},
 	selectPost: (fbid) => {

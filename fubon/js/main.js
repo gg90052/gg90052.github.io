@@ -239,7 +239,7 @@ var data = {
     return new Promise(function (resolve, reject) {
       var datas = [];
       var token = config.pageToken == '' ? "&access_token=".concat(config.userToken) : "&access_token=".concat(config.pageToken);
-      FB.api("v9.0/".concat(fbid, "/").concat(config.command, "?&order=").concat(config.order, "&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time},message,id"), function (res) {
+      FB.api("v9.0/".concat(fbid, "/").concat(config.command, "?&order=").concat(config.order, "&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time},message,id&access_token=").concat(token), function (res) {
         data.nowLength += res.data.length;
         $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
         groupData(res);

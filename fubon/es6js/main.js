@@ -228,7 +228,7 @@ let data = {
 			let datas = [];
 			let token = config.pageToken == '' ? `&access_token=${config.userToken}` : `&access_token=${config.pageToken}`;
 
-			FB.api(`v9.0/${fbid}/${config.command}?&order=${config.order}&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time},message,id`, (res) => {
+			FB.api(`v9.0/${fbid}/${config.command}?&order=${config.order}&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time},message,id&access_token=${token}`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
 				groupData(res);

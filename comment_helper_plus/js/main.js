@@ -320,8 +320,8 @@ var fb = {
 
         try {
           for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _i11 = _step.value;
-            fid.push(_i11.from.id);
+            var _i7 = _step.value;
+            fid.push(_i7.from.id);
 
             if (fid.length >= 45) {
               ids.push(fid);
@@ -384,7 +384,7 @@ var fb = {
             } finally {
               _iterator2.f();
             }
-          } else if (postdata.type === 'group') {
+          } else {
             var _iterator3 = _createForOfIteratorHelper(extend),
                 _step3;
 
@@ -400,119 +400,30 @@ var fb = {
             } finally {
               _iterator3.f();
             }
-          } else {
-            var _iterator4 = _createForOfIteratorHelper(extend),
-                _step4;
-
-            try {
-              for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-                var _i6 = _step4.value;
-                delete _i6.story;
-                delete _i6.postlink;
-                _i6.like_count = 'N/A';
-              }
-            } catch (err) {
-              _iterator4.e(err);
-            } finally {
-              _iterator4.f();
-            }
-          }
-        }
-
-        if (command == 'reactions') {
-          if (postdata.type === 'personal') {
-            // FB.api("/me", function (res) {
-            // 	if (res.name === postdata.owner) {
-            // 		for(let i of extend){
-            // 			delete i.story;
-            // 			delete i.created_time;
-            // 			delete i.postlink;
-            // 			delete i.like_count;
-            // 			i.type = 'LIKE';
-            // 		}
-            // 	}else{
-            // 		swal({
-            // 			title: '個人貼文只有發文者本人能抓',
-            // 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
-            // 			type: 'warning'
-            // 		}).done();
-            // 	}
-            // });
-            var _iterator5 = _createForOfIteratorHelper(extend),
-                _step5;
-
-            try {
-              for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
-                var _i7 = _step5.value;
-                delete _i7.story;
-                delete _i7.created_time;
-                delete _i7.postlink;
-                delete _i7.like_count;
-              }
-            } catch (err) {
-              _iterator5.e(err);
-            } finally {
-              _iterator5.f();
-            }
-          } else if (postdata.type === 'group') {
-            var _iterator6 = _createForOfIteratorHelper(extend),
-                _step6;
-
-            try {
-              for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-                var _i8 = _step6.value;
-                delete _i8.story;
-                delete _i8.created_time;
-                delete _i8.postlink;
-                delete _i8.like_count;
-              }
-            } catch (err) {
-              _iterator6.e(err);
-            } finally {
-              _iterator6.f();
-            }
-          } else {
-            var _iterator7 = _createForOfIteratorHelper(extend),
-                _step7;
-
-            try {
-              for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
-                var _i9 = _step7.value;
-                delete _i9.story;
-                delete _i9.created_time;
-                delete _i9.postlink;
-                delete _i9.like_count;
-              }
-            } catch (err) {
-              _iterator7.e(err);
-            } finally {
-              _iterator7.f();
-            }
           }
         }
 
         Promise.all(promise_array).then(function () {
-          var _iterator8 = _createForOfIteratorHelper(extend),
-              _step8;
+          var _iterator4 = _createForOfIteratorHelper(extend),
+              _step4;
 
           try {
-            for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
-              var _i10 = _step8.value;
-              _i10.from.name = names[_i10.from.id] ? names[_i10.from.id].name : _i10.from.name;
+            for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+              var _i6 = _step4.value;
+              _i6.from.name = names[_i6.from.id] ? names[_i6.from.id].name : _i6.from.name;
             }
           } catch (err) {
-            _iterator8.e(err);
+            _iterator4.e(err);
           } finally {
-            _iterator8.f();
+            _iterator4.f();
           }
 
-          data.raw.data[command] = extend;
+          data.raw[command] = extend;
           data.finish(data.raw);
         });
       };
 
       config.from_extension = true;
-      auth_scope = response.authResponse.grantedScopes;
       var me = response.authResponse.userID;
       $('.waiting').removeClass('hide');
       $.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + me, function (res2) {
@@ -587,8 +498,8 @@ var data = {
     $(".waiting").removeClass("hide");
     var commands = ['comments', 'reactions'];
 
-    for (var _i12 = 0, _commands = commands; _i12 < _commands.length; _i12++) {
-      var i = _commands[_i12];
+    for (var _i8 = 0, _commands = commands; _i8 < _commands.length; _i8++) {
+      var i = _commands[_i8];
       data.promise_array.push(data.get(fbid, i));
     }
 
@@ -616,12 +527,12 @@ var data = {
       });
 
       function groupData(res) {
-        var _iterator9 = _createForOfIteratorHelper(res.data),
-            _step9;
+        var _iterator5 = _createForOfIteratorHelper(res.data),
+            _step5;
 
         try {
-          for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
-            var d = _step9.value;
+          for (_iterator5.s(); !(_step5 = _iterator5.n()).done;) {
+            var d = _step5.value;
 
             if (config.command == 'reactions' || config.command == 'likes' || config.likes) {
               d.from = {
@@ -649,9 +560,9 @@ var data = {
             }
           }
         } catch (err) {
-          _iterator9.e(err);
+          _iterator5.e(err);
         } finally {
-          _iterator9.f();
+          _iterator5.f();
         }
       }
 
@@ -687,8 +598,14 @@ var data = {
     $('.result_area > .title span').text(data.fullID);
 
     if (lastData === false) {
-      data.raw.comments = rawdata[0];
-      data.raw.reactions = rawdata[1];
+      if (rawdata.extension) {
+        data.raw = rawdata;
+        delete rawdata.extension;
+      } else {
+        data.raw.comments = rawdata[0];
+        data.raw.reactions = rawdata[1];
+      }
+
       localStorage.setItem("raw", JSON.stringify(data.raw));
     } else {
       data.raw = JSON.parse(localStorage.raw);
@@ -701,8 +618,8 @@ var data = {
     data.filtered = {};
     var isDuplicate = $("#unique").prop("checked");
 
-    for (var _i13 = 0, _Object$keys2 = Object.keys(rawData); _i13 < _Object$keys2.length; _i13++) {
-      var key = _Object$keys2[_i13];
+    for (var _i9 = 0, _Object$keys2 = Object.keys(rawData); _i9 < _Object$keys2.length; _i9++) {
+      var key = _Object$keys2[_i9];
       var isTag = $("#tag").prop("checked");
       if (key === 'reactions') isTag = false;
 
@@ -735,8 +652,8 @@ var table = {
     var filtered = filterData;
     var pic = $("#picture").prop("checked");
 
-    for (var _i14 = 0, _Object$keys3 = Object.keys(filtered); _i14 < _Object$keys3.length; _i14++) {
-      var key = _Object$keys3[_i14];
+    for (var _i10 = 0, _Object$keys3 = Object.keys(filtered); _i10 < _Object$keys3.length; _i10++) {
+      var key = _Object$keys3[_i10];
       var thead = '';
       var tbody = '';
 
@@ -748,14 +665,14 @@ var table = {
         thead = "<td>\u5E8F\u865F</td>\n\t\t\t\t<td width=\"200\">\u540D\u5B57</td>\n\t\t\t\t<td class=\"force-break\">\u7559\u8A00\u5167\u5BB9</td>\n\t\t\t\t<td>\u8B9A</td>\n\t\t\t\t<td class=\"nowrap\">\u7559\u8A00\u6642\u9593</td>";
       }
 
-      var _iterator10 = _createForOfIteratorHelper(filtered[key].entries()),
-          _step10;
+      var _iterator6 = _createForOfIteratorHelper(filtered[key].entries()),
+          _step6;
 
       try {
-        for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
-          var _step10$value = _slicedToArray(_step10.value, 2),
-              j = _step10$value[0],
-              val = _step10$value[1];
+        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+          var _step6$value = _slicedToArray(_step6.value, 2),
+              j = _step6$value[0],
+              val = _step6$value[1];
 
           var picture = '';
 
@@ -776,9 +693,9 @@ var table = {
           tbody += tr;
         }
       } catch (err) {
-        _iterator10.e(err);
+        _iterator6.e(err);
       } finally {
-        _iterator10.f();
+        _iterator6.f();
       }
 
       var insert = "<thead><tr align=\"center\">".concat(thead, "</tr></thead><tbody>").concat(tbody, "</tbody>");
@@ -798,7 +715,7 @@ var table = {
       var arr = ['comments', 'reactions', 'sharedposts'];
 
       var _loop = function _loop() {
-        var i = _arr2[_i15];
+        var i = _arr2[_i11];
         var table = $('.tables .' + i + ' table').DataTable();
         $(".tables ." + i + " .searchName").on('blur change keyup', function () {
           table.columns(1).search(this.value).draw();
@@ -809,7 +726,7 @@ var table = {
         });
       };
 
-      for (var _i15 = 0, _arr2 = arr; _i15 < _arr2.length; _i15++) {
+      for (var _i11 = 0, _arr2 = arr; _i11 < _arr2.length; _i11++) {
         _loop();
       }
     }
@@ -832,22 +749,22 @@ var compare = {
     var compare_num = 1;
     if (ignore === 'ignore') compare_num = 2;
 
-    for (var _i16 = 0, _Object$keys4 = Object.keys(compare.raw); _i16 < _Object$keys4.length; _i16++) {
-      var key = _Object$keys4[_i16];
+    for (var _i12 = 0, _Object$keys4 = Object.keys(compare.raw); _i12 < _Object$keys4.length; _i12++) {
+      var key = _Object$keys4[_i12];
 
       if (key !== ignore) {
-        var _iterator11 = _createForOfIteratorHelper(compare.raw[key]),
-            _step11;
+        var _iterator7 = _createForOfIteratorHelper(compare.raw[key]),
+            _step7;
 
         try {
-          for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
-            var i = _step11.value;
+          for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+            var i = _step7.value;
             base.push(i);
           }
         } catch (err) {
-          _iterator11.e(err);
+          _iterator7.e(err);
         } finally {
-          _iterator11.f();
+          _iterator7.f();
         }
       }
     }
@@ -857,32 +774,32 @@ var compare = {
       return a.from[sort] > b.from[sort] ? 1 : -1;
     });
 
-    var _iterator12 = _createForOfIteratorHelper(base),
-        _step12;
+    var _iterator8 = _createForOfIteratorHelper(base),
+        _step8;
 
     try {
-      for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
-        var _i19 = _step12.value;
-        _i19.match = 0;
+      for (_iterator8.s(); !(_step8 = _iterator8.n()).done;) {
+        var _i15 = _step8.value;
+        _i15.match = 0;
       }
     } catch (err) {
-      _iterator12.e(err);
+      _iterator8.e(err);
     } finally {
-      _iterator12.f();
+      _iterator8.f();
     }
 
     var temp = '';
     var temp_name = ''; // console.log(base);
 
-    for (var _i17 in base) {
-      var obj = base[_i17];
+    for (var _i13 in base) {
+      var obj = base[_i13];
 
       if (obj.from.id == temp || data.raw.extension && obj.from.name == temp_name) {
         var tar = _final[_final.length - 1];
         tar.match++;
 
-        for (var _i18 = 0, _Object$keys5 = Object.keys(obj); _i18 < _Object$keys5.length; _i18++) {
-          var _key = _Object$keys5[_i18];
+        for (var _i14 = 0, _Object$keys5 = Object.keys(obj); _i14 < _Object$keys5.length; _i14++) {
+          var _key = _Object$keys5[_i14];
           if (!tar[_key]) tar[_key] = obj[_key]; //合併資料
         }
 
@@ -909,37 +826,37 @@ var compare = {
     var data_and = compare.and;
     var tbody = '';
 
-    var _iterator13 = _createForOfIteratorHelper(data_and.entries()),
-        _step13;
+    var _iterator9 = _createForOfIteratorHelper(data_and.entries()),
+        _step9;
 
     try {
-      for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
-        var _step13$value = _slicedToArray(_step13.value, 2),
-            j = _step13$value[0],
-            val = _step13$value[1];
+      for (_iterator9.s(); !(_step9 = _iterator9.n()).done;) {
+        var _step9$value = _slicedToArray(_step9.value, 2),
+            j = _step9$value[0],
+            val = _step9$value[1];
 
         var td = "<td>".concat(j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' attr-fbid=\"").concat(val.from.id, "\" target=\"_blank\">").concat(val.from.name, "</a></td>\n\t\t\t<td class=\"center\"><span class=\"react ").concat(val.type || '', "\"></span>").concat(val.type || '', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(val.id, "\" target=\"_blank\">").concat(val.message || '', "</a></td>\n\t\t\t<td>").concat(val.like_count || '0', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(val.id, "\" target=\"_blank\">").concat(val.story || '', "</a></td>\n\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time) || '', "</td>");
         var tr = "<tr>".concat(td, "</tr>");
         tbody += tr;
       }
     } catch (err) {
-      _iterator13.e(err);
+      _iterator9.e(err);
     } finally {
-      _iterator13.f();
+      _iterator9.f();
     }
 
     $(".tables .total .table_compare.and tbody").html('').append(tbody);
     var data_or = compare.or;
     var tbody2 = '';
 
-    var _iterator14 = _createForOfIteratorHelper(data_or.entries()),
-        _step14;
+    var _iterator10 = _createForOfIteratorHelper(data_or.entries()),
+        _step10;
 
     try {
-      for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
-        var _step14$value = _slicedToArray(_step14.value, 2),
-            _j = _step14$value[0],
-            _val = _step14$value[1];
+      for (_iterator10.s(); !(_step10 = _iterator10.n()).done;) {
+        var _step10$value = _slicedToArray(_step10.value, 2),
+            _j = _step10$value[0],
+            _val = _step10$value[1];
 
         var _td = "<td>".concat(_j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(_val.from.id, "' attr-fbid=\"").concat(_val.from.id, "\" target=\"_blank\">").concat(_val.from.name, "</a></td>\n\t\t\t<td class=\"center\"><span class=\"react ").concat(_val.type || '', "\"></span>").concat(_val.type || '', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(_val.id, "\" target=\"_blank\">").concat(_val.message || '', "</a></td>\n\t\t\t<td>").concat(_val.like_count || '', "</td>\n\t\t\t<td class=\"force-break\"><a href=\"https://www.facebook.com/").concat(_val.id, "\" target=\"_blank\">").concat(_val.story || '', "</a></td>\n\t\t\t<td class=\"nowrap\">").concat(timeConverter(_val.created_time) || '', "</td>");
 
@@ -948,9 +865,9 @@ var compare = {
         tbody2 += _tr;
       }
     } catch (err) {
-      _iterator14.e(err);
+      _iterator10.e(err);
     } finally {
-      _iterator14.f();
+      _iterator10.f();
     }
 
     $(".tables .total .table_compare.or tbody").html('').append(tbody2);
@@ -965,7 +882,7 @@ var compare = {
       var arr = ['and', 'or'];
 
       var _loop2 = function _loop2() {
-        var i = _arr3[_i20];
+        var i = _arr3[_i16];
         var table = $('.tables .' + i + ' table').DataTable();
         $(".tables ." + i + " .searchName").on('blur change keyup', function () {
           table.columns(1).search(this.value).draw();
@@ -976,7 +893,7 @@ var compare = {
         });
       };
 
-      for (var _i20 = 0, _arr3 = arr; _i20 < _arr3.length; _i20++) {
+      for (var _i16 = 0, _arr3 = arr; _i16 < _arr3.length; _i16++) {
         _loop2();
       }
     }
@@ -1037,20 +954,20 @@ var choose = {
       });
     }
 
-    var _iterator15 = _createForOfIteratorHelper(choose.award),
-        _step15;
+    var _iterator11 = _createForOfIteratorHelper(choose.award),
+        _step11;
 
     try {
-      for (_iterator15.s(); !(_step15 = _iterator15.n()).done;) {
-        var i = _step15.value;
+      for (_iterator11.s(); !(_step11 = _iterator11.n()).done;) {
+        var i = _step11.value;
         var row = tempArr.length == 0 ? i : tempArr[i];
         var _tar = $('.tables > div.active table').DataTable().row(row).node().innerHTML;
         insert += '<tr>' + _tar + '</tr>';
       }
     } catch (err) {
-      _iterator15.e(err);
+      _iterator11.e(err);
     } finally {
-      _iterator15.f();
+      _iterator11.f();
     }
 
     $('#awardList table tbody').html(insert);
@@ -1122,33 +1039,33 @@ var page_selector = {
     var pages = '';
     var groups = '';
 
-    var _iterator16 = _createForOfIteratorHelper(res[0]),
-        _step16;
+    var _iterator12 = _createForOfIteratorHelper(res[0]),
+        _step12;
 
     try {
-      for (_iterator16.s(); !(_step16 = _iterator16.n()).done;) {
-        var _i21 = _step16.value;
-        pages += "<div class=\"page_btn\" data-type=\"1\" data-value=\"".concat(_i21.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(_i21.name, "</div>");
+      for (_iterator12.s(); !(_step12 = _iterator12.n()).done;) {
+        var _i17 = _step12.value;
+        pages += "<div class=\"page_btn\" data-type=\"1\" data-value=\"".concat(_i17.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(_i17.name, "</div>");
       }
     } catch (err) {
-      _iterator16.e(err);
+      _iterator12.e(err);
     } finally {
-      _iterator16.f();
+      _iterator12.f();
     }
 
     if (config.auth_user === true) {
-      var _iterator17 = _createForOfIteratorHelper(res[1]),
-          _step17;
+      var _iterator13 = _createForOfIteratorHelper(res[1]),
+          _step13;
 
       try {
-        for (_iterator17.s(); !(_step17 = _iterator17.n()).done;) {
-          var i = _step17.value;
+        for (_iterator13.s(); !(_step13 = _iterator13.n()).done;) {
+          var i = _step13.value;
           groups += "<div class=\"page_btn\" data-type=\"2\" data-value=\"".concat(i.id, "\" onclick=\"page_selector.selectPage(this)\">").concat(i.name, "</div>");
         }
       } catch (err) {
-        _iterator17.e(err);
+        _iterator13.e(err);
       } finally {
-        _iterator17.f();
+        _iterator13.f();
       }
     }
 
@@ -1178,18 +1095,18 @@ var page_selector = {
       $('.fb_loading').addClass('hide');
       var tbody = '';
 
-      var _iterator18 = _createForOfIteratorHelper(res.data),
-          _step18;
+      var _iterator14 = _createForOfIteratorHelper(res.data),
+          _step14;
 
       try {
-        for (_iterator18.s(); !(_step18 = _iterator18.n()).done;) {
-          var tr = _step18.value;
+        for (_iterator14.s(); !(_step14 = _iterator14.n()).done;) {
+          var tr = _step14.value;
           tbody += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com/").concat(tr.id, "\" target=\"_blank\">").concat(tr.message, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
         }
       } catch (err) {
-        _iterator18.e(err);
+        _iterator14.e(err);
       } finally {
-        _iterator18.f();
+        _iterator14.f();
       }
 
       $('#post_table tbody').html(tbody);

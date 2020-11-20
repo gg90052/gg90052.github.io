@@ -268,7 +268,6 @@ let fb = {
 	extensionCallback: (response) => {
 		if (response.status === 'connected') {
 			config.from_extension = true;
-			auth_scope = response.authResponse.grantedScopes;
 			FB.api(`/me?fields=id,name`, (res) => {
 				$.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id=' + res.id, function (res2) {
 					if (res2 === 'true') {

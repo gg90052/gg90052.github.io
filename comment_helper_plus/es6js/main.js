@@ -300,7 +300,6 @@ let fb = {
 	extensionCallback: (response, command = '') => {
 		if (response.status === 'connected') {
 			config.from_extension = true;
-			auth_scope = response.authResponse.grantedScopes;
 			let me = response.authResponse.userID;
 			$('.waiting').removeClass('hide');
 			$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + me, function (res2) {
@@ -364,59 +363,11 @@ let fb = {
 							delete i.postlink;
 							i.like_count = 'N/A';
 						}
-					} else if (postdata.type === 'group') {
-						for (let i of extend) {
-							delete i.story;
-							delete i.postlink;
-							i.like_count = 'N/A';
-						}
 					} else {
 						for (let i of extend) {
 							delete i.story;
 							delete i.postlink;
 							i.like_count = 'N/A';
-						}
-					}
-				}
-
-				if (command == 'reactions') {
-					if (postdata.type === 'personal') {
-						// FB.api("/me", function (res) {
-						// 	if (res.name === postdata.owner) {
-						// 		for(let i of extend){
-						// 			delete i.story;
-						// 			delete i.created_time;
-						// 			delete i.postlink;
-						// 			delete i.like_count;
-						// 			i.type = 'LIKE';
-						// 		}
-						// 	}else{
-						// 		swal({
-						// 			title: '個人貼文只有發文者本人能抓',
-						// 			html: `貼文帳號名稱：${postdata.owner}<br>目前帳號名稱：${res.name}`,
-						// 			type: 'warning'
-						// 		}).done();
-						// 	}
-						// });
-						for (let i of extend) {
-							delete i.story;
-							delete i.created_time;
-							delete i.postlink;
-							delete i.like_count;
-						}
-					} else if (postdata.type === 'group') {
-						for (let i of extend) {
-							delete i.story;
-							delete i.created_time;
-							delete i.postlink;
-							delete i.like_count;
-						}
-					} else {
-						for (let i of extend) {
-							delete i.story;
-							delete i.created_time;
-							delete i.postlink;
-							delete i.like_count;
 						}
 					}
 				}
@@ -425,7 +376,7 @@ let fb = {
 					for (let i of extend) {
 						i.from.name = names[i.from.id] ? names[i.from.id].name : i.from.name;
 					}
-					data.raw.data[command] = extend;
+					data.raw[command] = extend;
 					data.finish(data.raw);
 				});
 			}
@@ -562,8 +513,13 @@ let data = {
 		swal('完成！', 'Done!', 'success').done();
 		$('.result_area > .title span').text(data.fullID);
 		if (lastData === false){
-			data.raw.comments = rawdata[0];
-			data.raw.reactions = rawdata[1];
+			if (rawdata.extension){
+				data.raw = rawdata;
+				delete rawdata.extension;
+			}else{
+				data.raw.comments = rawdata[0];
+				data.raw.reactions = rawdata[1];
+			}
 			localStorage.setItem("raw", JSON.stringify(data.raw));
 		}else{
 			data.raw = JSON.parse(localStorage.raw);

@@ -1,7 +1,7 @@
 var gulp = require('gulp'),
     connect = require('gulp-connect'), //微型伺服器
     plumber = require('gulp-plumber'), //錯誤攔截
-    sass = require('gulp-sass'),
+    sass = require('gulp-dart-sass'),
     merge = require('merge-stream'), //合併工作流 for spritesmith
     spritesmith = require('gulp.spritesmith'), //產生sprite
     postcss = require('gulp-postcss'),

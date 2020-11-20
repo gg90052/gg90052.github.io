@@ -44,7 +44,7 @@ blockquote, q {
 
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: '';
+  content: "";
   content: none;
 }
 
@@ -59,7 +59,7 @@ table {
 
 html, body {
   font-size: 14px;
-  font-family: "微軟正黑體","Microsoft JhengHei","新細明體","PMingLiU", Verdana, Helvetica, sans-serif;
+  font-family: "微軟正黑體", "Microsoft JhengHei", "新細明體", "PMingLiU", Verdana, Helvetica, sans-serif;
 }
 
 body {
@@ -75,7 +75,6 @@ h3 {
 table td.center {
   text-align: center;
 }
-
 table td span.react {
   display: inline-block;
   vertical-align: middle;
@@ -83,49 +82,42 @@ table td span.react {
   width: 48px;
   height: 48px;
 }
-
 table td span.react.LIKE {
   background-position: 0 -147px;
   background-image: url(../images/reaction.png);
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 table td span.react.LOVE {
   background-position: 0 -196px;
   background-image: url(../images/reaction.png);
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 table td span.react.HAHA {
   background-position: 0 -98px;
   background-image: url(../images/reaction.png);
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 table td span.react.WOW {
   background-position: 0 -294px;
   background-image: url(../images/reaction.png);
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 table td span.react.SAD {
   background-position: 0 -245px;
   background-image: url(../images/reaction.png);
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 table td span.react.ANGRY {
   background-position: 0 0;
   background-image: url(../images/reaction.png);
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 table td span.react.THANKFUL {
   background-position: 0 -49px;
   background-image: url(../images/reaction.png);
@@ -141,40 +133,33 @@ table td span.react.THANKFUL {
   top: 0;
   background: #ECEFF2;
   z-index: 100000;
-  transition: all .3s;
+  transition: all 0.3s;
 }
-
 .login.auth {
   width: 100%;
   height: auto;
   position: static;
 }
-
 .login.success {
   transform: translateY(-100vh);
 }
-
 .login .logo {
   width: 150px;
   margin: 0 auto;
   padding: 20px 0;
 }
-
 .login .logo img {
   width: 100%;
 }
-
 .login .area {
   width: 100%;
   text-align: center;
 }
-
 @media (max-width: 800px) {
   .login .area {
     max-width: 320px;
   }
 }
-
 .login .area .title {
   text-align: center;
   font-size: 1.5rem;
@@ -182,7 +167,6 @@ table td span.react.THANKFUL {
   line-height: 1.5em;
   color: #616182;
 }
-
 .login .area #btn_login {
   width: 320px;
   height: 60px;
@@ -195,46 +179,37 @@ table td span.react.THANKFUL {
   text-align: center;
   margin: 20px auto;
   cursor: pointer;
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
-
 .login .area #btn_login:active {
   transform: scale(0.95);
 }
-
 .login .area .readme {
   overflow: hidden;
 }
-
 .login .area .readme p {
   text-align: center;
   color: red;
   margin-bottom: 20px;
 }
-
 .login .area .qa {
   width: 650px;
   margin: 10px auto;
 }
-
 .login .area .qa article {
   margin-top: 20px;
 }
-
 .login .area .qa article a {
   color: #068e06;
 }
-
 .login .area .qa article p {
   text-align: left;
   line-height: 1.5em;
   font-size: 18px;
 }
-
 .login .area .qa article .q {
   color: #a03319;
 }
-
 .login .area .qa article .a {
   color: #000090;
 }
@@ -244,7 +219,6 @@ table td span.react.THANKFUL {
   margin: 0 auto;
   position: relative;
 }
-
 .wrapper header {
   width: 100%;
   height: 50px;
@@ -254,29 +228,24 @@ table td span.react.THANKFUL {
   text-align: center;
   line-height: 50px;
 }
-
 .wrapper .step {
   background: #FFF;
   text-align: center;
 }
-
 .wrapper .step .word {
   font-size: 1.4em;
   color: #3b5fb2;
 }
-
 .wrapper .step .back {
   position: absolute;
   margin-left: 10px;
   font-size: 2em;
   cursor: pointer;
 }
-
 .wrapper .step .cards .card {
   margin: 10px 0;
   border: 1px solid #dbdbdb;
 }
-
 .wrapper .step .cards .card .title {
   width: 100%;
   height: 30px;
@@ -285,7 +254,6 @@ table td span.react.THANKFUL {
   background: #3f76e2;
   color: #FFF;
 }
-
 .wrapper .step .cards .card .message {
   text-align: left;
   padding: 10px;
@@ -294,11 +262,10 @@ table td span.react.THANKFUL {
   max-height: 150px;
   overflow: hidden;
   position: relative;
-  transition: all .2s;
+  transition: all 0.2s;
 }
-
 .wrapper .step .cards .card .message:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   height: 30px;
@@ -306,15 +273,12 @@ table td span.react.THANKFUL {
   bottom: 0;
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 100%);
 }
-
 .wrapper .step .cards .card .message.visible {
   max-height: 3000px;
 }
-
 .wrapper .step .cards .card .message.visible:after {
   display: none;
 }
-
 .wrapper .step .cards .card .action {
   border-top: 1px solid #dbdbdb;
   display: flex;
@@ -327,19 +291,16 @@ table td span.react.THANKFUL {
   text-align: center;
   color: #929393;
 }
-
 .wrapper .step .cards .card .action div {
   flex-grow: 1;
   height: 100%;
 }
-
 .wrapper .step .cards .card .action div:hover {
   text-decoration: underline;
   color: #56b3ff;
 }
-
 .wrapper .step .cards .card .action div:before {
-  content: '';
+  content: "";
   display: inline-block;
   height: 14px;
   margin: 0 6px -3px 0;
@@ -348,43 +309,35 @@ table td span.react.THANKFUL {
   background-repeat: no-repeat;
   background-size: auto;
 }
-
 .wrapper .step .cards .card .action .reactions:before {
   background-position: -15px -93px;
 }
-
 .wrapper .step .cards .card .action .comments:before {
   background-position: 0 -93px;
 }
-
 .wrapper .step .cards .card .action .sharedposts:before {
   background-position: -15px -108px;
 }
-
 .wrapper .step1 {
   padding: 10px;
 }
-
 .wrapper .step1 select {
   width: 80%;
   margin: 20px 0;
 }
-
 .wrapper .step2 {
   width: 100vw;
   height: 100vh;
   position: fixed;
   transform: translateY(100vh);
-  transition: all .3s;
+  transition: all 0.3s;
   left: 0;
   top: 0;
   background: #FFF;
 }
-
 .wrapper .step2.visible {
   transform: translateY(0);
 }
-
 .wrapper .step2 .head {
   width: 100vw;
   height: 50px;
@@ -394,33 +347,28 @@ table td span.react.THANKFUL {
   text-align: center;
   line-height: 50px;
 }
-
 .wrapper .step2 .cards {
   height: 90vh;
   overflow: auto;
   padding: 10px;
 }
-
 .wrapper .step3 {
   width: 100vw;
   height: 100vh;
   position: fixed;
   transform: translateY(100vh);
-  transition: all .3s;
+  transition: all 0.3s;
   left: 0;
   top: 0;
   background: #FFF;
 }
-
 .wrapper .step3.visible {
   transform: translateY(0);
 }
-
 .wrapper .step3 .wrapper {
   height: 100vh;
   overflow: auto;
 }
-
 .wrapper .step3 .wrapper .uipanel {
   width: 100%;
   padding: 10px 40px 10px 10px;
@@ -428,7 +376,6 @@ table td span.react.THANKFUL {
   color: #FFF;
   text-align: left;
 }
-
 .wrapper .step3 .wrapper .uipanel .choose {
   position: absolute;
   top: 13px;
@@ -437,70 +384,56 @@ table td span.react.THANKFUL {
   background: #307a0b;
   color: #FFF;
 }
-
 .wrapper .step3 .wrapper .uipanel .ui {
   display: inline-block;
   margin: 5px;
 }
-
 .wrapper .step3 .wrapper .uipanel .total {
   width: 100%;
   text-align: center;
 }
-
 .wrapper .step3 .wrapper .uipanel .total input {
   width: 30px;
   margin: 0 5px;
   text-align: center;
 }
-
 .wrapper .step3 .wrapper .uipanel .search input {
   width: 100px;
   padding-left: 5px;
 }
-
 .wrapper .step3 .wrapper .uipanel .optionFilter .tag {
   margin-right: 10px;
 }
-
 .wrapper .step3 .wrapper #comment_table {
   margin-top: 15px;
   padding-bottom: 20px;
 }
-
 .wrapper .step3 .wrapper #comment_table table {
   width: 100% !important;
 }
-
 .wrapper .step3 .wrapper #comment_table table td {
   text-align: center;
   vertical-align: middle;
 }
-
 .wrapper .step3 .wrapper #comment_table table td.force-break {
   text-align: left;
 }
-
 .wrapper .step3 .wrapper #comment_table table td.nowrap {
   white-space: nowrap;
 }
-
 .wrapper .step3 .wrapper #comment_table #awardList {
   display: none;
 }
-
 .wrapper .step3 .wrapper #comment_table #awardList > p {
   font-size: 2em;
   font-weight: bold;
   color: #3b5fb2;
 }
-
 .wrapper .step3 .wrapper #comment_table #awardList table td.prizeName {
   background: #3b5fb2;
   color: #FFF;
   padding-left: 20px;
 }
-
 .wrapper .step3 .wrapper #comment_table #awardList table td.prizeName span {
   color: #13FDFF;
   margin-left: 30px;
@@ -524,14 +457,12 @@ table td span.react.THANKFUL {
   color: #00F;
   margin: 30px 0;
 }
-
 .payArea .paragrah {
   text-align: center;
   font-size: 1.5em;
   margin: 20px 0;
   color: #F00;
 }
-
 .payArea .lists {
   width: 600px;
   background: #FFF;
@@ -539,20 +470,17 @@ table td span.react.THANKFUL {
   margin: 20px auto;
   counter-reset: list;
 }
-
 .payArea .lists .list {
   font-size: 1.2em;
   line-height: 1.5em;
   margin: 15px 0 15px 25px;
 }
-
 .payArea .lists .list:before {
   counter-increment: list;
   content: counter(list) ". ";
   position: absolute;
   margin-left: -20px;
 }
-
 .payArea .check {
   width: 600px;
   margin: 20px auto;
@@ -562,7 +490,6 @@ table td span.react.THANKFUL {
   text-align: center;
   font-size: 1.5em;
 }
-
 .payArea .check input {
   width: 20px;
   height: 20px;
@@ -579,9 +506,8 @@ table td span.react.THANKFUL {
   left: 0;
   background: rgba(0, 0, 0, 0.8);
   transform: translateY(100vh);
-  transition: all .3s;
+  transition: all 0.3s;
 }
-
 .loading.visible {
   transform: translateY(0);
 }
@@ -593,14 +519,12 @@ table td span.react.THANKFUL {
   position: relative;
   padding: 20px;
 }
-
 .console .message {
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
   margin-top: 375px;
 }
-
 .console .error {
   position: absolute;
   width: 90%;
@@ -609,7 +533,6 @@ table td span.react.THANKFUL {
   color: #B74D00;
   display: none;
 }
-
 .console .btn.auth {
   width: 200px;
   margin-left: 290px;
@@ -639,7 +562,7 @@ table td span.react.THANKFUL {
 }
 
 .sk-folding-cube .sk-cube:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -673,7 +596,6 @@ table td span.react.THANKFUL {
 .sk-folding-cube .sk-cube4:before {
   animation-delay: 0.9s;
 }
-
 @keyframes sk-foldCubeAngle {
   0%, 10% {
     transform: perspective(140px) rotateX(-180deg);

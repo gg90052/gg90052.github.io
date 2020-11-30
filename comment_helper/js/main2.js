@@ -173,14 +173,15 @@ var config = {
   target: '',
   command: '',
   order: 'chronological',
-  auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info',
+  auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info, user_photos,user_posts,user_videos',
   likes: false,
   pageToken: false,
   userToken: '',
   me: '',
   from_extension: false,
   auth_user: false,
-  signin: false
+  signin: false,
+  user: ''
 };
 var fb = {
   user_posts: false,
@@ -749,8 +750,15 @@ var page_selector = {
     $('.page_selector').addClass('hide');
   },
   getAdmin: function getAdmin() {
-    Promise.all([page_selector.getPage(), page_selector.getGroup()]).then(function (res) {
+    Promise.all([page_selector.getPage(), page_selector.getGroup(), page_selector.getMe()]).then(function (res) {
       page_selector.genAdmin(res);
+    });
+  },
+  getMe: function getMe() {
+    return new Promise(function (resolve, reject) {
+      FB.api("".concat(config.apiVersion, "/me"), function (res) {
+        resolve(res);
+      });
     });
   },
   getPage: function getPage() {
@@ -772,6 +780,7 @@ var page_selector = {
   genAdmin: function genAdmin(res) {
     var pages = '';
     var groups = '';
+    var me = "<div class=\"page_btn\" data-type=\"0\" data-value=\"".concat(res[2].id, "\" onclick=\"page_selector.selectPage(this)\">").concat(res[2].name, "</div>");
 
     var _iterator4 = _createForOfIteratorHelper(res[0]),
         _step4;
@@ -803,48 +812,76 @@ var page_selector = {
       }
     }
 
+    $('.select_me').html(me);
     $('.select_page').html(pages);
     $('.select_group').html(groups);
     config.signin = true;
   },
   selectPage: function selectPage(target) {
     page_selector.page_id = $(target).data('value');
+    var target_type = $(target).data('type');
 
-    if ($(target).data('type') == '2') {
+    if (target_type == '2') {
       config.target = 'group';
-    } else {
+    } else if (target_type == '1') {
       config.target = 'fanpage';
+    } else {
+      config.target = 'me';
     }
 
     $('#post_table tbody').html('');
     $('.fb_loading').removeClass('hide');
-    FB.api("/".concat(page_selector.page_id, "?fields=access_token"), function (res) {
-      if (res.access_token) {
-        config.pageToken = res.access_token;
-      } else {
-        config.pageToken = '';
-      }
-    });
-    FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100"), function (res) {
-      $('.fb_loading').addClass('hide');
-      var tbody = '';
 
-      var _iterator6 = _createForOfIteratorHelper(res.data),
-          _step6;
+    if (target_type == '0') {
+      FB.api("/me/feed?limit=100", function (res) {
+        $('.fb_loading').addClass('hide');
+        var tbody = '';
 
-      try {
-        for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
-          var tr = _step6.value;
-          tbody += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com/").concat(tr.id, "\" target=\"_blank\">").concat(tr.message, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
+        var _iterator6 = _createForOfIteratorHelper(res.data),
+            _step6;
+
+        try {
+          for (_iterator6.s(); !(_step6 = _iterator6.n()).done;) {
+            var tr = _step6.value;
+            tbody += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com/").concat(tr.id, "\" target=\"_blank\">").concat(tr.message, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
+          }
+        } catch (err) {
+          _iterator6.e(err);
+        } finally {
+          _iterator6.f();
         }
-      } catch (err) {
-        _iterator6.e(err);
-      } finally {
-        _iterator6.f();
-      }
 
-      $('#post_table tbody').html(tbody);
-    });
+        $('#post_table tbody').html(tbody);
+      });
+    } else {
+      FB.api("/".concat(page_selector.page_id, "?fields=access_token"), function (res) {
+        if (res.access_token) {
+          config.pageToken = res.access_token;
+        } else {
+          config.pageToken = '';
+        }
+      });
+      FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100"), function (res) {
+        $('.fb_loading').addClass('hide');
+        var tbody = '';
+
+        var _iterator7 = _createForOfIteratorHelper(res.data),
+            _step7;
+
+        try {
+          for (_iterator7.s(); !(_step7 = _iterator7.n()).done;) {
+            var tr = _step7.value;
+            tbody += "<tr><td><button type=\"button\" onclick=\"page_selector.selectPost('".concat(tr.id, "')\">\u9078\u64C7\u8CBC\u6587</button></td><td><a href=\"https://www.facebook.com/").concat(tr.id, "\" target=\"_blank\">").concat(tr.message, "</a></td><td>").concat(timeConverter(tr.created_time), "</td></tr>");
+          }
+        } catch (err) {
+          _iterator7.e(err);
+        } finally {
+          _iterator7.f();
+        }
+
+        $('#post_table tbody').html(tbody);
+      });
+    }
   },
   golive: function golive() {
     if (config.pageToken === false) {

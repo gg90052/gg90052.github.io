@@ -176,7 +176,7 @@ let config = {
 	target: '',
 	command: '',
 	order: 'chronological',
-	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info',
+	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info, user_photos,user_posts,user_videos',
 	likes: false,
 	pageToken: false,
 	userToken: '',
@@ -184,6 +184,7 @@ let config = {
 	from_extension: false,
 	auth_user: false,
 	signin: false,
+	user: '',
 }
 
 let fb = {
@@ -207,7 +208,6 @@ let fb = {
 			config.userToken = response.authResponse.accessToken;
 			config.me = response.authResponse.userID;
 			config.from_extension = false;
-
 			if (type == 'signup') {
 				// 註冊
 
@@ -710,8 +710,15 @@ let page_selector = {
 		$('.page_selector').addClass('hide');
 	},
 	getAdmin: () => {
-		Promise.all([page_selector.getPage(), page_selector.getGroup()]).then((res) => {
+		Promise.all([page_selector.getPage(), page_selector.getGroup(), page_selector.getMe()]).then((res) => {
 			page_selector.genAdmin(res);
+		});
+	},
+	getMe: () => {
+		return new Promise((resolve, reject) => {
+			FB.api(`${config.apiVersion}/me`, (res) => {
+				resolve(res);
+			});
 		});
 	},
 	getPage: () => {
@@ -731,6 +738,7 @@ let page_selector = {
 	genAdmin: (res) => {
 		let pages = '';
 		let groups = '';
+		let me = `<div class="page_btn" data-type="0" data-value="${res[2].id}" onclick="page_selector.selectPage(this)">${res[2].name}</div>`;
 		for (let i of res[0]) {
 			pages += `<div class="page_btn" data-type="1" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
 		}
@@ -739,34 +747,50 @@ let page_selector = {
 				groups += `<div class="page_btn" data-type="2" data-value="${i.id}" onclick="page_selector.selectPage(this)">${i.name}</div>`;
 			}
 		}
+		$('.select_me').html(me);
 		$('.select_page').html(pages);
 		$('.select_group').html(groups);
 		config.signin = true;
 	},
 	selectPage: (target) => {
 		page_selector.page_id = $(target).data('value');
-		if ($(target).data('type') == '2') {
+		let target_type = $(target).data('type');
+		if (target_type == '2') {
 			config.target = 'group';
-		} else {
+		} else if (target_type == '1') {
 			config.target = 'fanpage';
+		} else{
+			config.target = 'me';
 		}
 		$('#post_table tbody').html('');
 		$('.fb_loading').removeClass('hide');
-		FB.api(`/${page_selector.page_id}?fields=access_token`, function (res) {
-			if (res.access_token) {
-				config.pageToken = res.access_token;
-			} else {
-				config.pageToken = '';
-			}
-		});
-		FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
-			$('.fb_loading').addClass('hide');
-			let tbody = '';
-			for (let tr of res.data) {
-				tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
-			}
-			$('#post_table tbody').html(tbody);
-		});
+
+		if (target_type == '0'){
+			FB.api(`/me/feed?limit=100`, function (res) {
+				$('.fb_loading').addClass('hide');
+				let tbody = '';
+				for (let tr of res.data) {
+					tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+				}
+				$('#post_table tbody').html(tbody);
+			});
+		}else{
+			FB.api(`/${page_selector.page_id}?fields=access_token`, function (res) {
+				if (res.access_token) {
+					config.pageToken = res.access_token;
+				} else {
+					config.pageToken = '';
+				}
+			});
+			FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
+				$('.fb_loading').addClass('hide');
+				let tbody = '';
+				for (let tr of res.data) {
+					tbody += `<tr><td><button type="button" onclick="page_selector.selectPost('${tr.id}')">選擇貼文</button></td><td><a href="https://www.facebook.com/${tr.id}" target="_blank">${tr.message}</a></td><td>${timeConverter(tr.created_time)}</td></tr>`;
+				}
+				$('#post_table tbody').html(tbody);
+			});
+		}
 	},
 	golive() {
 		if (config.pageToken === false) {

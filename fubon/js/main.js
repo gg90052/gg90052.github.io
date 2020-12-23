@@ -239,7 +239,7 @@ var data = {
     return new Promise(function (resolve, reject) {
       var datas = [];
       var token = config.pageToken == '' ? "&access_token=".concat(config.userToken) : "&access_token=".concat(config.pageToken);
-      FB.api("v9.0/".concat(fbid, "/").concat(config.command, "?&order=").concat(config.order, "&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time},message,id&access_token=").concat(token), function (res) {
+      FB.api("v9.0/".concat(fbid, "/").concat(config.command, "?&order=").concat(config.order, "&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time,attachment},attachment,message,id&access_token=").concat(token), function (res) {
         data.nowLength += res.data.length;
         $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
         groupData(res);
@@ -359,7 +359,9 @@ var table = {
 
         // let picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
         var picture = '';
-        var td = "<td>".concat(j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' target=\"_blank\">").concat(picture).concat(val.from.name, "</a></td>\n\t\t\t<td class=\"force-break\"><a href=\"").concat(host + val.id, "\" target=\"_blank\">").concat(val.message, "</a></td>\n\t\t\t\t<td><a href=\"#\" onclick=\"comment_detail.show('").concat(val.id, "')\">").concat(val.comment_count, "</a></td>\n\t\t\t\t<td>").concat(val.like_count, "</td>\n\t\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time), "</td>");
+        var attachment = '';
+        if (val.attachment) attachment = "<img style=\"display:block\" src=\"".concat(val.attachment.media.image.src, "\" width=\"50\" height=\"50\">");
+        var td = "<td>".concat(j + 1, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' target=\"_blank\">").concat(picture).concat(val.from.name, "</a></td>\n\t\t\t<td class=\"force-break\"><a href=\"").concat(host + val.id, "\" target=\"_blank\">").concat(attachment).concat(val.message, "</a></td>\n\t\t\t\t<td><a href=\"#\" onclick=\"comment_detail.show('").concat(val.id, "')\">").concat(val.comment_count, "</a></td>\n\t\t\t\t<td>").concat(val.like_count, "</td>\n\t\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time), "</td>");
         var tr = "<tr>".concat(td, "</tr>");
         tbody += tr;
       }
@@ -419,7 +421,9 @@ var comment_detail = {
         var val = _step4.value;
         // let picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
         var picture = '';
-        var td = "<td>".concat(i, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' target=\"_blank\">").concat(picture).concat(val.from.name, "</a></td>\n\t\t\t<td class=\"force-break\"><a href=\"").concat(host + val.id, "\" target=\"_blank\">").concat(val.message, "</a></td>\n\t\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time), "</td>");
+        var attachment = '';
+        if (val.attachment) attachment = "<img style=\"display:block\" src=\"".concat(val.attachment.media.image.src, "\" width=\"50\" height=\"50\">");
+        var td = "<td>".concat(i, "</td>\n\t\t\t<td><a href='https://www.facebook.com/").concat(val.from.id, "' target=\"_blank\">").concat(picture).concat(val.from.name, "</a></td>\n\t\t\t<td class=\"force-break\"><a href=\"").concat(host + val.id, "\" target=\"_blank\">").concat(attachment).concat(val.message, "</a></td>\n\t\t\t\t<td class=\"nowrap\">").concat(timeConverter(val.created_time), "</td>");
         var tr = "<tr>".concat(td, "</tr>");
         tbody += tr;
         i++;

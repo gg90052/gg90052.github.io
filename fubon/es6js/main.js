@@ -227,8 +227,9 @@ let data = {
 		return new Promise((resolve, reject) => {
 			let datas = [];
 			let token = config.pageToken == '' ? `&access_token=${config.userToken}` : `&access_token=${config.pageToken}`;
+			if ($('#input_token').val() !== '') token = `&access_token=${$('#input_token').val()}`;
 
-			FB.api(`v9.0/${fbid}/${config.command}?&order=${config.order}&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time},message,id&access_token=${token}`, (res) => {
+			FB.api(`v9.0/${fbid}/${config.command}?&order=${config.order}&fields=from,created_time,comment_count,like_count,reactions,comments.limit(300){message_tags,from,message,id,created_time,attachment},attachment,message,id&access_token=${token}`, (res) => {
 				data.nowLength += res.data.length;
 				$(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
 				groupData(res);
@@ -330,9 +331,11 @@ let table = {
 		for (let [j, val] of filterdata.entries()) {
 			// let picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
 			let picture = '';
+			let attachment = '';
+			if (val.attachment) attachment = `<img style="display:block" src="${val.attachment.media.image.src}" width="50" height="50">`;
 			let td = `<td>${j + 1}</td>
 			<td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>
-			<td class="force-break"><a href="${host + val.id}" target="_blank">${val.message}</a></td>
+			<td class="force-break"><a href="${host + val.id}" target="_blank">${attachment}${val.message}</a></td>
 				<td><a href="#" onclick="comment_detail.show('${val.id}')">${val.comment_count}</a></td>
 				<td>${val.like_count}</td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
@@ -395,9 +398,11 @@ let comment_detail = {
 		for (let val of tar.comments.data) {
 			// let picture = `<img src="https://graph.facebook.com/${val.from.id}/picture?type=small&access_token=${config.pageToken}"><br>`;
 			let picture = '';
+			let attachment = '';
+			if (val.attachment) attachment = `<img style="display:block" src="${val.attachment.media.image.src}" width="50" height="50">`;
 			let td = `<td>${i}</td>
 			<td><a href='https://www.facebook.com/${val.from.id}' target="_blank">${picture}${val.from.name}</a></td>
-			<td class="force-break"><a href="${host + val.id}" target="_blank">${val.message}</a></td>
+			<td class="force-break"><a href="${host + val.id}" target="_blank">${attachment}${val.message}</a></td>
 				<td class="nowrap">${timeConverter(val.created_time)}</td>`;
 			let tr = `<tr>${td}</tr>`;
 			tbody += tr;

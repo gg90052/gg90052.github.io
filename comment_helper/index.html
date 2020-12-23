@@ -20,11 +20,12 @@
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/bootbox.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.5/clipboard.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/daterangepicker.css">
 	<script type="text/javascript" src="js/moment.min.js"></script>
 	<script type="text/javascript" src="js/daterangepicker.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/4.2.4/sweetalert2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/cheet.js/0.3.3/cheet.min.js" integrity="sha512-mfL/D2MUCTnRtquEsJNc3eFKmyDdzYJlQICtsookWdp44261VyRX5fUvsNWr0AtdFTY9+hCYHlcfc5XDZ3n7TQ==" crossorigin="anonymous"></script>
 	<script src="js/main.js"></script>
 
 	<script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
@@ -100,8 +101,10 @@
 					<div class="source">
 						<!-- <input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" /> -->
 						<input type="text" class="url" disabled placeholder="請按下方按鈕選擇貼文" />
+						<button class="btn btn_copyurl" style="min-width: 60px; margin-top: -4px;">複製</button>
 						<br>
 						<button id="btn_page_selector" type="button" class="btn">從粉絲專頁/社團選擇貼文</button>
+						<a href="policy.html" target="_blank" style="margin-top: 15px; display:inline-block; vertical-align: middle;">Platform Policy</a>
 						<br><br>
 					</div>
 					<div class="page_target">
@@ -117,7 +120,7 @@
 			</div>
 			<div class="right" style="width: 450px">
 				<div class="title">廣告合作 Advertising</div>
-
+				<textarea name="" class="input_token hide" id="" cols="30" rows="10"></textarea>
 			</div>
 		</div>
 		<div class="section">
@@ -312,6 +315,7 @@
 				<div class="live_post" style="margin-top:20px">
 					<input type="text" id="live_id" placeholder="輸入直播ID">
 					<button onclick="page_selector.golive()">選擇直播貼文</button>
+					<button class="btn btn-info btn_token">複製token</button>
 				</div>
 				<table id="post_table">
 					<thead></thead>
@@ -340,7 +344,7 @@
 			return false;
 		}
 
-		new Clipboard('#btn_excel');
+		new ClipboardJS('#btn_excel');
 	</script>
 </body>
 

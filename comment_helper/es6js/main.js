@@ -31,6 +31,22 @@ $(document).ready(function () {
 	$("#btn_page_selector").click(function (e) {
 		fb.getAuth('signin');
 	});
+	let copyurl = new ClipboardJS('.btn_copyurl', {
+		text: function(trigger) {
+			return $('input.url').val()
+		}
+	});
+	copyurl.on('success', function(e) {
+		alert('已複製\n'+e.text);
+	});
+	let clipboard = new ClipboardJS('.btn_token', {
+		text: function(trigger) {
+			return config.pageToken || config.userToken;
+		}
+	});
+	clipboard.on('success', function(e) {
+		alert('已複製\n'+e.text);
+	});
 
 	$("#btn_comments").click(function (e) {
 		if (e.ctrlKey || e.altKey) {
@@ -46,7 +62,7 @@ $(document).ready(function () {
 			config.likes = true;
 		}
 		fb.user_posts = true;
-		data.start('likes');
+		data.start('reactions');
 	});
 
 	$("#btn_pay").click(function () {
@@ -156,6 +172,11 @@ $(document).ready(function () {
 		config.from_extension = true;
 		data.import(this.files[0]);
 	});
+
+	cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
+		$('.input_token').removeClass('hide');
+		$('input.url').prop('disabled', false);
+	});
 });
 
 let config = {
@@ -176,7 +197,7 @@ let config = {
 	target: '',
 	command: '',
 	order: 'chronological',
-	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
+	auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info',
 	likes: false,
 	pageToken: false,
 	userToken: '',
@@ -327,6 +348,7 @@ let data = {
 		return new Promise((resolve, reject) => {
 			let datas = [];
 			let token = config.pageToken == '' ? `&access_token=${config.userToken}` : `&access_token=${config.pageToken}`;
+			if ($('.input_token').val() !== '') token = `&access_token=${$('.input_token').val()}`;
 
 			FB.api(`${config.apiVersion}/${fbid}/${config.command}?limit=${config.limit}&order=${config.order}&fields=${config.field[config.command].toString()}${token}&debug=all`, (res) => {
 				data.nowLength += res.data.length;
@@ -578,7 +600,7 @@ let choose = {
 				li += `<li class="prizeName">${i.name}</li>`;
 			} else {
 				li += `<li>
-				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large&access_token=${config.pageToken}" alt=""></a>
+				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large&access_token=${config.userToken}" alt=""></a>
 				<div class="info">
 				<p class="name"><a href="https://www.facebook.com/${i.userid}" target="_blank">${i.name}</a></p>
 				<p class="message"><a href="${i.link}" target="_blank">${i.message}</a></p>
@@ -750,6 +772,7 @@ let page_selector = {
 		config.signin = true;
 	},
 	selectPage: (target) => {
+		config.pageToken = false;
 		page_selector.page_id = $(target).data('value');
 		if ($(target).data('type') == '2') {
 			config.target = 'group';

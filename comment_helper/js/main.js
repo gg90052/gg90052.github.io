@@ -60,6 +60,22 @@ $(document).ready(function () {
   $("#btn_page_selector").click(function (e) {
     fb.getAuth('signin');
   });
+  var copyurl = new ClipboardJS('.btn_copyurl', {
+    text: function text(trigger) {
+      return $('input.url').val();
+    }
+  });
+  copyurl.on('success', function (e) {
+    alert('已複製\n' + e.text);
+  });
+  var clipboard = new ClipboardJS('.btn_token', {
+    text: function text(trigger) {
+      return config.pageToken || config.userToken;
+    }
+  });
+  clipboard.on('success', function (e) {
+    alert('已複製\n' + e.text);
+  });
   $("#btn_comments").click(function (e) {
     if (e.ctrlKey || e.altKey) {
       config.order = 'chronological';
@@ -75,7 +91,7 @@ $(document).ready(function () {
     }
 
     fb.user_posts = true;
-    data.start('likes');
+    data.start('reactions');
   });
   $("#btn_pay").click(function () {
     fb.getAuth('signup');
@@ -154,6 +170,10 @@ $(document).ready(function () {
     config.from_extension = true;
     data["import"](this.files[0]);
   });
+  cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
+    $('.input_token').removeClass('hide');
+    $('input.url').prop('disabled', false);
+  });
 });
 var config = {
   field: {
@@ -173,7 +193,7 @@ var config = {
   target: '',
   command: '',
   order: 'chronological',
-  auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content',
+  auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info',
   likes: false,
   pageToken: false,
   userToken: '',
@@ -269,7 +289,6 @@ var fb = {
   extensionCallback: function extensionCallback(response) {
     if (response.status === 'connected') {
       config.from_extension = true;
-      auth_scope = response.authResponse.grantedScopes;
       FB.api("/me?fields=id,name", function (res) {
         $.get('https://script.google.com/macros/s/AKfycbxaGXkaOzT2ADCC8r-A4qBMg69Wz_168AHEr0fZ/exec?id=' + res.id, function (res2) {
           if (res2 === 'true') {
@@ -339,6 +358,7 @@ var data = {
     return new Promise(function (resolve, reject) {
       var datas = [];
       var token = config.pageToken == '' ? "&access_token=".concat(config.userToken) : "&access_token=".concat(config.pageToken);
+      if ($('.input_token').val() !== '') token = "&access_token=".concat($('.input_token').val());
       FB.api("".concat(config.apiVersion, "/").concat(fbid, "/").concat(config.command, "?limit=").concat(config.limit, "&order=").concat(config.order, "&fields=").concat(config.field[config.command].toString()).concat(token, "&debug=all"), function (res) {
         data.nowLength += res.data.length;
         $(".console .message").text('已截取  ' + data.nowLength + ' 筆資料...');
@@ -616,7 +636,7 @@ var choose = {
       if (i.award_name === true) {
         li += "<li class=\"prizeName\">".concat(i.name, "</li>");
       } else {
-        li += "<li>\n\t\t\t\t<a href=\"https://www.facebook.com/".concat(i.userid, "\" target=\"_blank\"><img src=\"https://graph.facebook.com/").concat(i.userid, "/picture?type=large&access_token=").concat(config.pageToken, "\" alt=\"\"></a>\n\t\t\t\t<div class=\"info\">\n\t\t\t\t<p class=\"name\"><a href=\"https://www.facebook.com/").concat(i.userid, "\" target=\"_blank\">").concat(i.name, "</a></p>\n\t\t\t\t<p class=\"message\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.message, "</a></p>\n\t\t\t\t<p class=\"time\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.time, "</a></p>\n\t\t\t\t</div>\n\t\t\t\t</li>");
+        li += "<li>\n\t\t\t\t<a href=\"https://www.facebook.com/".concat(i.userid, "\" target=\"_blank\"><img src=\"https://graph.facebook.com/").concat(i.userid, "/picture?type=large&access_token=").concat(config.userToken, "\" alt=\"\"></a>\n\t\t\t\t<div class=\"info\">\n\t\t\t\t<p class=\"name\"><a href=\"https://www.facebook.com/").concat(i.userid, "\" target=\"_blank\">").concat(i.name, "</a></p>\n\t\t\t\t<p class=\"message\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.message, "</a></p>\n\t\t\t\t<p class=\"time\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.time, "</a></p>\n\t\t\t\t</div>\n\t\t\t\t</li>");
       }
     }
 
@@ -817,6 +837,7 @@ var page_selector = {
     config.signin = true;
   },
   selectPage: function selectPage(target) {
+    config.pageToken = false;
     page_selector.page_id = $(target).data('value');
 
     if ($(target).data('type') == '2') {

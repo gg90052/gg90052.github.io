@@ -10,7 +10,10 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.3.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
+    "browser-sync": "^2.12.10",
+    "chromedriver": "^2.38.3",
     "gulp-babel": "^8.0.0",
     "gulp-connect": "^5.7.0",
     "gulp-html-tag-include": "^1.0.1",
@@ -22,12 +25,13 @@
     "merge-stream": "^1.0.0"
   },
   "dependencies": {
-    "@babel/core": "^7.12.0",
+    "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.0",
-    "chokidar": "^3.0.0",
+    "babel-polyfill": "^6.26.0",
     "gulp": "^4.0.2",
-    "gulp-connect": "^5.7.0",
-    "gulp-sourcemaps": "^1.9.1",
-    "node-sass": "^4.14.1"
+    "gulp-sourcemaps": "^2.4.1",
+    "natives": "^1.1.6",
+    "gulp-dart-sass": "^1.0.2",
+    "postcss-px-to-viewport": "0.0.3"
   }
 }

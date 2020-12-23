@@ -580,6 +580,7 @@ let choose = {
 	gen_big_award: () => {
 		let li = '';
 		let awards = [];
+		let token = config.pageToken == '' ? config.userToken : config.pageToken;
 		$('#awardList tbody tr').each(function (index, val) {
 			let award = {};
 			if (val.hasAttribute('title')) {
@@ -600,7 +601,7 @@ let choose = {
 				li += `<li class="prizeName">${i.name}</li>`;
 			} else {
 				li += `<li>
-				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large&access_token=${config.userToken}" alt=""></a>
+				<a href="https://www.facebook.com/${i.userid}" target="_blank"><img src="https://graph.facebook.com/${i.userid}/picture?type=large&access_token=${token}" alt=""></a>
 				<div class="info">
 				<p class="name"><a href="https://www.facebook.com/${i.userid}" target="_blank">${i.name}</a></p>
 				<p class="message"><a href="${i.link}" target="_blank">${i.message}</a></p>

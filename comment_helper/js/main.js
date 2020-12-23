@@ -612,6 +612,7 @@ var choose = {
   gen_big_award: function gen_big_award() {
     var li = '';
     var awards = [];
+    var token = config.pageToken == '' ? config.userToken : config.pageToken;
     $('#awardList tbody tr').each(function (index, val) {
       var award = {};
 
@@ -636,7 +637,7 @@ var choose = {
       if (i.award_name === true) {
         li += "<li class=\"prizeName\">".concat(i.name, "</li>");
       } else {
-        li += "<li>\n\t\t\t\t<a href=\"https://www.facebook.com/".concat(i.userid, "\" target=\"_blank\"><img src=\"https://graph.facebook.com/").concat(i.userid, "/picture?type=large&access_token=").concat(config.userToken, "\" alt=\"\"></a>\n\t\t\t\t<div class=\"info\">\n\t\t\t\t<p class=\"name\"><a href=\"https://www.facebook.com/").concat(i.userid, "\" target=\"_blank\">").concat(i.name, "</a></p>\n\t\t\t\t<p class=\"message\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.message, "</a></p>\n\t\t\t\t<p class=\"time\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.time, "</a></p>\n\t\t\t\t</div>\n\t\t\t\t</li>");
+        li += "<li>\n\t\t\t\t<a href=\"https://www.facebook.com/".concat(i.userid, "\" target=\"_blank\"><img src=\"https://graph.facebook.com/").concat(i.userid, "/picture?type=large&access_token=").concat(token, "\" alt=\"\"></a>\n\t\t\t\t<div class=\"info\">\n\t\t\t\t<p class=\"name\"><a href=\"https://www.facebook.com/").concat(i.userid, "\" target=\"_blank\">").concat(i.name, "</a></p>\n\t\t\t\t<p class=\"message\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.message, "</a></p>\n\t\t\t\t<p class=\"time\"><a href=\"").concat(i.link, "\" target=\"_blank\">").concat(i.time, "</a></p>\n\t\t\t\t</div>\n\t\t\t\t</li>");
       }
     }
 

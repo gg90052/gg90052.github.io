@@ -31,6 +31,9 @@ $(document).ready(function () {
 	$("#btn_page_selector").click(function (e) {
 		fb.getAuth('signin');
 	});
+	// $('#btn_reauth').click(function(){
+	// 	fb.reauth();
+	// });
 	let copyurl = new ClipboardJS('.btn_copyurl', {
 		text: function(trigger) {
 			return $('input.url').val()
@@ -210,10 +213,10 @@ let config = {
 let fb = {
 	user_posts: false,
 	getAuth: (type = '') => {
-		if (config.signin === true) {
-			page_selector.show();
-			return false;
-		}
+		// if (config.signin === true) {
+		// 	page_selector.show();
+		// 	return false;
+		// }
 		FB.login(function (response) {
 			fb.callback(response, type);
 		}, {

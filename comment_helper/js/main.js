@@ -59,7 +59,10 @@ $(document).ready(function () {
 
   $("#btn_page_selector").click(function (e) {
     fb.getAuth('signin');
-  });
+  }); // $('#btn_reauth').click(function(){
+  // 	fb.reauth();
+  // });
+
   var copyurl = new ClipboardJS('.btn_copyurl', {
     text: function text(trigger) {
       return $('input.url').val();
@@ -206,12 +209,10 @@ var fb = {
   user_posts: false,
   getAuth: function getAuth() {
     var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-    if (config.signin === true) {
-      page_selector.show();
-      return false;
-    }
-
+    // if (config.signin === true) {
+    // 	page_selector.show();
+    // 	return false;
+    // }
     FB.login(function (response) {
       fb.callback(response, type);
     }, {

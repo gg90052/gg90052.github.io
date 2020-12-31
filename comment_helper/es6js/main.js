@@ -261,6 +261,7 @@ let fb = {
 					$('.waiting').addClass('hide');
 					if (res2 === 'true') {
 						config.auth_user = true;
+						$('.page_group').removeClass('hide');
 					} else {
 						config.auth_user = false;
 					}

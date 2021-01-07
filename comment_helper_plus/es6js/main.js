@@ -861,7 +861,7 @@ let page_selector = {
 	},
 	getGroup: () => {
 		return new Promise((resolve, reject) => {
-			FB.api(`${config.apiVersion}/me/groups?fields=name,id,administrator&limit=100`, (res) => {
+			FB.api(`${config.apiVersion}/me/groups?admin_only=true&fields=name,id,administrator&limit=100`, (res) => {
 				resolve(res.data.filter(item => { return item.administrator === true }));
 			});
 		});
@@ -882,6 +882,7 @@ let page_selector = {
 		config.signin = true;
 	},
 	selectPage: (target) => {
+		config.pageToken = false;
 		page_selector.page_id = $(target).data('value');
 		if ($(target).data('type') == '2') {
 			config.target = 'group';

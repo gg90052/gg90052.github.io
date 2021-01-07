@@ -25,7 +25,7 @@
 <script type="text/javascript" src="js/moment.min.js"></script>
 <script type="text/javascript" src="js/daterangepicker.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/sweetalert2/4.2.4/sweetalert2.min.js"></script>
-<script src="js/main_test.js"></script>
+<script src="js/main2.js"></script>
 
 <script type="text/javascript" src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
@@ -43,7 +43,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script type="text/javascript">
 	window.fbAsyncInit = function() {
 		FB.init({
-			appId      : '2261878374068468',
+			appId      : '1390069707889707',
 			cookie     : true,
 			xfbml      : true,
 			version    : 'v8.0'
@@ -73,12 +73,13 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 
 <body>
 	<div id="fb-root"></div>
-	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v8.0&appId=424626245208432&autoLogAppEvents=1" nonce="nUMbCO2s"></script>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v8.0&appId=160833824415744&autoLogAppEvents=1" nonce="nUMbCO2s"></script>
 <div class="wrapper">
 	<header>
 		粉絲團留言抽籤小助手 PLUS
 		<!-- <div class="dev"><input type="text"><button onclick="fb.hiddenStart()">START</button></div> -->
 		<!-- <a href="auth.html" style="margin-left: 30px; font-size: 20px; color: #FF0;">粉絲授權網址</a> -->
+		<a href="policy.html" target="_blank" style="margin-left: 30px; font-size: 20px; color: #FF0;">Platform Policy</a>
 		<a href="https://www.facebook.com/commenthelper/videos/1408876882478475/" target="blank"><div class="readme">使用<br />說明</div></a>
 	</header>
 	<div class="main_area">
@@ -87,7 +88,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 		</div>
 		<div class="inputarea">
 			<div id="enterURL">
-				<!-- <button id="btn_start" type="button" class="btn">使用 Facebook 帳號登入</button> -->
+				<!-- <button id="btn_start" type="button" class="btn">使用 Facebook 帳號登入</button>-->
 				<div class="fb-login-button" data-onlogin="fb.getAuth('signin')" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
 				<textarea id="pay_token" cols="40" rows="2" placeholder="v1013"></textarea>
 				<button id="btn_auth" type="button" class="btn">驗證帳號</button>
@@ -244,7 +245,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 							</div>
 						</div>
 						<div class="comments active">
-							<button class="btn" onclick="fb.extensionAuth('comments')">引入 Extension 抓留言資料</button>
+							<!-- <button class="btn" onclick="fb.extensionAuth('comments')">引入 Extension 抓留言資料</button> -->
 							<div class="filters">
 								<label for="tag" class="tag">
 									<input type="checkbox" id="tag"> 只顯示有TAG人的留言
@@ -264,7 +265,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 							</table>
 						</div>
 						<div class="reactions">
-							<button class="btn" onclick="fb.extensionAuth('reactions')">引入 Extension 抓讚資料</button>
+							<!-- <button class="btn" onclick="fb.extensionAuth('reactions')">引入 Extension 抓讚資料</button> -->
 							<div class="filters">
 								<select name="react" class="react">
 									<option value="all">全部表情</option>
@@ -357,7 +358,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 		<div class="left">
 			<p>粉絲專頁</p>
 			<div class="select_page"></div>
-			<p>社團</p>
+			<p class="page_group hide">社團</p>
 			<div class="select_group"></div>
 		</div>
 		<div class="right">
@@ -371,6 +372,8 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 			<div class="live_post" style="margin-top:20px">
 				<input type="text" id="live_id" placeholder="輸入直播ID">
 				<button onclick="page_selector.golive()">選擇直播貼文</button>
+				<button class="btn btn-info btn_token">複製token</button>
+				<a href="https://www.facebook.com/commenthelper/posts/3887047661328039" target="_blank">找不到貼文？</a>
 			</div>
 			<table id="post_table">
 				<thead></thead>

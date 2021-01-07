@@ -79,6 +79,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 		粉絲團留言抽籤小助手 PLUS
 		<!-- <div class="dev"><input type="text"><button onclick="fb.hiddenStart()">START</button></div> -->
 		<!-- <a href="auth.html" style="margin-left: 30px; font-size: 20px; color: #FF0;">粉絲授權網址</a> -->
+		<a href="policy.html" target="_blank" style="margin-left: 30px; font-size: 20px; color: #FF0;">Platform Policy</a>
 		<a href="https://www.facebook.com/commenthelper/videos/1408876882478475/" target="blank"><div class="readme">使用<br />說明</div></a>
 	</header>
 	<div class="main_area">
@@ -357,7 +358,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 		<div class="left">
 			<p>粉絲專頁</p>
 			<div class="select_page"></div>
-			<p>社團</p>
+			<p class="page_group">社團</p>
 			<div class="select_group"></div>
 		</div>
 		<div class="right">
@@ -371,6 +372,8 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 			<div class="live_post" style="margin-top:20px">
 				<input type="text" id="live_id" placeholder="輸入直播ID">
 				<button onclick="page_selector.golive()">選擇直播貼文</button>
+				<button class="btn btn-info btn_token">複製token</button>
+				<a href="https://www.facebook.com/commenthelper/posts/3887047661328039" target="_blank">找不到貼文？</a>
 			</div>
 			<table id="post_table">
 				<thead></thead>

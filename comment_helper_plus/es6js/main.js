@@ -211,10 +211,10 @@ let config = {
 let fb = {
 	next: '',
 	getAuth: (type) => {
-		if (config.signin === true) {
-			page_selector.show();
-			return false;
-		}
+		// if (config.signin === true) {
+		// 	page_selector.show();
+		// 	return false;
+		// }
 		FB.login(function (response) {
 			fb.callback(response, type);
 		}, {
@@ -476,7 +476,7 @@ let data = {
 						//event
 						d.from = {
 							id: d.id,
-							name: d.id
+							name: d.name
 						};
 						if (d.updated_time) {
 							d.created_time = d.updated_time;

@@ -210,11 +210,10 @@ var config = {
 var fb = {
   next: '',
   getAuth: function getAuth(type) {
-    if (config.signin === true) {
-      page_selector.show();
-      return false;
-    }
-
+    // if (config.signin === true) {
+    // 	page_selector.show();
+    // 	return false;
+    // }
     FB.login(function (response) {
       fb.callback(response, type);
     }, {
@@ -549,7 +548,7 @@ var data = {
               //event
               d.from = {
                 id: d.id,
-                name: d.id
+                name: d.name
               };
 
               if (d.updated_time) {

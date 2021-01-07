@@ -536,7 +536,7 @@ var data = {
               //event
               d.from = {
                 id: d.id,
-                name: d.id
+                name: d.name
               };
 
               if (d.updated_time) {

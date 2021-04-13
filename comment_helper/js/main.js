@@ -794,7 +794,7 @@ var page_selector = {
   },
   getGroup: function getGroup() {
     return new Promise(function (resolve, reject) {
-      FB.api("".concat(config.apiVersion, "/me/groups?admin_only=true&fields=name,id,administrator&limit=100"), function (res) {
+      FB.api("".concat(config.apiVersion, "/me/groups?fields=name,id,administrator&limit=100"), function (res) {
         resolve(res.data.filter(function (item) {
           return item.administrator === true;
         }));

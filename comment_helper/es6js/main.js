@@ -179,6 +179,7 @@ $(document).ready(function () {
 	cheet('↑ ↑ ↓ ↓ ← → ← → b a', function () {
 		$('.input_token').removeClass('hide');
 		$('input.url').prop('disabled', false);
+		$('.page_target').removeClass('hide');
 	});
 });
 
@@ -809,12 +810,14 @@ let page_selector = {
 			$('.page_selector').addClass('hide');
 			$('#post_table tbody').html('');
 			$('#enterURL .url').val(page_selector.page_id + '_' + $('#live_id').val());
+			$('.page_target').removeClass('hide');
 		}
 	},
 	selectPost: (fbid) => {
 		$('.page_selector').addClass('hide');
 		$('#post_table tbody').html('');
 		$('#enterURL .url').val(fbid);
+		$('.page_target').removeClass('hide');
 	}
 }
 

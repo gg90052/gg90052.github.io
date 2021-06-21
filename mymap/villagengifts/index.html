@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover maximum-scale=1.0; user-scalable=0;">
+	<title>my map</title>
+	<link rel="stylesheet" href="css/main.css">
+	<style>
+		#app{
+			width: 800px;
+			margin: 20px auto;
+		}
+		.message{
+			font-size: 16px;
+			margin-top: 15px;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="app">
+		<div id="map"></div>
+		<input type="text" v-model="address" placeholder="請輸入地址">
+		<button @click="search">搜尋</button>
+
+		<div v-if="search_result">
+			<p class="message" v-if="distance < distance_array[0]">
+				從小村子到 {{ search_result }} 距離 {{ distance }} 公里，運費 {{ distance_money(distance) }} 元
+			</p>
+			<p class="message" v-else>
+				超出運送範圍
+			</p>
+		</div>
+	</div>
+	
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/vue.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi3HU4qGpnvRXeAGj3m2k2sDLrZQ9ZmVA&libraries=places"></script>
+	<script src="js/main.js"></script>
+
+</body>
+
+</html>

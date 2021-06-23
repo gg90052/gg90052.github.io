@@ -105,7 +105,7 @@ var googleMap = new Vue({
           _this2.search_result = _this2.address;
         } else {
           // 當轉換失敗時，顯示錯誤原因
-          console.log(results);
+          alert('找不到此地點，請重新輸入');
         }
       });
     },

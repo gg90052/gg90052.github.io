@@ -84,12 +84,12 @@ html, body {
 
 #map {
   height: 500px;
-  width: 800px;
+  width: 100%;
   margin-bottom: 1rem;
 }
 
 #app {
-  width: 800px;
+  width: 100%;
   height: 100%;
 }
 

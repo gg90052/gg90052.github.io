@@ -11,8 +11,10 @@
 <body>
 	<div id="app">
 		<div id="map"></div>
-		<input type="text" v-model="address" placeholder="請輸入寄送地址" @keyup.enter="search">
-		<button @click="search">搜尋</button>
+		<div class="search">
+			<input type="text" v-model="address" placeholder="請輸入寄送地址" @keyup.enter="search">
+			<button @click="search">搜尋</button>
+		</div>
 
 		<div v-if="search_result">
 			<p class="message" v-if="distance < distance_array[0]">

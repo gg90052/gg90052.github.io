@@ -80,6 +80,7 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+  line-height: 2em;
 }
 
 #map {
@@ -144,4 +145,30 @@ button {
 
 .green {
   color: #aab2a7;
+}
+
+.search {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+
+.search button {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.search input {
+  -ms-flex-positive: 1;
+      flex-grow: 1;
 }

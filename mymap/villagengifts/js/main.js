@@ -1,10 +1,5 @@
 "use strict";
 
-document.body.addEventListener('touchmove', function (e) {
-  if (e._isScroller) return e.preventDefault();
-}, {
-  passive: false
-});
 var googleMap = new Vue({
   el: '#app',
   data: {
@@ -13,9 +8,9 @@ var googleMap = new Vue({
       lng: 121.5205750394443
     },
     map: null,
-    distance_array: [7, 5, 3],
+    distance_array: [5, 3],
     //單位：公尺
-    circleColor: ['#F00', '#0F0', '#00F'],
+    circleColor: ['#6186c9', '#ffe000'],
     circles: [],
     marker: {},
     geocoder: null,
@@ -26,7 +21,8 @@ var googleMap = new Vue({
     },
     search_marker: false,
     distance: 500,
-    search_result: ''
+    search_result: '',
+    money: [180, 90]
   },
   watch: {
     address: function address() {
@@ -61,10 +57,17 @@ var googleMap = new Vue({
           fillOpacity: 0.1,
           map: _this.map
         });
+        var icon = {
+          url: "http://localhost:8080/images/4407417.webp",
+          // url
+          scaledSize: new google.maps.Size(50, 50),
+          // scaled size
+          anchor: google.maps.Point(25, 25)
+        };
         _this.marker = new google.maps.Marker({
           position: _this.map_center,
           map: _this.map,
-          label: '小村子'
+          icon: icon
         });
       });
     },
@@ -129,24 +132,16 @@ var googleMap = new Vue({
       return Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, precision || 0);
     },
     distance_money: function distance_money(val) {
-      var money = 300;
+      var money = this.money[0];
 
       if (val < this.distance_array[1]) {
-        money = 200;
-      }
-
-      if (val < this.distance_array[2]) {
-        money = 100;
+        money = this.money[1];
       }
 
       return money;
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
-
-    window.addEventListener('load', function () {
-      _this3.initMap();
-    });
+    this.initMap();
   }
 });

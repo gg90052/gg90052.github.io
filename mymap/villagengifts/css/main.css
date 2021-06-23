@@ -82,12 +82,66 @@ html, body {
   padding: 0;
 }
 
-#app {
-  height: 100%;
-}
-
 #map {
   height: 500px;
   width: 800px;
-  margin: 20px auto;
+  margin-bottom: 1rem;
+}
+
+#app {
+  width: 800px;
+  height: 100%;
+}
+
+.message {
+  font-size: 16px;
+  margin-top: 15px;
+}
+
+input {
+  border: 1px solid #1A1A1A;
+  width: 85%;
+  display: inline-block;
+  color: #333 !important;
+  padding: 8px 10px;
+  vertical-align: middle;
+}
+
+button {
+  font-family: "Gill Sans","Gill Sans MT",Calibri,sans-serif;
+  font-size: 1.1em;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  vertical-align: middle;
+  padding: 5px 20px;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0px;
+  background-color: rgba(51, 86, 61, 0.73);
+  color: #fff;
+  transition: background-color 0.1s ease-in;
+}
+
+.blue {
+  color: #6186c9;
+}
+
+.yellow {
+  color: #ffe000;
+}
+
+.green {
+  color: #aab2a7;
 }

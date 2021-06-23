@@ -58,7 +58,7 @@ var googleMap = new Vue({
           map: _this.map
         });
         var icon = {
-          url: "http://localhost:8080/images/4407417.webp",
+          url: "https://cdn.store-assets.com/s/319352/f/4407417.png?width=350&format=webp",
           // url
           scaledSize: new google.maps.Size(50, 50),
           // scaled size

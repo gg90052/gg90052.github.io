@@ -8,9 +8,9 @@ var googleMap = new Vue({
       lng: 121.5205750394443
     },
     map: null,
-    distance_array: [5, 3],
+    distance_array: [],
     //單位：公尺
-    circleColor: ['#6186c9', '#ffe000'],
+    circleColor: [],
     circles: [],
     marker: {},
     geocoder: null,
@@ -22,7 +22,7 @@ var googleMap = new Vue({
     search_marker: false,
     distance: 500,
     search_result: '',
-    money: [180, 90]
+    money: []
   },
   watch: {
     address: function address() {
@@ -142,6 +142,20 @@ var googleMap = new Vue({
     }
   },
   mounted: function mounted() {
-    this.initMap();
+    var _this3 = this;
+
+    fetch('https://script.google.com/macros/s/AKfycbzNwFtqiY3qTC6tqMMexFJmEnUrp-CuGkk5sJhnv3zzE7k9ajnN/exec').then(function (response) {
+      return response.json();
+    }).then(function (myJson) {
+      myJson.forEach(function (item) {
+        _this3.distance_array.push(item[0]);
+
+        _this3.money.push(item[1]);
+
+        _this3.circleColor.push(item[2]);
+
+        _this3.initMap();
+      });
+    });
   }
 });

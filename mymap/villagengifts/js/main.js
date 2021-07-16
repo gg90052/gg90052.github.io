@@ -34,6 +34,7 @@ var googleMap = new Vue({
     initMap: function initMap() {
       var _this = this;
 
+      console.log(this.money, this.distance_array);
       this.map = new google.maps.Map(document.getElementById('map'), {
         center: this.map_center,
         zoom: 13,
@@ -132,30 +133,32 @@ var googleMap = new Vue({
       return Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, precision || 0);
     },
     distance_money: function distance_money(val) {
+      var _this3 = this;
+
       var money = this.money[0];
-
-      if (val < this.distance_array[1]) {
-        money = this.money[1];
-      }
-
+      this.distance_array.forEach(function (item, index) {
+        if (val < item) {
+          money = _this3.money[index];
+        }
+      });
       return money;
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     fetch('https://script.google.com/macros/s/AKfycbzNwFtqiY3qTC6tqMMexFJmEnUrp-CuGkk5sJhnv3zzE7k9ajnN/exec').then(function (response) {
       return response.json();
     }).then(function (myJson) {
       myJson.forEach(function (item) {
-        _this3.distance_array.push(item[0]);
+        _this4.distance_array.push(item[0]);
 
-        _this3.money.push(item[1]);
+        _this4.money.push(item[1]);
 
-        _this3.circleColor.push(item[2]);
-
-        _this3.initMap();
+        _this4.circleColor.push(item[2]);
       });
+
+      _this4.initMap();
     });
   }
 });

@@ -26,6 +26,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var errorMessage = false;
 window.onerror = handleErr;
+var jsVersion = '0720';
 
 function handleErr(msg, url, l) {
   if (!errorMessage) {
@@ -37,7 +38,19 @@ function handleErr(msg, url, l) {
   return false;
 }
 
+function goShare() {
+  var input = $('.result_area > .title span').text();
+
+  if (input == '') {
+    alert('請先選擇貼文');
+  } else {
+    var fbid = input.split('_')[input.split('_').length - 1];
+    window.open("https://m.facebook.com/browse/shares?id=".concat(fbid, "&from=1"));
+  }
+}
+
 $(document).ready(function () {
+  $('#pay_token').prop('placeholder', $('#pay_token').prop('placeholder') + '_' + jsVersion);
   var hash = location.hash;
 
   if (hash.indexOf("clear") >= 0) {

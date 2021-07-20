@@ -90,7 +90,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 			<div id="enterURL">
 				<!-- <button id="btn_start" type="button" class="btn">使用 Facebook 帳號登入</button>-->
 				<div class="fb-login-button" data-onlogin="fb.getAuth('signin')" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width=""></div>
-				<textarea id="pay_token" cols="40" rows="2" placeholder="v1013"></textarea>
+				<textarea id="pay_token" cols="40" rows="2" placeholder="v0720"></textarea>
 				<button id="btn_auth" type="button" class="btn">驗證帳號</button>
 				<a href="index.html#clear" id="btn_cache" type="button" class="btn">清除暫存資料</a>
 				<br>
@@ -291,6 +291,7 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 						</div>
 						<div class="sharedposts">
 							<button class="btn" onclick="fb.extensionAuth('sharedposts')">引入 Extension 抓分享資料</button>
+							<button class="btn hide" style="background: #44b1da; color: #FFF" onclick="goShare()">抓分享</button>
 							<div class="filters">
 								<input type="text" placeholder="搜尋姓名" class="searchName" />
 							</div>
@@ -370,8 +371,8 @@ if (location.protocol == 'http:') location.href = location.href.replace('http:',
 				<div class="sk-cube3 sk-cube"></div>
 			</div>
 			<div class="live_post" style="margin-top:20px">
-				<input type="text" id="live_id" placeholder="輸入直播ID">
-				<button onclick="page_selector.golive()">選擇直播貼文</button>
+				<input type="text" id="live_id" placeholder="輸入貼文ID">
+				<button onclick="page_selector.golive()">選擇指定貼文</button>
 				<button class="btn btn-info btn_token">複製token</button>
 				<a href="https://www.facebook.com/commenthelper/posts/3887047661328039" target="_blank">找不到貼文？</a>
 			</div>

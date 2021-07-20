@@ -5,6 +5,7 @@ var TABLE;
 var lastCommand = 'comments';
 var addLink = false;
 var auth_scope = '';
+const jsVersion = '0720'
 
 function handleErr(msg, url, l) {
 	if (!errorMessage) {
@@ -27,6 +28,8 @@ $(document).ready(function () {
 			fb.extensionAuth();
 		});
 	}
+
+	$('#pay_token').prop('placeholder', $('#pay_token').prop('placeholder')+'_'+jsVersion)
 
 	$("#btn_page_selector").click(function (e) {
 		fb.getAuth('signin');
@@ -59,6 +62,12 @@ $(document).ready(function () {
 		// fbid.init('comments');
 		data.start('comments');
 	});
+
+	$('#btn_share').click(function(){
+		const input = $('input.url').val()
+		const fbid = input.split('_')[input.split('_').length-1]
+		window.open(`https://m.facebook.com/browse/shares?id=${fbid}`)
+	})
 
 	$("#btn_like").click(function (e) {
 		if (e.ctrlKey || e.altKey) {

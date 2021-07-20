@@ -93,7 +93,7 @@
 		<div class="main_area">
 			<div class="left">
 				<div class="ci"></div>
-				<input type="text" id="pay_token" placeholder="0413">
+				<input type="text" id="pay_token" placeholder="0720">
 				<button id="btn_pay" type="button" class="btn">驗證帳號</button>
 			</div>
 			<div class="inputarea">
@@ -112,7 +112,8 @@
 						<input type="file" id="inputJSON" class="hide">
 						<button id="btn_comments" type="button" class="btn">抓留言</button>
 						<button id="btn_like" type="button" class="btn">抓按讚</button>
-						<a href="https://www.facebook.com/commenthelper/posts/4016600948372709" target="blank" class="btn">如何抓分享</a>
+						<a href="https://www.facebook.com/commenthelper/posts/4016600948372709" target="blank" class="btn howtoshare">如何抓分享</a>
+						<button id="btn_share" type="button" class="btn goShare hide">抓分享</button>
 					</div>
 					<p class="message">
 						<span style="color: red">付款後請到粉絲團私訊付款證明給管理員，待管理員開通後方可授權<br>然後不要再問為什麼你付錢了還是看到這行字，因為它就是永遠都在這</span>
@@ -316,7 +317,7 @@
 				</div>
 				<div class="live_post" style="margin-top:20px">
 					<input type="text" id="live_id" placeholder="輸入直播ID">
-					<button onclick="page_selector.golive()">選擇直播貼文</button>
+					<button onclick="page_selector.golive()">選擇指定貼文</button>
 					<button class="btn btn-info btn_token">複製token</button>
 					<a href="https://www.facebook.com/commenthelper/posts/3887047661328039" target="_blank">找不到貼文？</a>
 				</div>

@@ -1,0 +1,83 @@
+"use strict";
+
+AOS.init();
+
+var easeInOut = function easeInOut(t, b, c, d) {
+  t /= d / 2;
+  if (t < 1) return c / 2 * t * t * t + b;
+  t -= 2;
+  return c / 2 * (t * t * t + 2) + b;
+};
+
+var regions = new countUp.CountUp('regions', 20, {
+  duration: 1,
+  easingFn: easeInOut
+});
+var students = new countUp.CountUp('students', 88.89, {
+  decimalPlaces: 2,
+  duration: 1,
+  easingFn: easeInOut
+});
+var pie64_big = new countUp.CountUp('pie64_big', 64, {
+  duration: 1,
+  easingFn: easeInOut
+});
+var pie64_small = new countUp.CountUp('pie64_small', 52, {
+  duration: 1,
+  easingFn: easeInOut,
+  prefix: '.',
+  suffix: '%'
+});
+var pie35_big = new countUp.CountUp('pie35_big', 35, {
+  duration: 1,
+  easingFn: easeInOut
+});
+var pie35_small = new countUp.CountUp('pie35_small', 48, {
+  duration: 1,
+  easingFn: easeInOut,
+  prefix: '.',
+  suffix: '%'
+});
+var counterIO = new IntersectionObserver(function (entries) {
+  if (entries[0].intersectionRatio >= 0.5) {
+    regions.start();
+    students.start();
+  }
+}, {
+  threshold: .5
+});
+counterIO.observe(document.querySelector('#regions'));
+var pieIO = new IntersectionObserver(function (entries) {
+  if (entries[0].intersectionRatio >= 0.5) {
+    pie64_big.start();
+    pie64_small.start();
+    pie35_big.start();
+    pie35_small.start();
+  }
+}, {
+  threshold: .5
+});
+pieIO.observe(document.querySelector('.block2'));
+document.addEventListener('aos:in', function (_ref) {
+  var detail = _ref.detail;
+
+  if (detail.classList.contains('map_anchor')) {
+    document.querySelector('section.map').classList.add('showPoint');
+  }
+});
+document.addEventListener('aos:out', function (_ref2) {
+  var detail = _ref2.detail;
+
+  if (detail.classList.contains('map_anchor')) {
+    document.querySelector('section.map').classList.remove('showPoint');
+  }
+});
+var totalSlides = $('.slides .slide').length;
+$('.pager .total').text('0' + totalSlides);
+var slider = $('.slides').slick({
+  fade: true,
+  cssEase: 'linear'
+});
+$('.slides').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+  $('.pager .current').text('0' + (nextSlide + 1));
+});

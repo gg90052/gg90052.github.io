@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="css/main.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@900&family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -30,18 +30,18 @@
   </section>
   <section class="map">
     <div class="wrapper">
-      <div class="block flex space_between align_end" id="block1">
+      <div class="block flex center align_end" id="block1">
         <div class="left">
           <h1 class="fw_black">Global</h1>
           <p class="fz30 fw_bold text_orange side_orange">Students from across the world</p>
           <div class="student_body flex space_between align_top">
             <p>STUDENT<br>BODY</p>
             <div class="students">
-              <p id="students">88.89</p>
+              <p class="noto_serif fw_black" id="students">88.89</p>
               <span>International Students</span>
             </div>
             <div class="regions">
-              <p id="regions">20</p>
+              <p class="noto_serif fw_black" id="regions">20</p>
               <span>Countries & Regions</span>
             </div>
           </div>
@@ -71,29 +71,29 @@
             </div>
           </div>
         </div>
-        <div class="right map_anchor" data-aos="fade-left">
-          <div class="video">
+        <div class="right map_anchor">
+          <div class="video" data-aos="fade-left" data-aos-anchor=".map_anchor">
             <img src="images/video1.png" alt="">
             <div class="play"></div>
             <p>IN YZU</p>
           </div>
-          <div class="video">
+          <div class="video" data-aos="fade-left" data-aos-anchor=".map_anchor" data-aos-delay="100">
             <img src="images/video2.png" alt="">
             <div class="play"></div>
             <p>It's My Life</p>
           </div>
-          <div class="video">
+          <div class="video" data-aos="fade-left" data-aos-anchor=".map_anchor" data-aos-delay="200">
             <img src="images/video3.png" alt="">
             <div class="play"></div>
             <p>LOVE GMBA</p>
           </div>
         </div>
       </div>
-      <div class="block block2 flex wrap space_between">
-        <div class="left" data-aos="slide-right">
-          <h1 class="fw_black">Faculty</h1>
-          <p class="fz30 fw_bold text_orange side_orange">Taught by a Team of Experienced Faculty</p>
-          <div class="word">
+      <div class="block block2 flex wrap center">
+        <div class="left faculty_anchor" data-aos="slide-right">
+          <h1 class="fw_black" data-aos="slide-right" data-aos-anchor=".faculty_anchor">Faculty<a href="#" class="btn">Meet Our Faculty</a></h1>
+          <p class="fz30 fw_bold text_orange side_orange" data-aos="slide-right" data-aos-anchor=".faculty_anchor" data-aos-delay="100">Taught by a Team of Experienced Faculty</p>
+          <div class="word" data-aos="slide-right" data-aos-anchor=".faculty_anchor" data-aos-delay="150">
             <p class="fz16">The GMBA program brings together academician from various disciplines in order to provide a holistic view of key functions of a globalized business management.</p>
             <p class="fz16">The GMBA team of professors comprises of those with strong research collaboration and consulting experience in the industries, who are able to combine knowledge and practical in solving managerial problems.Many of them had earned their doctoral degree from reknown universities around the world. Make sure you tap into the research power of our professors in these areas:</p>
           </div>
@@ -102,14 +102,14 @@
           <div class="chart">
             <img src="images/pie.png" alt="">
             <div class="big">
-              <p>
+              <p class="noto_serif fw_black">
                 <span id="pie64_big">64</span>
                 <span id="pie64_small" class="small">.52%</span>
               </p>
               Top University in Taiwan
             </div>
             <div class="small">
-              <p>
+              <p class="noto_serif fw_black">
                 <span id="pie35_big">35</span>
                 <span id="pie35_small" class="small">.48%</span>
               </p>
@@ -135,6 +135,55 @@
             <div class="slide">
               <img src="images/slide5.png" alt="">
             </div>
+          </div>
+          <div class="slide_titles">
+            <p class="show">New Media & Digital</p>
+            <p>Organization Management</p>
+            <p>Marketing</p>
+            <p>Finance</p>
+            <p>Business</p>
+          </div>
+          <div class="slide_content">
+            <ul class="show">
+              <li>E-Business</li>
+              <li>E-commerce</li>
+              <li>ERP/MRP</li>
+              <li>Social Network</li>
+              <li>Blockchain technology</li>
+            </ul>
+            <ul>
+              <li>Leadership</li>
+              <li>Team Motivation, Performance & Effectiveness</li>
+              <li>Cross Culture Management</li>
+              <li>Change Management</li>
+              <li>Psychological Testing</li>
+              <li>Workplace Stress & Coping Method</li>
+            </ul>
+            <ul>
+              <li>New Product Marketing</li>
+              <li>Customer Relationship Management</li>
+              <li>Consumer Behavior</li>
+              <li>eWord-of-Mouth strategy</li>
+              <li>MICE Practical</li>
+              <li>Green & Sustainable Marketing</li>
+              <li>Supply Chain Management</li>
+              <li>Social Marketing</li>
+            </ul>
+            <ul>
+              <li>Econometrics</li>
+              <li>Corporate Governance</li>
+              <li>Real Estate Valuation</li>
+              <li>Investment Strategy</li>
+              <li>Derivatives</li>
+            </ul>
+            <ul>
+              <li>Service Innovation</li>
+              <li>Quality management</li>
+              <li>Strategic Management</li>
+              <li>Industrial Economics</li>
+              <li>Game Theory</li>
+              <li>Entrepreneurship</li>
+            </ul>
           </div>
           <div class="pager">
             <span class="fz14 current">01</span>
@@ -178,31 +227,31 @@
   </section>
   <section class="inspire">
     <div class="wrapper flex space_between align_end">
-      <div class="left inspire_right_anchor" data-aos="slide-right">
-        <h1 class="fw_black break2line">Inspire Education</h1>
-        <p class="fz30 fw_bold text_orange side_orange">Course We Provide</p>
+      <div class="left inspire_right_anchor">
+        <h1 class="fw_black break2line" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor">Inspire Education</h1>
+        <p class="fz30 fw_bold text_orange side_orange" data-aos="slide-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="100">Course We Provide</p>
         <div class="lists">
-          <div class="list icon_guard">
+          <div class="list icon_guard" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="150">
             <p class="title fz_black">GMBA Core Courses</p>
             <p>Provide you with must have knowledge & skills of managing a business entity</p>
           </div>
-          <div class="list icon_battery">
+          <div class="list icon_battery" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="200">
             <p class="title fz_black">Fundamental & tools</p>
             <p>Additional tools as globalized professional manager</p>
           </div>
-          <div class="list icon_scale">
+          <div class="list icon_scale" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="250">
             <p class="title fz_black">Research Methods</p>
             <p>Data analysis tools for perfect data management</p>
           </div>
-          <div class="list icon_user">
+          <div class="list icon_user" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="300">
             <p class="title fz_black">Culture & Management</p>
             <p>Add-on cultural intelligence</p>
           </div>
-          <div class="list icon_gear">
+          <div class="list icon_gear" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="350">
             <p class="title fz_black">Industry Practice / International Learning</p>
             <p>Topped with local adaptability</p>
           </div>
-          <div class="list icon_paper">
+          <div class="list icon_paper" data-aos="fade-right" data-aos-anchor=".inspire_right_anchor" data-aos-delay="400">
             <p class="title fz_black">Thesis</p>
             <p>Oral defense of thesis must be completed</p>
           </div>
@@ -321,25 +370,25 @@
   </section>
   <section class="gsa">
     <div class="wrapper">
-      <h1 class="fw_black">GSA<span class="btn">Facebook</span></h1>
+      <h1 class="fw_black">GSA<a href="#" class="btn">Facebook</a></h1>
       <p class="fz30 fw_bold text_orange side_orange">Global Student Association</p>
       <div class="lists flex wrap space_between">
         <div class="list icon_scale">
-          <p class="title fz_black">GSA is a Student Association</p>
+          <p class="title fw_black">GSA is a Student Association</p>
           <p>under the supervision of the Global Affairs Office.</p>
         </div>
         <div class="list icon_web">
-          <p class="title fz_black">The members of GSA comprise of </p>
+          <p class="title fw_black">The members of GSA comprise of </p>
           <p>International & Oversea Chinese Students.</p>
         </div>
         <div class="list icon_speaker">
-          <p class="title fz_black">GSA Serves as a Bridge</p>
+          <p class="title fw_black">GSA Serves as a Bridge</p>
           <p>between foreign students & school authorities<br>
             channeling the students' voice to the school & passing down <br>
             information from the school to the students.</p>
         </div>
         <div class="list icon_camera">
-          <p class="title fz_black">GSA also holds Events & Festivals <br>
+          <p class="title fw_black">GSA also holds Events & Festivals <br>
             to bond Taiwanese & international students.</p>
           <p>Cultural Festival, Mid-Autumn BBQ Party, Christmas Party, Dragon Boat <br>
             Festival, Beach Cleaning, Islamic Celebration...</p>
@@ -360,7 +409,7 @@
   </section>
   <section class="apply flex column center">
     <h1 class="fz100 fw_black">We Support <br>Your Success.</h1>
-    <a href="#">APPLY NOW</a>
+    <a class="open_sans fw_semibold" href="#">APPLY NOW</a>
   </section>
   <script src="js/jquery.min.js"></script>
   <script src="js/slick.min.js"></script>

@@ -80,4 +80,8 @@ var slider = $('.slides').slick({
 });
 $('.slides').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
   $('.pager .current').text('0' + (nextSlide + 1));
+  $('.slide_titles p').removeClass('show');
+  $('.slide_titles p').eq(nextSlide).addClass('show');
+  $('.slide_content ul').removeClass('show');
+  $('.slide_content ul').eq(nextSlide).addClass('show');
 });

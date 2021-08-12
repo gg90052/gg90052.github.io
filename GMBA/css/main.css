@@ -79,10 +79,10 @@ html.pwa,
 body.pwa {
   overflow: hidden;
 }
-@media screen and (max-width: 1367px) {
+@media screen and (max-width: 1441px) {
   html,
 body {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -164,7 +164,7 @@ body {
   max-width: 1300px;
   margin: 0 auto;
 }
-@media screen and (max-width: 1367px) {
+@media screen and (max-width: 1441px) {
   .wrapper {
     padding: 0 20px;
   }
@@ -243,6 +243,22 @@ section h1 {
   font-weight: 400;
 }
 
+.fw_semibold {
+  font-weight: 600;
+}
+
+.noto_sans {
+  font-family: "Noto Sans TC", "微軟正黑體";
+}
+
+.noto_serif {
+  font-family: "Noto Serif TC", "微軟正黑體";
+}
+
+.open_sans {
+  font-family: "Open Sans", sans-serif;
+}
+
 .side_orange {
   position: relative;
   padding-left: 0.75rem;
@@ -264,7 +280,7 @@ section h1 {
 
 .btn {
   font-size: 0.7rem;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 1rem 0.5rem;
   border: none;
   border-radius: 2rem;
   display: inline-block;
@@ -275,6 +291,9 @@ section h1 {
   position: relative;
   overflow: hidden;
   transition: all 0.3s;
+  color: inherit;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
 }
 .btn:hover {
   color: #FFF;
@@ -291,7 +310,7 @@ section h1 {
   position: absolute;
   z-index: -1;
   width: 100%;
-  height: 100%;
+  height: 110%;
   background: #000;
   left: 0;
   top: 0;
@@ -310,6 +329,7 @@ section h1 {
   display: inline-block;
   vertical-align: middle;
   margin-left: 0.6rem;
+  margin-top: -0.2rem;
 }
 
 .firstview {
@@ -416,6 +436,13 @@ section h1 {
   -ms-flex-line-pack: justify;
       align-content: space-between;
 }
+@media screen and (max-width: 1441px) {
+  .map .block .left .country {
+    height: 11rem;
+    -ms-flex-line-pack: start;
+        align-content: flex-start;
+  }
+}
 .map .block .left .country .state {
   width: 12rem;
   margin-right: 2rem;
@@ -439,10 +466,11 @@ section h1 {
 }
 .map .block .right {
   margin-right: 6.25%;
+  margin-left: 20%;
 }
 .map .block .right .video {
-  width: 355px;
-  height: 200px;
+  width: 17.75rem;
+  height: 10rem;
   position: relative;
   cursor: pointer;
   margin-bottom: 1.5rem;
@@ -504,14 +532,20 @@ section h1 {
   width: 60%;
   max-width: 618px;
 }
+.map .block.block2 .left h1 a {
+  margin-left: 2.5rem;
+  margin-top: -1rem;
+}
 .map .block.block2 .left .word {
   width: 75%;
 }
 .map .block.block2 .right {
-  width: 39%;
+  width: 20.8rem;
+  margin-left: 0;
+  margin-right: 0;
 }
 .map .block.block2 .right .chart {
-  width: 416px;
+  width: 20.8rem;
   position: relative;
 }
 .map .block.block2 .right .chart img {
@@ -524,6 +558,12 @@ section h1 {
   color: #FFF;
   font-size: 0.6rem;
   text-align: center;
+}
+@media screen and (max-width: 1441px) {
+  .map .block.block2 .right .chart > .big {
+    right: 10%;
+    top: 53%;
+  }
 }
 .map .block.block2 .right .chart > .big p {
   margin-bottom: 0.4rem;
@@ -543,6 +583,11 @@ section h1 {
   color: #6C8DD3;
   font-size: 0.6rem;
   text-align: center;
+}
+@media screen and (max-width: 1441px) {
+  .map .block.block2 .right .chart > .small {
+    left: 8%;
+  }
 }
 .map .block.block2 .right .chart > .small p {
   margin-bottom: 0.4rem;
@@ -588,7 +633,7 @@ section h1 {
 }
 .map .block.block2 .slideContainer .pager {
   position: absolute;
-  width: 52.86vw;
+  width: 50.75rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
@@ -604,10 +649,74 @@ section h1 {
   vertical-align: middle;
   margin: -3px 0.5rem 0 0.3rem;
 }
+.map .block.block2 .slideContainer .slide_titles {
+  position: absolute;
+  width: 50.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  top: 21%;
+}
+.map .block.block2 .slideContainer .slide_titles p {
+  opacity: 0;
+  transform: translateY(1.5em);
+  visibility: hidden;
+  font-family: "Noto Serif TC", "微軟正黑體";
+  font-size: 2rem;
+  font-weight: 700;
+  position: absolute;
+  top: 0;
+}
+.map .block.block2 .slideContainer .slide_titles p.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: all 0.3s;
+}
+.map .block.block2 .slideContainer .slide_content {
+  position: absolute;
+  width: 50.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  top: 40.5%;
+}
+.map .block.block2 .slideContainer .slide_content ul {
+  opacity: 0;
+  transform: translateX(100px);
+  visibility: hidden;
+  font-size: 0.7rem;
+  font-weight: 400;
+  position: absolute;
+  top: 0;
+  color: #FFF;
+  line-height: 2em;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  -ms-flex-align: start;
+      align-items: flex-start;
+  height: 11rem;
+  padding-left: 2rem;
+  list-style-type: disc;
+}
+.map .block.block2 .slideContainer .slide_content ul.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition: all 0.3s;
+}
 .map .block.block2 .slideContainer .slides {
   text-align: center;
   margin: 0 auto;
-  width: 52.86vw;
+  width: 50.75rem;
   position: relative;
 }
 .map .block.block2 .slideContainer .slides .slick-arrow {
@@ -622,7 +731,7 @@ section h1 {
 .map .block.block2 .slideContainer .slides .slick-arrow.slick-prev {
   transform: rotateZ(-180deg);
   z-index: 1000;
-  right: 5rem;
+  right: 6rem;
 }
 .map .block.block2 .slideContainer .slides .slick-arrow.slick-next::before {
   content: "";
@@ -630,10 +739,11 @@ section h1 {
   height: 18px;
   background: #FFF;
   position: absolute;
-  left: -0.9rem;
+  left: -1.1rem;
+  margin-top: -0.05rem;
 }
 .map .block.block2 .slideContainer .slides .slide {
-  height: 422px;
+  height: 21.1rem;
   text-align: right;
   overflow: hidden;
 }
@@ -643,7 +753,7 @@ section h1 {
 
 .awards {
   background: url("../images/bg2.png") left top no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
   position: relative;
   height: 100vh;
   margin-top: 8rem;
@@ -687,6 +797,11 @@ section h1 {
 
 .inspire .wrapper {
   padding: 10rem 0;
+}
+@media screen and (max-width: 1441px) {
+  .inspire .wrapper {
+    padding: 10rem 10%;
+  }
 }
 .inspire .left {
   width: 55%;
@@ -775,6 +890,7 @@ section h1 {
   font-size: 1.2rem;
   line-height: 1.5em;
   text-align: center;
+  font-weight: 900;
 }
 .lifeYZU .container div h3 {
   font-size: 0.7rem;
@@ -795,7 +911,7 @@ section h1 {
   font-size: 5rem;
   line-height: 6rem;
   color: #FFF;
-  font-weight: 400;
+  font-weight: 900;
 }
 .lifeYZU .word {
   grid-area: word;
@@ -828,6 +944,11 @@ section h1 {
 
 .dormitory {
   padding: 9.5rem 0 7.5rem;
+}
+@media screen and (max-width: 1441px) {
+  .dormitory {
+    padding: 9.5rem 10% 7.5rem;
+  }
 }
 .dormitory .margin {
   margin: 1rem 0 1.5rem;
@@ -875,7 +996,7 @@ section h1 {
   font-size: 5rem;
   color: #FFF;
   line-height: 6rem;
-  font-weight: 400;
+  font-weight: 700;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -894,8 +1015,12 @@ section h1 {
   height: 100%;
 }
 .photowall div img {
-  width: 100%;
-  height: 100%;
+  width: 101%;
+  height: 101%;
+}
+.photowall .videos {
+  height: 18rem;
+  overflow: hidden;
 }
 .photowall .videos .video {
   width: 100%;
@@ -920,8 +1045,8 @@ section h1 {
   border-color: transparent transparent transparent #000;
 }
 .photowall .videos .video img {
-  width: 100%;
-  height: 100%;
+  width: 101%;
+  height: 101%;
 }
 .photowall .videos .video .play {
   width: 40px;
@@ -957,7 +1082,12 @@ section h1 {
   background: url("../images/bg3.png") center top no-repeat;
   background-size: cover;
 }
-.gsa h1 span {
+@media screen and (max-width: 1441px) {
+  .gsa {
+    padding: 10rem 10% 7.2rem;
+  }
+}
+.gsa h1 a {
   margin-left: 2.5rem;
   margin-top: -1rem;
 }
@@ -1125,7 +1255,7 @@ section h1 {
   height: 7rem;
   background: #FF7316;
   text-align: center;
-  line-height: 7rem;
+  line-height: 6.7rem;
   color: #FFF;
   font-size: 3rem;
   font-weight: 700;

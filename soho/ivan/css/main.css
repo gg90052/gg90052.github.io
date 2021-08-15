@@ -192,7 +192,7 @@ body {
 
 .errorModal {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   left: 0;
   top: 0;
@@ -251,7 +251,7 @@ section.show {
 }
 .home .product {
   width: 4.09rem;
-  margin: 2.5rem auto 2rem;
+  margin: 1.5rem auto 1rem;
 }
 .home .product img {
   width: 100%;
@@ -266,7 +266,7 @@ section.show {
 
 .q {
   padding-bottom: 0.9em;
-  margin: 7.5vh 5% 0;
+  margin: 1em 5% 0;
   border-bottom: 2px solid #000;
 }
 .q div {

@@ -68,19 +68,12 @@ html,
 body {
   height: 100%;
   width: 100%;
-  font-size: 20px;
   font-family: "Noto Sans TC", "微軟正黑體", Arial, Helvetica, sans-serif !important;
   font-weight: 400;
   overscroll-behavior: none;
   -ms-touch-action: manipulation;
       touch-action: manipulation;
   overflow: hidden;
-}
-@media screen and (max-width: 1441px) {
-  html,
-body {
-    font-size: 14px;
-  }
 }
 
 body {
@@ -174,13 +167,16 @@ body {
 
 .btn {
   display: inline-block;
-  padding: 1.2rem calc(2.2rem - 10px) 1.2rem 2.2rem;
+  width: 2.7rem;
+  height: 1rem;
+  line-height: 0.9rem;
   border: 1px solid #66c7c9;
   color: #66c7c9;
-  border-radius: 2rem;
-  font-size: 2.2rem;
+  border-radius: 0.5rem;
+  font-size: 1.1em;
   font-weight: 100;
-  letter-spacing: 10px;
+  letter-spacing: 5px;
+  padding-left: 5px;
 }
 
 .warning {
@@ -206,6 +202,7 @@ body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  font-size: 20px;
 }
 .errorModal.show {
   pointer-events: auto;
@@ -215,19 +212,18 @@ body {
 .errorModal .content {
   width: 80%;
   background: #2d2d2d;
-  border-radius: 1.5rem;
+  border-radius: 1.5em;
   color: #FFF;
   padding: 0 15px;
+  font-size: 0.8em;
 }
 .errorModal .content p {
-  font-size: 1.2rem;
-  padding: 1.5rem 0;
+  padding: 27px 0;
   text-align: center;
   border-bottom: 2px solid #FFF;
 }
 .errorModal .content div {
-  font-size: 1.2rem;
-  padding: 1rem;
+  padding: 15px 0;
   text-align: center;
 }
 
@@ -242,6 +238,7 @@ section {
   top: 0;
   z-index: 1;
   pointer-events: none;
+  font-size: 20px;
 }
 section.show {
   opacity: 1;
@@ -253,41 +250,36 @@ section.show {
   text-align: center;
 }
 .home .product {
-  width: 60vw;
-  max-width: 409px;
-  margin: 7vh auto 2vh;
+  width: 4.09rem;
+  margin: 2.5rem auto 2rem;
 }
 .home .product img {
   width: 100%;
 }
 .home .slogan {
-  width: 85vw;
-  max-width: 635px;
-  margin: 0 auto 5vh;
+  width: 6.35rem;
+  margin: 0 auto 0.6rem;
 }
 .home .slogan img {
   width: 100%;
 }
 
 .q {
-  padding-bottom: 1.8rem;
+  padding-bottom: 0.9em;
   margin: 7.5vh 5% 0;
   border-bottom: 2px solid #000;
-  max-width: 380px;
 }
 .q div {
   font-family: Arial;
-  font-size: 3.8rem;
+  font-size: 2.6em;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   font-weight: bold;
 }
 .q p {
-  font-size: 1.4rem;
   letter-spacing: 1px;
   line-height: 1.5em;
-  margin-left: 1rem;
-  font-weight: 100;
+  margin-left: 0.5em;
 }
 
 .q1 {
@@ -295,35 +287,32 @@ section.show {
   background-size: cover;
 }
 .q1 .selects {
-  width: 90%;
-  max-width: 380px;
+  width: 70%;
   margin: 0 auto;
 }
 .q1 .selects .option {
-  font-size: 1.75rem;
   margin-top: 5vh;
 }
 .q1 .selects .option span {
-  width: 3rem;
-  height: 3rem;
+  width: 0.6rem;
+  height: 0.6rem;
   display: inline-block;
   vertical-align: middle;
-  margin-right: 1rem;
-  margin-top: -3px;
+  margin-right: 0.5em;
   border-radius: 50%;
   background: #000;
   color: #FFF;
+  font-size: 20px;
   font-family: Arial;
-  font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
-  line-height: 3rem;
+  line-height: 0.6rem;
 }
 .q1 .product {
-  width: 50%;
-  max-width: 297px;
+  width: 2.97rem;
   float: right;
   margin-top: 5vh;
+  margin-right: 0.66rem;
 }
 .q1 .product img {
   width: 100%;
@@ -335,30 +324,28 @@ section.show {
 }
 .q2 .selects .option {
   width: 40%;
-  margin-top: 3rem;
+  margin-top: 0.6rem;
   text-align: center;
 }
 .q2 .selects .option.all {
   width: 100%;
 }
 .q2 .selects .option .img {
-  width: 17.46vw;
-  max-width: 131px;
-  margin: 0 auto 0.5rem;
+  width: 1.31rem;
+  margin: 0 auto 0.5em;
 }
 .q2 .selects .option .img img {
   width: 100%;
 }
 .q2 .selects .option .imgs {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5em;
 }
 .q2 .selects .option .imgs img {
-  width: 17.46vw;
-  max-width: 131px;
+  width: 1.31rem;
   margin: 0 3px;
 }
 .q2 .selects .option p {
-  font-size: 1.2rem;
+  font-size: 0.8em;
   text-align: center;
 }
 
@@ -366,17 +353,15 @@ section.show {
   text-align: center;
 }
 .end .product {
-  width: 90vw;
-  max-width: 685px;
-  margin: 24vh auto 18vh;
+  width: 6.85rem;
+  margin: 3.85rem auto 2rem;
 }
 .end .product img {
   width: 100%;
 }
 .end .slogan {
-  width: 85vw;
-  max-width: 635px;
-  margin: 0 auto 5vh;
+  width: 6.35rem;
+  margin: 0 auto 0.55rem;
 }
 .end .slogan img {
   width: 100%;

@@ -58,19 +58,11 @@ var pieIO = new IntersectionObserver(function (entries) {
   threshold: .5
 });
 pieIO.observe(document.querySelector('.block2'));
-document.addEventListener('aos:in', function (_ref) {
-  var detail = _ref.detail;
-
-  if (detail.classList.contains('map_anchor')) {
-    document.querySelector('section.map').classList.add('showPoint');
-  }
+document.addEventListener('aos:in:point_anchor', function () {
+  document.querySelector('section.map').classList.add('showPoint');
 });
-document.addEventListener('aos:out', function (_ref2) {
-  var detail = _ref2.detail;
-
-  if (detail.classList.contains('map_anchor')) {
-    document.querySelector('section.map').classList.remove('showPoint');
-  }
+document.addEventListener('aos:out:point_anchor', function () {
+  document.querySelector('section.map').classList.remove('showPoint');
 });
 var totalSlides = $('.slides .slide').length;
 $('.pager .total').text('0' + totalSlides);

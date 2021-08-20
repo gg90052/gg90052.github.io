@@ -280,7 +280,7 @@ section h1 {
 
 .btn {
   font-size: 0.7rem;
-  padding: 0.8rem 1rem 0.5rem;
+  padding: 0.8rem 1rem;
   border: none;
   border-radius: 2rem;
   display: inline-block;
@@ -329,7 +329,7 @@ section h1 {
   display: inline-block;
   vertical-align: middle;
   margin-left: 0.6rem;
-  margin-top: -0.2rem;
+  margin-top: -0.1rem;
 }
 
 .firstview {
@@ -836,23 +836,35 @@ section h1 {
   left: 0;
   margin-top: 2px;
 }
+@media screen and (max-width: 1441px) {
+  .inspire .lists .list::before {
+    width: 28px;
+    height: 28px;
+  }
+}
 .inspire .lists .list.icon_guard::before {
   background: url("../images/icon_guard.png") center center no-repeat;
+  background-size: contain;
 }
 .inspire .lists .list.icon_battery::before {
   background: url("../images/icon_battery.png") center center no-repeat;
+  background-size: contain;
 }
 .inspire .lists .list.icon_scale::before {
   background: url("../images/icon_scale_black.png") center center no-repeat;
+  background-size: contain;
 }
 .inspire .lists .list.icon_user::before {
   background: url("../images/icon_user.png") center center no-repeat;
+  background-size: contain;
 }
 .inspire .lists .list.icon_gear::before {
   background: url("../images/icon_gear.png") center center no-repeat;
+  background-size: contain;
 }
 .inspire .lists .list.icon_paper::before {
   background: url("../images/icon_paper.png") center center no-repeat;
+  background-size: contain;
 }
 .inspire .lists .list p {
   font-size: 0.8rem;
@@ -1106,8 +1118,8 @@ section h1 {
 }
 .gsa .lists .list::before {
   content: "";
-  width: 56px;
-  height: 56px;
+  width: 2.8rem;
+  height: 2.8rem;
   border-radius: 50%;
   position: absolute;
   left: 0;
@@ -1130,7 +1142,7 @@ section h1 {
 }
 .gsa .lists .list p.title {
   font-size: 1.2rem;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.2em;
 }
 .gsa .photos {
   display: -ms-grid;

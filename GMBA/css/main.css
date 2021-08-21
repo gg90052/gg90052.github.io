@@ -830,16 +830,20 @@ section h1 {
 }
 .inspire .lists .list::before {
   content: "";
-  width: 34px;
-  height: 34px;
+  width: 64px;
+  height: 64px;
   position: absolute;
   left: 0;
   margin-top: 2px;
 }
 @media screen and (max-width: 1441px) {
   .inspire .lists .list::before {
-    width: 28px;
-    height: 28px;
+    content: "";
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: -6px;
+    margin-top: -6px;
   }
 }
 .inspire .lists .list.icon_guard::before {
@@ -1110,7 +1114,7 @@ section h1 {
 }
 .gsa .lists .list {
   position: relative;
-  padding-left: calc(56px + 1rem);
+  padding-left: calc(46px + 1rem);
   -ms-flex-positive: 1;
       flex-grow: 1;
   width: 50%;

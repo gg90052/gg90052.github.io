@@ -835,8 +835,8 @@ section h1 {
 }
 .inspire .lists .list::before {
   content: "";
-  width: 34px;
-  height: 34px;
+  width: 64px;
+  height: 64px;
   position: absolute;
   left: 6px;
   top: 50%;
@@ -846,6 +846,16 @@ section h1 {
   .inspire .lists .list::before {
     width: 24px;
     height: 24px;
+  }
+}
+@media screen and (max-width: 1441px) {
+  .inspire .lists .list::before {
+    content: "";
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: -6px;
+    margin-top: -6px;
   }
 }
 .inspire .lists .list.icon_guard::before {

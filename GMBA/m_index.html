@@ -6,7 +6,7 @@
 	<title>GMBA</title>
 	<link rel="stylesheet" href="css/aos.css">
 	<link rel="stylesheet" href="css/slick.min.css">
-	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/m_main.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&family=Noto+Serif+TC:wght@900&family=Open+Sans:wght@600&display=swap" rel="stylesheet">
@@ -15,27 +15,29 @@
 <body>
   <section class="firstview">
     <div class="logo">
-      <img src="images/logo.png" alt="">
+      <img src="images/m_logo.png" alt="">
     </div>
-    <div class="wrapper flex flex_end">
+  </section>
+  <section class="secondview">
+    <div class="wrapper flex center">
       <div class="word_container">
-        <p class="fz30 fw_black">All English MBA Program</p>
-        <p class="fz80 fw_black break2line">The First in Taiwan.</p>
-        <p class="fz30 text_orange fw_bold side_orange">Global Master of Business Administration Program</p>
+        <p class="fz16 fw_black">All English MBA Program</p>
+        <p class="fz30 fw_black">The First in Taiwan.</p>
+        <p class="fz20 text_orange fw_bold side_orange">Global Master of Business Administration Program</p>
         <p class="fz16">Founded in 1993, the College of Management carries on the motto of“Excellence, Thoroughness, Vision, Harmony and Innovation” of the Far Eastern Group and Yuan Ze University by establishing the GMBA program in 2019. Since its inception, the program has attracted both local and international students on a multicultural learning environment. With 80% of students coming from a foreign country, the program is poised to lead everyone on journey to become a globalized manager.</p>
         <p class="fz16">Conducted entirely in English, the GMBA program allows you to elect a concentration in Business Management, Leadership and Human Resources Management, Marketing, or International Business. The program emphasizes communication skills and cross cultural team management with the aim of producing managers with global view and mobility.</p>
-        <p class="fz30 fw_bold text_orange side_orange ">BEGIN YOUR STORY.<br>A BETTER YOU, A BETTER WORLD.</p>
+        <p class="fz20 fw_bold text_orange side_orange ">BEGIN YOUR STORY.<br>A BETTER YOU, A BETTER WORLD.</p>
       </div>
     </div>
   </section>
   <section class="map">
     <div class="wrapper">
-      <div class="block flex center align_end" id="block1">
+      <div class="block" id="block1">
         <div class="left">
           <h1 class="fw_black">Global</h1>
-          <p class="fz30 fw_bold text_orange side_orange">Students from across the world</p>
-          <div class="student_body flex space_between align_top">
-            <p>STUDENT<br>BODY</p>
+          <p class="fz20 fw_bold text_orange side_orange">Students from across the world</p>
+          <div class="student_body flex wrap space_between align_top">
+            <p class="fz16 full_width">STUDENT BODY</p>
             <div class="students">
               <p class="noto_serif fw_black" id="students">88.89</p>
               <span>International Students</span>
@@ -45,14 +47,14 @@
               <span>Countries & Regions</span>
             </div>
           </div>
-          <div class="country flex column wrap">
-            <div class="state wide">
+          <div class="country">
+            <div class="state">
               <span class="fw_black">ASIA</span>
               <p>Vietnam, Thailand, Malaysia, Indonesia, 
                 Philippines, Japan, Mongolia, China, 
                 Hong Kong, Taiwan</p>
             </div>
-            <div class="state wide">
+            <div class="state">
               <span class="fw_black">America</span>
               <p>United States, Nicaragua, Honduras, Peru, 
                 Haiti, Saint Vincent, Saint Lucia</p>
@@ -72,17 +74,17 @@
           </div>
         </div>
         <div class="right map_anchor">
-          <div class="video" data-aos="fade-left" data-aos-anchor=".map_anchor" data-aos-id="point_anchor">
+          <div class="video" data-aos-anchor=".map_anchor" data-aos-id="point_anchor">
             <img src="images/video1.png" alt="">
             <div class="play"></div>
             <p>IN YZU</p>
           </div>
-          <div class="video" data-aos="fade-left" data-aos-anchor=".map_anchor" data-aos-delay="100">
+          <div class="video" data-aos-anchor=".map_anchor" data-aos-delay="100">
             <img src="images/video2.png" alt="">
             <div class="play"></div>
             <p>It's My Life</p>
           </div>
-          <div class="video" data-aos="fade-left" data-aos-anchor=".map_anchor" data-aos-delay="200">
+          <div class="video" data-aos-anchor=".map_anchor" data-aos-delay="200">
             <img src="images/video3.png" alt="">
             <div class="play"></div>
             <p>LOVE GMBA</p>
@@ -415,7 +417,10 @@
   <script src="js/slick.min.js"></script>
   <script src="js/aos.js"></script>
   <script src="js/countUp.umd.js"></script>
-  <script src="js/main.js"></script>
+  <!-- <script src="js/main.js"></script> -->
+  <script>
+    document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+  </script>
 </body>
 
 </html>

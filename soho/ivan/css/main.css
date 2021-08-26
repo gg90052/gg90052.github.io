@@ -68,12 +68,19 @@ html,
 body {
   height: 100%;
   width: 100%;
+  font-size: 20px;
   font-family: "Noto Sans TC", "微軟正黑體", Arial, Helvetica, sans-serif !important;
   font-weight: 400;
   overscroll-behavior: none;
   -ms-touch-action: manipulation;
       touch-action: manipulation;
   overflow: hidden;
+}
+@media screen and (max-width: 1441px) {
+  html,
+body {
+    font-size: 14px;
+  }
 }
 
 body {
@@ -164,6 +171,15 @@ body {
   background: url(../images/bg.jpg) center center no-repeat;
   background-size: cover;
 }
+body:after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #000;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 
 .btn {
   display: inline-block;
@@ -234,6 +250,8 @@ section {
   position: fixed;
   width: 100vw;
   height: 100vh;
+  min-height: 700px;
+  overflow-y: auto;
   left: 0;
   top: 0;
   z-index: 1;
@@ -263,6 +281,9 @@ section.show {
 .home .slogan img {
   width: 100%;
 }
+.home .btn {
+  margin-bottom: 100px;
+}
 
 .q {
   padding-bottom: 0.9em;
@@ -287,7 +308,7 @@ section.show {
   background-size: cover;
 }
 .q1 .selects {
-  width: 70%;
+  width: 76%;
   margin: 0 auto;
 }
 .q1 .selects .option {
@@ -313,6 +334,7 @@ section.show {
   float: right;
   margin-top: 5vh;
   margin-right: 0.66rem;
+  margin-bottom: 200px;
 }
 .q1 .product img {
   width: 100%;
@@ -321,6 +343,9 @@ section.show {
 .q2 {
   background: url(../images/q1_bg.jpg) center center no-repeat;
   background-size: cover;
+}
+.q2 .selects {
+  margin-bottom: 200px;
 }
 .q2 .selects .option {
   width: 40%;
@@ -365,4 +390,7 @@ section.show {
 }
 .end .slogan img {
   width: 100%;
+}
+.end .btn {
+  margin-bottom: 200px;
 }

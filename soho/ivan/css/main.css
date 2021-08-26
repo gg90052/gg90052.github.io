@@ -175,7 +175,7 @@ body:after {
   content: "";
   width: 10px;
   height: 10px;
-  background: #000;
+  background: #F00;
   position: fixed;
   left: 0;
   top: 0;
@@ -282,7 +282,7 @@ section.show {
   width: 100%;
 }
 .home .btn {
-  margin-bottom: 100px;
+  margin-bottom: 200px;
 }
 
 .q {

@@ -825,11 +825,6 @@ section h1 {
   border-bottom: 0.5px solid #707070;
   position: relative;
 }
-@media screen and (max-width: 1441px) {
-  .inspire .lists .list {
-    padding: 1.1rem 0 1.1rem 3rem;
-  }
-}
 .inspire .lists .list:last-child {
   border-bottom-width: 3px;
 }
@@ -841,12 +836,6 @@ section h1 {
   left: 6px;
   top: 50%;
   transform: translateY(-50%);
-}
-@media screen and (max-width: 1441px) {
-  .inspire .lists .list::before {
-    width: 24px;
-    height: 24px;
-  }
 }
 .inspire .lists .list.icon_guard::before {
   background: url("../images/icon_guard.png") center center no-repeat;
@@ -1132,19 +1121,15 @@ section h1 {
 }
 .gsa .lists .list.icon_scale::before {
   background: url("../images/icon_scale.png") #FF7316 center center no-repeat;
-  background-size: contain;
 }
 .gsa .lists .list.icon_web::before {
   background: url("../images/icon_web.png") #FF7316 center center no-repeat;
-  background-size: contain;
 }
 .gsa .lists .list.icon_speaker::before {
   background: url("../images/icon_speaker.png") #FF7316 center center no-repeat;
-  background-size: contain;
 }
 .gsa .lists .list.icon_camera::before {
   background: url("../images/icon_camera.png") #FF7316 center center no-repeat;
-  background-size: contain;
 }
 .gsa .lists .list p {
   font-size: 0.8rem;

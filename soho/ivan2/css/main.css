@@ -458,13 +458,13 @@ section .option .img {
 }
 
 .q2 {
-  padding-top: 2.55rem;
+  padding-top: 1rem;
   background: url(../images/q1_bg.jpg) center bottom no-repeat;
   background-size: cover;
 }
 .q2 .q {
   width: 8.42rem;
-  margin: 0 0 1.5rem 1rem;
+  margin: 0 0 1rem 1rem;
 }
 .q2 .q img {
   width: 100%;
@@ -474,7 +474,7 @@ section .option .img {
   margin: 0 auto;
 }
 .q2 .selects .option {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .q2 .selects .option img {
   width: 100%;
@@ -516,7 +516,7 @@ section .option .img {
   margin: 0 auto;
 }
 .q3 .selects .option {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   width: 50%;
   -ms-flex-negative: 0;
       flex-shrink: 0;

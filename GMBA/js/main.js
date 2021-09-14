@@ -1,6 +1,14 @@
 "use strict";
 
 AOS.init();
+$.get('https://script.google.com/macros/s/AKfycbyrTE7kHKkD8ZG3fY6jFASLZCncHUxMwJHHFh1yKjneB80U0hxZ0W2M90BHxdRFsaF67A/exec', function (res) {
+  res.forEach(function (item, index) {
+    var tar = $("#video".concat(index + 1));
+    tar.attr('href', item.link);
+    tar.find('img').prop('src', item.image);
+    tar.find('p').text(item.name);
+  });
+});
 
 var easeInOut = function easeInOut(t, b, c, d) {
   t /= d / 2;

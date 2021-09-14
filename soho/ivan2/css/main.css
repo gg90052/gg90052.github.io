@@ -311,7 +311,7 @@ section .option .img {
 .home .btn {
   width: 6.6rem;
   height: 1.68rem;
-  background: url(../images/home_btn.png) center center no-repeat;
+  background: url(../images/home_btn.gif) center center no-repeat;
   background-size: contain;
   position: absolute;
   left: 50%;
@@ -408,7 +408,7 @@ section .option .img {
 .page3 .btn {
   width: 6.6rem;
   height: 1.68rem;
-  background: url(../images/page3_btn.png) center center no-repeat;
+  background: url(../images/page3_btn.gif) center center no-repeat;
   background-size: contain;
   position: absolute;
   left: 50%;

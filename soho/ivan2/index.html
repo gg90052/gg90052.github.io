@@ -69,7 +69,7 @@
       </div>
     </div>
     <div id="q1_ok" class="btn">
-      <img src="images/btn_next.png" alt="">
+      <img src="images/btn_next.gif" alt="">
     </div>
     <p class="tip">僅提供傑太日煙及銷售通路使用請勿提供予消費者</p>
   </section>
@@ -100,7 +100,7 @@
       </div>
     </div>
     <div id="q2_ok" class="btn">
-      <img src="images/btn_next.png" alt="">
+      <img src="images/btn_next.gif" alt="">
     </div>
     <p class="tip">僅提供傑太日煙及銷售通路使用請勿提供予消費者</p>
   </section>
@@ -131,7 +131,7 @@
       </div>
     </div>
     <div id="q3_ok" class="btn">
-      <img src="images/btn_next.png" alt="">
+      <img src="images/btn_next.gif" alt="">
     </div>
   </section>
   <section class="end">
@@ -139,7 +139,7 @@
       <img src="images/end_title.png" alt="">
     </div>
     <div id="gameEnd" class="btn">
-      <img src="images/end_btn.png" alt="">
+      <img src="images/end_btn.gif" alt="">
     </div>
   </section>
   <div class="warning">
@@ -154,7 +154,87 @@
       document.documentElement.style.fontSize = document.documentElement.clientWidth / 11.25 + 'px';
   </script>
   <script src="js/jquery.min.js"></script>
+  <script src="https://www.road-to-app.com.tw/js/mgm.utils.min.js"></script>
   <script>
+    var useApi = false;
+    if (useApi === true){
+      if (!MGMUtils.getToken()){
+        redirect2Login();
+      }else {
+          // 遊戲開始
+          $('#gameStart').bind('click', function(){
+              axios.get('/admin/index.php/api/permission_check', {
+                  headers:{
+                      'Authorization-Token':'Bearer '+MGMUtils.getToken()
+                  }
+              }).then(res=>{
+                  const state = parseInt(res.data.state);
+
+                  switch (state) {
+                      case 501: msg = '已玩過'; break;
+                      case 502: msg = 'token已失效'; break;
+                      default : msg = res.data.msg;
+                  }
+
+                  if (state==1) {
+                      gameStart();
+                  } else if (state==502) {
+                      redirect2Login();
+                  } else {
+                      console.log(res.data);
+                      window.alert(msg);
+                  }
+              })
+
+              return false;
+          });
+
+          // 遊戲結束
+          $('#gameEnd').bind('click', function(){
+              let formData = new FormData();
+              formData.append('success', 1);
+
+              axios.post('/admin/index.php/api/game_over', formData, {
+                  headers:{
+                      'Authorization-Token':'Bearer '+MGMUtils.getToken()
+                  }
+              }).then(res=>{
+                  const state = parsetInt(res.data.state);
+
+                  switch (state) {
+                      case 501: msg = '已玩過'; break;
+                      case 502: msg = 'token已失效'; break;
+                      default : msg = res.data.msg;
+                  }
+
+                  if (state==1) {
+                      gameOver();
+                  } else if (state==502) {
+                      redirect2Login();
+                  } else {
+                      console.log(res.data);
+                      window.alert(msg);
+                  }
+              })
+
+              return false;
+          });
+      }
+    }else{
+      $('#gameStart').bind('click', function(){
+        gameStart();
+      });
+    }
+    
+
+    function gameStart(){
+      $('section').removeClass('show');
+      $('.q1').addClass('show');
+      $('.warning').addClass('hide');
+    };
+    function gameOver(){
+      window.alert('game over!');
+    }
     
     $('#homeStart').click(function(){
       $('.home').addClass('leave');
@@ -174,12 +254,6 @@
         $('.page3').addClass('show').removeClass('leave');
       }, 5000);
     }
-
-    $('#gameStart').click(function(){
-      $('section').removeClass('show');
-      $('.q1').addClass('show');
-      $('.warning').addClass('hide');
-    });
 
     $('.q1 .option').click(function(){
       $('.q1 .option').removeClass('active');

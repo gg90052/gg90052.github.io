@@ -302,6 +302,7 @@ section .option .img {
 }
 .home .product {
   width: 10.11rem;
+  height: 16rem;
   margin: 1.7rem auto 0;
 }
 .home .product img {
@@ -398,7 +399,7 @@ section .option .img {
 }
 .page3 .product {
   width: 7.2rem;
-  margin: 0 auto;
+  margin: 0 auto 10rem;
   transform: translateX(-4%);
 }
 .page3 .product img {
@@ -411,7 +412,7 @@ section .option .img {
   background-size: contain;
   position: absolute;
   left: 50%;
-  top: 64%;
+  top: 70%;
   transform: translateX(-50%);
 }
 
@@ -561,7 +562,7 @@ section .option .img {
 }
 .q3 .btn {
   width: 6.58rem;
-  margin: 0.5rem auto 0;
+  margin: 0.5rem auto 7rem;
 }
 .q3 .btn img {
   width: 100%;
@@ -581,7 +582,10 @@ section .option .img {
 }
 .end .btn {
   width: 6.58rem;
-  margin: 10rem auto 0;
+  position: absolute;
+  left: 50%;
+  top: 64%;
+  transform: translateX(-50%);
 }
 .end .btn img {
   width: 100%;

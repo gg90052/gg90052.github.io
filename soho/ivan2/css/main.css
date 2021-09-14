@@ -1,0 +1,588 @@
+@charset "UTF-8";
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+a {
+  text-decoration: none;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+  font-family: "Noto Sans TC", "微軟正黑體", Arial, Helvetica, sans-serif !important;
+  font-weight: 400;
+  overscroll-behavior: none;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  overflow: hidden;
+}
+@media screen and (max-width: 1441px) {
+  html,
+body {
+    font-size: 14px;
+  }
+}
+
+body {
+  scroll-behavior: smooth;
+  color: #000;
+  background: #000;
+}
+
+* {
+  box-sizing: border-box;
+}
+*:focus {
+  outline: none;
+}
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.flex {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+.flex.column {
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+.flex.center {
+  -ms-flex-pack: center;
+      justify-content: center;
+}
+.flex.space_around {
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+.flex.flex_start {
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+}
+.flex.flex_end {
+  -ms-flex-pack: end;
+      justify-content: flex-end;
+}
+.flex.wrap {
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.flex.reverse {
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+}
+.flex.align_top {
+  -ms-flex-line-pack: start;
+      align-content: flex-start;
+  -ms-flex-align: start;
+      align-items: flex-start;
+}
+.flex.align_end {
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
+  -ms-flex-align: end;
+      align-items: flex-end;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+@media screen and (max-width: 1441px) {
+  .wrapper {
+    padding: 0 20px;
+  }
+}
+
+.warning {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+.warning.hide {
+  display: none;
+}
+.warning img {
+  width: 100%;
+}
+
+.errorModal {
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: all 0.3s;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 5;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  font-size: 20px;
+}
+.errorModal.show {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+.errorModal .content {
+  width: 9.49rem;
+  margin: 0 auto;
+}
+.errorModal .content img {
+  width: 100%;
+}
+
+section {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 1s;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  min-height: 700px;
+  overflow-y: auto;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+  font-size: 20px;
+}
+section.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+section .tip {
+  font-size: 12px;
+  line-height: 2em;
+  letter-spacing: 4px;
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #b59946;
+}
+section .option {
+  position: relative;
+}
+section .option.active::after {
+  display: block;
+}
+section .option::before {
+  content: "";
+  width: 0.83rem;
+  height: 0.83rem;
+  background: url(../images/radiocheck.png) center center no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.9rem;
+}
+section .option::after {
+  content: "";
+  width: 0.83rem;
+  height: 0.83rem;
+  background: url(../images/radiobtn.png) center center no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+}
+section .option .img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.home {
+  text-align: center;
+  background: url(../images/home_bg.jpg) center top no-repeat;
+  background-size: cover;
+}
+.home.leave .title {
+  transform: translateY(1rem);
+  opacity: 0;
+  transition: all 0.5s 0.5s;
+}
+.home.leave .product {
+  transform: translateY(1rem);
+  opacity: 0;
+  transition: all 0.5s 0.5s;
+}
+.home.leave #homeStart {
+  opacity: 0;
+  transition: all 0.5s;
+}
+.home .title {
+  width: 5.85rem;
+  margin-top: 1.9rem;
+  margin-left: 1.1rem;
+}
+.home .title img {
+  width: 100%;
+}
+.home .product {
+  width: 10.11rem;
+  margin: 3.7rem auto 0;
+}
+.home .product img {
+  width: 100%;
+}
+.home .btn {
+  width: 6.6rem;
+  height: 1.68rem;
+  background: url(../images/home_btn.png) center center no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 50%;
+  top: 73%;
+  transform: translateX(-50%);
+}
+
+.page2 {
+  text-align: center;
+  background: url(../images/page2_bg.jpg) center top no-repeat;
+  background-size: cover;
+}
+.page2.leave .product {
+  opacity: 0;
+}
+.page2 .title {
+  width: 7.42rem;
+  margin: 2.4rem auto 2rem;
+}
+.page2 .title img {
+  width: 100%;
+}
+.page2 .product {
+  width: 6.91rem;
+  margin: 0 auto;
+  position: relative;
+  transition: all 1s 1s;
+}
+.page2 .product > img {
+  width: 100%;
+}
+.page2 .product .word1 {
+  width: 4.2rem;
+  position: absolute;
+  left: 4.2rem;
+  top: 1.1rem;
+  transition: all 1s;
+  transform-origin: center left;
+  transform: translateX(-1rem);
+  opacity: 0;
+}
+.page2 .product .word1.enter {
+  transform: translateX(0);
+  opacity: 1;
+}
+.page2 .product .word1 img {
+  width: 100%;
+}
+.page2 .product .word2 {
+  width: 3.25rem;
+  position: absolute;
+  right: 5.3rem;
+  top: 7.2rem;
+  transition: all 1s 1s;
+  transform-origin: center right;
+  transform: translateX(1rem);
+  opacity: 0;
+}
+.page2 .product .word2.enter {
+  transform: translateX(0);
+  opacity: 1;
+}
+.page2 .product .word2 img {
+  width: 100%;
+}
+
+.page3 {
+  text-align: center;
+  background: url(../images/page2_bg.jpg) center top no-repeat;
+  background-size: cover;
+}
+.page3 .title {
+  width: 9.05rem;
+  margin: 2.5rem auto 1.45rem;
+}
+.page3 .title img {
+  width: 100%;
+}
+.page3 .subtitle {
+  width: 6rem;
+  margin: 0 auto 2rem;
+}
+.page3 .subtitle img {
+  width: 100%;
+}
+.page3 .product {
+  width: 7.2rem;
+  margin: 0 auto;
+  transform: translateX(-4%);
+}
+.page3 .product img {
+  width: 100%;
+}
+.page3 .btn {
+  width: 6.6rem;
+  height: 1.68rem;
+  background: url(../images/page3_btn.png) center center no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 50%;
+  top: 73%;
+  transform: translateX(-50%);
+}
+
+.q1 {
+  padding-top: 2.55rem;
+  background: url(../images/q1_bg.jpg) center bottom no-repeat;
+  background-size: cover;
+}
+.q1 .q {
+  width: 9.3rem;
+  margin: 0 0 1.5rem 1rem;
+}
+.q1 .q img {
+  width: 100%;
+}
+.q1 .selects {
+  width: 9.3rem;
+  margin: 0 auto;
+}
+.q1 .selects .option {
+  margin-bottom: 1.5rem;
+}
+.q1 .selects .option img {
+  width: 100%;
+}
+.q1 .selects .option.o1 .img {
+  width: 1.93rem;
+}
+.q1 .selects .option.o2 .img {
+  width: 2.49rem;
+}
+.q1 .selects .option.o3 .img {
+  width: 6.64rem;
+}
+.q1 .selects .option.o4 .img {
+  width: 1.86rem;
+}
+.q1 .btn {
+  width: 6.58rem;
+  margin: 2rem auto 0;
+}
+.q1 .btn img {
+  width: 100%;
+}
+
+.q2 {
+  padding-top: 2.55rem;
+  background: url(../images/q1_bg.jpg) center bottom no-repeat;
+  background-size: cover;
+}
+.q2 .q {
+  width: 8.42rem;
+  margin: 0 0 1.5rem 1rem;
+}
+.q2 .q img {
+  width: 100%;
+}
+.q2 .selects {
+  width: 9.3rem;
+  margin: 0 auto;
+}
+.q2 .selects .option {
+  margin-bottom: 1.5rem;
+}
+.q2 .selects .option img {
+  width: 100%;
+}
+.q2 .selects .option.o1 .img {
+  width: 6.83rem;
+}
+.q2 .selects .option.o2 .img {
+  width: 7.14rem;
+}
+.q2 .selects .option.o3 .img {
+  width: 6.76rem;
+}
+.q2 .selects .option.o4 .img {
+  width: 6.76rem;
+}
+.q2 .btn {
+  width: 6.58rem;
+  margin: 2rem auto 0;
+}
+.q2 .btn img {
+  width: 100%;
+}
+
+.q3 {
+  padding-top: 2.55rem;
+  background: url(../images/q1_bg.jpg) center bottom no-repeat;
+  background-size: cover;
+}
+.q3 .q {
+  width: 8.92rem;
+  margin: 0 0 1.5rem 1rem;
+}
+.q3 .q img {
+  width: 100%;
+}
+.q3 .selects {
+  width: 9.3rem;
+  margin: 0 auto;
+}
+.q3 .selects .option {
+  margin-bottom: 1.5rem;
+  width: 50%;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  display: block;
+}
+.q3 .selects .option::before {
+  display: block;
+  width: 0.54rem;
+  height: 0.54rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -1rem;
+}
+.q3 .selects .option::after {
+  width: 0.54rem;
+  height: 0.54rem;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -1rem;
+  top: unset;
+}
+.q3 .selects .option img {
+  width: 100%;
+}
+.q3 .selects .option .img {
+  margin: 0 auto;
+  display: block;
+}
+.q3 .selects .option.o1 .img {
+  width: 3.05rem;
+}
+.q3 .selects .option.o2 .img {
+  width: 2.23rem;
+}
+.q3 .selects .option.o3 .img {
+  width: 2.17rem;
+}
+.q3 .selects .option.o4 .img {
+  width: 2.3rem;
+}
+.q3 .btn {
+  width: 6.58rem;
+  margin: 0.5rem auto 0;
+}
+.q3 .btn img {
+  width: 100%;
+}
+
+.end {
+  background: url(../images/end_bg.jpg) center center no-repeat;
+  background-size: cover;
+}
+.end .title {
+  width: 6.73rem;
+  margin-top: 2rem;
+  margin-left: 1.1rem;
+}
+.end .title img {
+  width: 100%;
+}
+.end .btn {
+  width: 6.58rem;
+  margin: 12.9rem auto 0;
+}
+.end .btn img {
+  width: 100%;
+}

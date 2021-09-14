@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CASTER</title>
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;400&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <section class="home show">
+    <div class="title">
+      <img src="images/home_title.png" alt="">
+    </div>
+    <div class="product"><img src="images/home_product.png" alt=""></div>
+    <div id="homeStart" class="btn"></div>
+  </section>
+  <section class="page2 leave">
+    <div class="title">
+      <img src="images/page2_title.png" alt="">
+    </div>
+    <div class="product">
+      <img src="images/page2_product.png" alt="">
+      <div class="word1">
+        <img src="images/page2_word1.png" alt="">
+      </div>
+      <div class="word2">
+        <img src="images/page2_word2.png" alt="">
+      </div>
+    </div>
+  </section>
+  <section class="page3">
+    <div class="title">
+      <img src="images/page3_title.png" alt="">
+    </div>
+    <div class="subtitle">
+      <img src="images/page3_subtitle.png" alt="">
+    </div>
+    <div class="product"><img src="images/page3_product.png" alt=""></div>
+    <div id="gameStart" class="btn"></div>
+  </section>
+  <section class="q1">
+    <div class="q">
+      <img src="images/q1_title.png" alt="">
+    </div>
+    <div class="selects">
+      <div class="option o1" val="1">
+        <div class="img">
+          <img src="images/q1_1.png" alt="">
+        </div>
+      </div>
+      <div class="option o2" val="2">
+        <div class="img">
+          <img src="images/q1_2.png" alt="">
+        </div>
+      </div>
+      <div class="option o3" val="3">
+        <div class="img">
+          <img src="images/q1_3.png" alt="">
+        </div>
+      </div>
+      <div class="option o4" val="4">
+        <div class="img">
+          <img src="images/q1_4.png" alt="">
+        </div>
+      </div>
+    </div>
+    <div id="q1_ok" class="btn">
+      <img src="images/btn_next.png" alt="">
+    </div>
+    <p class="tip">僅提供傑太日煙及銷售通路使用請勿提供予消費者</p>
+  </section>
+  <section class="q2">
+    <div class="q">
+      <img src="images/q2_title.png" alt="">
+    </div>
+    <div class="selects">
+      <div class="option o1" val="1">
+        <div class="img">
+          <img src="images/q2_1.png" alt="">
+        </div>
+      </div>
+      <div class="option o2" val="2">
+        <div class="img">
+          <img src="images/q2_2.png" alt="">
+        </div>
+      </div>
+      <div class="option o3" val="3">
+        <div class="img">
+          <img src="images/q2_3.png" alt="">
+        </div>
+      </div>
+      <div class="option o4" val="4">
+        <div class="img">
+          <img src="images/q2_4.png" alt="">
+        </div>
+      </div>
+    </div>
+    <div id="q2_ok" class="btn">
+      <img src="images/btn_next.png" alt="">
+    </div>
+    <p class="tip">僅提供傑太日煙及銷售通路使用請勿提供予消費者</p>
+  </section>
+  <section class="q3">
+    <div class="q">
+      <img src="images/q3_title.png" alt="">
+    </div>
+    <div class="selects flex wrap center">
+      <div class="option o1" val="1">
+        <div class="img">
+          <img src="images/q3_1.png" alt="">
+        </div>
+      </div>
+      <div class="option o2" val="2">
+        <div class="img">
+          <img src="images/q3_2.png" alt="">
+        </div>
+      </div>
+      <div class="option o3" val="3">
+        <div class="img">
+          <img src="images/q3_3.png" alt="">
+        </div>
+      </div>
+      <div class="option o4" val="4">
+        <div class="img">
+          <img src="images/q3_4.png" alt="">
+        </div>
+      </div>
+    </div>
+    <div id="q3_ok" class="btn">
+      <img src="images/btn_next.png" alt="">
+    </div>
+  </section>
+  <section class="end">
+    <div class="title">
+      <img src="images/end_title.png" alt="">
+    </div>
+    <div id="gameEnd" class="btn">
+      <img src="images/end_btn.png" alt="">
+    </div>
+  </section>
+  <div class="warning">
+    <img src="images/warning.jpg" alt="">
+  </div>
+  <div class="errorModal flex center">
+    <div class="content">
+      <img src="images/error.png" alt="">
+    </div>
+  </div>
+  <script>
+      document.documentElement.style.fontSize = document.documentElement.clientWidth / 11.25 + 'px';
+  </script>
+  <script src="js/jquery.min.js"></script>
+  <script>
+    
+    $('#homeStart').click(function(){
+      $('.home').addClass('leave');
+      setTimeout(function(){
+        $('section').removeClass('show');
+        $('.page2').addClass('show').removeClass('leave');
+        page2_start();
+      }, 500);
+    });
+
+    function page2_start(){
+      setTimeout(function(){
+        $('.word1, .word2').addClass('enter');
+      }, 1800);
+      setTimeout(function(){
+        $('section').removeClass('show');
+        $('.page3').addClass('show').removeClass('leave');
+      }, 5000);
+    }
+
+    $('#gameStart').click(function(){
+      $('section').removeClass('show');
+      $('.q1').addClass('show');
+      $('.warning').addClass('hide');
+    });
+
+    $('.q1 .option').click(function(){
+      $('.q1 .option').removeClass('active');
+      $(this).addClass('active');
+    });
+
+    $('#q1_ok').click(function(){
+      if ($('.q1 .option.active').attr('val') == 1){
+        $('section').removeClass('show');
+        $('.q2').addClass('show');
+      }else{
+        $('.errorModal').addClass('show');
+      }
+    });
+
+    $('.q2 .option').click(function(){
+      $('.q2 .option').removeClass('active');
+      $(this).addClass('active');
+    });
+
+    $('#q2_ok').click(function(){
+      if ($('.q2 .option.active').attr('val') == 2){
+        $('section').removeClass('show');
+        $('.q3').addClass('show');
+        $('.warning').removeClass('hide');
+      }else{
+        $('.errorModal').addClass('show');
+      }
+    });
+
+    $('.q3 .option').click(function(){
+      $('.q3 .option').removeClass('active');
+      $(this).addClass('active');
+    });
+
+    $('#q3_ok').click(function(){
+      if ($('.q3 .option.active').attr('val') == 1){
+        $('section').removeClass('show');
+        $('.end').addClass('show');
+      }else{
+        $('.errorModal').addClass('show');
+      }
+    });
+    
+    $('.errorModal').click(function(){
+      $('.errorModal').removeClass('show');
+    });
+  </script>
+</body>
+
+</html>

@@ -340,6 +340,11 @@ section .option .img {
   position: relative;
   transition: all 1s 1s;
 }
+.page2 .product.leave {
+  transform: scaleX(-1);
+  opacity: 0;
+  transition: all 1s;
+}
 .page2 .product > img {
   width: 100%;
 }
@@ -393,6 +398,11 @@ section .option .img {
 .page3 .subtitle {
   width: 6rem;
   margin: 0 auto 1rem;
+  opacity: 0;
+  transition: all 2s 1.5s;
+}
+.page3 .subtitle.enter {
+  opacity: 1;
 }
 .page3 .subtitle img {
   width: 100%;
@@ -400,7 +410,13 @@ section .option .img {
 .page3 .product {
   width: 7.2rem;
   margin: 0 auto 10rem;
-  transform: translateX(-4%);
+  transform: translate(-4%, -35rem);
+  transition: all 1s cubic-bezier(0.34, 1.56, 0.35, 0.89);
+  opacity: 0;
+}
+.page3 .product.enter {
+  transform: translate(-4%, 0);
+  opacity: 1;
 }
 .page3 .product img {
   width: 100%;
@@ -414,6 +430,11 @@ section .option .img {
   left: 50%;
   top: 70%;
   transform: translateX(-50%);
+  opacity: 0;
+  transition: all 1s 3.5s;
+}
+.page3 .btn.enter {
+  opacity: 1;
 }
 
 .q1 {

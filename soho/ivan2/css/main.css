@@ -302,7 +302,7 @@ section .option .img {
 }
 .home .product {
   width: 10.11rem;
-  margin: 3.7rem auto 0;
+  margin: 1.7rem auto 0;
 }
 .home .product img {
   width: 100%;
@@ -314,7 +314,7 @@ section .option .img {
   background-size: contain;
   position: absolute;
   left: 50%;
-  top: 73%;
+  top: 64%;
   transform: translateX(-50%);
 }
 
@@ -328,7 +328,7 @@ section .option .img {
 }
 .page2 .title {
   width: 7.42rem;
-  margin: 2.4rem auto 2rem;
+  margin: 1.4rem auto 1rem;
 }
 .page2 .title img {
   width: 100%;
@@ -384,14 +384,14 @@ section .option .img {
 }
 .page3 .title {
   width: 9.05rem;
-  margin: 2.5rem auto 1.45rem;
+  margin: 1.5rem auto 1rem;
 }
 .page3 .title img {
   width: 100%;
 }
 .page3 .subtitle {
   width: 6rem;
-  margin: 0 auto 2rem;
+  margin: 0 auto 1rem;
 }
 .page3 .subtitle img {
   width: 100%;
@@ -411,18 +411,18 @@ section .option .img {
   background-size: contain;
   position: absolute;
   left: 50%;
-  top: 73%;
+  top: 64%;
   transform: translateX(-50%);
 }
 
 .q1 {
-  padding-top: 2.55rem;
+  padding-top: 1rem;
   background: url(../images/q1_bg.jpg) center bottom no-repeat;
   background-size: cover;
 }
 .q1 .q {
   width: 9.3rem;
-  margin: 0 0 1.5rem 1rem;
+  margin: 0 0 1rem 1rem;
 }
 .q1 .q img {
   width: 100%;
@@ -432,7 +432,7 @@ section .option .img {
   margin: 0 auto;
 }
 .q1 .selects .option {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 .q1 .selects .option img {
   width: 100%;
@@ -451,7 +451,7 @@ section .option .img {
 }
 .q1 .btn {
   width: 6.58rem;
-  margin: 2rem auto 0;
+  margin: 1.5rem auto 0;
 }
 .q1 .btn img {
   width: 100%;
@@ -500,13 +500,13 @@ section .option .img {
 }
 
 .q3 {
-  padding-top: 2.55rem;
+  padding-top: 1rem;
   background: url(../images/q1_bg.jpg) center bottom no-repeat;
   background-size: cover;
 }
 .q3 .q {
   width: 8.92rem;
-  margin: 0 0 1.5rem 1rem;
+  margin: 0 0 1rem 1rem;
 }
 .q3 .q img {
   width: 100%;
@@ -516,7 +516,7 @@ section .option .img {
   margin: 0 auto;
 }
 .q3 .selects .option {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   width: 50%;
   -ms-flex-negative: 0;
       flex-shrink: 0;
@@ -548,16 +548,16 @@ section .option .img {
   display: block;
 }
 .q3 .selects .option.o1 .img {
-  width: 3.05rem;
+  width: 2.55rem;
 }
 .q3 .selects .option.o2 .img {
-  width: 2.23rem;
+  width: 1.73rem;
 }
 .q3 .selects .option.o3 .img {
-  width: 2.17rem;
+  width: 1.67rem;
 }
 .q3 .selects .option.o4 .img {
-  width: 2.3rem;
+  width: 1.8rem;
 }
 .q3 .btn {
   width: 6.58rem;
@@ -581,7 +581,7 @@ section .option .img {
 }
 .end .btn {
   width: 6.58rem;
-  margin: 12.9rem auto 0;
+  margin: 10rem auto 0;
 }
 .end .btn img {
   width: 100%;

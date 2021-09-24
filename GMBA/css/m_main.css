@@ -428,7 +428,7 @@ section h1 {
   top: 0;
 }
 .map .block .left .country .state {
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 .map .block .left .country .state span {
   font-size: 0.8em;
@@ -501,6 +501,7 @@ section h1 {
   font-size: 0.9em;
   left: 24px;
   bottom: 24px;
+  font-weight: 700;
 }
 .map .block.block2 {
   position: relative;
@@ -531,7 +532,6 @@ section h1 {
 .map .block.block2 .right .slide_lists ul {
   padding-left: 2.5em;
   line-height: 1.5em;
-  list-style: disc;
   position: relative;
 }
 .map .block.block2 .right .slide_lists ul::before {
@@ -541,6 +541,19 @@ section h1 {
   background: #000;
   left: 4px;
   position: absolute;
+}
+.map .block.block2 .right .slide_lists ul li {
+  position: relative;
+}
+.map .block.block2 .right .slide_lists ul li::before {
+  content: "";
+  width: 3px;
+  height: 3px;
+  background: #000;
+  border-radius: 50%;
+  position: absolute;
+  left: -0.8em;
+  top: 0.7em;
 }
 .map .block.block2 .right .chart {
   width: 100%;
@@ -870,6 +883,7 @@ section h1 {
   font-size: 1.2em;
   line-height: 1.5em;
   text-align: center;
+  font-weight: 900;
 }
 .lifeYZU .container div h3 {
   font-size: 0.7em;
@@ -886,7 +900,7 @@ section h1 {
   font-size: 2.5em;
   line-height: 1.1em;
   color: #FFF;
-  font-weight: 500;
+  font-weight: 900;
 }
 
 .dormitory {
@@ -943,7 +957,6 @@ section h1 {
 }
 .photowall div {
   width: 50%;
-  margin-top: -3px;
 }
 .photowall div img {
   width: 100%;
@@ -1073,7 +1086,7 @@ section h1 {
       grid-template-columns: 1fr 1fr 1fr 1fr;
   -ms-grid-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
+  gap: 4px 4px;
   grid-template-areas: "photo1 photo1 photo1 photo1" "photo1 photo1 photo1 photo1" "photo2 photo2 photo3 photo3" "photo2 photo2 photo3 photo3" "photo4 photo4 photo5 photo5" "photo4 photo4 photo5 photo5" "photo6 photo7 photo8 photo8" "photo6 photo7 photo9 photo9";
 }
 .gsa .photos .photo1 {

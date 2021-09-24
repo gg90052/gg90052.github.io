@@ -957,6 +957,7 @@ section h1 {
 }
 .photowall div {
   width: 50%;
+  margin-top: -3px;
 }
 .photowall div img {
   width: 100%;

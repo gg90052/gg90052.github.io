@@ -56,40 +56,40 @@
                 Hong Kong, Taiwan</p>
             </div>
             <div class="state">
-              <span class="fw_black">America</span>
+              <span class="fw_black">AMERICA</span>
               <p>United States, Nicaragua, Honduras, Peru, 
                 Haiti, Saint Vincent, Saint Lucia</p>
             </div>
             <div class="state">
-              <span class="fw_black">Europe</span>
+              <span class="fw_black">EUROPE</span>
               <p>Germany, Czech Republic, Russia</p>
             </div>
             <div class="state">
-              <span class="fw_black">Africa</span>
+              <span class="fw_black">AFRICA</span>
               <p>Tunisia, Swadini, Gambia</p>
             </div>
             <div class="state">
-              <span class="fw_black">Oceania</span>
+              <span class="fw_black">OCEANIA</span>
               <p>Solomon Islands</p>
             </div>
           </div>
         </div>
         <div class="right map_anchor">
-          <div class="video" data-aos-anchor=".map_anchor" data-aos-id="point_anchor">
+          <a href="https://www.youtube.com/watch?v=WLonXjPpugg&t=26s" target="_blank" id="video1" class="video" data-aos-anchor=".map_anchor" data-aos-id="point_anchor">
             <img src="images/video1.png" alt="">
             <div class="play"></div>
             <p>IN YZU</p>
-          </div>
-          <div class="video" data-aos-anchor=".map_anchor" data-aos-delay="100">
+          </a>
+          <a href="https://www.youtube.com/watch?v=WLonXjPpugg&t=26s" target="_blank" id="video2" class="video" data-aos-anchor=".map_anchor" data-aos-delay="100">
             <img src="images/video2.png" alt="">
             <div class="play"></div>
             <p>It's My Life</p>
-          </div>
-          <div class="video" data-aos-anchor=".map_anchor" data-aos-delay="200">
+          </a>
+          <a href="https://www.youtube.com/watch?v=WLonXjPpugg&t=26s" target="_blank" id="video3" class="video" data-aos-anchor=".map_anchor" data-aos-delay="200">
             <img src="images/video3.png" alt="">
             <div class="play"></div>
             <p>LOVE GMBA</p>
-          </div>
+          </a>
         </div>
       </div>
       <div class="block block2 flex wrap center">
@@ -336,21 +336,21 @@
       <div><img src="images/taiwan16.png" alt=""></div>
     </div>
     <div class="videos">
-      <div class="video">
+      <a href="#" target="_blank" class="video" id="video4">
         <img src="images/video4.png" alt="">
         <div class="play"></div>
         <p>Taipei</p>
-      </div>
-      <div class="video">
+      </a>
+      <a href="#" target="_blank" class="video" id="video5">
         <img src="images/video5.png" alt="">
         <div class="play"></div>
         <p>It's My Life</p>
-      </div>
-      <div class="video">
+      </a>
+      <a href="#" target="_blank" class="video" id="video6">
         <img src="images/video6.png" alt="">
         <div class="play"></div>
         <p>LOVE GMBA</p>
-      </div>
+      </a>
     </div>
   </section>
   <section class="gsa">
@@ -401,9 +401,18 @@
   <script src="js/slick.min.js"></script>
   <script src="js/aos.js"></script>
   <script src="js/countUp.umd.js"></script>
-  <!-- <script src="js/main.js"></script> -->
+  <script src="js/main.js"></script>
   <script>
+    if (!isMobileDevice()){
+      location.href = "index.html";
+    }
     document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+    $('.gotop').click(()=>{
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    })
+    $('.firstview .scroll').click(()=>{
+      window.scrollTo({top: 800, behavior: 'smooth'});
+    })
   </script>
 </body>
 

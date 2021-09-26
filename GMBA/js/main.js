@@ -1,5 +1,13 @@
 "use strict";
 
+function isMobileDevice() {
+  var mobileDevice = ['Android', 'webOS', 'iPhone', 'iPad', 'iPod', 'BlackBerry', 'Windows Phone'];
+  var isMobileDevice = mobileDevice.some(function (e) {
+    return navigator.userAgent.match(e);
+  });
+  return isMobileDevice;
+}
+
 AOS.init();
 $.get('https://script.google.com/macros/s/AKfycbyrTE7kHKkD8ZG3fY6jFASLZCncHUxMwJHHFh1yKjneB80U0hxZ0W2M90BHxdRFsaF67A/exec', function (res) {
   res.forEach(function (item, index) {
@@ -65,7 +73,7 @@ var pieIO = new IntersectionObserver(function (entries) {
 }, {
   threshold: .5
 });
-pieIO.observe(document.querySelector('.block2'));
+pieIO.observe(document.querySelector('.chart'));
 document.addEventListener('aos:in:point_anchor', function () {
   document.querySelector('section.map').classList.add('showPoint');
 });

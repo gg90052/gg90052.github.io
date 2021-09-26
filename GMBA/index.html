@@ -53,20 +53,20 @@
                 Hong Kong, Taiwan</p>
             </div>
             <div class="state wide">
-              <span class="fw_black">America</span>
+              <span class="fw_black">AMERICA</span>
               <p>United States, Nicaragua, Honduras, Peru, 
                 Haiti, Saint Vincent, Saint Lucia</p>
             </div>
             <div class="state">
-              <span class="fw_black">Europe</span>
+              <span class="fw_black">EUROPE</span>
               <p>Germany, Czech Republic, Russia</p>
             </div>
             <div class="state">
-              <span class="fw_black">Africa</span>
+              <span class="fw_black">AFRICA</span>
               <p>Tunisia, Swadini, Gambia</p>
             </div>
             <div class="state">
-              <span class="fw_black">Oceania</span>
+              <span class="fw_black">OCEANIA</span>
               <p>Solomon Islands</p>
             </div>
           </div>
@@ -411,14 +411,16 @@
     <h1 class="fz100 fw_black">We Support <br>Your Success.</h1>
     <a class="open_sans fw_semibold" href="http://www.gao.yzu.edu.tw/en/modules/news/article.php?storyid=15" target="_blank">APPLY NOW</a>
   </section>
-  <div id="modal">
-
-  </div>
   <script src="js/jquery.min.js"></script>
   <script src="js/slick.min.js"></script>
   <script src="js/aos.js"></script>
   <script src="js/countUp.umd.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    if (isMobileDevice()){
+      location.href = "m_index.html";
+    }
+  </script>
 </body>
 
 </html>

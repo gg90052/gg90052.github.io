@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mi-Ne Gold</title>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <div id="card" class="card">
+    <div class="paper">
+      <p class="to">To：小雪</p>
+      <p class="message">* 桌機：<br>
+        文字框淡入<br>
+       +背景書櫃由右往左移動3-5秒，停在最後畫面<br>
+       >自動進入 index，動態如下：<br>
+        文字框淡出+背景書櫃縮小罝中<br>
+       +header由上往下置頂+footer由下往上置底<br>
+       * 手機：<br>
+        靜態畫面，停留3-5秒<br>
+       >自動進入 index，動態如下：<br>
+        文字框淡出+背景書櫃縮小罝中<br>
+       +header由上往下置頂+footer
+      </p>
+      <p class="from">From: 小花</p>
+    </div>
+  </div>
+  <button>save</button>
+  <script>
+      // document.documentElement.style.fontSize = document.documentElement.clientWidth / 11.25 + 'px';
+  </script>
+  <script src="js/jquery.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script>
+      var options = {
+          scale: 1
+      }
+      $('button').click(function(){
+          html2canvas(document.querySelector("#card"), options).then(function (canvas) {
+              a = document.createElement('a');
+              a.href = canvas.toDataURL("image/jpeg", 1).replace("image/jpeg", "image/octet-stream");
+              a.download = 'image.jpg';
+              a.click();
+          });
+      })
+  </script>
+  <script>
+  </script>
+</body>
+
+</html>

@@ -271,17 +271,19 @@ let fb = {
 				$('.waiting').removeClass('hide');
 				$.get('https://script.google.com/macros/s/AKfycbzjwRWn_3VkILLnZS3KEISKZBEDiyCRJLJ_Q_vIqn2SqQgoYFk/exec?id=' + config.me, function (res2) {
 					$('.waiting').addClass('hide');
-					if (res2 === 'true') {
-						config.auth_user = true;
-						fb.start();
-					} else {
-						config.auth_user = false;
-						swal({
-							title: 'PLUS為付費產品，詳情請見粉絲專頁',
-							html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + config.me,
-							type: 'warning'
-						}).done();
-					}
+					config.auth_user = true;
+					fb.start();
+					// if (res2 === 'true') {
+					// 	config.auth_user = true;
+					// 	fb.start();
+					// } else {
+					// 	config.auth_user = false;
+					// 	swal({
+					// 		title: 'PLUS為付費產品，詳情請見粉絲專頁',
+					// 		html: '<a href="https://www.facebook.com/commenthelper/" target="_blank">https://www.facebook.com/commenthelper/</a><br>userID：' + config.me,
+					// 		type: 'warning'
+					// 	}).done();
+					// }
 				});
 			}
 

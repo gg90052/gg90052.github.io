@@ -204,7 +204,7 @@ var config = {
   target: '',
   command: '',
   order: 'chronological',
-  auth: 'groups_show_list, pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info',
+  auth: 'pages_show_list, pages_read_engagement, pages_read_user_content, groups_access_member_info',
   likes: false,
   pageToken: false,
   userToken: '',

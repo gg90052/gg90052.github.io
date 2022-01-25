@@ -168,15 +168,23 @@ body {
   }
 }
 
+body {
+  background: url(../images/bg.jpg) center bottom no-repeat;
+  background-size: cover;
+}
+
 .warning {
   position: fixed;
   width: 100%;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   z-index: 10;
+  transition: none;
 }
 .warning.hide {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
 }
 .warning img {
   width: 100%;
@@ -188,13 +196,12 @@ body {
   position: fixed;
   left: 0;
   top: 0;
+  background: transparent;
   transition: all 0.3s;
-  background: rgba(0, 0, 0, 0.8);
   z-index: 5;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  font-size: 20px;
 }
 .errorModal.show {
   pointer-events: auto;
@@ -204,6 +211,7 @@ body {
 .errorModal .content {
   width: 9.49rem;
   margin: 0 auto;
+  transform: translateY(-16%);
 }
 .errorModal .content img {
   width: 100%;
@@ -239,7 +247,7 @@ section .tip {
   bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
-  color: #b59946;
+  color: #FFF;
 }
 section .option {
   position: relative;
@@ -275,171 +283,71 @@ section .option .img {
 
 .home {
   text-align: center;
-  background: url(../images/home_bg.jpg) center top no-repeat;
+  background: url(../images/bg_home.jpg) center top no-repeat;
   background-size: cover;
+  position: relative;
 }
-.home.leave .title {
-  transform: translateY(1rem);
+.home.show2 .slogan {
   opacity: 0;
-  transition: all 0.5s 0.5s;
+  visibility: hidden;
 }
-.home.leave .product {
-  transform: translateY(1rem);
-  opacity: 0;
-  transition: all 0.5s 0.5s;
+.home.show2 .stars {
+  transform: translate(-50%, -60%);
 }
-.home.leave #homeStart {
-  opacity: 0;
-  transition: all 0.5s;
+.home.show2 .btn {
+  opacity: 1;
+  visibility: visible;
 }
-.home .title {
-  width: 5.85rem;
-  margin-top: 1.9rem;
-  margin-left: 1.1rem;
+.home .slogan {
+  font-size: 18px;
+  color: #FFF;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  top: 68%;
+  transition: all 1s;
 }
-.home .title img {
-  width: 100%;
+.home .stars {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 70%;
+  width: 6.38rem;
+  height: 60px;
+  background: url(../images/star.png) center center no-repeat;
+  background-size: contain;
+  transition: all 1.5s;
 }
-.home .product {
-  width: 10.11rem;
-  height: 16rem;
-  margin: 1.7rem auto 0;
-}
-.home .product img {
-  width: 100%;
+.home .ps {
+  font-size: 10px;
+  color: #FFF;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  bottom: 14%;
+  text-align: left;
+  line-height: 1.5em;
 }
 .home .btn {
   width: 6.6rem;
   height: 1.68rem;
-  background: url(../images/home_btn.gif) center center no-repeat;
+  background: url(../images/btn_start.png) center center no-repeat;
   background-size: contain;
   position: absolute;
   left: 50%;
-  top: 64%;
-  transform: translateX(-50%);
-}
-
-.page2 {
-  text-align: center;
-  background: url(../images/page2_bg.jpg) center top no-repeat;
-  background-size: cover;
-}
-.page2.leave .product {
-  opacity: 0;
-}
-.page2 .title {
-  width: 7.42rem;
-  margin: 1.4rem auto 1rem;
-}
-.page2 .title img {
-  width: 100%;
-}
-.page2 .product {
-  width: 6.91rem;
-  margin: 0 auto;
-  position: relative;
-  transition: all 1s 1s;
-}
-.page2 .product.leave {
-  transform: scaleX(-1);
-  opacity: 0;
-  transition: all 1s;
-}
-.page2 .product > img {
-  width: 100%;
-}
-.page2 .product .word1 {
-  width: 4.2rem;
-  position: absolute;
-  left: 4.2rem;
-  top: 1.1rem;
-  transition: all 1s;
-  transform-origin: center left;
-  transform: translateX(-1rem);
-  opacity: 0;
-}
-.page2 .product .word1.enter {
-  transform: translateX(0);
-  opacity: 1;
-}
-.page2 .product .word1 img {
-  width: 100%;
-}
-.page2 .product .word2 {
-  width: 3.25rem;
-  position: absolute;
-  right: 5.3rem;
-  top: 7.2rem;
-  transition: all 1s 1s;
-  transform-origin: center right;
-  transform: translateX(1rem);
-  opacity: 0;
-}
-.page2 .product .word2.enter {
-  transform: translateX(0);
-  opacity: 1;
-}
-.page2 .product .word2 img {
-  width: 100%;
-}
-
-.page3 {
-  text-align: center;
-  background: url(../images/page2_bg.jpg) center top no-repeat;
-  background-size: cover;
-}
-.page3 .title {
-  width: 9.05rem;
-  margin: 1.5rem auto 1rem;
-}
-.page3 .title img {
-  width: 100%;
-}
-.page3 .subtitle {
-  width: 6rem;
-  margin: 0 auto 1rem;
-  opacity: 0;
-  transition: all 2s 1.5s;
-}
-.page3 .subtitle.enter {
-  opacity: 1;
-}
-.page3 .subtitle img {
-  width: 100%;
-}
-.page3 .product {
-  width: 7.2rem;
-  margin: 0 auto 10rem;
-  transform: translate(-4%, -35rem);
-  transition: all 1s cubic-bezier(0.34, 1.56, 0.35, 0.89);
-  opacity: 0;
-}
-.page3 .product.enter {
-  transform: translate(-4%, 0);
-  opacity: 1;
-}
-.page3 .product img {
-  width: 100%;
-}
-.page3 .btn {
-  width: 6.6rem;
-  height: 1.68rem;
-  background: url(../images/page3_btn.gif) center center no-repeat;
-  background-size: contain;
-  position: absolute;
-  left: 50%;
-  top: 70%;
+  top: 72.5%;
   transform: translateX(-50%);
   opacity: 0;
-  transition: all 1s 3.5s;
-}
-.page3 .btn.enter {
-  opacity: 1;
+  visibility: hidden;
+  transition: all 1s 1.5s;
 }
 
 .q1 {
   padding-top: 1rem;
-  background: url(../images/q1_bg.jpg) center bottom no-repeat;
+  background: url(../images/bg.jpg) center bottom no-repeat;
   background-size: cover;
 }
 .q1 .q {
@@ -450,30 +358,37 @@ section .option .img {
   width: 100%;
 }
 .q1 .selects {
-  width: 9.3rem;
+  width: 50%;
   margin: 0 auto;
 }
 .q1 .selects .option {
   margin-bottom: 1rem;
+  color: #FFF;
 }
-.q1 .selects .option img {
+.q1 .selects .option.active::before {
+  background-image: url(../images/checkedbox.png);
+}
+.q1 .selects .option::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  background: url(../images/checkbox.png) center center no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -3px;
+  margin-right: 0.5em;
+}
+.q1 .star {
+  width: 6.45rem;
+  margin: 1.5rem auto 1rem;
+}
+.q1 .star img {
   width: 100%;
 }
-.q1 .selects .option.o1 .img {
-  width: 1.93rem;
-}
-.q1 .selects .option.o2 .img {
-  width: 2.49rem;
-}
-.q1 .selects .option.o3 .img {
-  width: 6.64rem;
-}
-.q1 .selects .option.o4 .img {
-  width: 1.86rem;
-}
 .q1 .btn {
-  width: 6.58rem;
-  margin: 1.5rem auto 0;
+  width: 5.2rem;
+  margin: 0 auto;
 }
 .q1 .btn img {
   width: 100%;
@@ -492,30 +407,37 @@ section .option .img {
   width: 100%;
 }
 .q2 .selects {
-  width: 9.3rem;
+  width: 60%;
   margin: 0 auto;
 }
 .q2 .selects .option {
   margin-bottom: 1rem;
+  color: #FFF;
 }
-.q2 .selects .option img {
+.q2 .selects .option.active::before {
+  background-image: url(../images/checkedbox.png);
+}
+.q2 .selects .option::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  background: url(../images/checkbox.png) center center no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -3px;
+  margin-right: 0.5em;
+}
+.q2 .star {
+  width: 6.45rem;
+  margin: 1.5rem auto 1rem;
+}
+.q2 .star img {
   width: 100%;
 }
-.q2 .selects .option.o1 .img {
-  width: 6.83rem;
-}
-.q2 .selects .option.o2 .img {
-  width: 7.14rem;
-}
-.q2 .selects .option.o3 .img {
-  width: 6.76rem;
-}
-.q2 .selects .option.o4 .img {
-  width: 6.76rem;
-}
 .q2 .btn {
-  width: 6.58rem;
-  margin: 2rem auto 0;
+  width: 5.2rem;
+  margin: 0 auto;
 }
 .q2 .btn img {
   width: 100%;
@@ -534,63 +456,44 @@ section .option .img {
   width: 100%;
 }
 .q3 .selects {
-  width: 9.3rem;
+  width: 50%;
   margin: 0 auto;
 }
 .q3 .selects .option {
-  margin-bottom: 2rem;
-  width: 50%;
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  display: block;
+  margin-bottom: 1rem;
+  color: #FFF;
+}
+.q3 .selects .option.active::before {
+  background-image: url(../images/checkedbox.png);
 }
 .q3 .selects .option::before {
-  display: block;
-  width: 0.54rem;
-  height: 0.54rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -1rem;
+  content: "";
+  width: 1em;
+  height: 1em;
+  background: url(../images/checkbox.png) center center no-repeat;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -3px;
+  margin-right: 0.5em;
 }
-.q3 .selects .option::after {
-  width: 0.54rem;
-  height: 0.54rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -1rem;
-  top: unset;
+.q3 .star {
+  width: 6.45rem;
+  margin: 3.5rem auto 1rem;
 }
-.q3 .selects .option img {
+.q3 .star img {
   width: 100%;
 }
-.q3 .selects .option .img {
-  margin: 0 auto;
-  display: block;
-}
-.q3 .selects .option.o1 .img {
-  width: 2.55rem;
-}
-.q3 .selects .option.o2 .img {
-  width: 1.73rem;
-}
-.q3 .selects .option.o3 .img {
-  width: 1.67rem;
-}
-.q3 .selects .option.o4 .img {
-  width: 1.8rem;
-}
 .q3 .btn {
-  width: 6.58rem;
-  margin: 0.5rem auto 7rem;
+  width: 5.2rem;
+  margin: 0 auto;
 }
 .q3 .btn img {
   width: 100%;
 }
 
 .end {
-  background: url(../images/end_bg.jpg) center center no-repeat;
+  background: url(../images/gameover.jpg) center center no-repeat;
   background-size: cover;
 }
 .end .title {
@@ -605,9 +508,24 @@ section .option .img {
   width: 6.58rem;
   position: absolute;
   left: 50%;
-  top: 64%;
+  top: 72%;
   transform: translateX(-50%);
 }
 .end .btn img {
   width: 100%;
+}
+
+#alreadyPlayed {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000000;
+  background: url(../images/forbiden.jpg) center center no-repeat;
+  background-size: cover;
+  display: none;
+}
+#alreadyPlayed.show {
+  display: block;
 }

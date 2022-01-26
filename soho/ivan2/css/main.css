@@ -168,7 +168,7 @@ body {
 }
 
 body {
-  background: url(../images/bg.jpg) center bottom no-repeat;
+  background: url(../images/bg.jpg) #000 center bottom no-repeat;
   background-size: cover;
 }
 
@@ -223,7 +223,6 @@ section {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  min-height: 700px;
   overflow-y: auto;
   left: 0;
   top: 0;

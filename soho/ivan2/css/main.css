@@ -175,7 +175,7 @@ body.dev::before {
   display: block;
 }
 body::before {
-  content: "css ver.01260931";
+  content: "css ver.01260939";
   color: #FFF;
   position: absolute;
   left: 0;
@@ -360,6 +360,7 @@ section .option .img {
 .q1 {
   padding-top: 1rem;
   background: url(../images/bg.jpg) center bottom no-repeat;
+  background-attachment: fixed;
   background-size: cover;
 }
 .q1 .q {
@@ -408,7 +409,8 @@ section .option .img {
 
 .q2 {
   padding-top: 1rem;
-  background: url(../images/q1_bg.jpg) center bottom no-repeat;
+  background: url(../images/bg.jpg) center bottom no-repeat;
+  background-attachment: fixed;
   background-size: cover;
 }
 .q2 .q {
@@ -457,7 +459,8 @@ section .option .img {
 
 .q3 {
   padding-top: 1rem;
-  background: url(../images/q1_bg.jpg) center bottom no-repeat;
+  background: url(../images/bg.jpg) center bottom no-repeat;
+  background-attachment: fixed;
   background-size: cover;
 }
 .q3 .q {

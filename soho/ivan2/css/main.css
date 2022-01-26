@@ -74,7 +74,6 @@ body {
   overscroll-behavior: none;
   -ms-touch-action: manipulation;
       touch-action: manipulation;
-  overflow: hidden;
 }
 @media screen and (max-width: 1441px) {
   html,
@@ -231,6 +230,7 @@ section {
   z-index: 1;
   pointer-events: none;
   font-size: 20px;
+  padding-bottom: 100px;
 }
 section.show {
   opacity: 1;

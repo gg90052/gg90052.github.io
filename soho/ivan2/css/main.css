@@ -171,6 +171,18 @@ body {
   background: url(../images/bg.jpg) #000 center bottom no-repeat;
   background-size: cover;
 }
+body.dev::before {
+  display: block;
+}
+body::before {
+  content: "css ver.01260913";
+  color: #FFF;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  display: none;
+}
 
 .warning {
   position: fixed;

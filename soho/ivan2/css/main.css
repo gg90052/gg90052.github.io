@@ -175,7 +175,7 @@ body.dev::before {
   display: block;
 }
 body::before {
-  content: "css ver.01260913";
+  content: "css ver.01260931";
   color: #FFF;
   position: absolute;
   left: 0;
@@ -241,7 +241,7 @@ section {
   z-index: 1;
   pointer-events: none;
   font-size: 20px;
-  padding-bottom: 100px;
+  padding-bottom: 120px;
 }
 section.show {
   opacity: 1;
@@ -297,6 +297,7 @@ section .option .img {
   background: url(../images/bg_home.jpg) center top no-repeat;
   background-size: cover;
   position: relative;
+  height: 120vh;
 }
 .home.show2 .slogan {
   opacity: 0;
@@ -338,7 +339,7 @@ section .option .img {
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  bottom: 14%;
+  top: 85%;
   text-align: left;
   line-height: 1.5em;
 }

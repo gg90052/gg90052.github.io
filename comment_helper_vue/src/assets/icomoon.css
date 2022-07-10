@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'icomoon';
+  src:
+    url('fonts/icomoon.ttf?cg3lqm') format('truetype'),
+    url('fonts/icomoon.woff?cg3lqm') format('woff'),
+    url('fonts/icomoon.svg?cg3lqm#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="vndlive-"], [class*=" vndlive-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vndlive-footer_focus:before {
+  content: "\e904";
+}
+.vndlive-footer_game:before {
+  content: "\e905";
+}
+.vndlive-footer_home:before {
+  content: "\e906";
+}
+.vndlive-footer_member:before {
+  content: "\e907";
+}
+.vndlive-footer_wallet:before {
+  content: "\e908";
+}
+.vndlive-nav_filter:before {
+  content: "\e909";
+}
+.vndlive-nav_hot:before {
+  content: "\e90a";
+}
+.vndlive-icon_focus_full:before {
+  content: "\e900";
+}
+.vndlive-icon_focus:before {
+  content: "\e901";
+}
+.vndlive-icon_live:before {
+  content: "\e902";
+}
+.vndlive-icon_arrow:before {
+  content: "\e903";
+}

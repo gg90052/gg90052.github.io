@@ -194,7 +194,7 @@ var config = {
     likes: ['name']
   },
   limit: '30',
-  apiVersion: 'v8.0',
+  apiVersion: 'v14.0',
   filter: {
     word: '',
     react: 'all',

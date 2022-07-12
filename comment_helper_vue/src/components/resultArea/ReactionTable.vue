@@ -3,19 +3,17 @@
     <!-- head -->
     <thead>
       <tr>
-        <th></th>
+        <th class="!rounded-t-none"></th>
         <th>名稱</th>
-        <th>心情</th>
+        <th class="!rounded-t-none">心情</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(tr, index) in dataStore.filteredData" :key="tr.id">
+      <tr v-for="(tr, index) in tableData" :key="tr.id">
         <th>{{ index + 1 }}</th>
         <td>{{ tr.name || tr.id }}</td>
         <td>
           <ReactionIcon :reaction="tr.type" />
-          <!-- {{ tr.type }}
-          <span class="react" :class="tr.type"></span> -->
         </td>
       </tr>
     </tbody>
@@ -25,50 +23,17 @@
 import ReactionIcon from './ReactionIcon.vue';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
+const props = defineProps({
+  useCompare: {
+    type: Boolean,
+    default: false,
+  }
+});
+const tableData = computed(()=>{
+  if (props.useCompare === true){
+    return dataStore.files.find(item=>item.id === dataStore.showFileTable)?.datas;
+  }else{
+    return dataStore.filteredData;
+  }
+});
 </script>
-
-<style lang="scss" scoped>
-span.react{
-  display: inline-block;
-  vertical-align: middle;
-  transform: scale(0.5);
-  width: 48px;
-  height: 48px;
-  background-image: url('@/assets/reaction.png');
-  &.LIKE{
-    background-position: 0 -147px;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-  &.LOVE{
-    background-position: 0 -196px;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-  &.HAHA{
-    background-position: 0 -98px;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-  &.WOW{
-    background-position: 0 -294px;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-  &.SAD{
-    background-position: 0 -245px;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-  &.ANGRY{
-    background-position: 0 0;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-  &.THANKFUL{
-    background-position: 0 -49px;
-    background-repeat: no-repeat;
-    background-size: auto;
-  }
-}
-</style>

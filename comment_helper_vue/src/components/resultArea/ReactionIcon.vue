@@ -43,4 +43,8 @@ const props = defineProps({
     default: 'LIKE'
   }
 });
+
+onMounted(()=>{
+  console.log(props.reaction);
+})
 </script>

@@ -34,7 +34,7 @@
         </div>
       </div>
       <div>
-        <p class="text-blue-700 text-4xl w-full text-center">篩選區塊</p>
+        <p class="text-blue-700 text-3xl w-full text-center">篩選區塊</p>
         <div class="w-full flex justify-start items-center mt-10" :class="dataStore.command === 'comments' ? '':'hidden'">
           <p>截止時間：</p>
           <datepicker @update:modelValue="onChangeDate" inputFormat="yyyy-MM-dd" class="pl-2 border inline-block" v-model="filterState.endDate" />
@@ -98,7 +98,7 @@ const searchKeyWord = debounce(()=>{
 }, 500);
 
 const filterAll = () => {
-  let rawData = dataStore.rawData;
+  let rawData = JSON.parse(JSON.stringify(dataStore.rawData));
   //截止時間、按讚跟分享沒有時間
   if (dataStore.command === 'comments'){
     rawData = rawData.filter(item=>{
@@ -124,7 +124,13 @@ const filterAll = () => {
   //移除重複
   if (filterState.removeDuplicate && dataStore.command !== 'reactions'){
     if (rawData.length > 0 && rawData[0].from){
-      rawData = [...new Map(rawData.map((item) => [item['from']['id'], item])).values()];
+      rawData = [...new Map(rawData.map((item) => {
+        if (item.from){
+          return [item['from']['id'], item];
+        }else{
+          return [item['id'], item];
+        }
+      })).values()];
     }else{
       rawData = [...new Map(rawData.map((item) => [item['id'], item])).values()];
     }
@@ -147,5 +153,10 @@ const filterAll = () => {
 
 onMounted(()=>{
   filterAll();
+});
+
+defineExpose({
+  filterAll,
 })
+
 </script>

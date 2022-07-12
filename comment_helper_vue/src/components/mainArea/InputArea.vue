@@ -3,11 +3,11 @@
     <div class="source">
       <div class="mt-4">
         <input :value="post.id" type="text" disabled class="w-full rounded-none input-sm input-bordered max-w-xs disabled:bg-gray-300" placeholder="請按下方按鈕選擇貼文"/>
-        <button class="btn btn-blue btn-sm">複製</button>
+        <button class="btn btn-blue btn-sm" @click="copy">複製</button>
         <button class="btn btn-sm block mt-4" :class="post.id === '' ? 'btn-blue':'btn-outline'" @click="fbInit">從粉絲專頁/社團選擇貼文</button>
       </div>
     </div>
-    <div class="mt-4" v-if="post.id !== ''">
+    <div class="mt-4 flex flex-nowrap items-end" v-if="post.id !== ''">
       <button class="bg-blue-500 hover:bg-blue-400 transition-colors px-3 py-1 text-white font-bold rounded-md btn-free-height mr-2" @click="getData('comments')">
         <svg class="svg-icon fill-current w-10 mx-2" viewBox="0 0 20 20">
 					<path d="M14.999,8.543c0,0.229-0.188,0.417-0.416,0.417H5.417C5.187,8.959,5,8.772,5,8.543s0.188-0.417,0.417-0.417h9.167C14.812,8.126,14.999,8.314,14.999,8.543 M12.037,10.213H5.417C5.187,10.213,5,10.4,5,10.63c0,0.229,0.188,0.416,0.417,0.416h6.621c0.229,0,0.416-0.188,0.416-0.416C12.453,10.4,12.266,10.213,12.037,10.213 M14.583,6.046H5.417C5.187,6.046,5,6.233,5,6.463c0,0.229,0.188,0.417,0.417,0.417h9.167c0.229,0,0.416-0.188,0.416-0.417C14.999,6.233,14.812,6.046,14.583,6.046 M17.916,3.542v10c0,0.229-0.188,0.417-0.417,0.417H9.373l-2.829,2.796c-0.117,0.116-0.71,0.297-0.71-0.296v-2.5H2.5c-0.229,0-0.417-0.188-0.417-0.417v-10c0-0.229,0.188-0.417,0.417-0.417h15C17.729,3.126,17.916,3.313,17.916,3.542 M17.083,3.959H2.917v9.167H6.25c0.229,0,0.417,0.187,0.417,0.416v1.919l2.242-2.215c0.079-0.077,0.184-0.12,0.294-0.12h7.881V3.959z"></path>
@@ -26,22 +26,26 @@
         </svg>
         抓分享
       </button>
-      <a href="https://www.facebook.com/commenthelper/posts/4583917594974372" target="_blank" class="text-blue-400 text-sm ml-4">如何抓分享</a>
+      <div class="text-center">
+        <button @click="importShare" class="bg-blue-500 hover:bg-blue-400 transition-colors px-3 py-1 text-white rounded-md font-bold btn-sm block">導入抓分享資料</button>
+        <a href="https://www.facebook.com/commenthelper/posts/4583917594974372" target="_blank" class="text-blue-400 text-sm">如何抓分享</a>
+      </div>
     </div>
-    <template v-if="post.id === ''">
+    <!-- <template v-if="post.id === ''">
       <p class="text-red-600 text-sm mt-10">
         付款後請到粉絲團私訊付款證明給管理員，待管理員開通後方可授權<br>不要問為什麼你付錢了還是看到這行字，因為它就是永遠都在這
       </p>
       <button @click="openURL('pay.html')" class="btn btn-sm border-0 bg-sky-400 text-xs mt-3">付費說明</button>
       <button @click="openURL('policy.html')" class="btn btn-sm border-0 bg-sky-400 text-xs ml-4">Platform Policy</button>
     </template>
-    <textarea name="" class="input_token hidden" id="" cols="30" rows="10"></textarea>
+    <textarea name="" class="input_token hidden" id="" cols="30" rows="10"></textarea> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { getNextAPI } from '@/api/api';
 import { useDataStore } from '@/store/modules/data';
+// import shareData from './shareData.js';
 const dataStore = useDataStore();
 const emit = defineEmits(['fbLogged', 'showLoading']);
 function openURL(url: string, target?: string) {
@@ -66,12 +70,32 @@ function fbInit(){
   });
 }
 
+const copy = () => {
+  if (post.value.id === '') {
+    return;
+  }
+  navigator.clipboard.writeText(post.value.id)
+    .then(() => {
+    alert("已複製：" + post.value.id);
+  })
+    .catch(err => {
+    alert('Something went wrong' + err);
+  })
+}
+
+const importShare = () => {
+  const shareData = JSON.parse(localStorage.sharedposts);
+  dataStore.setRawData(shareData);
+}
+
 const getData = async (command: string) => {
   emit('showLoading');
+  rawData = [];
   dataStore.setCommand(command);
   if (command === 'shares'){
-    const fbid = post.value.id.split('_')[post.value.id.split('_').length-1]
-		window.open(`https://m.facebook.com/browse/shares?id=${fbid}`)
+    const fbid = post.value.id.split('_')[post.value.id.split('_').length-1];
+		window.open(`https://m.facebook.com/browse/shares?id=${fbid}`);
+    emit('showLoading', false);
   }else{
     FB.api(`/${post.value.id}/${command}`, {
       fields: fields[command].join(','),
@@ -100,7 +124,6 @@ const getNext = async (url) => {
 }
 
 const finishFetch = () => {
-  console.log(rawData);
   dataStore.setRawData(rawData);
   emit('showLoading', false);
 }

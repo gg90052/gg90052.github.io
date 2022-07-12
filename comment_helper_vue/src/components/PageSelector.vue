@@ -22,13 +22,13 @@
 				</div>
 				<div class="live_post mt-4">
           <div class="grid grid-cols-2 gap-1">
-            <div>
+            <!-- <div>
               <input type="text" class="w-3/5 border pl-2 h-8 align-middle" placeholder="輸入直播ID"/>
               <button class="btn-free-height text-sm btn-blue h-8 align-middle">選擇指定貼文</button>
             </div>
             <div>
               <a class="text-sm ml-4 text-blue-500" href="https://www.facebook.com/commenthelper/posts/3887047661328039" target="_blank">找不到貼文？</a>
-            </div>
+            </div> -->
           </div>
 				</div>
 				<table v-if="posts.length > 0" class="table-fixed border-collapse border border-gray-400 mt-4">

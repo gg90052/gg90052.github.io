@@ -22,6 +22,10 @@
 				</div>
 				<div class="live_post mt-4">
           <div class="grid grid-cols-2 gap-1">
+            <div class="flex" v-if="target.name !== ''">
+              貼文截止時間：
+              <datepicker @update:modelValue="onChangeDate" inputFormat="yyyy-MM-dd" class="pl-2 border inline-block" v-model="until" />
+            </div>
             <!-- <div>
               <input type="text" class="w-3/5 border pl-2 h-8 align-middle" placeholder="輸入直播ID"/>
               <button class="btn-free-height text-sm btn-blue h-8 align-middle">選擇指定貼文</button>
@@ -58,13 +62,22 @@
 
 <script setup lang="ts">
 import * as dayjs from 'dayjs';
-
+import Datepicker from 'vue3-datepicker'
 const emit = defineEmits(['close', 'select']);
 const props = defineProps(['show', 'accessToken']);
 const loading = ref(true);
 const target = ref({name: ''});
 const pages = ref([]);
 const posts = ref([]);
+const until = ref(new Date());
+const onChangeDate = (date) => {
+  loading.value = true;
+  posts.value = [];
+  FB.api(`${target.value.id}/published_posts?access_token=${target.value.access_token}&until=${dayjs(date).format('YYYY-MM-DD')}`, (res) => {
+    loading.value = false;
+    posts.value = res.data;
+  });
+}
 
 async function getPageList() {
   const res = await fetch('https://graph.facebook.com/v14.0/me/accounts?limit=100&access_token=' + props.accessToken);
@@ -87,7 +100,7 @@ const selectPage = (page) => {
   target.value = page;
   loading.value = true;
   posts.value = [];
-  FB.api(`${page.id}/feed?access_token=${page.access_token}`, (res) => {
+  FB.api(`${page.id}/published_posts?access_token=${page.access_token}`, (res) => {
     loading.value = false;
     posts.value = res.data;
   });

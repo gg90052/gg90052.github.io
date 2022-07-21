@@ -864,7 +864,7 @@ var page_selector = {
         config.pageToken = '';
       }
     });
-    FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100"), function (res) {
+    FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/posts?limit=100"), function (res) {
       $('.fb_loading').addClass('hide');
       var tbody = '';
 

@@ -803,7 +803,7 @@ let page_selector = {
 				config.pageToken = '';
 			}
 		});
-		FB.api(`${config.apiVersion}/${page_selector.page_id}/posts?limit=100`, (res) => {
+		FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
 			$('.fb_loading').addClass('hide');
 			let tbody = '';
 			for (let tr of res.data) {

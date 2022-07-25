@@ -5,7 +5,7 @@ var TABLE;
 var lastCommand = 'comments';
 var addLink = false;
 var auth_scope = '';
-const jsVersion = '0720'
+const jsVersion = '0725'
 
 function handleErr(msg, url, l) {
 	if (!errorMessage) {
@@ -68,6 +68,10 @@ $(document).ready(function () {
 		const fbid = input.split('_')[input.split('_').length-1]
 		window.open(`https://m.facebook.com/browse/shares?id=${fbid}`)
 	})
+
+	$('#apiSelector').change(function(e){
+		config.apiVersion = e.target.value;
+	});
 
 	$("#btn_like").click(function (e) {
 		if (e.ctrlKey || e.altKey) {

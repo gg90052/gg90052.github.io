@@ -31,7 +31,8 @@ var TABLE;
 var lastCommand = 'comments';
 var addLink = false;
 var auth_scope = '';
-var jsVersion = '0725';
+var jsVersion = '0726';
+var sendAjax = '';
 
 function handleErr(msg, url, l) {
   if (!errorMessage) {
@@ -65,6 +66,17 @@ $(document).ready(function () {
   // 	fb.reauth();
   // });
 
+  $('.btn_copy_ajax').click(function () {
+    console.log(sendAjax);
+  });
+  var copy_ajax = new ClipboardJS('.btn_copy_ajax', {
+    text: function text(trigger) {
+      return sendAjax;
+    }
+  });
+  copy_ajax.on('success', function (e) {
+    alert('已複製\n' + e.text);
+  });
   var copyurl = new ClipboardJS('.btn_copyurl', {
     text: function text(trigger) {
       return $('input.url').val();
@@ -236,6 +248,7 @@ var fb = {
     // console.log(response);
     if (response.status === 'connected') {
       config.userToken = response.authResponse.accessToken;
+      sendAjax += "access_token=".concat(config.userToken, "\n");
       config.me = response.authResponse.userID;
       config.from_extension = false;
 
@@ -799,6 +812,7 @@ var page_selector = {
   getPage: function getPage() {
     return new Promise(function (resolve, reject) {
       FB.api("".concat(config.apiVersion, "/me/accounts?limit=100"), function (res) {
+        sendAjax += "".concat(config.apiVersion, "/me/accounts?limit=100\n");
         resolve(res.data);
       });
     });
@@ -806,6 +820,7 @@ var page_selector = {
   getGroup: function getGroup() {
     return new Promise(function (resolve, reject) {
       FB.api("".concat(config.apiVersion, "/me/groups?admin_only=true&fields=name,id&limit=100"), function (res) {
+        sendAjax += "".concat(config.apiVersion, "/me/groups?admin_only=true&fields=name,id&limit=100\n");
         resolve(res.data);
       });
     });
@@ -861,6 +876,8 @@ var page_selector = {
     $('#post_table tbody').html('');
     $('.fb_loading').removeClass('hide');
     FB.api("/".concat(page_selector.page_id, "?fields=access_token"), function (res) {
+      sendAjax += "/".concat(page_selector.page_id, "?fields=access_token\n");
+
       if (res.access_token) {
         config.pageToken = res.access_token;
       } else {
@@ -868,6 +885,7 @@ var page_selector = {
       }
     });
     FB.api("".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100"), function (res) {
+      sendAjax += "".concat(config.apiVersion, "/").concat(page_selector.page_id, "/feed?limit=100\n");
       $('.fb_loading').addClass('hide');
       var tbody = '';
 

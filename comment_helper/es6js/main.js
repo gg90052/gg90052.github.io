@@ -5,7 +5,8 @@ var TABLE;
 var lastCommand = 'comments';
 var addLink = false;
 var auth_scope = '';
-const jsVersion = '0725'
+const jsVersion = '0726';
+var sendAjax = '';
 
 function handleErr(msg, url, l) {
 	if (!errorMessage) {
@@ -37,6 +38,18 @@ $(document).ready(function () {
 	// $('#btn_reauth').click(function(){
 	// 	fb.reauth();
 	// });
+	$('.btn_copy_ajax').click(()=>{
+		console.log(sendAjax);
+	});
+	let copy_ajax = new ClipboardJS('.btn_copy_ajax', {
+		text: function(trigger) {
+			return sendAjax;
+		}
+	});
+	copy_ajax.on('success', function(e) {
+		alert('已複製\n'+e.text);
+	});
+
 	let copyurl = new ClipboardJS('.btn_copyurl', {
 		text: function(trigger) {
 			return $('input.url').val()
@@ -243,6 +256,7 @@ let fb = {
 		// console.log(response);
 		if (response.status === 'connected') {
 			config.userToken = response.authResponse.accessToken;
+			sendAjax += `access_token=${config.userToken}\n`;
 			config.me = response.authResponse.userID;
 			config.from_extension = false;
 
@@ -764,6 +778,7 @@ let page_selector = {
 	getPage: () => {
 		return new Promise((resolve, reject) => {
 			FB.api(`${config.apiVersion}/me/accounts?limit=100`, (res) => {
+				sendAjax += `${config.apiVersion}/me/accounts?limit=100\n`;
 				resolve(res.data);
 			});
 		});
@@ -771,6 +786,7 @@ let page_selector = {
 	getGroup: () => {
 		return new Promise((resolve, reject) => {
 			FB.api(`${config.apiVersion}/me/groups?admin_only=true&fields=name,id&limit=100`, (res) => {
+				sendAjax += `${config.apiVersion}/me/groups?admin_only=true&fields=name,id&limit=100\n`;
 				resolve(res.data);
 			});
 		});
@@ -801,6 +817,7 @@ let page_selector = {
 		$('#post_table tbody').html('');
 		$('.fb_loading').removeClass('hide');
 		FB.api(`/${page_selector.page_id}?fields=access_token`, function (res) {
+			sendAjax += `/${page_selector.page_id}?fields=access_token\n`;
 			if (res.access_token) {
 				config.pageToken = res.access_token;
 			} else {
@@ -808,6 +825,7 @@ let page_selector = {
 			}
 		});
 		FB.api(`${config.apiVersion}/${page_selector.page_id}/feed?limit=100`, (res) => {
+			sendAjax += `${config.apiVersion}/${page_selector.page_id}/feed?limit=100\n`;
 			$('.fb_loading').addClass('hide');
 			let tbody = '';
 			for (let tr of res.data) {

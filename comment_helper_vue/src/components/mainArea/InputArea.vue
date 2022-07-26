@@ -104,7 +104,7 @@ const getData = async (command: string) => {
       access_token: page.value.access_token,
     }, (res: any)=>{
       rawData = rawData.concat(res.data);
-      if(res.paging.next){
+      if(res.paging && res.paging.next){
         getNext(res.paging.next);
       }else{
         finishFetch();
@@ -124,7 +124,11 @@ const getNext = async (url) => {
 }
 
 const finishFetch = () => {
-  dataStore.setRawData(rawData);
+  if (rawData.length === 0){
+    alert('沒有資料');
+  }else{
+    dataStore.setRawData(rawData);
+  }
   emit('showLoading', false);
 }
 

@@ -9,8 +9,12 @@
             <h3 class="pl-4 py-3 hover:bg-sky-500 hover:text-white">{{ page.name }}</h3>
           </div>
         </div>
-				<p class="page_group hidden">社團</p>
-				<div class="select_group"></div>
+				<p class="page_group">社團</p>
+				<div class="select_group">
+          <div class="cursor-pointer" v-for="(group, index) in groups" :key="index" @click="selectGroup(group)">
+            <h3 class="pl-4 py-3 hover:bg-sky-500 hover:text-white">{{ group.name }}</h3>
+          </div>
+        </div>
 			</div>
 			<div class="flex-grow overflow-auto h-full pb-3 px-4">
 				<p>{{target.name}}貼文列表</p>
@@ -68,6 +72,7 @@ const props = defineProps(['show', 'accessToken']);
 const loading = ref(true);
 const target = ref({name: ''});
 const pages = ref([]);
+const groups = ref([]);
 const posts = ref([]);
 const until = ref(new Date());
 const onChangeDate = (date) => {
@@ -77,6 +82,12 @@ const onChangeDate = (date) => {
     loading.value = false;
     posts.value = res.data;
   });
+}
+
+const getGroupList = async() => {
+  const res = await fetch(`https://graph.facebook.com/v14.0/me/groups?admin_only=true&fields=name,id&limit=100&access_token=${props.accessToken}`);
+  const json = await res.json();
+  return json;
 }
 
 async function getPageList() {
@@ -90,8 +101,11 @@ watch(
     if (prev === false && next === true) {
       const page = await getPageList();
       console.log(page);
+      const group = await getGroupList();
+      console.log(group)
       loading.value = false;
       pages.value = page.data;
+      groups.value = group.data;
     }
   }
 );
@@ -101,6 +115,16 @@ const selectPage = (page) => {
   loading.value = true;
   posts.value = [];
   FB.api(`${page.id}/published_posts?access_token=${page.access_token}`, (res) => {
+    loading.value = false;
+    posts.value = res.data;
+  });
+}
+
+const selectGroup = (group) => {
+  target.value = group;
+  loading.value = true;
+  posts.value = [];
+  FB.api(`${group.id}/feed?access_token=${props.accessToken}`, (res) => {
     loading.value = false;
     posts.value = res.data;
   });

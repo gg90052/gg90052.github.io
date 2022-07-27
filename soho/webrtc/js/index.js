@@ -55,7 +55,7 @@ window.onbeforeunload = function () {
 }
 
 function connect(token, callback) {
-	ws = new WebSocket('wss://172.105.193.65:8888');
+	ws = new WebSocket('wss://172.105.193.65');
 	ws.onopen = () => {
 		sendMessage({
 			type: 'token',

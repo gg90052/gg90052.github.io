@@ -59,7 +59,7 @@ function connect(token, callback) {
 	ws.onopen = () => {
 		sendMessage({
 			type: 'token',
-			live: qs.id || 1,
+			live: $('#liveID').val(),
 			token: token
 		});
 	};
@@ -138,7 +138,7 @@ function onOfferPresenter(error, offerSdp) {
 	var message = {
 		type: 'streamer',
 		sdpOffer: offerSdp,
-		webRTCID: '82a1966c-8e48-49d4-9b19-64e6adfe5be1'
+		webRTCID: $('#webrtc').val()
 	};
 	sendMessage(message);
 }
@@ -164,7 +164,7 @@ function onOfferViewer(error, offerSdp) {
 	var message = {
 		type: 'member',
 		sdpOffer: offerSdp,
-		webRTCID: '82a1966c-8e48-49d4-9b19-64e6adfe5be1'
+		webRTCID: $('#webrtc').val()
 	}
 	sendMessage(message);
 }

@@ -126,7 +126,7 @@ function presenter() {
 			onicecandidate: onIceCandidate
 		}, function (error) {
 			if (error) return onError(error);
-
+			console.log(this);
 			this.generateOffer(onOfferPresenter);
 		}));
 	}

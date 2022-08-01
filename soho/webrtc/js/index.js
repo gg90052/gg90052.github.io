@@ -125,12 +125,15 @@ function viewerResponse(message) {
 
 function presenter() {
 	const constraints = {
-		audio: true,
+		audio: {
+			deviceId: undefined 
+		},
 		video: {
-			width: 640,
-			framerate: 15
+				width: 320,
+				// facingMode: { exact: "user" }, //預設使用前鏡頭
+				facingMode: { exact: "environment" }, //預設使用後鏡頭
 		}
-	}
+	};
 	if (!webRtcPeer) {
 		showSpinner(video);
 		if (isOneToOne()) {
@@ -139,7 +142,7 @@ function presenter() {
 				localVideo: mvideo,
 				onicecandidate: onIceCandidate
 			}, function (error) {
-				if (error) return ()=>console.error(error);
+				if (error) return ()=>{console.error(error)};
 
 				this.generateOffer(onOfferPresenter);
 			}));

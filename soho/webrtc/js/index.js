@@ -129,8 +129,7 @@ function presenter() {
 			deviceId: undefined 
 		},
 		video: {
-				width,
-				height,
+				width: 640,
 				// facingMode: { exact: "user" }, //預設使用前鏡頭
 				facingMode: { exact: "environment" }, //預設使用後鏡頭
 		}

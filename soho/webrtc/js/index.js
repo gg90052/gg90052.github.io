@@ -201,6 +201,7 @@ function viewerResponse(message) {
 
 function presenter() {
 	if (!webRtcPeer) {
+		console.log(constraints);
 		showSpinner(video);
 		if (isOneToOne()) {
 			connect(document.getElementById('txtSToken').value ||streamerToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv({

@@ -140,7 +140,8 @@ function presenter() {
 			connect(document.getElementById('txtSToken').value ||streamerToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv({
 				remoteVideo: video,
 				localVideo: mvideo,
-				onicecandidate: onIceCandidate
+				onicecandidate: onIceCandidate,
+				mediaConstraints: constraints,
 			}, function (error) {
 				if (error) return ()=>{console.error(error)};
 
@@ -152,7 +153,7 @@ function presenter() {
 				onicecandidate: onIceCandidate,
 				mediaConstraints: constraints,
 			}, function (error) {
-				if (error) return onError(error);
+				if (error) return ()=>{console.error(error)};
 
 				this.generateOffer(onOfferPresenter);
 			}));

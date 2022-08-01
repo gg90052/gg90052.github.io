@@ -61,7 +61,7 @@ window.onbeforeunload = function () {
 }
 
 function connect(token, callback) {
-	ws = new WebSocket('wss://' + location.host + '/rtc');
+	ws = new WebSocket('wss://turn.vndlive.com:443/rtc');
 	ws.onopen = () => {
 		sendMessage({
 			type: 'token',

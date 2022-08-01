@@ -33,11 +33,13 @@ var qs = (function (a) {
 
 var ws;
 var video;
+var mvideo;
 var webRtcPeer;
 
 window.onload = function () {
 	console = new Console();
 	video = document.getElementById('video');
+	mvideo = document.getElementById('mvideo');
 
 	document.getElementById('call').addEventListener('click', function () { presenter(); });
 	document.getElementById('viewer').addEventListener('click', function () { viewer(); });
@@ -50,16 +52,20 @@ window.onload = function () {
 	});
 }
 
+function isOneToOne() {
+	return document.getElementById('o2o').checked;
+}
+
 window.onbeforeunload = function () {
 	ws.close();
 }
 
 function connect(token, callback) {
-	ws = new WebSocket('wss://172.105.193.65:8443/rtc');
+	ws = new WebSocket('wss://' + location.host + '/rtc');
 	ws.onopen = () => {
 		sendMessage({
 			type: 'token',
-			live: $('#liveID').val(),
+			live: qs.id || document.getElementById('txtID').value ||1,
 			token: token
 		});
 	};
@@ -120,15 +126,26 @@ function viewerResponse(message) {
 function presenter() {
 	if (!webRtcPeer) {
 		showSpinner(video);
+		if (isOneToOne()) {
+			connect(document.getElementById('txtSToken').value ||streamerToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv({
+				remoteVideo: video,
+				localVideo: mvideo,
+				onicecandidate: onIceCandidate
+			}, function (error) {
+				if (error) return onError(error);
 
-		connect(streamerToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly({
-			localVideo: video,
-			onicecandidate: onIceCandidate
-		}, function (error) {
-			if (error) return onError(error);
-			console.log(this);
-			this.generateOffer(onOfferPresenter);
-		}));
+				this.generateOffer(onOfferPresenter);
+			}));
+		} else {
+			connect(document.getElementById('txtSToken').value ||streamerToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly({
+				localVideo: video,
+				onicecandidate: onIceCandidate
+			}, function (error) {
+				if (error) return onError(error);
+
+				this.generateOffer(onOfferPresenter);
+			}));
+		}
 	}
 }
 
@@ -138,7 +155,7 @@ function onOfferPresenter(error, offerSdp) {
 	var message = {
 		type: 'streamer',
 		sdpOffer: offerSdp,
-		webRTCID: $('#webrtc').val()
+		webRTCID: qs.rtcid || document.getElementById('txtRtcID').value || '82a1966c-8e48-49d4-9b19-64e6adfe5be1'
 	};
 	sendMessage(message);
 }
@@ -147,14 +164,26 @@ function viewer() {
 	if (!webRtcPeer) {
 		showSpinner(video);
 
-		connect(memberToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly({
-			remoteVideo: video,
-			onicecandidate: onIceCandidate
-		}, function (error) {
-			if (error) return onError(error);
+		if (isOneToOne()) {
+			connect(document.getElementById('txtMToken').value || memberToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv({
+				remoteVideo: video,
+				localVideo: mvideo,
+				onicecandidate: onIceCandidate
+			}, function (error) {
+				if (error) return onError(error);
 
-			this.generateOffer(onOfferViewer);
-		}));
+				this.generateOffer(onOfferViewer);
+			}));
+		} else {
+			connect(document.getElementById('txtMToken').value || memberToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly({
+				remoteVideo: video,
+				onicecandidate: onIceCandidate
+			}, function (error) {
+				if (error) return onError(error);
+
+				this.generateOffer(onOfferViewer);
+			}));
+		}
 	}
 }
 
@@ -164,7 +193,7 @@ function onOfferViewer(error, offerSdp) {
 	var message = {
 		type: 'member',
 		sdpOffer: offerSdp,
-		webRTCID: $('#webrtc').val()
+		webRTCID: qs.rtcid || document.getElementById('txtRtcID').value || '82a1966c-8e48-49d4-9b19-64e6adfe5be1'
 	}
 	sendMessage(message);
 }
@@ -208,6 +237,7 @@ function sendMessage(message) {
 }
 
 function showSpinner() {
+	return;
 	for (var i = 0; i < arguments.length; i++) {
 		arguments[i].poster = './img/transparent-1px.png';
 		arguments[i].style.background = 'center transparent url("./img/spinner.gif") no-repeat';
@@ -215,6 +245,7 @@ function showSpinner() {
 }
 
 function hideSpinner() {
+	return;
 	for (var i = 0; i < arguments.length; i++) {
 		arguments[i].src = '';
 		arguments[i].poster = './img/webrtc.png';

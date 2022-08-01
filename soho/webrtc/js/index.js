@@ -124,6 +124,17 @@ function viewerResponse(message) {
 }
 
 function presenter() {
+	const constraints = {
+		audio: {
+			deviceId: undefined 
+		},
+		video: {
+				width,
+				height,
+				// facingMode: { exact: "user" }, //預設使用前鏡頭
+				facingMode: { exact: "environment" }, //預設使用後鏡頭
+		}
+	};
 	if (!webRtcPeer) {
 		showSpinner(video);
 		if (isOneToOne()) {
@@ -139,7 +150,8 @@ function presenter() {
 		} else {
 			connect(document.getElementById('txtSToken').value ||streamerToken, () => webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly({
 				localVideo: video,
-				onicecandidate: onIceCandidate
+				onicecandidate: onIceCandidate,
+				mediaConstraints: constraints,
 			}, function (error) {
 				if (error) return onError(error);
 

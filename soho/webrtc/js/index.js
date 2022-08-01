@@ -131,7 +131,7 @@ const getStream = async () => {
 		};
 		console.log(constraints)
 		Live.localStream = await getUserMedia(constraints);
-		$('#localVideo').attr('srcObject', Live.localStream);
+		document.getElementById('localVideo').srcObject = Live.localStream;
 		await getDevices();
 	});
 }

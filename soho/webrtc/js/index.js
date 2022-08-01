@@ -131,7 +131,7 @@ function presenter() {
 		video: {
 				width: 320,
 				// facingMode: { exact: "user" }, //預設使用前鏡頭
-				facingMode: { exact: "environment" }, //預設使用後鏡頭
+				// facingMode: { exact: "environment" }, //預設使用後鏡頭
 		}
 	};
 	if (!webRtcPeer) {

@@ -45,10 +45,11 @@ window.onload = function () {
 	document.getElementById('viewer').addEventListener('click', function () { viewer(); });
 	document.getElementById('terminate').addEventListener('click', function () { stop(); });
 	document.getElementById('send').addEventListener('click', function () {
-		sendMessage({
-			type: 'message',
-			message: new Date().toISOString()
-		});
+		// sendMessage({
+		// 	type: 'message',
+		// 	message: new Date().toISOString()
+		// });
+		getStream();
 	});
 }
 
@@ -58,6 +59,81 @@ function isOneToOne() {
 
 window.onbeforeunload = function () {
 	ws.close();
+}
+
+const Live = {
+	videoInput: null,
+	localStream: null,
+	devices: [],
+}
+let constraints = {
+	audio: true,
+	video: {
+			width: 640,
+			// facingMode: { exact: "user" }, //預設使用前鏡頭
+			// facingMode: { exact: "environment" }, //預設使用後鏡頭
+	}
+};
+const getUserMedia = (constraints) => {
+	return navigator.mediaDevices.getUserMedia(constraints);
+}
+const getDevices = () => {
+	return new Promise(async (resolve, reject) => {
+		if (Live.devices.length > 0) {
+			resolve(Live.devices);
+			return;
+		}
+		if (!navigator.mediaDevices ||
+			!navigator.mediaDevices.getUserMedia) {
+			console.log('webrtc is not supported!');
+			alert("您的設備不支援直播!");
+			resolve([]);
+			return;
+		}
+		
+		try {
+			var devices = await navigator.mediaDevices.enumerateDevices();
+			console.log(devices);
+			Live.devices = devices;
+			let videoDevices = devices.filter(device => device.kind === 'videoinput');
+			// Live.videoInput = videoDevices.value[0].deviceId;
+			let radios = '';
+			devices.forEach(item=>{
+				radios += `<input type="radio" name="videoInput" value="${item.deviceId}" />${item.group}`;
+			});
+			console.log(radios);
+			$('#cameraRadio').html(radios);
+			$('input[type=radio][name="videoInput"]').on('change', function() {
+				getStream();
+			});
+			resolve(Live.devices);
+		} catch (e) {
+			console.error(e);
+			resolve([]);
+		}
+	})
+}
+const getStream = async () => {
+	return new Promise(async (resolve, reject) => {
+		if (Live.localStream) {
+			Live.localStream.getTracks().forEach(track => {
+				track.stop();
+			});	
+		}
+		constraints = {
+			audio: true,
+			video: {
+					width: 320,
+					deviceId: Live.videoInput ? { exact: Live.videoInput } : undefined 
+					// facingMode: { exact: "user" }, //預設使用前鏡頭
+					// facingMode: { exact: "environment" }, //預設使用後鏡頭
+			}
+		};
+		console.log(constraints)
+		Live.localStream = await getUserMedia(constraints);
+		$('#localVideo').attr('srcObject', Live.localStream);
+		await getDevices();
+	});
 }
 
 function connect(token, callback) {
@@ -124,16 +200,6 @@ function viewerResponse(message) {
 }
 
 function presenter() {
-	const constraints = {
-		audio: {
-			deviceId: undefined 
-		},
-		video: {
-				width: 320,
-				// facingMode: { exact: "user" }, //預設使用前鏡頭
-				// facingMode: { exact: "environment" }, //預設使用後鏡頭
-		}
-	};
 	if (!webRtcPeer) {
 		showSpinner(video);
 		if (isOneToOne()) {

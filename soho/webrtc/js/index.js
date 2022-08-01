@@ -96,10 +96,10 @@ const getDevices = () => {
 			console.log(devices);
 			Live.devices = devices;
 			let videoDevices = devices.filter(device => device.kind === 'videoinput');
-			// Live.videoInput = videoDevices.value[0].deviceId;
+			Live.videoInput = videoDevices[0].deviceId;
 			let radios = '';
 			devices.forEach(item=>{
-				radios += `<input type="radio" name="videoInput" value="${item.deviceId}" />${item.group}`;
+				radios += `<input type="radio" name="videoInput" value="${item.deviceId}" />${item.label}`;
 			});
 			console.log(radios);
 			$('#cameraRadio').html(radios);

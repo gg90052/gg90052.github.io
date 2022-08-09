@@ -12,8 +12,8 @@
     
     
     <title>Vite App</title>
-    <script type="module" crossorigin src="/soho/yzu08/assets/style.4ed5fa60.js"></script>
-    <link rel="stylesheet" href="/soho/yzu08/assets/style.676365aa.css">
+    <script type="module" crossorigin src="/soho/yzu08/assets/main.ad34615e.js"></script>
+    <link rel="stylesheet" href="/soho/yzu08/assets/main.676365aa.css">
   </head>
   <body>
     <header class="fixed z-50">
@@ -575,92 +575,5 @@
       </div>
     </section>
     
-    <script>
-      $('.speakers label').click(function(e){
-        let $this = $(this);
-        if ($this.hasClass('active')) {
-          e.preventDefault();
-          $this.removeClass('active');
-          $this.next().removeClass('active');
-          $this.next().find('input').prop('checked', false);
-        }
-      });
-      $('input[name="tab1"]').on('change', function() {
-        $('.tab1').children().removeClass('active');
-        let $this = $(this);
-        let $box = $this.parent();
-        $box.addClass('active');
-        $box.prev().addClass('active');
-      });
-      $('input[name="tab2"]').on('change', function() {
-        $('.tab2').children().removeClass('active');
-        let $this = $(this);
-        let $box = $this.parent();
-        $box.addClass('active');
-        $box.prev().addClass('active');
-      });
-      $('input[name="tab3"]').on('change', function() {
-        $('.tab3').children().removeClass('active');
-        let $this = $(this);
-        let $box = $this.parent();
-        $box.addClass('active');
-        $box.prev().addClass('active');
-      });
-      $('.cast_list').slick({
-        nextArrow: '.slickArrow',
-      });
-      let counterID1, counterID2, counterID3;
-      let counter1 = 0, counter2 = 0, counter3 = 0;
-      let countDuration = 50;
-      let counterAnimation1 = () => {
-        counter1 += 1;
-        let $counterDom = $('#counter1');
-        $counterDom.text(Math.round(Math.random()*100));
-        if (counter1 > countDuration) {
-          cancelAnimationFrame(counterID1);
-          $counterDom.text($counterDom.attr('data-count'));
-        } else {
-          counterID1 = requestAnimationFrame(counterAnimation1);
-        }
-      }
-      
-
-      let counterAnimation2 = () => {
-        counter2 += 1;
-        let $counterDom = $('#counter2');
-        $counterDom.text(Math.round(Math.random()*1000));
-        if (counter2 > countDuration) {
-          cancelAnimationFrame(counterID2);
-          $counterDom.text($counterDom.attr('data-count'));
-        } else {
-          counterID2 = requestAnimationFrame(counterAnimation2);
-        }
-      }
-      
-
-      let counterAnimation3 = () => {
-        counter3 += 1;
-        let $counterDom = $('#counter3');
-        $counterDom.text(Math.round(Math.random()*100));
-        if (counter3 > countDuration) {
-          cancelAnimationFrame(counterID3);
-          $counterDom.text($counterDom.attr('data-count'));
-        } else {
-          counterID3 = requestAnimationFrame(counterAnimation3);
-        }
-      }
-      
-
-      AOS.init();
-
-      const counterIO = new IntersectionObserver(function (entries){
-        if (entries[0].intersectionRatio >= 0.5){
-          counterID1 = requestAnimationFrame(counterAnimation1);
-          counterID2 = requestAnimationFrame(counterAnimation2);
-          counterID3 = requestAnimationFrame(counterAnimation3);
-        }
-      },{threshold: .5});
-      counterIO.observe(document.querySelector('.spotlightSection'));
-    </script>
   </body>
 </html>

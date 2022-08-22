@@ -13,6 +13,10 @@ export const useDataStore = defineStore({
     showPrize: false,
     files: [],
     showFileTable: -1 as unknown as number,
+    logged: false,
+    userFbName: '',
+    userFbId: '',
+    needPaid: false,
   }),
   getters: {},
   actions: {
@@ -26,6 +30,9 @@ export const useDataStore = defineStore({
       this.showPrize = false;
       this.files = [];
       this.showFileTable = -1;
+      this.logged = false;
+      this.userFbId = '';
+      this.userFbName = '';
     },
     setPostData(data){
       this.postData = data;
@@ -54,6 +61,16 @@ export const useDataStore = defineStore({
     },
     setFileTarget(data) {
       this.showFileTable = data;
+    },
+    setUser(data) {
+      this.userFbId = data.id;
+      this.userFbName = data.name;
+    },
+    setLoginStatus(status) {
+      this.logged = status;
+    },
+    setNeedPay(status) {
+      this.needPaid = status;
     }
   },
 });

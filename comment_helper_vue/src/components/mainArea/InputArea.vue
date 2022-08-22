@@ -4,7 +4,7 @@
       <div class="mt-4">
         <input :value="post.id" type="text" disabled class="w-full rounded-none input-sm input-bordered max-w-xs disabled:bg-gray-300" placeholder="請按下方按鈕選擇貼文"/>
         <button class="btn btn-blue btn-sm" @click="copy">複製</button>
-        <button class="btn btn-sm block mt-4" :class="post.id === '' ? 'btn-blue':'btn-outline'" @click="fbInit">從粉絲專頁/社團選擇貼文</button>
+        <button class="btn btn-sm mt-4" :class="post.id === '' ? 'btn-blue':'btn-outline'" @click="fbInit">從粉絲專頁/社團選擇貼文</button>
       </div>
     </div>
     <div class="mt-4 flex flex-nowrap items-end" v-if="post.id !== ''">
@@ -31,14 +31,6 @@
         <a href="https://www.facebook.com/commenthelper/posts/4583917594974372" target="_blank" class="text-blue-400 text-sm">如何抓分享</a>
       </div>
     </div>
-    <!-- <template v-if="post.id === ''">
-      <p class="text-red-600 text-sm mt-10">
-        付款後請到粉絲團私訊付款證明給管理員，待管理員開通後方可授權<br>不要問為什麼你付錢了還是看到這行字，因為它就是永遠都在這
-      </p>
-      <button @click="openURL('pay.html')" class="btn btn-sm border-0 bg-sky-400 text-xs mt-3">付費說明</button>
-      <button @click="openURL('policy.html')" class="btn btn-sm border-0 bg-sky-400 text-xs ml-4">Platform Policy</button>
-    </template>
-    <textarea name="" class="input_token hidden" id="" cols="30" rows="10"></textarea> -->
   </div>
 </template>
 
@@ -83,9 +75,11 @@ const copy = () => {
   })
 }
 
-const importShare = () => {
-  const shareData = JSON.parse(localStorage.sharedposts);
+const importShare = (shareData) => {
+  localStorage.sharedposts = JSON.stringify(shareData);
+  alert('匯入分享完成');
   dataStore.setRawData(shareData);
+  dataStore.setNeedPay(true);
 }
 
 const getData = async (command: string) => {
@@ -136,6 +130,12 @@ const getPost = (target: any, target_page: any) => {
   post.value = target;
   page.value = target_page;
 }
+
+onMounted(()=>{
+  window.addEventListener('importShare', function(e){
+    importShare(e.detail.data);
+  });
+})
 
 defineExpose({
   getPost

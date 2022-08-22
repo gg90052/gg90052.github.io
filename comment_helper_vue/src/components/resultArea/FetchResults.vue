@@ -1,10 +1,15 @@
 <template>
   <div class="overflow-x-auto min-h-[400px]">
-    <FilterBox ref="filterBoxRef" />
-    <DrawBox @afterDraw="activeTab = 1" />
-    <transition name="slideup">
-      <PrizeBox v-show="dataStore.showPrize === true" />
-    </transition>
+    <div v-show="dataStore.logged === true || dataStore.needPaid === false">
+      <FilterBox ref="filterBoxRef" />
+      <DrawBox @afterDraw="activeTab = 1" />
+      <transition name="slideup">
+        <PrizeBox v-show="dataStore.showPrize === true" />
+      </transition>
+    </div>
+    <div v-if="dataStore.logged === false && dataStore.needPaid === true">
+      <PayCheck></PayCheck>
+    </div>
     <div class="tabs justify-between">
       <div>
         <a class="tab tab-lg tab-lifted" @click="activeTab = 0" :class="activeTab === 0 ? 'tab-active':''">擷取內容</a> 
@@ -16,7 +21,7 @@
             <p>共擷取{{dataStore.rawData.length}}筆資料</p>
             <p>篩選出{{dataStore.filteredData.length}}筆資料</p>
           </div>
-          <button @click="exportTable" class="btn btn-blue btn-sm ml-4">匯出篩選結果</button>
+          <button v-if="dataStore.logged === true || dataStore.needPaid === false" @click="exportTable" class="btn btn-blue btn-sm ml-4">匯出篩選結果</button>
         </div>
       </div>
     </div>
@@ -43,6 +48,7 @@ import CommentTable from './CommentTable.vue';
 import ReactionTable from './ReactionTable.vue';
 import ShareTable from './ShareTable.vue';
 import DrawResult from './DrawResult.vue';
+import PayCheck from './PayCheck.vue';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const activeTab = ref(0);

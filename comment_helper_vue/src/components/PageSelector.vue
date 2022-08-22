@@ -17,7 +17,7 @@
         </div>
 			</div>
 			<div class="flex-grow overflow-auto h-full pb-3 px-4">
-				<p>{{target.name}}貼文列表</p>
+				<p>{{target.name}}貼文列表 <button class="btn-free-height btn-warning ml-4 h-8 align-middle text-xs" @click="copyToken">複製token</button></p>
 				<div v-if="loading" class="sk-folding-cube">
 					<div class="sk-cube1 sk-cube"></div>
 					<div class="sk-cube2 sk-cube"></div>
@@ -66,7 +66,9 @@
 
 <script setup lang="ts">
 import * as dayjs from 'dayjs';
-import Datepicker from 'vue3-datepicker'
+import Datepicker from 'vue3-datepicker';
+import { useDataStore } from '@/store/modules/data';
+const dataStore = useDataStore();
 const emit = defineEmits(['close', 'select']);
 const props = defineProps(['show', 'accessToken']);
 const loading = ref(true);
@@ -100,9 +102,9 @@ watch(
   async (next, prev) => {
     if (prev === false && next === true) {
       const page = await getPageList();
-      console.log(page);
+      // console.log(page);
       const group = await getGroupList();
-      console.log(group)
+      // console.log(group)
       loading.value = false;
       pages.value = page.data;
       groups.value = group.data;
@@ -114,6 +116,7 @@ const selectPage = (page) => {
   target.value = page;
   loading.value = true;
   posts.value = [];
+  dataStore.setNeedPay(false);
   FB.api(`${page.id}/published_posts?access_token=${page.access_token}`, (res) => {
     loading.value = false;
     posts.value = res.data;
@@ -124,6 +127,7 @@ const selectGroup = (group) => {
   target.value = group;
   loading.value = true;
   posts.value = [];
+  dataStore.setNeedPay(true);
   FB.api(`${group.id}/feed?access_token=${props.accessToken}`, (res) => {
     loading.value = false;
     posts.value = res.data;
@@ -133,6 +137,20 @@ const selectGroup = (group) => {
 const selectPost = (post) => {
   emit('select', post, target.value);
   emit('close');
+}
+
+const copyToken = () => {
+  let copyObj = {
+    userToken: props.accessToken,
+    target: target.value,
+  }
+  navigator.clipboard.writeText(JSON.stringify(copyObj))
+    .then(() => {
+    alert("已複製Token");
+  })
+    .catch(err => {
+    alert('Something went wrong' + err);
+  })
 }
 
 </script>

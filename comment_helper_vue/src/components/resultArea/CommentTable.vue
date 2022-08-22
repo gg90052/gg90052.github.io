@@ -13,7 +13,7 @@
     <tbody>
       <tr v-for="(tr, index) in tableData" :key="tr.id">
         <th>{{ index + 1 }}</th>
-        <td>{{ tr.from ? tr.from.name : tr.id }}</td>
+        <td>{{ username(tr) }}</td>
         <td class="w-3/5 whitespace-normal text-[#D68927] hover:underline"><a :href="'https://www.facebook.com/' + tr.id" target="_blank">{{ tr.message ? tr.message : tr.id }}</a></td>
         <td class="text-center">{{ tr.like_count }}</td>
         <td>{{ dayjs(tr.created_time).format('YYYY-MM-DD HH:mm:ss') }}</td>
@@ -25,6 +25,15 @@
 import dayjs from 'dayjs';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
+const username = computed(()=>{
+  return (tr) => {
+    if (dataStore.needPaid === true && dataStore.logged === false){
+      return 'undefined';
+    }else{
+      return tr.from ? tr.from.name : tr.id;
+    }
+  }
+})
 const props = defineProps({
   useCompare: {
     type: Boolean,

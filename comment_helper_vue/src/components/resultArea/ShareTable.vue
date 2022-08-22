@@ -11,7 +11,7 @@
     <tbody>
       <tr v-for="(tr, index) in tableData">
         <th>{{ index + 1 }}</th>
-        <td>{{ tr.from.name }}</td>
+        <td>{{ dataStore.logged === false ? 'undefined' : tr.from.name }}</td>
         <td class="w-3/5 whitespace-normal text-[#D68927] hover:underline"><a :href="tr.from.link" target="_blank">{{ tr.from.link }}</a></td>
       </tr>
     </tbody>
@@ -21,7 +21,6 @@
 import dayjs from 'dayjs';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
-
 const props = defineProps({
   useCompare: {
     type: Boolean,

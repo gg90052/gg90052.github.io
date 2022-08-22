@@ -33,16 +33,18 @@ function fbCallback(response: any, type:string){
   if (response.status === 'connected') {
     accessToken.value = response.authResponse.accessToken;
     showPageSelector.value = true;
-    // $.get('https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec?id=' + config.me, function (res2) {
-    //   $('.waiting').addClass('hide');
-    //   if (res2 === 'true') {
-    //     config.auth_user = true;
-    //     $('.page_group').removeClass('hide');
-    //   } else {
-    //     config.auth_user = false;
-    //   }
-    //   page_selector.show();
-    // });
+    FB.api(`/me?fields=id,name`, async (res) => {
+      const user = {
+        id: res.id,
+        name: res.name,
+      }
+      dataStore.setUser(user);
+      fetch(`https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec?id=${user.id}`).then(response=>{
+        return response.json();
+      }).then(result=>{
+        dataStore.setLoginStatus(result);
+      });
+    });
   }
 }
 

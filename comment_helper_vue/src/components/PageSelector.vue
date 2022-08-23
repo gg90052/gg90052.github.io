@@ -3,6 +3,11 @@
     <div class="loading-modal__content">
       <div class="absolute top-2 right-0 w-10 text-2xl text-gray-500 cursor-pointer" @click="emit('close')">X</div>
 			<div class="w-[300px] flex-shrink-0 border-r border-black h-full overflow-auto">
+        <template v-if="!dataStore.logged">
+          <div class="mt-4 px-4">
+            <SnInput></SnInput>
+          </div>
+        </template>
 				<p>粉絲專頁</p>
 				<div class="select_page">
           <div class="cursor-pointer" v-for="(page, index) in pages" :key="index" @click="selectPage(page)">
@@ -68,6 +73,7 @@
 import * as dayjs from 'dayjs';
 import Datepicker from 'vue3-datepicker';
 import { useDataStore } from '@/store/modules/data';
+import SnInput from '@/components/SnInput.vue';
 const dataStore = useDataStore();
 const emit = defineEmits(['close', 'select']);
 const props = defineProps(['show', 'accessToken']);

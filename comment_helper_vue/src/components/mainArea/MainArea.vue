@@ -22,6 +22,7 @@ const showPageSelector = ref(false);
 const accessToken = ref('');
 const inputArea = ref();
 const postPreview = ref();
+const payChecked = ref(false);
 
 const loadingDisplay = (show: boolean = true) => {
   showLoading.value = show;
@@ -29,23 +30,26 @@ const loadingDisplay = (show: boolean = true) => {
 
 function fbCallback(response: any, type:string){
   console.log(response);
-  showLoading.value = false;
   if (response.status === 'connected') {
     accessToken.value = response.authResponse.accessToken;
-    showPageSelector.value = true;
+    fetch(`https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec?id=${response.authResponse.userID}`).then(response=>{
+      return response.json();
+    }).then(result=>{
+      dataStore.setLoginStatus(result);
+      showSelector();
+    });
     FB.api(`/me?fields=id,name`, async (res) => {
       const user = {
         id: res.id,
         name: res.name,
       }
       dataStore.setUser(user);
-      fetch(`https://script.google.com/macros/s/AKfycbzrtUqld8v4IQYjegA6XxmRTYZwLi5Hlkz0dhTBEBYdh5CAFQ8/exec?id=${user.id}`).then(response=>{
-        return response.json();
-      }).then(result=>{
-        dataStore.setLoginStatus(result);
-      });
     });
   }
+}
+const showSelector = () => {
+  showLoading.value = false;
+  showPageSelector.value = true;
 }
 
 const selectPost = (post: any, page: any) => {

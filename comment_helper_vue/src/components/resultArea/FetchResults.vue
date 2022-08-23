@@ -22,6 +22,7 @@
             <p>篩選出{{dataStore.filteredData.length}}筆資料</p>
           </div>
           <button v-if="dataStore.logged === true || dataStore.needPaid === false" @click="exportTable" class="btn btn-blue btn-sm ml-4">匯出篩選結果</button>
+          <button @click="copyTable" class="btn btn-blue btn-sm ml-4">複製表格內容</button>
         </div>
       </div>
     </div>
@@ -69,6 +70,30 @@ const exportTable = () => {
   linkElement.setAttribute('href', dataUri);
   linkElement.setAttribute('download', exportFileDefaultName);
   linkElement.click();
+}
+
+const copyTable = async () => {
+  const range = document.createRange();
+  const selection = window.getSelection();
+  const resultTable = document.querySelector('.resultTable');
+  if (resultTable){
+    selection?.removeAllRanges();
+    try{
+      range.selectNodeContents(resultTable);
+      selection?.addRange(range);
+    }catch{
+      range.selectNode(resultTable);
+      selection?.addRange(range);
+    }
+    
+    try {
+      await navigator.clipboard.writeText(selection);
+      alert('已複製到剪貼簿');
+    }
+    catch{
+      alert('複製失敗，請手動複製');
+    }
+  }
 }
 
 onMounted(() => {

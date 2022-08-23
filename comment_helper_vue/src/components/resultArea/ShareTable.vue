@@ -1,9 +1,9 @@
 <template>
-  <table class="table table-auto whitespace-normal table-zebra w-full">
+  <table class="resultTable table table-auto whitespace-normal table-zebra w-full">
     <!-- head -->
     <thead>
       <tr>
-        <th class="!rounded-t-none"></th>
+        <th class="!rounded-t-none">序號</th>
         <th>名稱</th>
         <th class="w-3/5 !rounded-t-none">塗鴉牆網址</th>
       </tr>

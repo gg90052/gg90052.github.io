@@ -123,6 +123,8 @@ const selectPage = (page) => {
   loading.value = true;
   posts.value = [];
   dataStore.setNeedPay(false);
+  dataStore.setType('page');
+  dataStore.setToken(page.access_token);
   FB.api(`${page.id}/published_posts?access_token=${page.access_token}`, (res) => {
     loading.value = false;
     posts.value = res.data;
@@ -134,6 +136,8 @@ const selectGroup = (group) => {
   loading.value = true;
   posts.value = [];
   dataStore.setNeedPay(true);
+  dataStore.setType('group');
+  dataStore.setToken(props.accessToken);
   FB.api(`${group.id}/feed?access_token=${props.accessToken}`, (res) => {
     loading.value = false;
     posts.value = res.data;

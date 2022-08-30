@@ -4,7 +4,10 @@
       <div v-if="showPrizeTitle(index) && dataStore.prizeList.length > 0" class="col-span-4 text-white bg-blue-500 block py-2">{{ showPrizeTitle(index).title }}：<span class="text-yellow-300 font-bold mx-2">{{showPrizeTitle(index).num}}</span>名</div>
       <div class="card w-full bg-base-100 border shadow-xl text-left">
         <div class="card-body relative">
-          <h2 class="card-title">
+          <h2 class="card-title whitespace-nowrap">
+            <div class="w-12 aspect-square overflow-hidden" v-if="dataStore.postType === 'page'">
+              <img :src="pictureUrl(card)" alt="" />
+            </div>
             <a v-if="card.from?.link" :href="card.from.link" target="_blank" class="text-[#D68927] hover:underline">{{ card.from.name }}</a>
             <template v-else>{{ name(card) }}</template>
           </h2>
@@ -47,6 +50,9 @@ const titleArray = computed(()=>{
 
 const showPrizeTitle = (index) => {
   return titleArray.value.find(item=>item.count === index);
+}
+const pictureUrl = (card) => {
+  return `https://graph.facebook.com/${card.from.id}/picture?type=large&access_token=${dataStore.accessToken}`;
 }
 
 </script>

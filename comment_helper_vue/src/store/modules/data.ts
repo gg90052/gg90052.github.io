@@ -17,6 +17,8 @@ export const useDataStore = defineStore({
     userFbName: '',
     userFbId: '',
     needPaid: false,
+    accessToken: '',
+    postType: '',
   }),
   getters: {},
   actions: {
@@ -33,6 +35,9 @@ export const useDataStore = defineStore({
       this.logged = false;
       this.userFbId = '';
       this.userFbName = '';
+      this.needPaid = false,
+      this.accessToken = '',
+      this.postType = '';
     },
     setPostData(data){
       this.postData = data;
@@ -71,7 +76,13 @@ export const useDataStore = defineStore({
     },
     setNeedPay(status) {
       this.needPaid = status;
-    }
+    },
+    setToken(token) {
+      this.accessToken = token;
+    },
+    setType(type) {
+      this.postType = type;
+    },
   },
 });
 

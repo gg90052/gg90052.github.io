@@ -27,6 +27,9 @@ import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const sortKey = ref('created_time');
 const sortDir = ref(false);
+const datas = computed(()=>{
+  return props.datas.length > 0 ? props.datas : dataStore.filteredData;
+});
 const username = computed(()=>{
   return (tr) => {
     if (dataStore.needPaid === true && dataStore.logged === false){
@@ -40,15 +43,13 @@ const props = defineProps({
   useCompare: {
     type: Boolean,
     default: false,
+  },
+  datas: {
+    type: Array,
+    default: ()=>[],
   }
 });
-const tableData = computed(()=>{
-  if (props.useCompare === true){
-    return dataStore.files.find(item=>item.id === dataStore.showFileTable)?.datas;
-  }else{
-    return dataStore.filteredData;
-  }
-});
+
 const sort = (key) => {
   if (sortKey.value === key){
     sortDir.value = !sortDir.value;
@@ -58,7 +59,7 @@ const sort = (key) => {
   }
 }
 const sortTable = computed(()=>{
-  return dataStore.filteredData.sort((a, b) => {
+  return datas.value.sort((a, b) => {
     if (sortDir.value){
       return a[sortKey.value] > b[sortKey.value] ? 1 : -1;
     }else{

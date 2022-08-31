@@ -52,7 +52,8 @@ const showPrizeTitle = (index) => {
   return titleArray.value.find(item=>item.count === index);
 }
 const pictureUrl = (card) => {
-  return `https://graph.facebook.com/${card.from.id}/picture?type=large&access_token=${dataStore.accessToken}`;
+  const id = card.from ? card.from.id : card.id;
+  return `https://graph.facebook.com/${id}/picture?type=large&access_token=${dataStore.accessToken}`;
 }
 
 </script>

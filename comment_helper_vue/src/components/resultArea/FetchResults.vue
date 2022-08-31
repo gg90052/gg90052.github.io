@@ -14,6 +14,7 @@
       <div>
         <a class="tab tab-lg tab-lifted" @click="activeTab = 0" :class="activeTab === 0 ? 'tab-active':''">擷取內容</a> 
         <a class="tab tab-lg tab-lifted" @click="activeTab = 1" :class="activeTab === 1 ? 'tab-active':''">得獎名單</a> 
+        <a class="tab tab-lg tab-lifted" @click="activeTab = 2" :class="activeTab === 2 ? 'tab-active':''">得獎名單(表格)</a> 
       </div>
       <div v-if="activeTab === 0" class="bg-white text-sm py-1 px-4">
         <div class="flex items-center">
@@ -22,6 +23,11 @@
             <p>篩選出{{dataStore.filteredData.length}}筆資料</p>
           </div>
           <button v-if="dataStore.logged === true || dataStore.needPaid === false" @click="exportTable" class="btn btn-blue btn-sm ml-4">匯出篩選結果</button>
+          <button @click="copyTable" class="btn btn-blue btn-sm ml-4">複製表格內容</button>
+        </div>
+      </div>
+      <div v-if="activeTab === 2" class="bg-white text-sm py-1 px-4">
+        <div class="flex items-center">
           <button @click="copyTable" class="btn btn-blue btn-sm ml-4">複製表格內容</button>
         </div>
       </div>
@@ -36,6 +42,13 @@
     <transition>
       <div v-if="activeTab === 1">
         <DrawResult />
+      </div>
+    </transition>
+    <transition>
+      <div v-if="activeTab === 2">
+        <CommentTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].message" :datas="dataStore.drawResult" />
+        <ReactionTable  v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].type" :datas="dataStore.drawResult" />
+        <ShareTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].story !== undefined" :datas="dataStore.drawResult" />
       </div>
     </transition>
   </div>
@@ -70,6 +83,9 @@ const exportTable = () => {
   linkElement.setAttribute('href', dataUri);
   linkElement.setAttribute('download', exportFileDefaultName);
   linkElement.click();
+}
+const exportResult = () => {
+  console.log('aa');
 }
 
 const copyTable = async () => {

@@ -25,13 +25,17 @@ const props = defineProps({
   useCompare: {
     type: Boolean,
     default: false,
+  },
+  datas: {
+    type: Array,
+    default: ()=>[],
   }
 });
 const tableData = computed(()=>{
   if (props.useCompare === true){
     return dataStore.files.find(item=>item.id === dataStore.showFileTable)?.datas;
   }else{
-    return dataStore.filteredData;
+    return props.datas.length > 0 ? props.datas : dataStore.filteredData;
   }
 });
 </script>

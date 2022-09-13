@@ -147,6 +147,7 @@ const selectPost = (post) => {
   emit('close');
   target.value = {name: ''};
   posts.value = [];
+  postFBID.value = '';
 }
 const selectPostFromFBID = () => {
   if (postFBID.value) {

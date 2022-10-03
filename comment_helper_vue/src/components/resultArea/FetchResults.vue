@@ -34,8 +34,8 @@
     </div>
     <transition>
       <div v-if="activeTab === 0">
-        <CommentTable v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].message" />
-        <ReactionTable  v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].type"  />
+        <CommentTable v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].message !== undefined" />
+        <ReactionTable  v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].type !== undefined"  />
         <ShareTable v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].story !== undefined" />
       </div>
     </transition>
@@ -46,8 +46,8 @@
     </transition>
     <transition>
       <div v-if="activeTab === 2">
-        <CommentTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].message" :datas="dataStore.drawResult" />
-        <ReactionTable  v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].type" :datas="dataStore.drawResult" />
+        <CommentTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].message !== undefined" :datas="dataStore.drawResult" />
+        <ReactionTable  v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].type !== undefined" :datas="dataStore.drawResult" />
         <ShareTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].story !== undefined" :datas="dataStore.drawResult" />
       </div>
     </transition>

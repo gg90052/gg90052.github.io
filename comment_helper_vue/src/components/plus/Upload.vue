@@ -42,21 +42,11 @@ const uploadFile = () => {
 const saveData = (data, name) => {
   console.log(lastId.value);
   const obj = {
-    id: lastId.value,
+    ...data,
     name,
-    type: '',
-    datas: data,
-  }
+    id: lastId.value
+  };
   try {
-    if (data[0].type){
-      obj.type = 'reactions';
-    }else if (data[0].story || data[0].story === ''){
-      obj.type = 'sharedposts'
-    }else if (data[0].message){
-      obj.type = 'comments'
-    }else{
-      throw new Error('no type');
-    }
     const files = dataStore.files;
     files.push(obj);
     dataStore.setFiles(files);

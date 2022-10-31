@@ -74,14 +74,18 @@ watch(()=>dataStore.rawData, ()=>{
 });
 
 const exportTable = () => {
-  let dataStr = JSON.stringify(dataStore.filteredData);
-  let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+  const obj = {
+    postData: dataStore.postData,
+    type: dataStore.command,
+    datas: dataStore.filteredData,
+  }
 
-  let exportFileDefaultName = 'data.json';
+  let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(JSON.stringify(obj));
+  const fileName = dataStore.command + '-' + dataStore.postData.id + '.json';
 
   let linkElement = document.createElement('a');
   linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.setAttribute('download', fileName);
   linkElement.click();
 }
 const exportResult = () => {

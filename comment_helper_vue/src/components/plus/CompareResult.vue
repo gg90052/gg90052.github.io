@@ -1,5 +1,5 @@
 <template>
-  <!-- <CompareFilter ref="filter" /> -->
+  <CompareFilter ref="filterRef" />
   <DrawBox @afterDraw="activeTab = 1" />
   <transition name="slideup">
     <PrizeBox v-show="dataStore.showPrize === true" />
@@ -44,7 +44,7 @@ import DrawResult from '@/components/resultArea/DrawResult.vue';
 import CompareTable from '@/components/plus/CompareTable.vue';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
-const filter = ref();
+const filterRef = ref();
 const activeTab = ref(0);
 const fileTableData = computed(()=>{
   return dataStore.files.find(item=>item.id === dataStore.showFileTable) || [];
@@ -53,7 +53,7 @@ const activeTargetTab = (tab) => {
   activeTab.value = tab;
   console.log(tab);
   if (tab === 2){
-    filter.value.filterAll();
+    filterRef.value.filterAll();
   }
 }
 </script>

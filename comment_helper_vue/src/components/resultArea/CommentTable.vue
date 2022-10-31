@@ -28,7 +28,11 @@ const dataStore = useDataStore();
 const sortKey = ref('created_time');
 const sortDir = ref(false);
 const datas = computed(()=>{
-  return props.datas.length > 0 ? props.datas : dataStore.filteredData;
+  if (props.useCompare === true){
+    return dataStore.files.find(item=>item.id === dataStore.showFileTable)?.datas;
+  }else{
+    return props.datas.length > 0 ? props.datas : dataStore.filteredData;
+  }
 });
 const username = computed(()=>{
   return (tr) => {

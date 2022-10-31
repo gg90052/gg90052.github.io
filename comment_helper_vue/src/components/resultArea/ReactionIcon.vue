@@ -44,7 +44,4 @@ const props = defineProps({
   }
 });
 
-onMounted(()=>{
-  console.log(props.reaction);
-})
 </script>

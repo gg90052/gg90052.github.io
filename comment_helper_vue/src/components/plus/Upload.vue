@@ -40,7 +40,7 @@ const uploadFile = () => {
 }
 
 const saveData = (data, name) => {
-  console.log(lastId.value);
+  // console.log(lastId.value);
   const obj = {
     ...data,
     name,

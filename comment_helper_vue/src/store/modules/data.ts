@@ -19,6 +19,7 @@ export const useDataStore = defineStore({
     needPaid: false,
     accessToken: '',
     postType: '',
+    compareAnd: true,
   }),
   getters: {},
   actions: {
@@ -83,6 +84,9 @@ export const useDataStore = defineStore({
     setType(type) {
       this.postType = type;
     },
+    setCompareAnd(status) {
+      this.compareAnd = status;
+    }
   },
 });
 

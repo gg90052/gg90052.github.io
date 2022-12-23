@@ -13,7 +13,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import router from '@/router';
+
 import HeaderComponent from '@/components/Header.vue';
 import MainArea from '@/components/mainArea/MainArea.vue';
 import DonateArea from '@/components/donateArea/DonateArea.vue';

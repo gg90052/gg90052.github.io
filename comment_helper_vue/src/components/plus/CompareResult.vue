@@ -1,5 +1,5 @@
 <template>
-  <CompareFilter ref="filterRef" />
+  <CompareFilter ref="filterRef" @compareChange="changeTab" />
   <DrawBox @afterDraw="activeTab = 1" />
   <transition name="slideup">
     <PrizeBox v-show="dataStore.showPrize === true" />
@@ -29,7 +29,7 @@
   </transition>
   <transition>
     <div v-if="activeTab === 2">
-      <CompareTable />
+      <CompareTable ref="compareTableRef" />
     </div>
   </transition>
 </template>
@@ -46,14 +46,24 @@ import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const filterRef = ref();
 const activeTab = ref(0);
+const compareTableRef = ref();
 const fileTableData = computed(()=>{
   return dataStore.files.find(item=>item.id === dataStore.showFileTable) || [];
 });
 const activeTargetTab = (tab) => {
   activeTab.value = tab;
-  console.log(tab);
   if (tab === 2){
     filterRef.value.filterAll();
   }
 }
+const changeTab = () => {
+  if (activeTab.value === 2){
+    compareTableRef.value.reloadTable();
+  }
+}
+// watch(dataStore.files, (val)=>{
+//   if (val.length >= 2){
+//     activeTab.value = 2;
+//   }
+// })
 </script>

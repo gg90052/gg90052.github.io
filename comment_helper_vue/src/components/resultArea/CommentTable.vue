@@ -51,6 +51,10 @@ const props = defineProps({
   datas: {
     type: Array,
     default: ()=>[],
+  },
+  sort: {
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -63,13 +67,17 @@ const sort = (key) => {
   }
 }
 const sortTable = computed(()=>{
-  return datas.value.sort((a, b) => {
-    if (sortDir.value){
-      return a[sortKey.value] > b[sortKey.value] ? 1 : -1;
-    }else{
-      return a[sortKey.value] < b[sortKey.value] ? 1 : -1;
-    }
-  });
+  if (props.sort === true){
+    return datas.value.sort((a, b) => {
+      if (sortDir.value){
+        return a[sortKey.value] > b[sortKey.value] ? 1 : -1;
+      }else{
+        return a[sortKey.value] < b[sortKey.value] ? 1 : -1;
+      }
+    });
+  }else{
+    return datas.value;
+  }
 })
 </script>
 

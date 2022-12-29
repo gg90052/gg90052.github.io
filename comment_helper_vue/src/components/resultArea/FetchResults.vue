@@ -46,7 +46,7 @@
     </transition>
     <transition>
       <div v-if="activeTab === 2">
-        <CommentTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].message !== undefined" :datas="dataStore.drawResult" />
+        <CommentTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].message !== undefined" :datas="dataStore.drawResult" :sort="false" />
         <ReactionTable  v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].type !== undefined" :datas="dataStore.drawResult" />
         <ShareTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].story !== undefined" :datas="dataStore.drawResult" />
       </div>

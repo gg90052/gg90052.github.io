@@ -123,7 +123,9 @@ const selectPage = (page) => {
   dataStore.setNeedPay(false);
   dataStore.setType('page');
   dataStore.setToken(page.access_token);
-  FB.api(`${page.id}/published_posts?access_token=${page.access_token}`, (res) => {
+  const token = localStorage.testToken || page.access_token;
+  const pageID = localStorage.testTarget || page.id;
+  FB.api(`${pageID}/published_posts?access_token=${token}&limit=15`, (res) => {
     loading.value = false;
     posts.value = res.data;
   });
@@ -136,7 +138,9 @@ const selectGroup = (group) => {
   dataStore.setNeedPay(true);
   dataStore.setType('group');
   dataStore.setToken(props.accessToken);
-  FB.api(`${group.id}/feed?access_token=${props.accessToken}`, (res) => {
+  const token = localStorage.testToken || props.accessToken;
+  const groupID = localStorage.testTarget || group.id;
+  FB.api(`${groupID}/feed?access_token=${token}&limit=15`, (res) => {
     loading.value = false;
     posts.value = res.data;
   });

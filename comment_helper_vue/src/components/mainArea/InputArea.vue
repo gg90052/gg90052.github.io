@@ -93,7 +93,7 @@ const getData = async (command: string) => {
   }else{
     FB.api(`/${post.value.id}/${command}`, {
       fields: fields[command].join(','),
-      limit: 100,
+      limit: 15,
       order: 'chronological',
       access_token: page.value.access_token,
     }, (res: any)=>{

@@ -84,10 +84,21 @@ const postFBID = ref('');
 const onChangeDate = (date) => {
   loading.value = true;
   posts.value = [];
-  FB.api(`${target.value.id}/published_posts?access_token=${target.value.access_token}&until=${dayjs(date).format('YYYY-MM-DD')}`, (res) => {
-    loading.value = false;
-    posts.value = res.data;
-  });
+  if (dataStore.postType === 'page'){
+    const token = localStorage.testToken || target.value.access_token;
+    const pageID = localStorage.testTarget || target.value.id;
+    FB.api(`${pageID}/published_posts?access_token=${token}&until=${dayjs(date).format('YYYY-MM-DD')}`, (res) => {
+      loading.value = false;
+      posts.value = res.data;
+    });
+  }else{
+    const token = localStorage.testToken || props.accessToken;
+    const groupID = localStorage.testTarget || target.value.id;
+    FB.api(`${groupID}/feed?access_token=${token}&limit=15`, (res) => {
+      loading.value = false;
+      posts.value = res.data;
+    });
+  }
 }
 
 const getGroupList = async() => {

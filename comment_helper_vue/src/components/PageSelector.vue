@@ -94,7 +94,7 @@ const onChangeDate = (date) => {
   }else{
     const token = localStorage.testToken || props.accessToken;
     const groupID = localStorage.testTarget || target.value.id;
-    FB.api(`${groupID}/feed?access_token=${token}&limit=15`, (res) => {
+    FB.api(`${groupID}/feed?access_token=${token}&until=${dayjs(date).format('YYYY-MM-DD')}&limit=15`, (res) => {
       loading.value = false;
       posts.value = res.data;
     });

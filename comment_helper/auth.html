@@ -6,7 +6,6 @@
 <meta property="og:title" content="粉絲團留言抽籤小助手 授權頁面" /> 
 <meta property="og:type" content="article" /> 
 <meta property="og:url" content="http://gg90052.github.io/comment_helper/auth.html" />
-<meta property="og:image" content="http://gg90052.github.io/comment_helper_plus/auth.jpg" />
 <meta property="og:description" content="" /> 
 
 <title>粉絲團留言抽籤小助手 授權頁面</title>
@@ -166,8 +165,8 @@ window.fbAsyncInit = function() {
 </div>
 
 <script type="text/javascript">
-document.querySelector('#btn_login').click(function(){
-	FB.login(function(response) {
+document.querySelector('#btn_login').addEventListener('click', function(){
+  FB.login(function(response) {
 		callback(response);
 	}, {
 		scope: 'groups_access_member_info',

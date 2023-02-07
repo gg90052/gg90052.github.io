@@ -81,6 +81,12 @@ const importShare = (shareData) => {
   dataStore.setRawData(shareData);
   dataStore.setNeedPay(true);
 }
+const importComment = (commentData) => {
+  localStorage.commentPosts = JSON.stringify(commentData);
+  alert('匯入留言完成');
+  dataStore.setRawData(commentData);
+  dataStore.setNeedPay(true);
+}
 
 const getData = async (command: string) => {
   emit('showLoading');
@@ -121,6 +127,7 @@ const finishFetch = () => {
   if (rawData.length === 0){
     alert('沒有資料');
   }else{
+    console.log(rawData);
     dataStore.setRawData(rawData);
   }
   emit('showLoading', false);
@@ -134,6 +141,9 @@ const getPost = (target: any, target_page: any) => {
 onMounted(()=>{
   window.addEventListener('importShare', function(e){
     importShare(e.detail.data);
+  });
+  window.addEventListener('importComment', function(e){
+    importComment(e.detail.data);
   });
 })
 

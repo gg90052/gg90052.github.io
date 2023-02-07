@@ -85,7 +85,6 @@ const importComment = (commentData) => {
   localStorage.commentPosts = JSON.stringify(commentData);
   alert('匯入留言完成');
   dataStore.setRawData(commentData);
-  dataStore.setNeedPay(true);
 }
 
 const getData = async (command: string) => {

@@ -10,6 +10,10 @@
       <Upload />
       <CompareResult />
     </template>
+    <template v-if="pageStatus === 'import'">
+      <ImportUpload />
+      <ImportResult v-if="dataStore.rawData.length > 0" />
+    </template>
   </div>
 </template>
 <script lang="ts" setup>
@@ -20,6 +24,8 @@ import DonateArea from '@/components/donateArea/DonateArea.vue';
 import FetchResults from '@/components/resultArea/FetchResults.vue';
 import Upload from '@/components/plus/Upload.vue';
 import CompareResult from '@/components/plus/CompareResult.vue';
+import ImportUpload from '@/components/import/ImportUpload.vue';
+import ImportResult from '@/components/import/ImportResult.vue';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const pageStatus = ref('home');

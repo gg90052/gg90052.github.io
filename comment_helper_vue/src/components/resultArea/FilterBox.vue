@@ -147,8 +147,8 @@ const filterAll = () => {
       return item.type === filterState.reaction;
     });
   }
-  
   dataStore.setFilterData(rawData);
+  dataStore.setFilterChange(true);
 };
 
 onMounted(()=>{

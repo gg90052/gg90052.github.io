@@ -1,14 +1,11 @@
 <template>
   <div class="overflow-x-auto min-h-[400px]">
-    <div v-show="dataStore.logged === true || dataStore.needPaid === false">
+    <div>
       <FilterBox ref="filterBoxRef" />
       <DrawBox @afterDraw="activeTab = 1" />
       <transition name="slideup">
         <PrizeBox v-show="dataStore.showPrize === true" />
       </transition>
-    </div>
-    <div v-if="dataStore.logged === false && dataStore.needPaid === true">
-      <PayCheck></PayCheck>
     </div>
     <div class="tabs justify-between">
       <div>
@@ -22,7 +19,7 @@
             <p>共擷取{{dataStore.rawData.length}}筆資料</p>
             <p>篩選出{{dataStore.filteredData.length}}筆資料</p>
           </div>
-          <button v-if="dataStore.logged === true || dataStore.needPaid === false" @click="exportTable" class="btn btn-blue btn-sm ml-4">匯出篩選結果</button>
+          <button @click="exportTable" class="btn btn-blue btn-sm ml-4">匯出篩選結果</button>
           <button @click="copyTable" class="btn btn-blue btn-sm ml-4">複製表格內容</button>
         </div>
       </div>
@@ -34,9 +31,7 @@
     </div>
     <transition>
       <div v-if="activeTab === 0">
-        <CommentTable v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].message !== undefined" />
-        <ReactionTable  v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].type !== undefined"  />
-        <ShareTable v-if="dataStore.rawData.length > 0 && dataStore.rawData[0].story !== undefined" />
+        <CommentTable />
       </div>
     </transition>
     <transition>
@@ -46,32 +41,22 @@
     </transition>
     <transition>
       <div v-if="activeTab === 2">
-        <CommentTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].message !== undefined" :datas="dataStore.drawResult" :sort="false" />
-        <ReactionTable  v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].type !== undefined" :datas="dataStore.drawResult" />
-        <ShareTable v-if="dataStore.drawResult.length > 0 && dataStore.drawResult[0].story !== undefined" :datas="dataStore.drawResult" />
+        <CommentTable :datas="dataStore.drawResult" :sort="false" />
       </div>
     </transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import FilterBox from './FilterBox.vue';
-import DrawBox from './DrawBox.vue';
-import PrizeBox from './PrizeBox.vue';
-import CommentTable from './CommentTable.vue';
-import ReactionTable from './ReactionTable.vue';
-import ShareTable from './ShareTable.vue';
-import DrawResult from './DrawResult.vue';
-import PayCheck from './PayCheck.vue';
+import FilterBox from '@/components/resultArea/FilterBox.vue';
+import DrawBox from '@/components/resultArea/DrawBox.vue';
+import PrizeBox from '@/components/resultArea/PrizeBox.vue';
+import CommentTable from '@/components/resultArea/CommentTable.vue';
+import DrawResult from '@/components/resultArea/DrawResult.vue';
 import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const activeTab = ref(0);
 const filterBoxRef = ref();
-
-watch(()=>dataStore.rawData, ()=>{
-  activeTab.value = 0;
-  filterBoxRef.value.filterAll();
-});
 
 const exportTable = () => {
   const obj = {
@@ -87,9 +72,6 @@ const exportTable = () => {
   linkElement.setAttribute('href', dataUri);
   linkElement.setAttribute('download', fileName);
   linkElement.click();
-}
-const exportResult = () => {
-  console.log('aa');
 }
 
 const copyTable = async () => {
@@ -116,11 +98,11 @@ const copyTable = async () => {
   }
 }
 
-
 onMounted(() => {
   // console.log(dataStore.rawData);
   // console.log(dataStore.filteredData);
   // console.log(dataStore.postData);
+  activeTab.value = 0;
 });
 
 </script>

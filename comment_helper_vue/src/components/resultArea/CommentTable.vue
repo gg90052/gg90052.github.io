@@ -11,9 +11,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(tr, index) in sortTable" :key="tr.id">
+      <tr v-for="(tr, index) in sortTableData" :key="tr.id">
         <th>{{ index + 1 }}</th>
-        <td>{{ username(tr) }}</td>
+        <td v-if="tr.hasFromDetail">
+          <a :href="`https://www.facebook.com/${tr.from.id}`" class="text-[#4094c5]" target="_blank">{{ username(tr) }}</a>
+        </td>
+        <td v-else>{{ username(tr) }}</td>
         <td class="w-3/5 whitespace-normal text-[#D68927] hover:underline"><a :href="'https://www.facebook.com/' + tr.id" target="_blank">{{ tr.message ? tr.message : tr.id }}</a></td>
         <td class="text-center">{{ tr.like_count }}</td>
         <td>{{ dayjs(tr.created_time).format('YYYY-MM-DD HH:mm:ss') }}</td>
@@ -27,6 +30,7 @@ import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const sortKey = ref('created_time');
 const sortDir = ref(false);
+const sortTableData = ref([]);
 const datas = computed(()=>{
   if (props.useCompare === true){
     return dataStore.files.find(item=>item.id === dataStore.showFileTable)?.datas;
@@ -43,6 +47,7 @@ const username = computed(()=>{
     }
   }
 })
+
 const props = defineProps({
   useCompare: {
     type: Boolean,
@@ -65,19 +70,56 @@ const sort = (key) => {
     sortKey.value = key;
     sortDir.value = false;
   }
+  sortTable();
 }
-const sortTable = computed(()=>{
+const sortTable = (()=>{
   if (props.sort === true){
-    return datas.value.sort((a, b) => {
-      if (sortDir.value){
-        return a[sortKey.value] > b[sortKey.value] ? 1 : -1;
+    const pureDatas = JSON.parse(JSON.stringify(datas.value));
+    callWorker(pureDatas, sortDir.value, sortKey.value);
+    worker.onmessage = function (event) {
+      sortTableData.value = event.data;
+    }
+  }else{
+    sortTableData.value = datas.value;
+  }
+});
+
+const callWorker = (datas, dir, key) => {
+  worker.postMessage({ datas, dir, key });
+}
+
+const code = `(function () {
+  self.onmessage = function (event){
+    const {datas, dir, key} = event.data;
+    const sortResult = datas.sort((a, b) => {
+      if (dir){
+        return a[key] > b[key] ? 1 : -1;
       }else{
-        return a[sortKey.value] < b[sortKey.value] ? 1 : -1;
+        return a[key] < b[key] ? 1 : -1;
       }
     });
-  }else{
-    return datas.value;
+    self.postMessage(sortResult);
   }
-})
+})();`;
+
+const createBlobObjectURL = (code: string) => {
+  const blob = new Blob([`${code}`], { type: "text/javascript" });        
+  const url = URL.createObjectURL(blob); 
+  return url;
+};
+
+const worker = new Worker(createBlobObjectURL(code));
+
+//watch dataStore.filterChange
+watchEffect(()=>{
+  if (dataStore.filterChange === true){
+    sortTable();
+    dataStore.setFilterChange(false);
+  }
+});
+
+defineExpose({
+  sort,
+});
 </script>
 

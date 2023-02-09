@@ -20,6 +20,7 @@ export const useDataStore = defineStore({
     accessToken: '',
     postType: '',
     compareAnd: true,
+    filterChange: false,
   }),
   getters: {},
   actions: {
@@ -86,6 +87,9 @@ export const useDataStore = defineStore({
     },
     setCompareAnd(status) {
       this.compareAnd = status;
+    },
+    setFilterChange(status) {
+      this.filterChange = status;
     }
   },
 });

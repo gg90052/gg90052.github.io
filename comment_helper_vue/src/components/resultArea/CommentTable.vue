@@ -11,16 +11,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(tr, index) in sortTableData" :key="tr.id">
-        <th>{{ index + 1 }}</th>
-        <td v-if="tr.hasFromDetail">
-          <a :href="`https://www.facebook.com/${tr.from.id}`" class="text-[#4094c5]" target="_blank">{{ username(tr) }}</a>
-        </td>
-        <td v-else>{{ username(tr) }}</td>
-        <td class="w-3/5 whitespace-normal text-[#D68927] hover:underline"><a :href="'https://www.facebook.com/' + tr.id" target="_blank">{{ tr.message ? tr.message : tr.id }}</a></td>
-        <td class="text-center">{{ tr.like_count }}</td>
-        <td>{{ dayjs(tr.created_time).format('YYYY-MM-DD HH:mm:ss') }}</td>
-      </tr>
+      <template v-for="(tr, index) in sortTableData" :key="tr.id">
+        <tr>
+          <th>{{ index + 1 }}</th>
+          <td v-if="tr.hasFromDetail">
+            <a :href="`https://www.facebook.com/${tr.from.id}`" class="text-[#4094c5]" target="_blank">{{ username(tr) }}</a>
+          </td>
+          <td v-else>{{ username(tr) }}</td>
+          <td class="w-3/5 whitespace-normal text-[#D68927] hover:underline"><a :href="'https://www.facebook.com/' + tr.id" target="_blank">{{ tr.message ? tr.message : tr.id }}</a></td>
+          <td class="text-center">{{ tr.like_count }}</td>
+          <td>{{ dayjs(tr.created_time).format('YYYY-MM-DD HH:mm:ss') }}</td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>

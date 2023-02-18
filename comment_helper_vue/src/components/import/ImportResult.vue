@@ -9,9 +9,9 @@
     </div>
     <div class="tabs justify-between">
       <div>
-        <a class="tab tab-lg tab-lifted" @click="activeTab = 0" :class="activeTab === 0 ? 'tab-active':''">擷取內容</a> 
-        <a class="tab tab-lg tab-lifted" @click="activeTab = 1" :class="activeTab === 1 ? 'tab-active':''">得獎名單</a> 
-        <a class="tab tab-lg tab-lifted" @click="activeTab = 2" :class="activeTab === 2 ? 'tab-active':''">得獎名單(表格)</a> 
+        <a class="tab tab-lg tab-lifted" @click="setActiveTab(0)" :class="activeTab === 0 ? 'tab-active':''">擷取內容</a> 
+        <a class="tab tab-lg tab-lifted" @click="setActiveTab(1)" :class="activeTab === 1 ? 'tab-active':''">得獎名單</a> 
+        <a class="tab tab-lg tab-lifted" @click="setActiveTab(2)" :class="activeTab === 2 ? 'tab-active':''">得獎名單(表格)</a> 
       </div>
       <div v-if="activeTab === 0" class="bg-white text-sm py-1 px-4">
         <div class="flex items-center">
@@ -57,6 +57,13 @@ import { useDataStore } from '@/store/modules/data';
 const dataStore = useDataStore();
 const activeTab = ref(0);
 const filterBoxRef = ref();
+
+const setActiveTab = (tab: number) => {
+  activeTab.value = tab;
+  nextTick(()=>{
+    dataStore.setFilterChange(true);
+  })
+}
 
 const exportTable = () => {
   const obj = {

@@ -399,6 +399,9 @@ section h1 {
   background-size: contain;
 }
 
+.secondview {
+  padding-top: 100px;
+}
 .secondview .word_container p {
   margin-bottom: 0.4em;
 }

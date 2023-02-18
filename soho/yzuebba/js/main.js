@@ -19,20 +19,22 @@ if (!isMobileDevice() && atMobilePage()) {
   location.href = "index.html";
 } else if (isMobileDevice() && !atMobilePage()) {
   location.href = "m_index.html";
-  document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
-  $('.gotop').click(function () {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-  $('.firstview .scroll').click(function () {
-    window.scrollTo({
-      top: 800,
-      behavior: 'smooth'
-    });
-  });
 }
+if (isMobileDevice()) {
+  document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px';
+}
+$('.gotop').click(function () {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+$('.firstview .scroll').click(function () {
+  window.scrollTo({
+    top: 800,
+    behavior: 'smooth'
+  });
+});
 AOS.init();
 $.get('https://script.google.com/macros/s/AKfycbyrTE7kHKkD8ZG3fY6jFASLZCncHUxMwJHHFh1yKjneB80U0hxZ0W2M90BHxdRFsaF67A/exec', function (res) {
   res.forEach(function (item, index) {

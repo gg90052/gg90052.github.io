@@ -246,11 +246,11 @@ body {
 }
 
 .fw_black {
-  font-weight: 900;
+  font-weight: 900 !important;
 }
 
 .fw_bold {
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 .fw_regular {

@@ -36,7 +36,7 @@ $('.firstview .scroll').click(function () {
   });
 });
 AOS.init();
-$.get('https://script.google.com/macros/s/AKfycbyrTE7kHKkD8ZG3fY6jFASLZCncHUxMwJHHFh1yKjneB80U0hxZ0W2M90BHxdRFsaF67A/exec', function (res) {
+$.get('https://script.google.com/macros/s/AKfycbzUKzkDdh7aVz6p19gRIFofh4H8SWcuPT0jeTIIAs6KNHhoZwwlka07RthkStdpdawILw/exec', function (res) {
   res.forEach(function (item, index) {
     var tar = $("#video".concat(index + 1));
     tar.attr('href', item.link);

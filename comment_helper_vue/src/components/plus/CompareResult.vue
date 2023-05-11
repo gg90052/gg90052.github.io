@@ -14,6 +14,13 @@
       <p>共擷取{{dataStore.rawData.length}}筆資料</p>
       <p>篩選出{{dataStore.filteredData.length}}筆資料</p>
     </div>
+    <div v-if="activeTab === 1 && dataStore.drawResult.length > 0" class="bg-white text-sm py-1 px-4">
+        <div class="flex items-center">
+          <button @click="exportPrize" class="btn btn-sm" v-if="dataStore.prizeList.length > 0">輸出獎項(JSON)</button>
+          <button @click="exportJSON" class="btn btn-sm ml-4">輸出得獎名單(JSON)</button>
+          <button @click="exportExcel" class="btn btn-sm ml-4">輸出得獎名單(EXCEL)</button>
+        </div>
+      </div>
   </div>
   <transition>
     <div v-if="activeTab === 0">
@@ -43,6 +50,7 @@ import ShareTable from '@/components/resultArea/ShareTable.vue';
 import DrawResult from '@/components/resultArea/DrawResult.vue';
 import CompareTable from '@/components/plus/CompareTable.vue';
 import { useDataStore } from '@/store/modules/data';
+import ExcelJs from "exceljs";
 const dataStore = useDataStore();
 const filterRef = ref();
 const activeTab = ref(0);
@@ -61,9 +69,82 @@ const changeTab = () => {
     compareTableRef.value.reloadTable();
   }
 }
-// watch(dataStore.files, (val)=>{
-//   if (val.length >= 2){
-//     activeTab.value = 2;
-//   }
-// })
+
+const exportExcel = () => {
+  const workbook = new ExcelJs.Workbook();
+  let allWinner = JSON.parse(JSON.stringify(dataStore.drawResult));
+  if (dataStore.prizeList.length === 0){
+    workbook.addWorksheet('得獎名單');
+  }else{
+    dataStore.prizeList.forEach((item, index)=>{
+      workbook.addWorksheet(`${item.title}-${item.num}名`, );
+    });
+  }
+  workbook.eachSheet(function(worksheet, sheetId) {
+    let needNum = allWinner.length;
+    if (dataStore.prizeList.length > 0){
+      needNum = Number(worksheet.name.substring(worksheet.name.lastIndexOf('-') + 1, worksheet.name.lastIndexOf('名')));
+    }
+    const data = allWinner.splice(0, needNum);
+    worksheet.addTable({
+      name: `sheet${sheetId}`,
+      ref: 'A1',
+      columns: [
+        { name: 'name' },
+        { name: 'comment_id' },
+        { name: 'message' },
+        { name: 'personalLink' },
+      ],
+      rows: data.map((item, index)=>{
+        return [
+          item.name,
+          item.id,
+          item.message,
+          item.personalLink,
+        ]
+      }),
+    })
+  });
+
+  workbook.xlsx.writeBuffer().then((content) => {
+    const link = document.createElement("a");
+    const blobData = new Blob([content], {
+      type: "application/vnd.ms-excel;charset=utf-8;"
+    });
+    link.download = '得獎名單.xlsx';
+    link.href = URL.createObjectURL(blobData);
+    link.click();
+  });
+}
+const exportPrize = () => {
+  const data = dataStore.prizeList.map((item, index)=>{
+    return {
+      index,
+      num: item.num,
+      title: item.title,
+    }
+  });
+  saveJson(data, 'prizeList.json');
+}
+const exportJSON = () => {
+  const data = dataStore.drawResult;
+  saveJson(data, 'drawResult.json');
+}
+
+const saveJson = function(obj, fileName) {
+	const str = JSON.stringify(obj);
+
+	const blob = new Blob( [ str ], {
+		type: 'application/json'
+	});
+	
+	const url = URL.createObjectURL( blob );
+	const link = document.createElement( 'a' );
+  link.download = fileName || 'data.json';
+  link.href = url;
+	document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 </script>

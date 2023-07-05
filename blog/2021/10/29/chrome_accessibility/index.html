@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"gg90052.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.17.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"none","post_body":"none","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/blog/js/config.js"></script>
+
+    <meta name="description" content="踩到這個雷大約一個多月了，但因為沒有嚴重影響使用所以都沒有認真地要去解決它，而且說真的也不太知道要下甚麼關鍵字去搜尋，一開始還以為是哪個 Extension 出問題，但是 Extension 全關了也還是一樣所以就擱置了快一個月，症狀如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chrome 無障礙功能：使用文字游標瀏覽頁面">
+<meta property="og:url" content="http://gg90052.github.io/blog/2021/10/29/chrome_accessibility/index.html">
+<meta property="og:site_name" content="不只是工程師 - Teddy">
+<meta property="og:description" content="踩到這個雷大約一個多月了，但因為沒有嚴重影響使用所以都沒有認真地要去解決它，而且說真的也不太知道要下甚麼關鍵字去搜尋，一開始還以為是哪個 Extension 出問題，但是 Extension 全關了也還是一樣所以就擱置了快一個月，症狀如下：">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility1.jpg">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility2.jpg">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility3.jpg">
+<meta property="article:published_time" content="2021-10-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-05T00:45:13.292Z">
+<meta property="article:author" content="Teddy Huang">
+<meta property="article:tag" content="chrome">
+<meta property="article:tag" content="accessibility">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility1.jpg">
+
+
+<link rel="canonical" href="http://gg90052.github.io/blog/2021/10/29/chrome_accessibility/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://gg90052.github.io/blog/2021/10/29/chrome_accessibility/","path":"2021/10/29/chrome_accessibility/","title":"Chrome 無障礙功能：使用文字游標瀏覽頁面"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Chrome 無障礙功能：使用文字游標瀏覽頁面 | 不只是工程師 - Teddy</title>
+  
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
+     crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">不只是工程師 - Teddy</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8D%E7%AE%A1%E9%BB%9E%E7%B6%B2%E9%A0%81%E7%9A%84%E5%93%AA%E8%A3%A1%E9%83%BD%E6%9C%83%E8%AE%8A%E6%88%90%E8%BC%B8%E5%85%A5%E7%9A%84%E6%B8%B8%E6%A8%99"><span class="nav-number">1.</span> <span class="nav-text">不管點網頁的哪裡都會變成輸入的游標</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Teddy Huang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!--google_adsense-->
+    
+      <div class="links-of-blogroll-title">
+        <i class="fa fa-google"></i> AdSense
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-2578812574511816"
+            data-ad-slot="0"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    
+    <!--/google_adsense-->
+
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://gg90052.github.io/blog/2021/10/29/chrome_accessibility/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="Teddy Huang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不只是工程師 - Teddy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Chrome 無障礙功能：使用文字游標瀏覽頁面 | 不只是工程師 - Teddy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Chrome 無障礙功能：使用文字游標瀏覽頁面
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+
+      <time title="創建時間：2021-10-29 00:00:00" itemprop="dateCreated datePublished" datetime="2021-10-29T00:00:00+08:00">2021-10-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2023-07-05 08:45:13" itemprop="dateModified" datetime="2023-07-05T08:45:13+08:00">2023-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E8%A1%93%E6%96%87%E7%AB%A0/" itemprop="url" rel="index"><span itemprop="name">技術文章</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility1.jpg" alt="設定-&gt;進階-&gt;無障礙設定-&gt;使用文字游標瀏覽頁面"><span class="image-caption">設定-&gt;進階-&gt;無障礙設定-&gt;使用文字游標瀏覽頁面</span></p>
+<p>踩到這個雷大約一個多月了，但因為沒有嚴重影響使用所以都沒有認真地要去解決它，而且說真的也不太知道要下甚麼關鍵字去搜尋，一開始還以為是哪個 Extension 出問題，但是 Extension 全關了也還是一樣所以就擱置了快一個月，症狀如下：</p>
+<span id="more"></span>
+
+<h1 id="不管點網頁的哪裡都會變成輸入的游標"><a href="#不管點網頁的哪裡都會變成輸入的游標" class="headerlink" title="不管點網頁的哪裡都會變成輸入的游標"></a>不管點網頁的哪裡都會變成輸入的游標</h1><p><img src="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility2.jpg"></p>
+<p>單純只是個游標在那閃阿閃的還可以接受，但不只是文字，連圖片也會在旁邊出現浮標就很令人不舒服，但最最嚴重的事情是，這個功能會讓你鍵盤上的 Home、End 直接殘廢，Page Up、Page Down 變半殘，不管你卷軸在哪裡，按下 Page Down 一定跳回最上面，這點對我來說相當困擾XD，另外很坑的是，這個功能竟然有鍵盤快速鍵，一個不小心按到又沒注意的話就會像我一樣進入這狀態還不自知。</p>
+<p><img src="https://gg90052.github.io/soho/blog_imgs/chrome_accessibility3.jpg" alt="有興趣的人請自己按F7"><span class="image-caption">有興趣的人請自己按F7</span></p>
+<p>以上，希望有碰到這個問題的人可以陰錯陽差的搜尋到這篇解決困擾，這個無障礙功能對我來說真的是充滿障礙的存在。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/chrome/" rel="tag"># chrome</a>
+              <a href="/blog/tags/accessibility/" rel="tag"># accessibility</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/2019/10/02/okama/" rel="prev" title="藏王御釜健行筆記">
+                  <i class="fa fa-chevron-left"></i> 藏王御釜健行筆記
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Teddy Huang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

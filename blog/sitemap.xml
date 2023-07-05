@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://gg90052.github.io/blog/2021/10/29/chrome_accessibility/</loc>
+    <loc>http://gg90052.github.io/blog/categories/index.html</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2019/06/01/boracay/</loc>
+    <loc>http://gg90052.github.io/blog/about/index.html</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2019/10/02/okama/</loc>
+    <loc>http://gg90052.github.io/blog/chrome_accessibility/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/12/10/us_airport/</loc>
+    <loc>http://gg90052.github.io/blog/boracay/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -38,7 +38,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/12/12/us_hotel/</loc>
+    <loc>http://gg90052.github.io/blog/okama/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/12/13/us_base/</loc>
+    <loc>http://gg90052.github.io/blog/us_airport/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -56,7 +56,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/12/17/us_dc/</loc>
+    <loc>http://gg90052.github.io/blog/us_hotel/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2019/01/01/shikoku/</loc>
+    <loc>http://gg90052.github.io/blog/us_base/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -74,7 +74,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2019/05/16/ios_safari_noscroll/</loc>
+    <loc>http://gg90052.github.io/blog/us_dc/</loc>
     
     <lastmod>2023-07-05</lastmod>
     
@@ -83,7 +83,25 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/19/norway_icedome/</loc>
+    <loc>http://gg90052.github.io/blog/shikoku/</loc>
+    
+    <lastmod>2023-07-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gg90052.github.io/blog/ios_safari_noscroll/</loc>
+    
+    <lastmod>2023-07-05</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://gg90052.github.io/blog/norway_icedome/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -92,7 +110,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/19/norway_fjord/</loc>
+    <loc>http://gg90052.github.io/blog/norway_fjord/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -101,7 +119,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/19/norway_snow/</loc>
+    <loc>http://gg90052.github.io/blog/norway_snow/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -110,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/16/norway_airport/</loc>
+    <loc>http://gg90052.github.io/blog/norway_airport/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -119,7 +137,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/17/norway_aurora/</loc>
+    <loc>http://gg90052.github.io/blog/norway_aurora/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -128,7 +146,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/19/norway_tromso/</loc>
+    <loc>http://gg90052.github.io/blog/norway_tromso/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -137,7 +155,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2018/02/18/norway_dog/</loc>
+    <loc>http://gg90052.github.io/blog/norway_dog/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -146,7 +164,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/14/validation/</loc>
+    <loc>http://gg90052.github.io/blog/validation/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -155,7 +173,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/02/vlookup/</loc>
+    <loc>http://gg90052.github.io/blog/vlookup/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -164,7 +182,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/06/03/random/</loc>
+    <loc>http://gg90052.github.io/blog/random/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -173,7 +191,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/03/parse/</loc>
+    <loc>http://gg90052.github.io/blog/parse/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -182,7 +200,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2016/09/14/okayama3/</loc>
+    <loc>http://gg90052.github.io/blog/okayama3/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -191,7 +209,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2016/09/13/okayama2/</loc>
+    <loc>http://gg90052.github.io/blog/okayama2/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -200,7 +218,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2016/09/12/okayama/</loc>
+    <loc>http://gg90052.github.io/blog/okayama/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -209,7 +227,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2016/09/12/okayama_mystery/</loc>
+    <loc>http://gg90052.github.io/blog/okayama_mystery/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -218,7 +236,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/21/merge/</loc>
+    <loc>http://gg90052.github.io/blog/merge/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -227,7 +245,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2015/05/29/kansai_cheap_hotel/</loc>
+    <loc>http://gg90052.github.io/blog/kansai_cheap_hotel/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -236,7 +254,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/13/hiromae4/</loc>
+    <loc>http://gg90052.github.io/blog/hiromae4/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -245,7 +263,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/11/hiromae3/</loc>
+    <loc>http://gg90052.github.io/blog/hiromae3/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -254,7 +272,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/09/hiromae2/</loc>
+    <loc>http://gg90052.github.io/blog/hiromae2/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -263,7 +281,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/09/hiromae/</loc>
+    <loc>http://gg90052.github.io/blog/hiromae/</loc>
     
     <lastmod>2023-07-04</lastmod>
     
@@ -272,7 +290,7 @@
   </url>
   
   <url>
-    <loc>http://gg90052.github.io/blog/2014/05/20/fomular/</loc>
+    <loc>http://gg90052.github.io/blog/fomular/</loc>
     
     <lastmod>2023-07-04</lastmod>
     

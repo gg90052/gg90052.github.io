@@ -1,3 +1,4 @@
+http://gg90052.github.io/blog/gcp_puppeteer/
 http://gg90052.github.io/blog/yuzawa/
 http://gg90052.github.io/blog/categories/index.html
 http://gg90052.github.io/blog/about/index.html
@@ -59,6 +60,9 @@ http://gg90052.github.io/blog/tags/okama/
 http://gg90052.github.io/blog/tags/chrome/
 http://gg90052.github.io/blog/tags/accessibility/
 http://gg90052.github.io/blog/tags/snow/
+http://gg90052.github.io/blog/tags/GCP/
+http://gg90052.github.io/blog/tags/puppeteer/
+http://gg90052.github.io/blog/tags/nodejs/
 http://gg90052.github.io/blog/categories/Office/
 http://gg90052.github.io/blog/categories/%E6%97%85%E8%A1%8C/
 http://gg90052.github.io/blog/categories/%E6%8A%80%E8%A1%93%E6%96%87%E7%AB%A0/

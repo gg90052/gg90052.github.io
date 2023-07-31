@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://gg90052.github.io/blog/gcp_puppeteer/</loc>
+    
+    <lastmod>2023-07-31</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://gg90052.github.io/blog/yuzawa/</loc>
     
     <lastmod>2023-07-06</lastmod>
@@ -310,7 +319,7 @@
 
   <url>
     <loc>http://gg90052.github.io/blog</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -318,182 +327,203 @@
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/office/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/excel/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/travel/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/sakura/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/hiromae/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/ueno/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/Excel/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/Word/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/kansai/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/hotel/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/okayama/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/norway/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/aurora/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/tromso/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/fjord/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/us/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/dc/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/ios/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/safari/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/boracay/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/beach/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/japan/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/okama/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/chrome/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/accessibility/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/tags/snow/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://gg90052.github.io/blog/tags/GCP/</loc>
+    <lastmod>2023-07-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://gg90052.github.io/blog/tags/puppeteer/</loc>
+    <lastmod>2023-07-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://gg90052.github.io/blog/tags/nodejs/</loc>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -502,21 +532,21 @@
   
   <url>
     <loc>http://gg90052.github.io/blog/categories/Office/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/categories/%E6%97%85%E8%A1%8C/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://gg90052.github.io/blog/categories/%E6%8A%80%E8%A1%93%E6%96%87%E7%AB%A0/</loc>
-    <lastmod>2023-07-16</lastmod>
+    <lastmod>2023-07-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

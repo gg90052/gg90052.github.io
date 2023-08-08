@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, shrink-to-fit=no">
+    <title>Panolens.js Development Example</title>
+    <style>
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background-color: #000;
+      }
+
+      /* #panolens-separate-container {
+        position: absolute;
+        width: 300px;
+        height: 150px;
+        right: 0;
+        top: 100px;
+      } */
+
+      #panolens-separate-container:-webkit-full-screen{
+        left: 0;
+        top: 0;
+      }
+      #panolens-separate-container:-moz-full-screen{
+        left: 0;
+        top: 0;
+      }
+      #panolens-separate-container:-ms-fullscreen{
+        left: 0;
+        top: 0;
+      }
+      #panolens-separate-container:fullscreen {
+        left: 0;
+        top: 0;
+      }
+      #officeVideoPanel, #factoryVideoPanel, #entryVideoPanel{
+        display: none;
+        width: 80%;
+        max-width: 920px;
+        /* aspect-ratio: 3/2; */
+        object-fit: fill;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+      }
+      .panel{
+        width: 200px;
+        height: 405px;
+        background: #CCC;
+        padding-left: 10px;
+      }
+      .input_group{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        align-self: center;
+      }
+      .input_group p{
+        margin-right: 10px;
+      }
+      .input_group button{
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: rgb(130, 139, 130);
+        border-radius: 20px;
+        cursor: pointer;
+        border: none;
+      }
+      .input_group button.active{
+        background: rgb(31, 110, 31);
+      }
+      .input_group button::before{
+        content: 'CLOSED';
+        display: block;
+        color: #000;
+      }
+      .input_group button.active::before{
+        content: 'OPENED';
+        color: #FFF;
+      }
+      iframe{
+        width: 100%;
+        height: 100%;
+        max-width: 720px;
+        aspect-ratio: 3/2;
+        object-fit: fill;
+      }
+      .btn_close{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: url(back.png) no-repeat center center;
+        background-size: cover;
+        position: absolute;
+        right: 220px;
+        top: 5%;
+        z-index: 10;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+  <div id="factoryVideoPanel">
+    <div class="btn_close"></div>
+    <iframe frameborder="0" allowfullscreen src=""></iframe>
+    <div class="panel">
+      <div class="input_group gate">
+        <p>Gate</p>
+        <button type="button"></button>
+      </div>
+    </div>
+  </div>
+  <div id="entryVideoPanel">
+    <div class="btn_close"></div>
+    <iframe frameborder="0" allowfullscreen src=""></iframe>
+    <div class="panel">
+      <!-- <div class="input_group gate">
+        <p>Gate</p>
+        <button type="button"></button>
+      </div> -->
+    </div>
+  </div>
+  <div id="officeVideoPanel">
+    <div class="btn_close"></div>
+    <iframe frameborder="0" allowfullscreen src=""></iframe>
+    <div class="panel">
+      <div class="input_group lightA">
+        <p>LightA</p>
+        <button type="button"></button>
+      </div>
+      <div class="input_group lightB">
+        <p>LightB</p>
+        <button type="button"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/three.js"></script>
+  <script src="js/panolens.js"></script>
+  <script src="js/jquery.min.js"></script>
+
+
+  <div id="panolens-separate-container"></div>
+
+<script>
+  const apiDomain = 'http://demo.bluedog123.site:8081/index.php';
+  const apiList = {
+    gate: `${apiDomain}?pos=gate`,
+    lightA: `${apiDomain}?pos=lightA`,
+    lightB: `${apiDomain}?pos=lightB`,
+  }
+  let apiStatus = {
+    gate: false,
+    lightA: false,
+    lightB: false
+  }
+  const webcamURL = {
+    factoryVideoPanel: 'https://streamedian.com/embed?s=cnRzcDovLzExNC4zNC4xOS4yMzI6ODg4NC9wcm9maWxlMQ==&r=MTI4MHg3MjA=',
+    officeVideoPanel:  'https://streamedian.com/embed?s=cnRzcDovLzExNC4zNC4xOS4yMzI6ODg4NS9wcm9maWxlMQ==&r=NzIweDQ4MA==',
+    entryVideoPanel:   'https://streamedian.com/embed?s=cnRzcDovLzExNC4zNC4xOS4yMzI6ODg4NS9wcm9maWxlMQ==&r=NzIweDQ4MA==',
+  }
+
+
+
+  const factoryPanorama = new PANOLENS.ImagePanorama('./factory.jpg');
+  const officePanorama = new PANOLENS.ImagePanorama('./office.jpg');
+  const lightOff = new THREE.Color(0x000000);
+  const lightOn = new THREE.Color(0xffff00);
+  var door, lightA, lightB;
+  
+  function checkStatus(){
+    return new Promise((resolve, reject) => {
+      $.get(apiDomain, function(data){
+        const res = JSON.parse(data);
+        apiStatus = res;
+        resolve();
+      });
+    });
+  }
+
+
+  factoryPanorama.link( officePanorama, new THREE.Vector3( 200 ,-2500, -5000 ) );
+  officePanorama.link( factoryPanorama, new THREE.Vector3( 4000 ,-500, 1000 ) );
+
+  const size = 10;
+  const divisions = 10;
+  const gridHelper = new THREE.GridHelper( size, divisions );
+  const axesHelper = new THREE.AxesHelper( 50 );
+
+  const viewer = new PANOLENS.Viewer();
+  // viewer.add( factoryPanorama, officePanorama, gridHelper, axesHelper );
+  viewer.add( factoryPanorama, officePanorama );
+
+  factoryPanorama.addEventListener( 'enter-fade-start', function(){
+    viewer.tweenControlCenter( new THREE.Vector3(250, -50, 0), 0 );
+    checkStatus().then(()=>{
+      gatePanelChange();
+      renderFactoryObject();
+    });
+  });
+  officePanorama.addEventListener( 'enter-fade-start', function(){
+    viewer.tweenControlCenter( new THREE.Vector3(-200, 100, 100), 0 );
+    checkStatus().then(()=>{
+      lightAPanelChange();
+      lightBPanelChange();
+      renderOfficeObject();
+    });
+  });
+
+  function renderFactoryObject(){
+    var home = new THREE.Mesh( new THREE.PlaneGeometry( 64, 64 ), new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './arrow-up.png' ), side: THREE.DoubleSide } ) );
+    home.position.set( -1000 ,-500, -200 );
+    home.rotation.y = Math.PI / 2;
+
+    var webcamSpot = new THREE.Mesh( new THREE.PlaneGeometry( 180, 110 ), new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './webcam.png' ), side: THREE.DoubleSide } ) );
+    webcamSpot.position.set( -1200, -170, 50 );
+    webcamSpot.rotation.y = Math.PI / 2;
+
+    var webcamSpot_entry = new THREE.Mesh( new THREE.PlaneGeometry( 180, 110 ), new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './webcam.png' ), side: THREE.DoubleSide } ) );
+    webcamSpot_entry.position.set( -1200, -300, -500 );
+    webcamSpot_entry.rotation.y = Math.PI / 2;
+
+    door = new THREE.Mesh( new THREE.PlaneGeometry( 675, 427.5 ), new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './door_open.png' ), side: THREE.DoubleSide } ) );
+    door.doorOpen = apiStatus.gate;
+    door.material.map = door.doorOpen ? THREE.ImageUtils.loadTexture( './door_open.png' ) : THREE.ImageUtils.loadTexture( './door_close.png' );
+    door.position.set( 250, -500, 1000 );
+    door.rotation.y = Math.PI / 6.5;
+    
+    
+    factoryPanorama.add( webcamSpot, webcamSpot_entry, door, home );
+
+    webcamSpot.addEventListener('click',function(e){
+      showIframe('factoryVideoPanel');
+    });
+    webcamSpot_entry.addEventListener('click',function(e){
+      showIframe('entryVideoPanel');
+    });
+    door.addEventListener( 'click',gateAPI);
+    home.addEventListener( 'click',function(e){
+      location.href = './index.html';
+    });
+
+  }
+
+  function gateAPI(){
+    $.get(apiList.gate, data => {
+      apiStatus.gate = JSON.parse(data).status;
+      gatePanelChange();
+      door.doorOpen = apiStatus.gate;
+      door.material.map = door.doorOpen ? THREE.ImageUtils.loadTexture( './door_open.png' ) : THREE.ImageUtils.loadTexture( './door_close.png' );
+    });
+  }
+
+  function gatePanelChange(){
+    if (apiStatus.gate === true){
+      $('.input_group.gate button').addClass('active');
+    } else {
+      $('.input_group.gate button').removeClass('active');
+    }
+  }
+
+
+  function renderOfficeObject(){
+    lightA = new THREE.Mesh( new THREE.BoxGeometry(50, 50, 50), new THREE.MeshBasicMaterial({color: lightOff}) );
+    lightA.lightStatus = apiStatus.lightA;
+    lightChange(lightA);
+    lightA.position.set(600, 675, 400);
+    lightB = new THREE.Mesh( new THREE.BoxGeometry(50, 50, 50), new THREE.MeshBasicMaterial({color: lightOn}) );
+    lightB.lightStatus = apiStatus.lightB;
+    lightChange(lightB);
+    lightB.position.set(750, 675, -750);
+    var webcamSpot = new THREE.Mesh( new THREE.PlaneGeometry( 180, 110 ), new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load( './webcam.png' ), side: THREE.DoubleSide } ) );
+    webcamSpot.position.set( 1000, 300, 1000 );
+    webcamSpot.rotation.y = Math.PI / 4;
+    
+    officePanorama.add( webcamSpot, lightA, lightB );
+
+    
+    lightA.addEventListener( 'click',lightA_API);
+    lightB.addEventListener( 'click',lightB_API);
+    webcamSpot.addEventListener('click',function(e){
+      showIframe('officeVideoPanel');
+    });
+
+  }
+
+  function lightChange(target){
+    const lightColor = target.lightStatus ? lightOn : lightOff;
+    target.material.color.set(lightColor);
+  }
+  
+  function showIframe(iframe_id){
+    const v = document.getElementById(iframe_id);
+    const iframe = v.querySelector('iframe');
+    const iframeSrc = webcamURL[iframe_id];
+    iframe.src = iframeSrc;
+    v.style.display = 'flex';
+    v.querySelector('.btn_close').addEventListener('click',function(){
+      iframe.src = iframeSrc;
+      v.style.display = 'none';
+    }, {once : true});
+  }
+
+  function lightA_API(){
+    $.get(apiList.lightA, data => {
+      apiStatus.lightA = JSON.parse(data).status;
+      lightAPanelChange();
+      lightA.lightStatus = apiStatus.lightA;
+      lightChange(lightA);
+    });
+  }
+  function lightAPanelChange(){
+    if (apiStatus.lightA === true){
+      $('.input_group.lightA button').addClass('active');
+    } else {
+      $('.input_group.lightA button').removeClass('active');
+    }
+  }
+  function lightB_API(){
+    $.get(apiList.lightB, data => {
+      apiStatus.lightB = JSON.parse(data).status;
+      lightBPanelChange();
+      lightB.lightStatus = apiStatus.lightB;
+      lightChange(lightB);
+    });
+  }
+  function lightBPanelChange(){
+    if (apiStatus.lightB === true){
+      $('.input_group.lightB button').addClass('active');
+    } else {
+      $('.input_group.lightB button').removeClass('active');
+    }
+  }
+
+  $('.input_group.gate button').on('click',function(){
+    gateAPI();
+  });
+  $('.input_group.lightA button').on('click',function(){
+    lightA_API();
+  });
+  $('.input_group.lightB button').on('click',function(){
+    lightB_API();
+  });
+
+</script>
+
+  </body>
+</html>

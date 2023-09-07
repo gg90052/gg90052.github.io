@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/blog/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"gg90052.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.17.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"none","post_body":"none","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/blog/js/config.js"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
+     crossorigin="anonymous"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P8EEP1CHW2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P8EEP1CHW2');
+</script>
+    <meta name="description" content="寫這篇的目的主要是為了解決在我的YT留言小助手上 api 配額爆掉的問題，想來想去最簡單的解法還是使用者用自己的 api 配額來抓反正在基本使用上這是不需要收費的，但就需要做些簡單的申請，請參閱以下步驟：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何取得 Youtube API 金鑰">
+<meta property="og:url" content="http://gg90052.github.io/blog/yt_api_key/index.html">
+<meta property="og:site_name" content="不只是工程師 - Teddy">
+<meta property="og:description" content="寫這篇的目的主要是為了解決在我的YT留言小助手上 api 配額爆掉的問題，想來想去最簡單的解法還是使用者用自己的 api 配額來抓反正在基本使用上這是不需要收費的，但就需要做些簡單的申請，請參閱以下步驟：">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key1.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key2.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key3.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key4.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key5.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key6.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key7.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key8.png">
+<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key9.png">
+<meta property="article:published_time" content="2023-09-07T21:30:00.000Z">
+<meta property="article:modified_time" content="2023-09-07T21:27:29.580Z">
+<meta property="article:author" content="Teddy Huang">
+<meta property="article:tag" content="Youtube">
+<meta property="article:tag" content="Google API">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gg90052.github.io/soho/blog_imgs/yt_api_key1.png">
+
+
+<link rel="canonical" href="http://gg90052.github.io/blog/yt_api_key/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-TW","comments":true,"permalink":"http://gg90052.github.io/blog/yt_api_key/","path":"yt_api_key/","title":"如何取得 Youtube API 金鑰"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何取得 Youtube API 金鑰 | 不只是工程師 - Teddy</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-P8EEP1CHW2","only_pageview":true}</script>
+  <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
+     crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/blog/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/blog/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">不只是工程師 - Teddy</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜尋" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首頁</a></li><li class="menu-item menu-item-about"><a href="/blog/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於</a></li><li class="menu-item menu-item-youtube"><a href="https://www.youtube.com/channel/UCNLxbtdTe-fFl8uDUS6tMcw" rel="section" target="_blank"><i class="fab fa-youtube fa-fw"></i>Youtube</a></li><li class="menu-item menu-item-categories"><a href="/blog/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分類</a></li><li class="menu-item menu-item-archives"><a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>歸檔</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E8%A6%81%E6%89%93%E9%96%8B-Google-Cloud-Console"><span class="nav-number">1.</span> <span class="nav-text">首先要打開 Google Cloud Console</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%95%9F%E7%94%A8-Youtube-Data-API-v3"><span class="nav-number">2.</span> <span class="nav-text">啟用 Youtube Data API v3</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Teddy Huang</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/blog/archives/">
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分類</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-name">標籤</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+
+    <!--google_adsense-->
+    
+    <!--/google_adsense-->
+
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="http://gg90052.github.io/blog/yt_api_key/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="name" content="Teddy Huang">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不只是工程師 - Teddy">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何取得 Youtube API 金鑰 | 不只是工程師 - Teddy">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何取得 Youtube API 金鑰
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">發表於</span>
+      
+
+      <time title="創建時間：2023-09-08 05:30:00 / 修改時間：05:27:29" itemprop="dateCreated datePublished" datetime="2023-09-08T05:30:00+08:00">2023-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分類於</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/blog/categories/%E6%8A%80%E8%A1%93%E6%96%87%E7%AB%A0/" itemprop="url" rel="index"><span itemprop="name">技術文章</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/blog/yt_api_key/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="yt_api_key/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>寫這篇的目的主要是為了解決在我的YT留言小助手上 api 配額爆掉的問題，想來想去最簡單的解法還是使用者用自己的 api 配額來抓<br>反正在基本使用上這是不需要收費的，但就需要做些簡單的申請，請參閱以下步驟：</p>
+<span id="more"></span>
+
+<h1 id="首先要打開-Google-Cloud-Console"><a href="#首先要打開-Google-Cloud-Console" class="headerlink" title="首先要打開 Google Cloud Console"></a>首先要打開 <a target="_blank" rel="noopener" href="https://console.developers.google.com/apis/dashboard">Google Cloud Console</a></h1><p>如果你是完全沒使用過 Google Cloud 的話，就先新建一個專案<br>如果你打開上面網址不是在 <strong>API和服務</strong> 這個頁面的話，請按左上角漢堡選單裡面去找找<br><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key1.png"></p>
+<p>專案名稱可以隨便打，後續完全不影響，也不用特別記得<br><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key2.png"></p>
+<p>新建好專案以後要等他轉一下，轉好後就會出現以下畫面，接著點左側的程式庫，我們要來新增 Youtube API 到專案裡面</p>
+<p><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key3.png"></p>
+<h1 id="啟用-Youtube-Data-API-v3"><a href="#啟用-Youtube-Data-API-v3" class="headerlink" title="啟用 Youtube Data API v3"></a>啟用 Youtube Data API v3</h1><p>打開程式庫頁面，在中間搜尋欄位搜尋 youtube，建議選項裡面就會有我們的目標 youtube data api v3，找到他後並啟用他</p>
+<p><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key4.png"><br><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key5.png"></p>
+<p>啟用也需要轉一下，啟用完成後會看到以下畫面，上面會有個提示說 <em><strong>可能需要憑證才能使用這個API</strong></em><br>所以我們就按一下左側的憑證按鈕</p>
+<p><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key6.png"></p>
+<p>選擇＋建立憑證 -&gt; API金鑰</p>
+<p><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key7.png"></p>
+<p>然後畫面上就會顯示你的API金鑰了，請複製下來做使用<br>在你不亂給別人這組金鑰的前提下，應該也不會有被濫用的問題，所以其他細節設定就不需要再處理，只要記好自己的API金鑰即可<br>我的程式只會幫你把金鑰存在你的機器上面，我這邊不會儲存你的金鑰內容<br>如果忘了的話也可以點擊右方的顯示金鑰</p>
+<p><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key8.png"><br><img src="https://gg90052.github.io/soho/blog_imgs/yt_api_key9.png"></p>
+<p>以上，其他 Google API 的申請也是一樣的方式，但一般人應該也用不到就是了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/blog/tags/Youtube/" rel="tag"># Youtube</a>
+              <a href="/blog/tags/Google-API/" rel="tag"># Google API</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/blog/vue_yt_sub/" rel="prev" title="在 Vue3 專案中載入 Youtube 訂閱按鈕">
+                  <i class="fa fa-chevron-left"></i> 在 Vue3 專案中載入 Youtube 訂閱按鈕
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+      
+        <div style="">
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Teddy Huang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 強力驅動
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="回到頂端">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/blog/js/comments.js"></script><script src="/blog/js/utils.js"></script><script src="/blog/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"gg90052","count":true,"thread_count":false,"i18n":{"disqus":"disqus"}}</script>
+<script src="/blog/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

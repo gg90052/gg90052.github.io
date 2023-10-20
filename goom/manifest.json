@@ -1,0 +1,10 @@
+{
+  "name": "GOOM",
+  "short_name": "GOOM",
+  "description": "Google MyMap Mobile",
+  "start_url": "./?utm_source=PWA&utm_medium=home_screen&utm_campaign=pwa",
+  "id": "/?utm_source=PWA&utm_medium=home_screen&utm_campaign=pwa",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "orientation": "portrait-primary"
+}

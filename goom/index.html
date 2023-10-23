@@ -2,15 +2,65 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/goom/vite.svg" />
+    <link rel="shortcut icon" href="/goom/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="”apple-mobile-web-app-capable”" content="”yes”" />
     <link rel="manifest" href="/goom/manifest.json" />
-    <title>GOOM</title>
-    <script type="module" crossorigin src="/goom/assets/index-8d93b8aa.js"></script>
-    <link rel="stylesheet" href="/goom/assets/index-f249a436.css">
+    <meta name="”apple-mobile-web-app-capable”" content="”yes”" />
+    <link rel="apple-touch-icon" sizes="16x16" href="/goom/icons/16.png" />
+    <link rel="apple-touch-icon" sizes="32x32" href="/goom/icons/32.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/goom/icons/72.png" />
+    <link rel="apple-touch-icon" sizes="196x196" href="/goom/icons/196.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/goom/icons/512.png" />
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/goom/icons/1024.png" />
+    <title>
+      GOOM - 最簡易最跨平台的旅遊地點記錄 ｜ 讓你在手機上也能輕鬆存取 Google
+      我的地圖
+    </title>
+    <meta property="og:url" content="https://gg90052.github.io/goom/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="GOOM - 最簡易最跨平台的旅遊地點記錄 ｜ 讓你在手機上也能輕鬆存取 Google 我的地圖"
+    />
+    <meta
+      property="og:description"
+      content="為 Google 我的地圖設計的手機版介面，讓你可以用喜歡的方式開啟你的記錄點"
+    />
+    <meta
+      property="og:image"
+      content="https://gg90052.github.io/goom/share.png"
+    />
+    <script type="module" crossorigin src="/goom/assets/index-4c075a41.js"></script>
+    <link rel="stylesheet" href="/goom/assets/index-ff26eb13.css">
   </head>
   <body>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      window["addAds"] = function () {
+        let chlid = document.getElementsByClassName("adsItem");
+        for (let index = 0; index < chlid.length; index++) {
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        }
+      };
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-RLY3ZLFETW"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-RLY3ZLFETW");
+    </script>
     <div id="root"></div>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmgeLhR1CDpB5lz9MxIhVUQeyxWVgvb-g"></script>
     <script src="https://apis.google.com/js/api.js"></script> -->

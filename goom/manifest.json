@@ -6,6 +6,7 @@
   "id": "/?utm_source=PWA&utm_medium=home_screen&utm_campaign=pwa",
   "display": "standalone",
   "background_color": "#f1f5f9",
+  "theme_color": "#3b82f6",
   "orientation": "portrait-primary",
   "icons": [
     {

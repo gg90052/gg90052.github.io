@@ -1399,6 +1399,30 @@ pre code {
   color: #999;
   font-size: 0.8125em;
 }
+.sidebar-post-related {
+  font-size: 0.8125em;
+  padding: 18px 0 0 0;
+}
+.popular-posts {
+  margin: 0;
+  padding: 1em 0;
+  text-align: left;
+}
+.popular-posts .popular-posts-item {
+  display: block;
+}
+.popular-posts .popular-posts-item .popular-posts-link {
+  border-bottom: 0;
+  display: block;
+  padding: 5px 20px;
+  transition: background 0.2s ease-in-out;
+}
+.popular-posts .popular-posts-item .popular-posts-link:hover {
+  background: var(--menu-item-bg-color);
+}
+.popular-posts .popular-posts-item .popular-posts-time {
+  color: #999;
+}
 .footer {
   color: #999;
   font-size: 0.875em;
@@ -2437,4 +2461,10 @@ header.header {
   text-align: center;
   margin-top: -0.5em;
   display: block;
+  line-height: 1.5em;
+  font-weight: normal;
+}
+blockquote {
+  width: 80%;
+  margin: 0 auto;
 }

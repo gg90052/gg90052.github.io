@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
@@ -18,37 +18,26 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"gg90052.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.17.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"none","post_body":"none","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/blog/js/config.js"></script>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
-     crossorigin="anonymous"></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-P8EEP1CHW2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-P8EEP1CHW2');
-</script>
-    <meta name="description" content="就算是猴子也應該要會的office技巧一般行政作業上，最常碰到的就是表單合併，如果只有10筆、20筆，且順序又相同的話，直接做起來其實也還好，就算順序不同大可做個排序就可以輕鬆打發掉，最怕的事情是如果表單有一兩百筆，而且順序又不相同的時候，那用一般的人工下去做真的是做到天荒地老而且還會出錯，這個時候就要請出我們今天的主角 vlookup(hlookup) 來幫助我們提早下班了。">
+    <meta name="description" content="就算是猴子也應該要會的 office 技巧一般行政作業上，最常碰到的就是表單合併，如果只有 10 筆、20 筆，且順序又相同的話，直接做起來其實也還好，就算順序不同大可做個排序就可以輕鬆打發掉，最怕的事情是如果表單有一兩百筆，而且順序又不相同的時候，那用一般的人工下去做真的是做到天荒地老而且還會出錯，這個時候就要請出我們今天的主角 vlookup(hlookup) 來幫助我們提早下班了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="垂直參照vlookup">
 <meta property="og:url" content="http://gg90052.github.io/blog/vlookup/index.html">
 <meta property="og:site_name" content="不只是工程師 - Teddy">
-<meta property="og:description" content="就算是猴子也應該要會的office技巧一般行政作業上，最常碰到的就是表單合併，如果只有10筆、20筆，且順序又相同的話，直接做起來其實也還好，就算順序不同大可做個排序就可以輕鬆打發掉，最怕的事情是如果表單有一兩百筆，而且順序又不相同的時候，那用一般的人工下去做真的是做到天荒地老而且還會出錯，這個時候就要請出我們今天的主角 vlookup(hlookup) 來幫助我們提早下班了。">
+<meta property="og:description" content="就算是猴子也應該要會的 office 技巧一般行政作業上，最常碰到的就是表單合併，如果只有 10 筆、20 筆，且順序又相同的話，直接做起來其實也還好，就算順序不同大可做個排序就可以輕鬆打發掉，最怕的事情是如果表單有一兩百筆，而且順序又不相同的時候，那用一般的人工下去做真的是做到天荒地老而且還會出錯，這個時候就要請出我們今天的主角 vlookup(hlookup) 來幫助我們提早下班了。">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img1.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img2.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img3.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img4.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img5.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img6.jpg">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img1.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img2.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img3.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img4.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img5.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img6.jpg?alt=media">
 <meta property="article:published_time" content="2014-05-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-07-04T10:12:57.457Z">
+<meta property="article:modified_time" content="2024-03-12T23:53:37.688Z">
 <meta property="article:author" content="Teddy Huang">
 <meta property="article:tag" content="office">
 <meta property="article:tag" content="excel">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gg90052.github.io/soho/blog_imgs/vlook_img1.jpg">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img1.jpg?alt=media">
 
 
 <link rel="canonical" href="http://gg90052.github.io/blog/vlookup/">
@@ -62,9 +51,6 @@
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-P8EEP1CHW2","only_pageview":true}</script>
   <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
-     crossorigin="anonymous"></script>
 
 
 
@@ -135,7 +121,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%B1%E7%AE%97%E6%98%AF%E7%8C%B4%E5%AD%90%E4%B9%9F%E6%87%89%E8%A9%B2%E8%A6%81%E6%9C%83%E7%9A%84office%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">就算是猴子也應該要會的office技巧</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%B1%E7%AE%97%E6%98%AF%E7%8C%B4%E5%AD%90%E4%B9%9F%E6%87%89%E8%A9%B2%E8%A6%81%E6%9C%83%E7%9A%84-office-%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">就算是猴子也應該要會的 office 技巧</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -148,7 +134,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -157,7 +143,7 @@
         <span class="site-state-item-name">分類</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">標籤</span>
       </div>
   </nav>
@@ -168,11 +154,6 @@
     </div>
 
     
-
-    <!--google_adsense-->
-    
-    <!--/google_adsense-->
-
   </aside>
 
 
@@ -225,7 +206,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2023-07-04 18:12:57" itemprop="dateModified" datetime="2023-07-04T18:12:57+08:00">2023-07-04</time>
+      <time title="修改時間：2024-03-13 07:53:37" itemprop="dateModified" datetime="2024-03-13T07:53:37+08:00">2024-03-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -238,20 +219,6 @@
     </span>
 
   
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/blog/vlookup/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="vlookup/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 </div>
 
         </div>
@@ -260,30 +227,30 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="就算是猴子也應該要會的office技巧"><a href="#就算是猴子也應該要會的office技巧" class="headerlink" title="就算是猴子也應該要會的office技巧"></a>就算是猴子也應該要會的office技巧</h1><p>一般行政作業上，最常碰到的就是表單合併，如果只有10筆、20筆，且順序又相同的話，直接做起來其實也還好，就算順序不同大可做個排序就可以輕鬆打發掉，最怕的事情是如果表單有一兩百筆，而且順序又不相同的時候，那用一般的人工下去做真的是做到天荒地老而且還會出錯，這個時候就要請出我們今天的主角 vlookup(hlookup) 來幫助我們提早下班了。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="就算是猴子也應該要會的-office-技巧"><a href="#就算是猴子也應該要會的-office-技巧" class="headerlink" title="就算是猴子也應該要會的 office 技巧"></a>就算是猴子也應該要會的 office 技巧</h1><p>一般行政作業上，最常碰到的就是表單合併，如果只有 10 筆、20 筆，且順序又相同的話，直接做起來其實也還好，就算順序不同大可做個排序就可以輕鬆打發掉，最怕的事情是如果表單有一兩百筆，而且順序又不相同的時候，那用一般的人工下去做真的是做到天荒地老而且還會出錯，這個時候就要請出我們今天的主角 vlookup(hlookup) 來幫助我們提早下班了。</p>
 <span id="more"></span>
 
-<p>先來看圖：<br><img src="https://gg90052.github.io/soho/blog_imgs/vlook_img1.jpg" alt="表一：復仇者聯盟的通訊錄 ＆ 歲數表"><span class="image-caption">表一：復仇者聯盟的通訊錄 ＆ 歲數表</span></p>
-<p>從表一我們可以看到，右邊的Book1存放的是神盾局長Fury的電話簿，左邊的Book2是Avengers的歲數表，今天Fury想要將左邊這些人的歲數輸入到自己的電話簿中，這時他需要的是神奇的vlookup來實現這個工作：</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/vlook_img2.jpg"></p>
-<p>因為我們希望將 Book2 的內容補進 Book1 當中，因此我們先在 Book1 新增一列AGE，然後上方的標籤選到 <em>公式 -&gt; 查閱與參照 -&gt; VLOOKUP</em></p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/vlook_img3.jpg"></p>
+<p>先來看圖：<br><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img1.jpg?alt=media" alt="表一：復仇者聯盟的通訊錄 ＆ 歲數表"><span class="image-caption">表一：復仇者聯盟的通訊錄 ＆ 歲數表</span></p>
+<p>從表一我們可以看到，右邊的 Book1 存放的是神盾局長 Fury 的電話簿，左邊的 Book2 是 Avengers 的歲數表，今天 Fury 想要將左邊這些人的歲數輸入到自己的電話簿中，這時他需要的是神奇的 vlookup 來實現這個工作：</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img2.jpg?alt=media"></p>
+<p>因為我們希望將 Book2 的內容補進 Book1 當中，因此我們先在 Book1 新增一列 AGE，然後上方的標籤選到 <em>公式 -&gt; 查閱與參照 -&gt; VLOOKUP</em></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img3.jpg?alt=media"></p>
 <p>這個函數總共有四個值要輸入，不一定要用輸入的，也能點儲存格</p>
 <p>第一個是你要找的值</p>
 <p>第二個是你要去哪裡找這個值</p>
 <p>第三個是你希望找到後要回傳第幾欄的資料回來</p>
 <p>第四個是是否要尋找絕對正確的值</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/vlook_img4.jpg"></p>
-<p>第一個參數因為這一欄是浩克，當然是找浩克，直接點選A2儲存格。</p>
-<p>第二個參數是指要去哪裡找A2，所以就到左邊把整個表選起來(注意：要連旁邊歲數的列都要選到)</p>
-<p>第三個參數是找到後要回傳的值，輸入1就會回傳找到的那一欄，也就是”浩克”(完全沒用！)，輸入2的話就是找到的那一欄的右邊，也就是浩克的歲數，所以如果有更多欄位的話，就是3、4、5 這樣。</p>
-<p>如果說我要他回傳左邊的欄位怎麼辦？ 答案是沒辦法，你輸入0或-1他都不會理你，請先自行將左邊的欄位複製到右邊去！</p>
-<p>最後一個參數只能輸入1跟0，1是模糊比對、0是絕對正確，99%的情況下都是輸入0，所以不用懷疑就直接填0吧，填好後按下確定！</p>
-<p>這邊如果填1的話會發生什麼事？</p>
-<p>假如在Book2裡面剛好有個排在浩克前面的人，他的名字叫做浩呆，那這時函數就會回傳浩呆的歲數，而不是浩克的。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/vlook_img5.jpg"></p>
-<p>這時候我們就會看到浩克的30歲已經跑到右邊來了，接下來要做的事情就是將滑鼠移到儲存格右下角的小黑點，按住向下拖曳去複製公式！！</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/vlook_img6.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img4.jpg?alt=media"></p>
+<p>第一個參數因為這一欄是浩克，當然是找浩克，直接點選 A2 儲存格。</p>
+<p>第二個參數是指要去哪裡找 A2，所以就到左邊把整個表選起來(注意：要連旁邊歲數的列都要選到)</p>
+<p>第三個參數是找到後要回傳的值，輸入 1 就會回傳找到的那一欄，也就是”浩克”(完全沒用！)，輸入 2 的話就是找到的那一欄的右邊，也就是浩克的歲數，所以如果有更多欄位的話，就是 3、4、5 這樣。</p>
+<p>如果說我要他回傳左邊的欄位怎麼辦？ 答案是沒辦法，你輸入 0 或-1 他都不會理你，請先自行將左邊的欄位複製到右邊去！</p>
+<p>最後一個參數只能輸入 1 跟 0，1 是模糊比對、0 是絕對正確，99%的情況下都是輸入 0，所以不用懷疑就直接填 0 吧，填好後按下確定！</p>
+<p>這邊如果填 1 的話會發生什麼事？</p>
+<p>假如在 Book2 裡面剛好有個排在浩克前面的人，他的名字叫做浩呆，那這時函數就會回傳浩呆的歲數，而不是浩克的。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img5.jpg?alt=media"></p>
+<p>這時候我們就會看到浩克的 30 歲已經跑到右邊來了，接下來要做的事情就是將滑鼠移到儲存格右下角的小黑點，按住向下拖曳去複製公式！！</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/vlook_img6.jpg?alt=media"></p>
 <p>出現 #N&#x2F;A 代表的是函數找不到指定的值，所以就直接刪除即可，這時候建議先將公式跑出來的值先全部複製起來，然後按下右鍵 -&gt; 選擇性貼上，並且只貼上值。</p>
 <p>因為這個公式是動態的，所以當 Book2 有任何變動時這邊也會跟著改變，因此如果 Book2 檔案不見的話，原本找到的值全部都會變成 #N&#x2F;A，這絕對不是我們樂見的情況，所以要先把它從公式變成一般的值，再來就大功告成準備下班了！！</p>
 
@@ -319,15 +286,7 @@
 
 
 
-      
-        <div style="">
-    
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
 </div>
-    </div>
   </main>
 
   <footer class="footer">
@@ -336,7 +295,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -375,8 +334,6 @@
 
 
 
-<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"gg90052","count":true,"thread_count":false,"i18n":{"disqus":"disqus"}}</script>
-<script src="/blog/js/third-party/comments/disqus.js"></script>
 
 </body>
 </html>

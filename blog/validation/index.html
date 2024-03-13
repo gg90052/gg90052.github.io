@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
@@ -18,41 +18,30 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"gg90052.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.17.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"none","post_body":"none","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/blog/js/config.js"></script>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
-     crossorigin="anonymous"></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-P8EEP1CHW2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-P8EEP1CHW2');
-</script>
-    <meta name="description" content="EXCEL資料的準確性是很重要的，但是很多時候EXCEL的資料並不會自動填入，可能自己或是交給別人填入資料，如果在人工填資料的時候發生了三殘任一狀況的時候，有發現還好，沒發現真的會欲哭無淚，這時我們就需要資料驗證來幫助我們防止這種狀況發生。">
+    <meta name="description" content="EXCEL 資料的準確性是很重要的，但是很多時候 EXCEL 的資料並不會自動填入，可能自己或是交給別人填入資料，如果在人工填資料的時候發生了三殘任一狀況的時候，有發現還好，沒發現真的會欲哭無淚，這時我們就需要資料驗證來幫助我們防止這種狀況發生。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="防三殘利器 - 資料驗證">
 <meta property="og:url" content="http://gg90052.github.io/blog/validation/index.html">
 <meta property="og:site_name" content="不只是工程師 - Teddy">
-<meta property="og:description" content="EXCEL資料的準確性是很重要的，但是很多時候EXCEL的資料並不會自動填入，可能自己或是交給別人填入資料，如果在人工填資料的時候發生了三殘任一狀況的時候，有發現還好，沒發現真的會欲哭無淚，這時我們就需要資料驗證來幫助我們防止這種狀況發生。">
+<meta property="og:description" content="EXCEL 資料的準確性是很重要的，但是很多時候 EXCEL 的資料並不會自動填入，可能自己或是交給別人填入資料，如果在人工填資料的時候發生了三殘任一狀況的時候，有發現還好，沒發現真的會欲哭無淚，這時我們就需要資料驗證來幫助我們防止這種狀況發生。">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation1.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation2.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation3.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation4.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation5.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation6.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation7.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation8.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation9.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation10.jpg">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/validation11.jpg">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation1.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation2.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation3.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation4.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation5.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation6.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation7.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation8.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation9.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation10.jpg?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation11.jpg?alt=media">
 <meta property="article:published_time" content="2014-05-14T04:00:00.000Z">
-<meta property="article:modified_time" content="2023-07-04T10:12:59.739Z">
+<meta property="article:modified_time" content="2024-03-12T23:53:38.288Z">
 <meta property="article:author" content="Teddy Huang">
 <meta property="article:tag" content="Excel">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gg90052.github.io/soho/blog_imgs/validation1.jpg">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation1.jpg?alt=media">
 
 
 <link rel="canonical" href="http://gg90052.github.io/blog/validation/">
@@ -66,9 +55,6 @@
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-P8EEP1CHW2","only_pageview":true}</script>
   <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
-     crossorigin="anonymous"></script>
 
 
 
@@ -151,7 +137,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -160,7 +146,7 @@
         <span class="site-state-item-name">分類</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">標籤</span>
       </div>
   </nav>
@@ -171,11 +157,6 @@
     </div>
 
     
-
-    <!--google_adsense-->
-    
-    <!--/google_adsense-->
-
   </aside>
 
 
@@ -228,7 +209,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新於</span>
-      <time title="修改時間：2023-07-04 18:12:59" itemprop="dateModified" datetime="2023-07-04T18:12:59+08:00">2023-07-04</time>
+      <time title="修改時間：2024-03-13 07:53:38" itemprop="dateModified" datetime="2024-03-13T07:53:38+08:00">2024-03-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -241,20 +222,6 @@
     </span>
 
   
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/blog/validation/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="validation/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
 </div>
 
         </div>
@@ -263,33 +230,33 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><p>EXCEL資料的準確性是很重要的，但是很多時候EXCEL的資料並不會自動填入，可能自己或是交給別人填入資料，如果在人工填資料的時候發生了三殘任一狀況的時候，有發現還好，沒發現真的會欲哭無淚，這時我們就需要資料驗證來幫助我們防止這種狀況發生。</p>
+    <div class="post-body" itemprop="articleBody"><p>EXCEL 資料的準確性是很重要的，但是很多時候 EXCEL 的資料並不會自動填入，可能自己或是交給別人填入資料，如果在人工填資料的時候發生了三殘任一狀況的時候，有發現還好，沒發現真的會欲哭無淚，這時我們就需要資料驗證來幫助我們防止這種狀況發生。</p>
 <span id="more"></span>
 
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation1.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation1.jpg?alt=media"></p>
 <p>首先，先選擇要驗證的儲存格，然後將標籤選到”資料”，在之前講過的資料剖析的隔壁的隔壁會看到今天的主角”資料驗證”，點下去會看到資料驗證的視窗，一共會有四個標籤，先來講第一個標籤 - 設定。</p>
 <p>設定指的就是我們要驗證的範圍，預設就是任意值，也就是說我們要輸入甚麼都可以，這裡可以選擇的選項有幾個，比較常用的是整數、清單、文字長度這三個。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation2.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation2.jpg?alt=media"></p>
 <p>這邊以整數為例，選擇整數之後第二欄的資料可以選擇大於、小於、等於、介於等等判斷條件，就依照自己的需求選擇，第三欄就可以填條件的範圍，輸入完條件後就按確定，這時我們會發現儲存格並沒有甚麼特別的，但是如果我們輸入不符合條件的值的話，就會跳出錯誤的訊息出來，並且禁止我們輸入這個值。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation3.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation3.jpg?alt=media"></p>
 <p>文字長度的部分不分中英文，一個字就是一個字，這邊就不另外說明，需要特別拿出來講的是清單的部分，清單的使用方式是有時候我們只希望使用者輸入特定的內容，如下圖：</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation4.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation4.jpg?alt=media"></p>
 <p>在這個訓練計畫裡面，我們只希望他只能填睡覺、跑步、吃飯三個選項，這個時候就是選用清單，這時第二欄的資料會是鎖住的(因為沒必要)，然後第三個就是清單的來源，就選擇清單的範圍，選完之後按下確定。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation5.jpg"></p>
-<p>這時在選擇儲存格後旁邊會多出一個下拉式選單的小箭頭，點下去就會只能選擇我們剛剛圈選的清單，不過腦殘是沒藥醫的，如果我們乖乖地將清單的LIST(圖中D2~D4)放在顯眼的地方，一定會有手賤的笨蛋把他刪除掉，因此建議清單可以放在別的工作表中，或者是將設定清單的列給隱藏起來。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation5.jpg?alt=media"></p>
+<p>這時在選擇儲存格後旁邊會多出一個下拉式選單的小箭頭，點下去就會只能選擇我們剛剛圈選的清單，不過腦殘是沒藥醫的，如果我們乖乖地將清單的 LIST(圖中 D2~D4)放在顯眼的地方，一定會有手賤的笨蛋把他刪除掉，因此建議清單可以放在別的工作表中，或者是將設定清單的列給隱藏起來。</p>
 <p>再來我們看到第二個標籤 — 提示訊息，由於我們設定的條件範圍後並不會告訴使用者你的條件是甚麼，但有時候也不能向我上面一樣寫在儲存格上告訴使用者，這時就是輸入在提示訊息中，輸入後按下確定，當選中該儲存格之後就會跳出我們輸入的提示訊息。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation6.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation6.jpg?alt=media"></p>
 <p>再來我們看到第二個標籤 — 提示訊息，由於我們設定的條件範圍後並不會告訴使用者你的條件是甚麼，但有時候也不能向我上面一樣寫在儲存格上告訴使用者，這時就是輸入在提示訊息中，輸入後按下確定，當選中該儲存格之後就會跳出我們輸入的提示訊息。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation7.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation7.jpg?alt=media"></p>
 <p>第三個標籤錯誤提醒指的就是真的腦殘了輸入錯的值後會發生的事情，有三種樣式分別是停止、警告、資訊。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation8.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation8.jpg?alt=media"></p>
 <p>選擇停止的話，在輸入錯誤時只能重試或者是取消，意即一定要輸入符合規定的值才能真的輸入，警告的話他會詢問你是否繼續，是的話就會輸入，否的話等同於停止當中的取消；而資訊中的確定就等同於警告中的是，就依照個人的需求選擇樣式。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation9.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation9.jpg?alt=media"></p>
 <p>當然如果你想要嘲諷一下你的使用者也是沒有問題的，在樣式的旁邊可以輸入訊息的標題及內容，不過如果你這樣寫給客戶的話會發生甚麼事情我可不敢保證，所以平常還是都不要輸入讓他保留預設值吧。</p>
 <p>至於第四個標籤輸入法模式就不說了，因為基本上用不到，至少他完全不符合一般正常人使用邏輯，他變更的是語系，而不是輸入法，所以就不花時間介紹了。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation10.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation10.jpg?alt=media"></p>
 <p>如果是已經填完的資料要驗證的話也是可以的，只是當你設定好條件之後錯誤的值也不會有變化，他不會全部一起要你重新輸入，這時要從茫茫資料海當中找到錯誤的資料就必須用上另外一個工具，在資料驗證底下的小三角形按下去，會看到一個圈選錯誤資料，按下去就會把所有不合規格的資料圈出來，然後我們就可以慢慢地去修正他了。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/validation11.jpg"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/validation11.jpg?alt=media"></p>
 <p>可能有人注意到其實是可以選擇把資料不正確時顯示警訊的選項給關掉，但既然都大費周章的設定了資料驗證，又為何不顯示警訊呢？其實這是拿來配合上面的圈選錯誤資料使用的，有時候如果碰上了腦殘上司，要是顯示警訊的話他可能會說你的檔案壞了、或者是有甚麼奇怪的揣測，腦殘上司是不可以被嘲諷的，所以我們就要把訊息關掉，然後在回收檔案的時候按圈選錯誤資料，這時我們就可以知道這腦殘上司有多眼殘了！！</p>
 
     </div>
@@ -326,15 +293,7 @@
 
 
 
-      
-        <div style="">
-    
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
 </div>
-    </div>
   </main>
 
   <footer class="footer">
@@ -343,7 +302,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -382,8 +341,6 @@
 
 
 
-<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"gg90052","count":true,"thread_count":false,"i18n":{"disqus":"disqus"}}</script>
-<script src="/blog/js/third-party/comments/disqus.js"></script>
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.1.1">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
@@ -18,17 +18,6 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"gg90052.github.io","root":"/blog/","images":"/blog/images","scheme":"Pisces","darkmode":false,"version":"8.17.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":false,"async":true,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"none","post_body":"none","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜尋...","empty":"我們無法找到任何有關 ${query} 的搜索結果","hits_time":"${hits} 找到 ${time} 個結果","hits":"找到 ${hits} 個結果"}}</script><script src="/blog/js/config.js"></script>
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
-     crossorigin="anonymous"></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-P8EEP1CHW2"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-P8EEP1CHW2');
-</script>
     <meta name="description" content="這篇算是寫給自己看的紀錄，雖然 nodeJS 應該不會是製作爬蟲的首選，不過做一些簡單的小工具就不用太講究了。這篇的重點是在沒有安裝 chrome 瀏覽器的 vm 上執行使用 Chromium 的 Puppeteer，所以開機器跟寫爬蟲的部份就會簡單跳過。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 GCP 上使用 Puppeteer 執行爬蟲作業">
@@ -36,20 +25,20 @@
 <meta property="og:site_name" content="不只是工程師 - Teddy">
 <meta property="og:description" content="這篇算是寫給自己看的紀錄，雖然 nodeJS 應該不會是製作爬蟲的首選，不過做一些簡單的小工具就不用太講究了。這篇的重點是在沒有安裝 chrome 瀏覽器的 vm 上執行使用 Chromium 的 Puppeteer，所以開機器跟寫爬蟲的部份就會簡單跳過。">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer1.png">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer2.png">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer3.png">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer4.png">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer5.png">
-<meta property="og:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer6.png">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer1.png?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer2.png?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer3.png?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer4.png?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer5.png?alt=media">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer6.png?alt=media">
 <meta property="article:published_time" content="2023-07-31T07:28:00.000Z">
-<meta property="article:modified_time" content="2023-07-31T09:33:39.239Z">
+<meta property="article:modified_time" content="2024-03-12T23:53:38.247Z">
 <meta property="article:author" content="Teddy Huang">
 <meta property="article:tag" content="GCP">
 <meta property="article:tag" content="puppeteer">
 <meta property="article:tag" content="nodejs">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer1.png">
+<meta name="twitter:image" content="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer1.png?alt=media">
 
 
 <link rel="canonical" href="http://gg90052.github.io/blog/gcp_puppeteer/">
@@ -63,9 +52,6 @@
   
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"G-P8EEP1CHW2","only_pageview":true}</script>
   <script src="/blog/js/third-party/analytics/google-analytics.js"></script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2578812574511816"
-     crossorigin="anonymous"></script>
 
 
 
@@ -149,7 +135,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/blog/archives/">
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -158,7 +144,7 @@
         <span class="site-state-item-name">分類</span>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-count">37</span>
         <span class="site-state-item-name">標籤</span>
       </div>
   </nav>
@@ -169,11 +155,6 @@
     </div>
 
     
-
-    <!--google_adsense-->
-    
-    <!--/google_adsense-->
-
   </aside>
 
 
@@ -218,9 +199,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">發表於</span>
-      
 
-      <time title="創建時間：2023-07-31 15:28:00 / 修改時間：17:33:39" itemprop="dateCreated datePublished" datetime="2023-07-31T15:28:00+08:00">2023-07-31</time>
+      <time title="創建時間：2023-07-31 15:28:00" itemprop="dateCreated datePublished" datetime="2023-07-31T15:28:00+08:00">2023-07-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新於</span>
+      <time title="修改時間：2024-03-13 07:53:38" itemprop="dateModified" datetime="2024-03-13T07:53:38+08:00">2024-03-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -232,20 +219,6 @@
         </span>
     </span>
 
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/blog/gcp_puppeteer/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="gcp_puppeteer/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
   
 </div>
 
@@ -259,26 +232,30 @@
 <span id="more"></span>
 
 <h1 id="爬蟲準備"><a href="#爬蟲準備" class="headerlink" title="爬蟲準備"></a>爬蟲準備</h1><p>雖然不是重點，但還是得先要有爬蟲的程式才能繼續下去，這次爬蟲的受害者依舊是中央氣象局，我們簡單的用爬蟲去取得今天台北市的天氣狀況，程式如下：(再次提醒，爬蟲會造成對方伺服器負擔，請勿頻繁的擷取資料)</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer1.png" alt="取得這塊跑馬燈的文字內容"><span class="image-caption">取得這塊跑馬燈的文字內容</span></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> puppeteer = <span class="built_in">require</span>(<span class="string">&#x27;puppeteer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> cheerio = <span class="built_in">require</span>(<span class="string">&#x27;cheerio&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">enterPage</span>(<span class="string">&#x27;https://www.cwb.gov.tw/V8/C/W/County/County.html?CID=63&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">enterPage</span>(<span class="params">url</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.<span class="title function_">launch</span>(&#123; <span class="attr">args</span>: [<span class="string">&#x27;--no-sandbox&#x27;</span>] &#125;);</span><br><span class="line">    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.<span class="title function_">newPage</span>();</span><br><span class="line">    <span class="keyword">await</span> page.<span class="title function_">goto</span>(url);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> html = <span class="keyword">await</span> page.<span class="title function_">content</span>();</span><br><span class="line">      <span class="keyword">const</span> $ = cheerio.<span class="title function_">load</span>(html);</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>($(<span class="string">&#x27;#marquee_1&#x27;</span>).<span class="title function_">text</span>());</span><br><span class="line">    &#125; <span class="keyword">catch</span>(e) &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(e); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> browser.<span class="title function_">close</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer2.png" alt="在本機上執行結果"><span class="image-caption">在本機上執行結果</span></p>
-<h1 id="開機器"><a href="#開機器" class="headerlink" title="開機器"></a>開機器</h1><p><img src="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer3.png" alt="開免錢的就好"><span class="image-caption">開免錢的就好</span><br><img src="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer4.png" alt="系統用ubuntu，隨個人喜好就好"><span class="image-caption">系統用ubuntu，隨個人喜好就好</span></p>
-<h1 id="設定環境"><a href="#設定環境" class="headerlink" title="設定環境"></a>設定環境</h1><p>機器開好後直接ssh連進去，首先先來安裝 nodejs</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer1.png?alt=media" alt="取得這塊跑馬燈的文字內容"><span class="image-caption">取得這塊跑馬燈的文字內容</span></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> puppeteer = <span class="built_in">require</span>(<span class="string">&quot;puppeteer&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> cheerio = <span class="built_in">require</span>(<span class="string">&quot;cheerio&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">enterPage</span>(<span class="string">&quot;https://www.cwb.gov.tw/V8/C/W/County/County.html?CID=63&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">enterPage</span>(<span class="params">url</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.<span class="title function_">launch</span>(&#123; <span class="attr">args</span>: [<span class="string">&quot;--no-sandbox&quot;</span>] &#125;);</span><br><span class="line">  <span class="keyword">const</span> page = <span class="keyword">await</span> browser.<span class="title function_">newPage</span>();</span><br><span class="line">  <span class="keyword">await</span> page.<span class="title function_">goto</span>(url);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> html = <span class="keyword">await</span> page.<span class="title function_">content</span>();</span><br><span class="line">    <span class="keyword">const</span> $ = cheerio.<span class="title function_">load</span>(html);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>($(<span class="string">&quot;#marquee_1&quot;</span>).<span class="title function_">text</span>());</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">await</span> browser.<span class="title function_">close</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer2.png?alt=media" alt="在本機上執行結果"><span class="image-caption">在本機上執行結果</span></p>
+<h1 id="開機器"><a href="#開機器" class="headerlink" title="開機器"></a>開機器</h1><p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer3.png?alt=media" alt="開免錢的就好"><span class="image-caption">開免錢的就好</span><br><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer4.png?alt=media" alt="系統用ubuntu，隨個人喜好就好"><span class="image-caption">系統用ubuntu，隨個人喜好就好</span></p>
+<h1 id="設定環境"><a href="#設定環境" class="headerlink" title="設定環境"></a>設定環境</h1><p>機器開好後直接 ssh 連進去，首先先來安裝 nodejs</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - &amp;&amp;\</span><br><span class="line">sudo apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
 <p>接著安裝一些 chrome 的相關套件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo sudo apt update</span><br><span class="line">sudo apt-get install ca-certificates fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils</span><br></pre></td></tr></table></figure>
-<p><a target="_blank" rel="noopener" href="https://pptr.dev/troubleshooting#chrome-doesnt-launch-on-linux"></a><br>上面這是 puppeteeer 官網的連結，對應不同的linux系統有不同需要安裝的套件</p>
-<p>然後將我們寫好的爬蟲檔案跟package.json上傳，並且移到目標資料夾內</p>
+
+<p><a target="_blank" rel="noopener" href="https://pptr.dev/troubleshooting#chrome-doesnt-launch-on-linux"></a><br>上面這是 puppeteeer 官網的連結，對應不同的 linux 系統有不同需要安裝的套件</p>
+<p>然後將我們寫好的爬蟲檔案跟 package.json 上傳，並且移到目標資料夾內</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gcp-puppeteer-test&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;author&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;license&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ISC&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;cheerio&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.0.0-rc.12&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;puppeteer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^20.8.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
 <p>在專案資料夾底下新增一個檔案 puppeteer.config.cjs，並輸入以下內容後存檔離開</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const &#123;join&#125; = require(&#x27;path&#x27;);</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @type &#123;import(&quot;puppeteer&quot;).Configuration&#125;</span><br><span class="line"> */</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  // Changes the cache location for Puppeteer.</span><br><span class="line">  cacheDirectory: join(__dirname, &#x27;.cache&#x27;, &#x27;puppeteer&#x27;),</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>然後執行 npm install 安裝套件，套件安裝完成後就可以執行程式了，我的爬蟲檔案叫 weather.js，因此就執行</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node weather.<span class="property">js</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer5.png" alt="萬事具備，成果揭曉"><span class="image-caption">萬事具備，成果揭曉</span></p>
-<h1 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h1><p>如果在執行程式的時候出現錯誤，比方說出現 Error: Failed to launch the browser process!，那應該是漏了前面安裝chrome相關套件的原因，但我這篇的流程是完全開一個新vm來測試的，所以照著順序做就能夠成功，提供給有需要的做參考，這件事情也拌住了我一兩天，都差一點都想說要放棄改用 python 來寫爬蟲了呢。</p>
-<p><img src="https://gg90052.github.io/soho/blog_imgs/gcp_puppeteer6.png"></p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer5.png?alt=media" alt="萬事具備，成果揭曉"><span class="image-caption">萬事具備，成果揭曉</span></p>
+<h1 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h1><p>如果在執行程式的時候出現錯誤，比方說出現 Error: Failed to launch the browser process!，那應該是漏了前面安裝 chrome 相關套件的原因，但我這篇的流程是完全開一個新 vm 來測試的，所以照著順序做就能夠成功，提供給有需要的做參考，這件事情也拌住了我一兩天，都差一點都想說要放棄改用 python 來寫爬蟲了呢。</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/teddy-blog-5c640.appspot.com/o/gcp_puppeteer6.png?alt=media"></p>
 
     </div>
 
@@ -297,8 +274,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/blog/yuzawa/" rel="prev" title="湯澤滑雪去 - 天使格蘭飯店、越後中里雪場">
-                  <i class="fa fa-chevron-left"></i> 湯澤滑雪去 - 天使格蘭飯店、越後中里雪場
+                <a href="/blog/lofoten1/" rel="prev" title="美得令人窒息的羅弗敦群島 - 羅弗敦群島EP1">
+                  <i class="fa fa-chevron-left"></i> 美得令人窒息的羅弗敦群島 - 羅弗敦群島EP1
                 </a>
             </div>
             <div class="post-nav-item">
@@ -316,15 +293,7 @@
 
 
 
-      
-        <div style="">
-    
-  <div class="comments" id="disqus_thread">
-    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-  </div>
-  
 </div>
-    </div>
   </main>
 
   <footer class="footer">
@@ -333,7 +302,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -372,8 +341,6 @@
 
 
 
-<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"gg90052","count":true,"thread_count":false,"i18n":{"disqus":"disqus"}}</script>
-<script src="/blog/js/third-party/comments/disqus.js"></script>
 
 </body>
 </html>

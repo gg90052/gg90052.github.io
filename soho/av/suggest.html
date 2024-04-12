@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AV</title>
+	<link rel="stylesheet" href="css/slick.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body class="bg_white">
+  <div class="mobileWrapper">
+    <header id="header" class="">
+    	<div class="wrapper flex">
+    		<div class="btn_back"></div>
+    		<div class="pageTitle">意見建議反饋</div>
+    		<div class="right_btn "></div>
+    	</div>
+    </header>
+    <div class="page no_footer">
+      <section id="suggest">
+        <div class="tabs flex">
+          <div class="tab active">反饋問題</div>
+          <div class="tab">提交建議</div>
+          <div class="tab">尋求影片</div>
+        </div>
+        <div class="tab_content wrapper active">
+          <div class="form">
+            <div class="input_group">
+              <p class="input_title">問題說明</p>
+              <textarea name="" id="" cols="30" rows="10" placeholder="請輸入您使用中遇到的問題，詳細描述問題的內容"></textarea>
+            </div>
+            <div class="input_group">
+              <p class="input_title">聯繫方式</p>
+              <input type="text" placeholder="請輸入聯繫方式" />
+            </div>
+            <div class="action">
+              <button class="btn">提交</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab_content wrapper">
+          <div class="form">
+            <div class="input_group">
+              <p class="input_title">建議說明</p>
+              <textarea name="" id="" cols="30" rows="10" placeholder="請輸入您使用中遇到的問題，詳細描述問題的內容"></textarea>
+            </div>
+            <div class="input_group">
+              <p class="input_title">聯繫方式</p>
+              <input type="text" placeholder="請輸入聯繫方式" />
+            </div>
+            <div class="action">
+              <button class="btn">提交</button>
+            </div>
+          </div>
+        </div>
+        <div class="tab_content wrapper">
+          <div class="form">
+            <div class="input_group">
+              <p class="input_title">影片番號</p>
+              <textarea name="" id="" cols="30" rows="10" placeholder="請輸入您使用中遇到的問題，詳細描述問題的內容"></textarea>
+            </div>
+            <div class="input_group">
+              <p class="input_title">聯繫方式</p>
+              <input type="text" placeholder="請輸入聯繫方式" />
+            </div>
+            <div class="action">
+              <button class="btn">提交</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $('#suggest .tab').click(function () {
+      $('#suggest .tab').removeClass('active');
+      $(this).addClass('active');
+      $('#suggest .tab_content').removeClass('active');
+      $('#suggest .tab_content').eq($(this).index()).addClass('active');
+    });
+  </script>
+</body>
+
+</html>

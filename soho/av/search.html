@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AV</title>
+	<link rel="stylesheet" href="css/slick.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <div class="mobileWrapper">
+    <div class="page no_header">
+      <section id="search">
+        <div class="wrapper">
+          <div class="flex">
+            <div class="btn_back"></div>
+            <div class="searchInput">
+              <input type="text" />
+            </div>
+            <div class="btn_search"></div>
+          </div>
+        </div>
+      </section>
+      <section id="search_history">
+        <div class="wrapper">
+          <div class="flex mb12">
+            <p>搜索歷史</p>
+            <div class="btn_clear">刪除記錄</div>
+          </div>
+          <div class="flex flex_start wrap">
+            <a href="#" class="btn_history">架乃ゆら</a>
+            <a href="#" class="btn_history">1234</a>
+            <a href="#" class="btn_history">SSIS-616</a>
+          </div>
+        </div>
+      </section>
+      <section id="ad_column1">
+        <div class="wrapper">
+          <a href="#" target="_blank">
+            <img src="images/ad_big1.jpg" alt="">
+          </a>
+        </div>
+      </section>
+      <section id="rank_container">
+        <div class="wrapper">
+          <div class="rank_tabs">
+            <div class="tab active">熱門女優榜</div>
+            <div class="tab">本週熱門搜索</div>
+            <div class="tab">本週熱門搜索</div>
+          </div>
+          <div class="ranks flex column wrap">
+            <a href="#">第一名</a>
+            <a href="#">第二名</a>
+            <a href="#">第三名</a>
+            <a href="#">第四名</a>
+            <a href="#">第五名</a>
+            <a href="#">第六名</a>
+            <a href="#">第七名</a>
+            <a href="#">第八名</a>
+            <a href="#">第九名</a>
+            <a href="#">第十名</a>
+          </div>
+        </div>
+      </section>
+      <section id="hot_recommand">
+        <div class="wrapper">
+          <div class="titlebar flex">
+            <p class="title fz17 fw_semibold text_pink1">熱門女優推薦</p>
+            <a href="#" class="btn_more">更多</a>
+          </div>
+          <div class="actress_list">
+            <a href="#"><img src="images/actress1.jpg" alt=""></a>
+            <a href="#"><img src="images/actress2.jpg" alt=""></a>
+            <a href="#"><img src="images/actress3.jpg" alt=""></a>
+            <a href="#"><img src="images/actress4.jpg" alt=""></a>
+            <a href="#"><img src="images/actress5.jpg" alt=""></a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <footer id="footer">
+  	<div class="wrapper grid4">
+  		<a href="index.html" class="tabbtn active">
+  			<div class="icon home"></div>
+  			首頁
+  		</a>
+  		<a href="#" class="tabbtn">
+  			<div class="icon hot"></div>
+  			熱門
+  		</a>
+  		<a href="#" class="tabbtn">
+  			<div class="icon sort"></div>
+  			分類
+  		</a>
+  		<a href="my.html" class="tabbtn">
+  			<div class="icon my"></div>
+  			我的
+  		</a>
+  	</div>
+  </footer>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $('#rank_container .tab').click(function(){
+      $('#rank_container .tab').removeClass('active');
+      $(this).addClass('active');
+    });
+    $('.btn_search').click(function(){
+      location.href="search_result.html";
+    });
+  </script>
+</body>
+
+</html>

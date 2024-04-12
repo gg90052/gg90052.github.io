@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AV</title>
+	<link rel="stylesheet" href="css/slick.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <div class="mobileWrapper">
+    <header id="header" class="">
+    	<div class="wrapper flex">
+    		<div class="btn_back"></div>
+    		<div class="pageTitle">評分與評論</div>
+    		<div class="right_btn "></div>
+    	</div>
+    </header>
+    <div class="page no_footer">
+      <section id="rate_page">
+        <div class="myRate">
+          <div class="wrapper">
+            <div class="flex">
+              <div class="img"><img src="images/actress1.jpg" alt=""></div>
+              <div class="stars">
+                <div class="star full"></div>
+                <div class="star full"></div>
+                <div class="star full"></div>
+                <div class="star full"></div>
+                <div class="star"></div>
+              </div>
+            </div>
+          </div>
+        </div>  
+        <div class="textarea">
+          <textarea placeholder="写下你的评论，提供给他人参考" name="" id="" cols="30" rows="10"></textarea>
+        </div>  
+        <div class="btn_group">
+          <div class="wrapper flex">
+            <div class="btn blue">重置</div>
+            <div class="btn pink">套用</div>
+          </div>
+        </div>  
+      </section>
+    </div>
+  </div>
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $('.share_btn').click(function () {
+      console.log(navigator.share)
+      if (navigator.share) {
+        navigator.share({
+          title: 'web.dev',
+          text: 'Check out web.dev.',
+          url: 'https://web.dev/',
+        }).then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing', error));
+      }
+    });
+    $('#video_info .tab').click(function () {
+      $('#video_info .tab').removeClass('active');
+      $(this).addClass('active');
+      $('#video_info .tab_content').removeClass('active');
+      $('#video_info .tab_content').eq($(this).index()).addClass('active');
+    });
+  </script>
+</body>
+
+</html>

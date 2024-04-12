@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AV</title>
+	<link rel="stylesheet" href="css/slick.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body class="bg_white">
+  <header id="header" class="">
+  	<div class="wrapper flex">
+  		<div class="btn_back"></div>
+  		<div class="pageTitle"></div>
+  		<div class="right_btn "></div>
+  	</div>
+  </header>
+  <div class="page no_footer">
+    <section id="login">
+      <div class="tabs flex">
+        <div class="tab">手機號登錄</div>
+        <div class="tab active">用戶名登錄</div>
+      </div>
+      <div class="wrapper">
+        <div class="login_container">
+          <div class="form">
+            <div class="input_container">
+              <p>用戶名</p>
+              <input type="text" placeholder="請輸入長度為5-20位帳號">
+              <div class="btn">發送驗證碼</div>
+              <p class="error">長度不足</p>
+            </div>
+            <div class="input_container error">
+              <p>密碼</p>
+              <input type="password" placeholder="請輸入長度4-20位密碼">
+              <p class="error">長度不足</p>
+            </div>
+            <div class="btn_container flex wrap">
+              <a href="forget.html" class="text_link">忘記密碼</a>
+              <a href="index.html" class="btn_login">登入</a>
+            </div>
+            <p class="ps">未註冊用戶，登錄後自動創建帳號</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $('.input_container .btn').click(function(){
+      $(this).toggleClass('disabled');
+    });
+  </script>
+</body>
+
+</html>

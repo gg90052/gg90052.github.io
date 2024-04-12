@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh_tw">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>AV</title>
+	<link rel="stylesheet" href="css/slick.min.css">
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+<body class="bg_white">
+  <header id="header" class="">
+  	<div class="wrapper flex">
+  		<div class="btn_back"></div>
+  		<div class="pageTitle">充值</div>
+  		<div class="right_btn "></div>
+  	</div>
+  </header>
+  <div class="page no_footer">
+    <section id="deposit">
+      <div class="deposit_money">
+        <div class="input_container error">
+          <p>充值金額</p>
+          <input type="number" placeholder="請輸入充值金額">
+          <p class="error">請輸入正確帳號</p>
+        </div>
+      </div>
+      <div class="payment_list">
+        <div class="wrapper">
+          <p class="title">選擇支付方式</p>
+          <div class="lists">
+            <label class="pay flex">
+              <div class="set_info">
+                <div class="flex">
+                  <div class="name">
+                    <p>支付寶</p>
+                  </div>
+                </div>
+              </div>
+              <input name="setCheck" type="radio" />
+            </label>
+            <label class="pay flex">
+              <div class="set_info">
+                <div class="flex">
+                  <div class="name">
+                    <p>中國交通銀行</p>
+                    <p class="sub">免手續費</p>
+                  </div>
+                </div>
+              </div>
+              <input name="setCheck" type="radio" />
+            </label>
+            <label class="pay flex">
+              <div class="set_info">
+                <div class="flex">
+                  <div class="name">
+                    <p>微信支付</p>
+                    <p class="sub">限額100、200</p>
+                  </div>
+                </div>
+              </div>
+              <input name="setCheck" type="radio" />
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="select_check flex column flex_start align_top">
+        <div class="flex center">
+          <div class="pay_btn_group flex">
+            <div class="btn pink gopay">確定支付</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/slick.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $('#deposit label.pay').click(function() {
+      $('#deposit label.pay').removeClass('active');
+      $(this).addClass('active');
+      $('.select_check').addClass('show');
+      $('.deposit .lists').addClass('extends');
+    });
+    $('.gopay').click(function() {
+      $('.select_check').removeClass('show');
+    });
+  </script>
+</body>
+
+</html>

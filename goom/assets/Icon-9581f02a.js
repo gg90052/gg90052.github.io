@@ -1,1 +1,0 @@
-import{j as a}from"./index-8a1d3cca.js";import{s as c}from"./utils-30caca54.js";function l({iconId:s,src:o,size:e=6}){const t=JSON.parse(localStorage.getItem("icons"))||{},r=s?t[c(s)]:o||"defaultMarker.png";return a.jsx("div",{className:`w-${e} aspect-auto overflow-hidden w`,children:a.jsx("img",{className:"w-full",src:r,alt:""})})}export{l as I};

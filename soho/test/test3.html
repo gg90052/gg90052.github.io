@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>環球創投 | 連結台灣與國際金融市場</title>
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F172A",
+              secondary: "#1E293B",
+              accent: "#D4AF37",
+              darkblue: "#0D1B2A",
+              lightgray: "#E2E8F0",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap");
+      body {
+        font-family: "Noto Sans TC", sans-serif;
+        scroll-behavior: smooth;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      }
+      .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      @media screen and (max-width: 768px) {
+        .mobile-menu {
+          display: block; /* 或 flex，視您的設計而定 */
+        }
+      }
+      .mobile-menu {
+        z-index: 1000; /* 確保高於其他元素 */
+      }
+    </style>
+  </head>
+  <body class="bg-darkblue text-white">
+    <!-- 導航欄 -->
+    <nav
+      class="fixed w-full z-50 bg-primary bg-opacity-90 backdrop-blur-md shadow-lg"
+    >
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <a href="#" class="text-2xl font-bold text-accent">
+              <i class="fas fa-chart-line mr-2"></i>環球創投
+            </a>
+          </div>
+
+          <!-- 桌面版選單 -->
+          <div class="hidden md:flex space-x-8">
+            <a href="#news" class="hover:text-accent transition-colors"
+              >新聞報導</a
+            >
+            <a href="#about" class="hover:text-accent transition-colors"
+              >關於我們</a
+            >
+            <a href="#services" class="hover:text-accent transition-colors"
+              >服務項目</a
+            >
+            <a href="#portfolio" class="hover:text-accent transition-colors"
+              >投資組合</a
+            >
+            <a href="#cases" class="hover:text-accent transition-colors"
+              >成功案例</a
+            >
+            <a href="#contact" class="hover:text-accent transition-colors"
+              >聯絡我們</a
+            >
+
+            <!-- 語言選擇 -->
+            <div class="relative group">
+              <button
+                class="flex items-center hover:text-accent transition-colors"
+              >
+                <i class="fas fa-globe mr-1"></i> 繁體中文
+                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+              </button>
+              <div
+                class="absolute right-0 mt-2 w-40 bg-secondary rounded-md shadow-lg hidden group-hover:block"
+              >
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-primary hover:text-accent"
+                  >English</a
+                >
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-primary hover:text-accent"
+                  >日本語</a
+                >
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-primary hover:text-accent"
+                  >简体中文</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- 手機版選單按鈕 -->
+          <div class="md:hidden">
+            <button id="menu-toggle" class="text-white hover:text-accent">
+              <i class="fas fa-bars text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 手機版選單 (預設隱藏) -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 bg-primary bg-opacity-95 z-40 hidden flex-col justify-center items-center mobile-menu transition-all duration-300 opacity-0"
+    >
+      <button
+        id="menu-close"
+        class="absolute top-5 right-5 text-white hover:text-accent"
+      >
+        <i class="fas fa-times text-2xl"></i>
+      </button>
+      <div class="flex flex-col space-y-6 text-center text-xl pt-12">
+        <a href="#news" class="hover:text-accent transition-colors mt-6"
+          >新聞報導</a
+        >
+        <a href="#about" class="hover:text-accent transition-colors"
+          >關於我們</a
+        >
+        <a href="#services" class="hover:text-accent transition-colors"
+          >服務項目</a
+        >
+        <a href="#portfolio" class="hover:text-accent transition-colors"
+          >投資組合</a
+        >
+        <a href="#cases" class="hover:text-accent transition-colors"
+          >成功案例</a
+        >
+        <a href="#contact" class="hover:text-accent transition-colors"
+          >聯絡我們</a
+        >
+
+        <div
+          class="pt-6 border-t border-gray-700 flex justify-center space-x-4"
+        >
+          <a href="#" class="px-4 py-2 hover:text-accent">繁體中文</a>
+          <a href="#" class="px-4 py-2 hover:text-accent">English</a>
+          <a href="#" class="px-4 py-2 hover:text-accent">日本語</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 英雄區塊 -->
+    <header
+      class="relative h-screen flex items-center justify-center overflow-hidden"
+    >
+      <div class="absolute inset-0 z-0">
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-darkblue to-primary opacity-80"
+        ></div>
+        <video class="w-full h-full object-cover" autoplay loop muted>
+          <source
+            src="https://assets.mixkit.co/videos/preview/mixkit-financial-charts-and-numbers-in-the-city-18057-large.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+
+      <div class="container mx-auto px-4 z-10 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 text-shadow">
+          連結台灣與全球金融市場的<br /><span class="text-accent"
+            >創新投資平台</span
+          >
+        </h1>
+        <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-lightgray">
+          我們專注於跨國投資機會，協助企業拓展國際市場，實現全球化願景
+        </p>
+        <div class="flex flex-col md:flex-row justify-center gap-4">
+          <a
+            href="#services"
+            class="bg-accent hover:bg-opacity-80 text-primary font-bold py-3 px-8 rounded-md transition-all transform hover:scale-105"
+          >
+            探索服務
+          </a>
+          <a
+            href="#contact"
+            class="border-2 border-accent text-accent hover:bg-accent hover:text-primary font-bold py-3 px-8 rounded-md transition-all transform hover:scale-105"
+          >
+            聯絡我們
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-10 left-0 right-0 text-center animate-bounce">
+        <a href="#about" class="text-white opacity-80 hover:opacity-100">
+          <i class="fas fa-chevron-down text-2xl"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- 新聞報導 -->
+    <section id="news" class="py-20 bg-primary">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            新聞<span class="text-accent">報導</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          <p class="text-lg max-w-3xl mx-auto text-gray-300">
+            了解環球創投的最新動態與市場洞察
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- 新聞項目 1 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1491336477066-31156b5e4f35?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="新聞報導"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                最新消息
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <i class="far fa-calendar-alt text-accent mr-2"></i>
+                <span class="text-gray-400 text-sm">2023年10月15日</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                環球創投完成新一輪1億美元募資，加速亞太地區投資佈局
+              </h3>
+              <p class="text-gray-300 mb-4">
+                環球創投宣布完成新一輪1億美元募資，將進一步擴大在亞太地區的投資佈局，重點關注金融科技、人工智能和綠色能源領域。
+              </p>
+              <a href="#" class="inline-block text-accent hover:underline">
+                閱讀更多 <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- 新聞項目 2 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="新聞報導"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                市場洞察
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <i class="far fa-calendar-alt text-accent mr-2"></i>
+                <span class="text-gray-400 text-sm">2023年9月28日</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                2023年亞太地區創投市場趨勢分析報告發布
+              </h3>
+              <p class="text-gray-300 mb-4">
+                環球創投發布最新《2023年亞太地區創投市場趨勢分析報告》，深入剖析後疫情時代的投資機會與挑戰，為企業提供戰略指導。
+              </p>
+              <a href="#" class="inline-block text-accent hover:underline">
+                閱讀更多 <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- 新聞項目 3 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="新聞報導"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 left-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                企業動態
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center mb-3">
+                <i class="far fa-calendar-alt text-accent mr-2"></i>
+                <span class="text-gray-400 text-sm">2023年9月5日</span>
+              </div>
+              <h3 class="text-xl font-bold mb-3">
+                環球創投攜手日本軟銀集團共同投資台灣AI新創企業
+              </h3>
+              <p class="text-gray-300 mb-4">
+                環球創投與日本軟銀集團宣布共同投資台灣AI新創企業「智慧未來科技」，助力其技術創新與全球市場拓展。
+              </p>
+              <a href="#" class="inline-block text-accent hover:underline">
+                閱讀更多 <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="#"
+            class="inline-block border-2 border-accent text-accent hover:bg-accent hover:text-primary font-bold py-3 px-8 rounded-md transition-all"
+          >
+            查看更多新聞
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 關於我們 -->
+    <section id="about" class="py-20 bg-primary">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            關於<span class="text-accent">環球創投</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h3 class="text-2xl font-bold mb-6">
+              我們的<span class="text-accent">使命</span>
+            </h3>
+            <p class="text-lg mb-6 text-gray-300">
+              環球創投致力於連結台灣與國際金融市場，包括中國大陸、日本、美國等地區，提供全方位的投資與上市募資規劃服務。
+            </p>
+            <p class="text-lg mb-6 text-gray-300">
+              我們擁有豐富的跨國投資經驗和廣泛的全球合作網絡，能夠為企業提供最適合的國際化發展策略。
+            </p>
+
+            <div class="grid grid-cols-2 gap-4 mt-8">
+              <div class="bg-secondary p-6 rounded-lg text-center">
+                <i class="fas fa-handshake text-accent text-3xl mb-4"></i>
+                <h4 class="font-bold mb-2">50+</h4>
+                <p class="text-gray-400">全球合作夥伴</p>
+              </div>
+              <div class="bg-secondary p-6 rounded-lg text-center">
+                <i class="fas fa-chart-pie text-accent text-3xl mb-4"></i>
+                <h4 class="font-bold mb-2">$2.5B+</h4>
+                <p class="text-gray-400">管理資產</p>
+              </div>
+              <div class="bg-secondary p-6 rounded-lg text-center">
+                <i class="fas fa-building text-accent text-3xl mb-4"></i>
+                <h4 class="font-bold mb-2">120+</h4>
+                <p class="text-gray-400">投資企業</p>
+              </div>
+              <div class="bg-secondary p-6 rounded-lg text-center">
+                <i class="fas fa-globe-asia text-accent text-3xl mb-4"></i>
+                <h4 class="font-bold mb-2">15+</h4>
+                <p class="text-gray-400">服務國家</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative">
+            <div
+              class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-accent"
+            ></div>
+            <img
+              src="https://images.unsplash.com/photo-1573164574572-cb89e39749b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="團隊照片"
+              class="w-full h-auto rounded-lg shadow-2xl"
+            />
+            <div
+              class="absolute -bottom-4 -right-4 w-24 h-24 border-b-4 border-r-4 border-accent"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 服務項目 -->
+    <section id="services" class="py-20 gradient-bg">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            我們的<span class="text-accent">服務</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          <p class="text-lg max-w-3xl mx-auto text-gray-300">
+            我們提供全方位的創投服務，協助企業從初創階段到國際市場拓展的每一步
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-secondary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="text-accent text-4xl mb-6">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">創業投資</h3>
+            <p class="text-gray-300 mb-6">
+              為有潛力的初創企業提供資金支持和戰略指導，協助其快速成長並擴大市場份額。
+            </p>
+            <ul class="text-gray-300 space-y-2">
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>種子輪到A輪投資</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>創業導師計劃</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>市場進入策略</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-secondary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="text-accent text-4xl mb-6">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">國際市場拓展</h3>
+            <p class="text-gray-300 mb-6">
+              協助台灣企業進入中國大陸、日本、美國等國際市場，提供本地化策略和資源對接。
+            </p>
+            <ul class="text-gray-300 space-y-2">
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>跨國合作夥伴對接</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>國際市場調研</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>全球化營運顧問</span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            class="bg-secondary rounded-lg p-8 shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="text-accent text-4xl mb-6">
+              <i class="fas fa-landmark"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">上市募資規劃</h3>
+            <p class="text-gray-300 mb-6">
+              為企業提供完整的上市前準備、募資策略和投資者關係管理，確保成功進入資本市場。
+            </p>
+            <ul class="text-gray-300 space-y-2">
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>IPO準備與輔導</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>融資策略規劃</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check text-accent mt-1 mr-2"></i>
+                <span>投資者關係建立</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mt-16 text-center">
+          <a
+            href="#contact"
+            class="inline-block bg-accent hover:bg-opacity-80 text-primary font-bold py-3 px-8 rounded-md transition-all transform hover:scale-105"
+          >
+            了解更多服務
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 投資組合 -->
+    <section id="portfolio" class="py-20 bg-darkblue">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            投資<span class="text-accent">組合</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          <p class="text-lg max-w-3xl mx-auto text-gray-300">
+            我們投資於具有全球視野和創新能力的企業，涵蓋多個高增長領域
+          </p>
+        </div>
+
+        <div class="flex justify-center mb-10">
+          <div class="inline-flex bg-secondary rounded-full p-1">
+            <button class="px-6 py-2 rounded-full bg-primary text-accent">
+              全部
+            </button>
+            <button class="px-6 py-2 rounded-full hover:text-accent">
+              科技
+            </button>
+            <button class="px-6 py-2 rounded-full hover:text-accent">
+              金融科技
+            </button>
+            <button class="px-6 py-2 rounded-full hover:text-accent">
+              生物科技
+            </button>
+            <button class="px-6 py-2 rounded-full hover:text-accent">
+              綠能
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- 投資組合項目 1 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="科技公司"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                科技
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">智慧科技股份有限公司</h3>
+              <p class="text-gray-300 mb-4">
+                專注於人工智能和大數據分析的創新企業，為企業提供智能決策解決方案。
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-accent">A輪投資</span>
+                <a href="#" class="text-white hover:text-accent">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 投資組合項目 2 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="金融科技公司"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                金融科技
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">環球支付科技有限公司</h3>
+              <p class="text-gray-300 mb-4">
+                跨境支付解決方案提供商，連接亞洲與全球的數字金融服務。
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-accent">B輪投資</span>
+                <a href="#" class="text-white hover:text-accent">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 投資組合項目 3 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="生物科技公司"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                生物科技
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">生醫創新研發中心</h3>
+              <p class="text-gray-300 mb-4">
+                專注於精準醫療和基因治療的研發，致力於解決全球健康挑戰。
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-accent">C輪投資</span>
+                <a href="#" class="text-white hover:text-accent">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 投資組合項目 4 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="綠能公司"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                綠能
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">永續能源科技公司</h3>
+              <p class="text-gray-300 mb-4">
+                開發創新的太陽能和儲能解決方案，推動全球能源轉型。
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-accent">A輪投資</span>
+                <a href="#" class="text-white hover:text-accent">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 投資組合項目 5 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="科技公司"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                科技
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">雲端安全科技有限公司</h3>
+              <p class="text-gray-300 mb-4">
+                提供企業級雲端安全解決方案，保護數字資產和隱私數據。
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-accent">B輪投資</span>
+                <a href="#" class="text-white hover:text-accent">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 投資組合項目 6 -->
+          <div
+            class="bg-secondary rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2"
+          >
+            <div class="relative">
+              <img
+                src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                alt="金融科技公司"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute top-4 right-4 bg-accent text-primary px-3 py-1 rounded-full text-sm font-bold"
+              >
+                金融科技
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">區塊鏈金融服務公司</h3>
+              <p class="text-gray-300 mb-4">
+                利用區塊鏈技術重塑金融服務，提供更安全、透明的交易體驗。
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-accent">種子輪投資</span>
+                <a href="#" class="text-white hover:text-accent">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="#"
+            class="inline-block border-2 border-accent text-accent hover:bg-accent hover:text-primary font-bold py-3 px-8 rounded-md transition-all"
+          >
+            查看更多投資項目
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 成功案例 -->
+    <section id="cases" class="py-20 gradient-bg">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            成功<span class="text-accent">案例</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          <p class="text-lg max-w-3xl mx-auto text-gray-300">
+            我們協助企業從台灣走向國際市場，以下是部分成功案例
+          </p>
+        </div>
+
+        <!-- 案例輪播 -->
+        <div class="relative">
+          <!-- 輪播控制按鈕 -->
+          <button
+            class="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-secondary hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10"
+          >
+            <i class="fas fa-chevron-left text-accent"></i>
+          </button>
+          <button
+            class="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-secondary hover:bg-primary w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10"
+          >
+            <i class="fas fa-chevron-right text-accent"></i>
+          </button>
+
+          <!-- 輪播內容 -->
+          <div class="overflow-hidden">
+            <div class="flex">
+              <!-- 案例 1 -->
+              <div class="w-full p-4">
+                <div class="bg-secondary rounded-lg overflow-hidden shadow-xl">
+                  <div class="md:flex">
+                    <div class="md:w-1/2">
+                      <img
+                        src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+                        alt="成功案例"
+                        class="w-full h-64 md:h-full object-cover"
+                      />
+                    </div>
+                    <div class="md:w-1/2 p-8">
+                      <div class="flex items-center mb-4">
+                        <div
+                          class="w-12 h-12 bg-white rounded-full flex items-center justify-center mr-4"
+                        >
+                          <img
+                            src="https://via.placeholder.com/50"
+                            alt="公司標誌"
+                            class="w-8 h-8"
+                          />
+                        </div>
+                        <h3 class="text-xl font-bold">智慧科技股份有限公司</h3>
+                      </div>
+                      <p class="text-gray-300 mb-6">
+                        協助台灣領先的AI解決方案提供商成功進入日本市場，並獲得知名風投的B輪融資，估值達1.2億美元。
+                      </p>
+                      <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div>
+                          <span class="text-accent font-bold text-lg"
+                            >$25M</span
+                          >
+                          <p class="text-gray-400 text-sm">融資金額</p>
+                        </div>
+                        <div>
+                          <span class="text-accent font-bold text-lg">3</span>
+                          <p class="text-gray-400 text-sm">國際市場</p>
+                        </div>
+                        <div>
+                          <span class="text-accent font-bold text-lg"
+                            >18個月</span
+                          >
+                          <p class="text-gray-400 text-sm">成長期</p>
+                        </div>
+                        <div>
+                          <span class="text-accent font-bold text-lg"
+                            >300%</span
+                          >
+                          <p class="text-gray-400 text-sm">營收增長</p>
+                        </div>
+                      </div>
+                      <a
+                        href="#"
+                        class="inline-block text-accent hover:underline"
+                      >
+                        查看詳細案例 <i class="fas fa-arrow-right ml-1"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 輪播指示器 -->
+          <div class="flex justify-center mt-8">
+            <button class="w-3 h-3 rounded-full bg-accent mx-1"></button>
+            <button
+              class="w-3 h-3 rounded-full bg-gray-600 mx-1 hover:bg-accent"
+            ></button>
+            <button
+              class="w-3 h-3 rounded-full bg-gray-600 mx-1 hover:bg-accent"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 全球網絡 -->
+    <section class="py-20 bg-primary">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            全球<span class="text-accent">網絡</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          <p class="text-lg max-w-3xl mx-auto text-gray-300">
+            我們在全球主要金融中心設有辦事處，與國際頂尖投資機構和企業保持緊密合作
+          </p>
+        </div>
+
+        <div class="relative">
+          <img
+            src="https://images.unsplash.com/photo-1589519160732-57fc6fef9860?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+            alt="世界地圖"
+            class="w-full h-auto rounded-lg opacity-60"
+          />
+
+          <!-- 台北 -->
+          <div
+            class="absolute top-[35%] left-[78%] transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <div class="relative">
+              <div
+                class="w-4 h-4 bg-accent rounded-full animate-ping absolute"
+              ></div>
+              <div class="w-4 h-4 bg-accent rounded-full relative"></div>
+            </div>
+            <div class="absolute top-6 -left-16 w-32 text-center">
+              <h4 class="font-bold">台北</h4>
+              <p class="text-xs text-gray-300">總部</p>
+            </div>
+          </div>
+
+          <!-- 東京 -->
+          <div
+            class="absolute top-[30%] left-[82%] transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <div class="relative">
+              <div
+                class="w-3 h-3 bg-accent rounded-full animate-ping absolute"
+              ></div>
+              <div class="w-3 h-3 bg-accent rounded-full relative"></div>
+            </div>
+            <div class="absolute top-5 -left-16 w-32 text-center">
+              <h4 class="font-bold">東京</h4>
+              <p class="text-xs text-gray-300">分部</p>
+            </div>
+          </div>
+
+          <!-- 上海 -->
+          <div
+            class="absolute top-[38%] left-[75%] transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <div class="relative">
+              <div
+                class="w-3 h-3 bg-accent rounded-full animate-ping absolute"
+              ></div>
+              <div class="w-3 h-3 bg-accent rounded-full relative"></div>
+            </div>
+            <div class="absolute top-5 -left-16 w-32 text-center">
+              <h4 class="font-bold">上海</h4>
+              <p class="text-xs text-gray-300">分部</p>
+            </div>
+          </div>
+
+          <!-- 舊金山 -->
+          <div
+            class="absolute top-[35%] left-[18%] transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <div class="relative">
+              <div
+                class="w-3 h-3 bg-accent rounded-full animate-ping absolute"
+              ></div>
+              <div class="w-3 h-3 bg-accent rounded-full relative"></div>
+            </div>
+            <div class="absolute top-5 -left-16 w-32 text-center">
+              <h4 class="font-bold">舊金山</h4>
+              <p class="text-xs text-gray-300">分部</p>
+            </div>
+          </div>
+
+          <!-- 紐約 -->
+          <div
+            class="absolute top-[32%] left-[25%] transform -translate-x-1/2 -translate-y-1/2"
+          >
+            <div class="relative">
+              <div
+                class="w-3 h-3 bg-accent rounded-full animate-ping absolute"
+              ></div>
+              <div class="w-3 h-3 bg-accent rounded-full relative"></div>
+            </div>
+            <div class="absolute top-5 -left-16 w-32 text-center">
+              <h4 class="font-bold">紐約</h4>
+              <p class="text-xs text-gray-300">分部</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mt-16">
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-accent mb-2">台北</h3>
+            <p class="text-gray-300">信義區松仁路100號</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-accent mb-2">東京</h3>
+            <p class="text-gray-300">港區六本木1-6-1</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-accent mb-2">上海</h3>
+            <p class="text-gray-300">浦東新區世紀大道8號</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-accent mb-2">舊金山</h3>
+            <p class="text-gray-300">Market St 555</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-xl font-bold text-accent mb-2">紐約</h3>
+            <p class="text-gray-300">Wall Street 40</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 合作夥伴 -->
+    <section class="py-16 bg-darkblue">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            合作<span class="text-accent">夥伴</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+1"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+2"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+3"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+4"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+5"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+6"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+7"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+8"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+9"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+10"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+11"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+          <div
+            class="bg-secondary rounded-lg p-6 flex items-center justify-center"
+          >
+            <img
+              src="https://via.placeholder.com/150x60?text=Partner+12"
+              alt="合作夥伴"
+              class="max-h-12"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 聯絡我們 -->
+    <section id="contact" class="py-20 gradient-bg">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">
+            聯絡<span class="text-accent">我們</span>
+          </h2>
+          <div class="w-20 h-1 bg-accent mx-auto mb-6"></div>
+          <p class="text-lg max-w-3xl mx-auto text-gray-300">
+            無論您是尋求投資機會、國際市場拓展或上市募資規劃，我們都樂意與您討論合作可能
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <form class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-300 mb-2"
+                    >姓名</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    class="w-full px-4 py-3 bg-secondary border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="company"
+                    class="block text-sm font-medium text-gray-300 mb-2"
+                    >公司</label
+                  >
+                  <input
+                    type="text"
+                    id="company"
+                    class="w-full px-4 py-3 bg-secondary border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-300 mb-2"
+                    >電子郵件</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-4 py-3 bg-secondary border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="phone"
+                    class="block text-sm font-medium text-gray-300 mb-2"
+                    >電話</label
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    class="w-full px-4 py-3 bg-secondary border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  for="subject"
+                  class="block text-sm font-medium text-gray-300 mb-2"
+                  >主旨</label
+                >
+                <select
+                  id="subject"
+                  class="w-full px-4 py-3 bg-secondary border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                >
+                  <option value="">請選擇主題</option>
+                  <option value="investment">尋求投資</option>
+                  <option value="partnership">合作夥伴</option>
+                  <option value="international">國際市場拓展</option>
+                  <option value="ipo">上市募資規劃</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="message"
+                  class="block text-sm font-medium text-gray-300 mb-2"
+                  >訊息</label
+                >
+                <textarea
+                  id="message"
+                  rows="5"
+                  class="w-full px-4 py-3 bg-secondary border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                ></textarea>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  class="w-full bg-accent hover:bg-opacity-80 text-primary font-bold py-3 px-8 rounded-md transition-all transform hover:scale-105"
+                >
+                  發送訊息
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <div class="bg-secondary rounded-lg p-8 shadow-lg h-full">
+              <h3 class="text-xl font-bold mb-6">聯絡資訊</h3>
+
+              <div class="space-y-6">
+                <div class="flex items-start">
+                  <div class="text-accent text-xl mt-1 mr-4">
+                    <i class="fas fa-map-marker-alt"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold mb-1">總部地址</h4>
+                    <p class="text-gray-300">台北市信義區松仁路100號</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="text-accent text-xl mt-1 mr-4">
+                    <i class="fas fa-phone-alt"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold mb-1">電話</h4>
+                    <p class="text-gray-300">+886 2 8888 8888</p>
+                  </div>
+                </div>
+
+                <div class="flex items-start">
+                  <div class="text-accent text-xl mt-1 mr-4">
+                    <i class="fas fa-envelope"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold mb-1">電子郵件</h4>
+                    <p class="text-gray-300">contact@globalventure.com</p>
+                  </div>
+                </div>
+
+                <div class="pt-6 border-t border-gray-700">
+                  <h4 class="font-bold mb-4">關注我們</h4>
+                  <div class="flex space-x-4">
+                    <a
+                      href="#"
+                      class="w-10 h-10 rounded-full bg-primary flex items-center justify-center hover:bg-accent hover:text-primary transition-colors"
+                    >
+                      <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a
+                      href="#"
+                      class="w-10 h-10 rounded-full bg-primary flex items-center justify-center hover:bg-accent hover:text-primary transition-colors"
+                    >
+                      <i class="fab fa-twitter"></i>
+                    </a>
+                    <a
+                      href="#"
+                      class="w-10 h-10 rounded-full bg-primary flex items-center justify-center hover:bg-accent hover:text-primary transition-colors"
+                    >
+                      <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a
+                      href="#"
+                      class="w-10 h-10 rounded-full bg-primary flex items-center justify-center hover:bg-accent hover:text-primary transition-colors"
+                    >
+                      <i class="fab fa-instagram"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-primary py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div>
+            <a
+              href="#"
+              class="text-2xl font-bold text-accent flex items-center mb-4"
+            >
+              <i class="fas fa-chart-line mr-2"></i>環球創投
+            </a>
+            <p class="text-gray-400 mb-6">
+              連結台灣與國際金融市場的創新投資平台，助力企業實現全球化願景。
+            </p>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-accent">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-accent">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-accent">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="text-gray-400 hover:text-accent">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">快速連結</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="#news" class="text-gray-400 hover:text-accent"
+                  >新聞報導</a
+                >
+              </li>
+              <li>
+                <a href="#about" class="text-gray-400 hover:text-accent"
+                  >關於我們</a
+                >
+              </li>
+              <li>
+                <a href="#services" class="text-gray-400 hover:text-accent"
+                  >服務項目</a
+                >
+              </li>
+              <li>
+                <a href="#portfolio" class="text-gray-400 hover:text-accent"
+                  >投資組合</a
+                >
+              </li>
+              <li>
+                <a href="#cases" class="text-gray-400 hover:text-accent"
+                  >成功案例</a
+                >
+              </li>
+              <li>
+                <a href="#contact" class="text-gray-400 hover:text-accent"
+                  >聯絡我們</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">服務</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-400 hover:text-accent">創業投資</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-accent"
+                  >國際市場拓展</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-accent"
+                  >上市募資規劃</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-accent">併購顧問</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-400 hover:text-accent">策略諮詢</a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">訂閱電子報</h4>
+            <p class="text-gray-400 mb-4">
+              訂閱我們的電子報，獲取最新的投資趨勢和市場機會
+            </p>
+            <form class="flex">
+              <input
+                type="email"
+                placeholder="您的電子郵件"
+                class="px-4 py-2 bg-secondary border border-gray-700 rounded-l-md focus:outline-none focus:ring-2 focus:ring-accent flex-grow"
+              />
+              <button
+                type="submit"
+                class="bg-accent hover:bg-opacity-80 text-primary font-bold py-2 px-4 rounded-r-md"
+              >
+                訂閱
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div
+          class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">
+            &copy; 2023 環球創投. 版權所有.
+          </p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-accent text-sm"
+              >隱私政策</a
+            >
+            <a href="#" class="text-gray-400 hover:text-accent text-sm"
+              >服務條款</a
+            >
+            <a href="#" class="text-gray-400 hover:text-accent text-sm"
+              >Cookie 政策</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 返回頂部按鈕 -->
+    <a
+      href="#"
+      class="fixed bottom-8 right-8 w-12 h-12 bg-accent text-primary rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-80 transition-all transform hover:scale-110"
+    >
+      <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- 簡單的JavaScript -->
+    <script>
+      // 平滑滾動
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // 手機選單控制
+      const menuToggle = document.getElementById("menu-toggle");
+      const menuClose = document.getElementById("menu-close");
+      const mobileMenu = document.getElementById("mobile-menu");
+      let menuOpen = false;
+
+      // 開關選單的函數
+      function toggleMenu() {
+        if (menuOpen) {
+          // 關閉選單
+          mobileMenu.classList.remove("opacity-100");
+          mobileMenu.classList.add("opacity-0");
+          setTimeout(() => {
+            mobileMenu.classList.add("hidden");
+          }, 300);
+          menuOpen = false;
+        } else {
+          // 開啟選單
+          mobileMenu.classList.remove("hidden");
+          setTimeout(() => {
+            mobileMenu.classList.remove("opacity-0");
+            mobileMenu.classList.add("opacity-100");
+          }, 10);
+          menuOpen = true;
+        }
+      }
+
+      // 點擊選單按鈕切換選單狀態
+      menuToggle.addEventListener("click", toggleMenu);
+
+      // 點擊關閉按鈕關閉選單
+      menuClose.addEventListener("click", toggleMenu);
+
+      // 點擊選單項目後關閉選單
+      document.querySelectorAll("#mobile-menu a").forEach((item) => {
+        item.addEventListener("click", function () {
+          mobileMenu.classList.remove("opacity-100");
+          mobileMenu.classList.add("opacity-0");
+          setTimeout(() => {
+            mobileMenu.classList.add("hidden");
+          }, 300);
+          menuOpen = false;
+        });
+      });
+    </script>
+  </body>
+</html>

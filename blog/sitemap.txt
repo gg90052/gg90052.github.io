@@ -1,3 +1,4 @@
+http://gg90052.github.io/blog/goom/
 http://gg90052.github.io/blog/bergen/
 http://gg90052.github.io/blog/lofoten5/
 http://gg90052.github.io/blog/lofoten4/
@@ -36,7 +37,6 @@ http://gg90052.github.io/blog/okayama2/
 http://gg90052.github.io/blog/random/
 http://gg90052.github.io/blog/yuzawa/
 http://gg90052.github.io/blog/us_airport/
-http://gg90052.github.io/blog/goom/
 http://gg90052.github.io/blog/vlookup/
 http://gg90052.github.io/blog/shikoku/
 http://gg90052.github.io/blog/norway_dog/

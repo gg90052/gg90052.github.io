@@ -1,1 +1,0 @@
-import{r}from"./index-405c3300.js";function l(o,t){const[e,s]=r.useState(()=>{const a=localStorage.getItem(t);return a?JSON.parse(a):o});return r.useEffect(()=>{localStorage.setItem(t,JSON.stringify(e))},[e,t]),[e,s]}export{l as u};

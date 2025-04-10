@@ -1,0 +1,1 @@
+import{j as a}from"./index-b32ba2ff.js";import{s as c}from"./utils-cd62d901.js";function l({iconId:s,src:o,size:e=6}){const t=JSON.parse(localStorage.getItem("icons"))||{},r=s?t[c(s)]:o||"defaultMarker.png";return a.jsx("div",{className:`w-${e} aspect-auto overflow-hidden w`,children:a.jsx("img",{className:"w-full",src:r,alt:""})})}export{l as I};

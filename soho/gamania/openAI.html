@@ -25,7 +25,7 @@
     </style>
   </head>
   <body>
-    <h2>上傳一張圖片，改成油畫風格</h2>
+    <h2>上傳一張圖片，改變風格</h2>
 
     <div class="input-group">
       <label for="apiKeyInput">請輸入您的 OpenAI API Key:</label>
@@ -99,7 +99,7 @@
           formData.append("prompt", prompt);
           formData.append("model", "gpt-image-1");
           formData.append("n", "1");
-          formData.append("size", "512x512");
+          formData.append("size", "1024x1024");
           // ❌ 不要加 response_format！
 
           const response = await fetch(

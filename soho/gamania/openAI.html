@@ -3,53 +3,110 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>gpt-image-1 編輯圖片 DEMO</title>
+    <title>gpt-image-1 編輯圖片 DEMO (即時預覽＋自填API＋Loading版)</title>
     <style>
-      .input-group {
-        margin-bottom: 15px;
+      img {
+        max-width: 100%;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
       }
-      label {
-        display: block;
-        margin-bottom: 5px;
+      .preview-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
       }
-      #apiKeyInput {
-        width: 100%;
-        max-width: 500px;
-        padding: 8px;
+      .preview-item {
+        flex: 1;
+        text-align: center;
       }
-      .warning {
-        color: red;
-        margin-top: 5px;
-        font-size: 0.8em;
+      .api-token-input {
+        margin-bottom: 20px;
+      }
+      #loading {
+        display: none;
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #555;
+      }
+      .spinner {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 10px auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body>
-    <h2>上傳一張圖片，改變風格</h2>
+    <div class="api-token-input">
+      <label for="apiTokenInput">你的 OpenAI API Token：</label><br />
+      <input
+        type="password"
+        id="apiTokenInput"
+        placeholder="填入你的API金鑰"
+        style="width: 100%; max-width: 400px"
+      />
+    </div>
 
-    <div class="input-group">
-      <label for="apiKeyInput">請輸入您的 OpenAI API Key:</label>
-      <input type="password" id="apiKeyInput" placeholder="sk-..." />
-      <div class="warning">
-        注意：API Key 只會在您的瀏覽器中使用，不會被發送到任何其他伺服器
+    <input type="file" id="fileInput" accept="image/png, image/jpeg" />
+    <button id="submitButton">開始轉換成風格</button>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      <div>生成中，請稍後...</div>
+    </div>
+
+    <div class="preview-container" id="previewContainer">
+      <div class="preview-item">
+        <h4>原圖預覽</h4>
+        <img id="originalPreview" src="" />
+      </div>
+      <div class="preview-item">
+        <h4>生成結果：</h4>
+        <div id="result" style="margin-top: 20px"></div>
       </div>
     </div>
 
-    <div class="input-group">
-      <label for="fileInput">選擇圖片:</label>
-      <input type="file" id="fileInput" accept="image/*" />
-    </div>
-
-    <button id="submitButton">開始轉換成油畫風格</button>
-    <div id="result" style="margin-top: 20px"></div>
-
     <script>
       const fileInput = document.getElementById("fileInput");
-      const apiKeyInput = document.getElementById("apiKeyInput");
       const submitButton = document.getElementById("submitButton");
       const resultDiv = document.getElementById("result");
+      const originalPreview = document.getElementById("originalPreview");
+      const apiTokenInput = document.getElementById("apiTokenInput");
+      const loadingDiv = document.getElementById("loading");
 
-      async function createWhiteMask(imageFile) {
+      let uploadedImageFile = null;
+      let generatedMaskBlob = null;
+
+      function showLoading() {
+        loadingDiv.style.display = "block";
+      }
+
+      function hideLoading() {
+        loadingDiv.style.display = "none";
+      }
+
+      function previewOriginal(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          originalPreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      async function createWhiteMaskAndPreview(file) {
         return new Promise((resolve) => {
           const img = new Image();
           const reader = new FileReader();
@@ -67,74 +124,95 @@
             };
             img.src = reader.result;
           };
-          reader.readAsDataURL(imageFile);
+          reader.readAsDataURL(file);
         });
       }
 
-      submitButton.addEventListener("click", async () => {
+      fileInput.addEventListener("change", async () => {
         const file = fileInput.files[0];
-        const apiKey = apiKeyInput.value.trim();
+        if (!file) return;
+        uploadedImageFile = file;
+        previewOriginal(file);
+        generatedMaskBlob = await createWhiteMaskAndPreview(file);
+      });
 
-        if (!apiKey) {
-          alert("請輸入您的 OpenAI API Key！");
+      submitButton.addEventListener("click", async () => {
+        const apiToken = apiTokenInput.value.trim();
+        if (!apiToken) {
+          alert("請填入你的 OpenAI API Token！");
           return;
         }
 
-        if (!file) {
+        if (!uploadedImageFile || !generatedMaskBlob) {
           alert("請先上傳一張圖片！");
           return;
         }
 
         submitButton.disabled = true;
         submitButton.textContent = "處理中...";
+        resultDiv.innerHTML = "";
+        showLoading();
 
         try {
-          const maskBlob = await createWhiteMask(file);
-          const prompt =
-            "A 2D pixel art style scene inspired by MapleStory, featuring a cute chibi character with large expressive eyes and cartoonish proportions (about 3 heads tall), standing in a fantasy sky temple. The background includes floating islands, fluffy clouds, marble columns with vines, magical fountains, and crystal decorations. The art style is colorful, bright, and cheerful, with clean lines and cartoon shading.";
-
           const formData = new FormData();
-          formData.append("image", file, "image.png");
-          formData.append("mask", maskBlob, "mask.png");
-          formData.append("prompt", prompt);
+          formData.append("image", uploadedImageFile, "image.png");
+          formData.append("mask", generatedMaskBlob, "mask.png");
+          formData.append(
+            "prompt",
+            "將人物轉換成2D像素風格的Q版角色，保留畫面中主要物件的構圖，背景為奇幻風格天空之城，雲層與浮空石板，畫面色彩鮮明飽和，角色比例約為3頭身，擁有可愛誇張的表情與輪廓鮮明的外型。整體畫面類似楓之谷（MapleStory）遊戲內場景風格，加入藤蔓纏繞的古希臘風石柱、空中浮島、魔法噴泉與裝飾性雕像。角色設計類似楓之谷NPC，線條乾淨，風格溫馨童趣，有動畫感的卡通渲染效果。"
+          );
           formData.append("model", "gpt-image-1");
           formData.append("n", "1");
           formData.append("size", "1024x1024");
-          // ❌ 不要加 response_format！
 
           const response = await fetch(
             "https://api.openai.com/v1/images/edits",
             {
               method: "POST",
               headers: {
-                Authorization: "Bearer " + apiKey,
+                Authorization: `Bearer ${apiToken}`,
               },
               body: formData,
             }
           );
 
-          if (!response.ok) {
+          const contentType = response.headers.get("content-type") || "";
+
+          if (contentType.includes("application/json")) {
+            const jsonData = await response.json();
+            if (
+              jsonData.data &&
+              jsonData.data[0] &&
+              jsonData.data[0].b64_json
+            ) {
+              const b64 = jsonData.data[0].b64_json;
+              const img = document.createElement("img");
+              img.src = `data:image/png;base64,${b64}`;
+              img.alt = "生成結果";
+              resultDiv.appendChild(img);
+            } else {
+              resultDiv.innerText = "圖片生成失敗，沒有b64資料。";
+            }
+          } else if (contentType.includes("image")) {
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+            const img = document.createElement("img");
+            img.src = imageUrl;
+            img.alt = "生成結果";
+            resultDiv.appendChild(img);
+          } else {
             const errorText = await response.text();
-            throw new Error(errorText);
+            console.error("API回傳非預期資料:", errorText);
+            resultDiv.innerText = "錯誤：" + errorText;
           }
-
-          // 因為回傳的是 image stream，不是 JSON
-          const blob = await response.blob();
-          const imageUrl = URL.createObjectURL(blob);
-
-          const img = document.createElement("img");
-          img.src = imageUrl;
-          img.style.maxWidth = "100%";
-          img.style.marginTop = "20px";
-          resultDiv.innerHTML = "";
-          resultDiv.appendChild(img);
         } catch (error) {
-          console.error(error);
-          resultDiv.textContent = "發生錯誤，請查看 console";
+          console.error("發生錯誤:", error);
+          resultDiv.innerText = "發生錯誤，請查看 console 日誌。";
         }
 
+        hideLoading();
         submitButton.disabled = false;
-        submitButton.textContent = "開始轉換成油畫風格";
+        submitButton.textContent = "開始轉換風格";
       });
     </script>
   </body>

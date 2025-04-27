@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gpt-image-1 編輯圖片 DEMO</title>
+    <style>
+      .input-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      #apiKeyInput {
+        width: 100%;
+        max-width: 500px;
+        padding: 8px;
+      }
+      .warning {
+        color: red;
+        margin-top: 5px;
+        font-size: 0.8em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>上傳一張圖片，改成油畫風格</h2>
+
+    <div class="input-group">
+      <label for="apiKeyInput">請輸入您的 OpenAI API Key:</label>
+      <input type="password" id="apiKeyInput" placeholder="sk-..." />
+      <div class="warning">
+        注意：API Key 只會在您的瀏覽器中使用，不會被發送到任何其他伺服器
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label for="fileInput">選擇圖片:</label>
+      <input type="file" id="fileInput" accept="image/*" />
+    </div>
+
+    <button id="submitButton">開始轉換成油畫風格</button>
+    <div id="result" style="margin-top: 20px"></div>
+
+    <script>
+      const fileInput = document.getElementById("fileInput");
+      const apiKeyInput = document.getElementById("apiKeyInput");
+      const submitButton = document.getElementById("submitButton");
+      const resultDiv = document.getElementById("result");
+
+      async function createWhiteMask(imageFile) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          const reader = new FileReader();
+          reader.onload = () => {
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const ctx = canvas.getContext("2d");
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              canvas.toBlob((blob) => {
+                resolve(blob);
+              }, "image/png");
+            };
+            img.src = reader.result;
+          };
+          reader.readAsDataURL(imageFile);
+        });
+      }
+
+      submitButton.addEventListener("click", async () => {
+        const file = fileInput.files[0];
+        const apiKey = apiKeyInput.value.trim();
+
+        if (!apiKey) {
+          alert("請輸入您的 OpenAI API Key！");
+          return;
+        }
+
+        if (!file) {
+          alert("請先上傳一張圖片！");
+          return;
+        }
+
+        submitButton.disabled = true;
+        submitButton.textContent = "處理中...";
+
+        try {
+          const maskBlob = await createWhiteMask(file);
+          const prompt =
+            "A 2D pixel art style scene inspired by MapleStory, featuring a cute chibi character with large expressive eyes and cartoonish proportions (about 3 heads tall), standing in a fantasy sky temple. The background includes floating islands, fluffy clouds, marble columns with vines, magical fountains, and crystal decorations. The art style is colorful, bright, and cheerful, with clean lines and cartoon shading.";
+
+          const formData = new FormData();
+          formData.append("image", file, "image.png");
+          formData.append("mask", maskBlob, "mask.png");
+          formData.append("prompt", prompt);
+          formData.append("model", "gpt-image-1");
+          formData.append("n", "1");
+          formData.append("size", "512x512");
+          // ❌ 不要加 response_format！
+
+          const response = await fetch(
+            "https://api.openai.com/v1/images/edits",
+            {
+              method: "POST",
+              headers: {
+                Authorization: "Bearer " + apiKey,
+              },
+              body: formData,
+            }
+          );
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+          }
+
+          // 因為回傳的是 image stream，不是 JSON
+          const blob = await response.blob();
+          const imageUrl = URL.createObjectURL(blob);
+
+          const img = document.createElement("img");
+          img.src = imageUrl;
+          img.style.maxWidth = "100%";
+          img.style.marginTop = "20px";
+          resultDiv.innerHTML = "";
+          resultDiv.appendChild(img);
+        } catch (error) {
+          console.error(error);
+          resultDiv.textContent = "發生錯誤，請查看 console";
+        }
+
+        submitButton.disabled = false;
+        submitButton.textContent = "開始轉換成油畫風格";
+      });
+    </script>
+  </body>
+</html>
